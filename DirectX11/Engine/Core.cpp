@@ -15,6 +15,7 @@ ID3DBlob*	   g_pErrorBlob = nullptr;
 ID3D11VertexShader * g_pVtxShader = nullptr;
 ID3D11PixelShader * g_pPixelShader = nullptr;
 
+ID3D11InputLayout* g_pLayout = nullptr;
 
 Core::Core()
 {
@@ -64,6 +65,7 @@ int Core::Init(HWND hWnd, bool bWindowed)
 
 	Device::GetInstance()->GetDevice()->CreateBuffer(&tBufferDesc, &tSub, &g_pVB);
 
+
 	// Shader ¸¸µé±â
 	UINT iFlag = 0;
 
@@ -104,7 +106,65 @@ int Core::Init(HWND hWnd, bool bWindowed)
 		&g_pVtxShader
 	);
 
-	Device::GetInstance()->GetContext()->VSSetShader(g_pVtxShader, nullptr, 0);
+	//Pixel Shader Create
+	strPath = FilePathSearch::GetPath();
+	strPath += L"Engine\\PixelShader.hlsl";
+	result = D3DCompileFromFile(
+		strPath.c_str(),
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,
+		"main",
+		"ps_5_0",
+		iFlag,
+		0,
+		&g_pPixelBlob,
+		&g_pErrorBlob
+	);
+
+	Device::GetInstance()->GetDevice()->CreatePixelShader(
+		g_pPixelBlob->GetBufferPointer(),
+		g_pPixelBlob->GetBufferSize(),
+		nullptr,
+		&g_pPixelShader
+	);
+	UINT iByteOffset = 0;
+
+	std::vector<D3D11_INPUT_ELEMENT_DESC> vecLayout;
+
+	D3D11_INPUT_ELEMENT_DESC tLayoutDesc = {};
+
+	tLayoutDesc.AlignedByteOffset = iByteOffset;
+	tLayoutDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	tLayoutDesc.InputSlot = 0;
+	tLayoutDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	tLayoutDesc.InstanceDataStepRate = 0;
+	tLayoutDesc.SemanticName = "POSITION";
+	tLayoutDesc.SemanticIndex = 0;
+
+	vecLayout.push_back(tLayoutDesc);
+
+	iByteOffset += sizeof(DirectX::XMFLOAT3);
+
+	tLayoutDesc.AlignedByteOffset = iByteOffset;
+	tLayoutDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	tLayoutDesc.InputSlot = 0;
+	tLayoutDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	tLayoutDesc.InstanceDataStepRate = 0;
+	tLayoutDesc.SemanticName = "COLOR";
+	tLayoutDesc.SemanticIndex = 0;
+
+	vecLayout.push_back(tLayoutDesc);
+
+	iByteOffset += sizeof(DirectX::XMFLOAT4);
+
+	result = Device::GetInstance()->GetDevice()->CreateInputLayout(
+		&vecLayout[0], 
+		vecLayout.size(),
+		g_pVtxBlob->GetBufferPointer(), 
+		g_pVtxBlob->GetBufferSize(), 
+		&g_pLayout
+	);
+
 	return S_OK;
 }
 
@@ -128,6 +188,17 @@ void Core::Render()
 	};
 
 	Device::GetInstance()->Clear(color);
+
+	UINT iOffset = 0;
+	UINT iStride = sizeof(TVertex);
+
+	Device::GetInstance()->GetContext()->IASetVertexBuffers(0, 1, &g_pVB, &iStride, &iOffset);
+	Device::GetInstance()->GetContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	Device::GetInstance()->GetContext()->IASetInputLayout(g_pLayout);
+
+	Device::GetInstance()->GetContext()->VSSetShader(g_pVtxShader, nullptr, 0);
+	Device::GetInstance()->GetContext()->PSSetShader(g_pPixelShader, nullptr, 0);
+	Device::GetInstance()->GetContext()->Draw((UINT)3, (UINT)0);
 
 	Device::GetInstance()->Present();
 

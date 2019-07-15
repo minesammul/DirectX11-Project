@@ -99,8 +99,8 @@ int Device::Init(HWND hWnd, const TResolution tRes, bool bWindowed)
 	tTexDesc.MipLevels = 1;
 	tTexDesc.ArraySize = 1;
 	tTexDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	tTexDesc.SampleDesc.Count = 1;
-	tTexDesc.SampleDesc.Quality = 0;
+	tTexDesc.SampleDesc.Count = 4;
+	tTexDesc.SampleDesc.Quality = m_iQuality - 1;
 	tTexDesc.Usage = D3D11_USAGE_DEFAULT;			// 메모리 사용 용도(읽기, 쓰기 관련)
 	tTexDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;  // Texture  가 DepthStencil 용도로 사용될 것을 알림
 
@@ -128,6 +128,7 @@ int Device::Init(HWND hWnd, const TResolution tRes, bool bWindowed)
 	tVP.MaxDepth = 1.f;
 
 	m_pContext->RSSetViewports(1, &tVP);
+
 
 
 	return S_OK;
