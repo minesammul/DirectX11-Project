@@ -15,6 +15,11 @@ public:
 	void Update();
 	void Render();
 
+	HWND GetWindowHwnd()
+	{
+		return m_hWnd;
+	}
+
 	static Core* GetInstance()
 	{
 		static Core instance;

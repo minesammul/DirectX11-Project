@@ -57,6 +57,12 @@
     <ClInclude Include="resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="KeyMgr.h">
+      <Filter>EngineCode\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeMgr.h">
+      <Filter>EngineCode\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -72,6 +78,12 @@
       <Filter>EngineCode\Manager</Filter>
     </ClCompile>
     <ClCompile Include="FilePathSearch.cpp">
+      <Filter>EngineCode\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyMgr.cpp">
+      <Filter>EngineCode\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeMgr.cpp">
       <Filter>EngineCode\Manager</Filter>
     </ClCompile>
   </ItemGroup>

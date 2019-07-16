@@ -2,6 +2,10 @@
 #include "Core.h"
 #include "Device.h"
 #include "FilePathSearch.h"
+#include "KeyMgr.h"
+#include "TimeMgr.h"
+
+
 
 TVertex g_arrVtx[3] = {};
 
@@ -24,6 +28,19 @@ Core::Core()
 
 Core::~Core()
 {
+	g_pVtxBlob->Release();
+	g_pPixelBlob->Release();
+
+	if (g_pErrorBlob != nullptr)
+	{
+		g_pErrorBlob->Release();
+	}
+
+	g_pVtxShader->Release();
+	g_pPixelShader->Release();
+	g_pLayout->Release();
+
+	g_pVB->Release();
 }
 
 int Core::Init(HWND hWnd, bool bWindowed)
@@ -41,6 +58,8 @@ int Core::Init(HWND hWnd, bool bWindowed)
 		return E_FAIL;
 	}
 
+	KeyMgr::GetInstance()->Init();
+	TimeMgr::GetInstance()->Init();
 	FilePathSearch::Init();
 
 	// Create Vertex Buffer
@@ -176,6 +195,42 @@ void Core::Progress()
 
 void Core::Update()
 {
+	KeyMgr::GetInstance()->Update();
+	TimeMgr::GetInstance()->Update();
+
+	if (KEYHOLD(KEY_TYPE::KEY_LEFT))
+	{
+		g_arrVtx[0].vPos.x -= 0.5f * DT;
+		g_arrVtx[1].vPos.x -= 0.5f * DT;
+		g_arrVtx[2].vPos.x -= 0.5f * DT;
+	}
+
+	if (KEYHOLD(KEY_TYPE::KEY_RIGHT))
+	{
+		g_arrVtx[0].vPos.x += 0.5f * DT;
+		g_arrVtx[1].vPos.x += 0.5f * DT;
+		g_arrVtx[2].vPos.x += 0.5f * DT;
+	}
+
+	if (KEYHOLD(KEY_TYPE::KEY_UP))
+	{
+		g_arrVtx[0].vPos.y += 0.5f * DT;
+		g_arrVtx[1].vPos.y += 0.5f * DT;
+		g_arrVtx[2].vPos.y += 0.5f * DT;
+	}
+
+	if (KEYHOLD(KEY_TYPE::KEY_DOWN))
+	{
+		g_arrVtx[0].vPos.y -= 0.5f * DT;
+		g_arrVtx[1].vPos.y -= 0.5f * DT;
+		g_arrVtx[2].vPos.y -= 0.5f * DT;
+	}
+
+	D3D11_MAPPED_SUBRESOURCE tSub = {};
+
+	Device::GetInstance()->GetContext()->Map(g_pVB, 0, D3D11_MAP_WRITE_DISCARD, 0, &tSub);
+	memcpy(tSub.pData, g_arrVtx, sizeof(TVertex) * 3);
+	Device::GetInstance()->GetContext()->Unmap(g_pVB, 0);
 }
 
 void Core::Render()
@@ -198,7 +253,7 @@ void Core::Render()
 
 	Device::GetInstance()->GetContext()->VSSetShader(g_pVtxShader, nullptr, 0);
 	Device::GetInstance()->GetContext()->PSSetShader(g_pPixelShader, nullptr, 0);
-	Device::GetInstance()->GetContext()->Draw((UINT)3, (UINT)0);
+	Device::GetInstance()->GetContext()->Draw(3, 0);
 
 	Device::GetInstance()->Present();
 

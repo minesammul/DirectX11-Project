@@ -1,6 +1,6 @@
 struct VERTEX_INPUT
 {
-	float3 vPos : POSITION;
+    float3 vPos : POSITION;
 	float4 vColor : COLOR;
 };
 
