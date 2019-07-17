@@ -7,10 +7,10 @@
 
 
 
-TVertex g_arrVtx[3] = {};
+TVertex g_arrVtx[4] = {};
 
 ID3D11Buffer * g_pVB = nullptr;
-//ID3D11Buffer * g_pIB = nullptr;
+ID3D11Buffer * g_pIB = nullptr;
 
 ID3DBlob*	   g_pVtxBlob = nullptr;
 ID3DBlob*	   g_pPixelBlob = nullptr;
@@ -63,18 +63,21 @@ int Core::Init(HWND hWnd, bool bWindowed)
 	FilePathSearch::Init();
 
 	// Create Vertex Buffer
-	g_arrVtx[0].vPos = DirectX::XMFLOAT3(0.f, 1.f, 0.5f);
-	g_arrVtx[0].vColor = DirectX::XMFLOAT4(1.f, 1.f, 1.f, 1.f);
+	g_arrVtx[0].vPos = DirectX::XMFLOAT3(-0.5f, 0.5f, 0.4f);
+	g_arrVtx[0].vColor = DirectX::XMFLOAT4(1.f, 0.f, 0.f, 1.f);
 
-	g_arrVtx[1].vPos = DirectX::XMFLOAT3(1.f, 0.f, 0.5f);
-	g_arrVtx[1].vColor = DirectX::XMFLOAT4(1.f, 1.f, 1.f, 1.f);
+	g_arrVtx[1].vPos = DirectX::XMFLOAT3(0.5f, 0.5f, 0.4f);
+	g_arrVtx[1].vColor = DirectX::XMFLOAT4(0.f, 1.f, 0.f, 1.f);
 
-	g_arrVtx[2].vPos = DirectX::XMFLOAT3(-1.f, 0.f, 0.5f);
-	g_arrVtx[2].vColor = DirectX::XMFLOAT4(1.f, 1.f, 1.f, 1.f);
+	g_arrVtx[2].vPos = DirectX::XMFLOAT3(-0.5f, -0.5f, 0.4f);
+	g_arrVtx[2].vColor = DirectX::XMFLOAT4(0.f, 0.f, 1.f, 1.f);
+
+	g_arrVtx[3].vPos = DirectX::XMFLOAT3(0.5f, -0.5f, 0.4f);
+	g_arrVtx[3].vColor = DirectX::XMFLOAT4(0.5f, 0.5f, 0.f, 1.f);
 
 	D3D11_BUFFER_DESC tBufferDesc = {};
 
-	tBufferDesc.ByteWidth = sizeof(TVertex) * 3;
+	tBufferDesc.ByteWidth = sizeof(TVertex) * 4;
 	tBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	tBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	tBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
@@ -83,6 +86,19 @@ int Core::Init(HWND hWnd, bool bWindowed)
 	tSub.pSysMem = g_arrVtx; // 전역변수에 저장해둔 정점 정보를 GPU 메모리 초기값으로 전달
 
 	Device::GetInstance()->GetDevice()->CreateBuffer(&tBufferDesc, &tSub, &g_pVB);
+
+	// Create Index Buffer
+	WORD arrIdx[6] = { 0, 3, 2, 0, 1, 3 };
+
+	tBufferDesc.ByteWidth = sizeof(WORD) * 6;
+	tBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	tBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	tBufferDesc.CPUAccessFlags = 0;
+
+	tSub = {};
+	tSub.pSysMem = arrIdx; // 전역변수에 저장해둔 정점 정보를 GPU 메모리 초기값으로 전달
+
+	Device::GetInstance()->GetDevice()->CreateBuffer(&tBufferDesc, &tSub, &g_pIB);
 
 
 	// Shader 만들기
@@ -203,6 +219,7 @@ void Core::Update()
 		g_arrVtx[0].vPos.x -= 0.5f * DT;
 		g_arrVtx[1].vPos.x -= 0.5f * DT;
 		g_arrVtx[2].vPos.x -= 0.5f * DT;
+		g_arrVtx[3].vPos.x -= 0.5f * DT;
 	}
 
 	if (KEYHOLD(KEY_TYPE::KEY_RIGHT))
@@ -210,6 +227,7 @@ void Core::Update()
 		g_arrVtx[0].vPos.x += 0.5f * DT;
 		g_arrVtx[1].vPos.x += 0.5f * DT;
 		g_arrVtx[2].vPos.x += 0.5f * DT;
+		g_arrVtx[3].vPos.x += 0.5f * DT;
 	}
 
 	if (KEYHOLD(KEY_TYPE::KEY_UP))
@@ -217,6 +235,7 @@ void Core::Update()
 		g_arrVtx[0].vPos.y += 0.5f * DT;
 		g_arrVtx[1].vPos.y += 0.5f * DT;
 		g_arrVtx[2].vPos.y += 0.5f * DT;
+		g_arrVtx[3].vPos.y += 0.5f * DT;
 	}
 
 	if (KEYHOLD(KEY_TYPE::KEY_DOWN))
@@ -224,12 +243,13 @@ void Core::Update()
 		g_arrVtx[0].vPos.y -= 0.5f * DT;
 		g_arrVtx[1].vPos.y -= 0.5f * DT;
 		g_arrVtx[2].vPos.y -= 0.5f * DT;
+		g_arrVtx[3].vPos.y -= 0.5f * DT;
 	}
 
 	D3D11_MAPPED_SUBRESOURCE tSub = {};
 
 	Device::GetInstance()->GetContext()->Map(g_pVB, 0, D3D11_MAP_WRITE_DISCARD, 0, &tSub);
-	memcpy(tSub.pData, g_arrVtx, sizeof(TVertex) * 3);
+	memcpy(tSub.pData, g_arrVtx, sizeof(TVertex) * 4);
 	Device::GetInstance()->GetContext()->Unmap(g_pVB, 0);
 }
 
@@ -248,12 +268,13 @@ void Core::Render()
 	UINT iStride = sizeof(TVertex);
 
 	Device::GetInstance()->GetContext()->IASetVertexBuffers(0, 1, &g_pVB, &iStride, &iOffset);
+	Device::GetInstance()->GetContext()->IASetIndexBuffer(g_pIB, DXGI_FORMAT_R16_UINT, 0);
 	Device::GetInstance()->GetContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	Device::GetInstance()->GetContext()->IASetInputLayout(g_pLayout);
 
 	Device::GetInstance()->GetContext()->VSSetShader(g_pVtxShader, nullptr, 0);
 	Device::GetInstance()->GetContext()->PSSetShader(g_pPixelShader, nullptr, 0);
-	Device::GetInstance()->GetContext()->Draw(3, 0);
+	Device::GetInstance()->GetContext()->DrawIndexed(6, 0, 0);
 
 	Device::GetInstance()->Present();
 
