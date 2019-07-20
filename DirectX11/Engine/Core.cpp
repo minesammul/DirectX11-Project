@@ -22,8 +22,8 @@ ID3D11PixelShader * g_pPixelShader = nullptr;
 
 ID3D11InputLayout* g_pLayout = nullptr;
 
-DirectX::XMFLOAT3 g_vWorldPos = DirectX::XMFLOAT3(10.f, 0.f, 10.f);
-DirectX::XMFLOAT3 g_vWorldScale = DirectX::XMFLOAT3(1.f, 1.f, 1.f);
+DirectX::XMFLOAT3 g_vWorldPos = DirectX::XMFLOAT3(0.f, 0.f, 500.f);
+DirectX::XMFLOAT3 g_vWorldScale = DirectX::XMFLOAT3(100.f, 100.f, 1.f);
 DirectX::XMFLOAT3 g_vWorldRotation = DirectX::XMFLOAT3(0.f, 0.f, 0.f);
 
 
@@ -256,11 +256,23 @@ void Core::Update()
 
 	DirectX::XMMATRIX matWorld = matScale * matRotationX * matRotationY * matRotationZ * matTrans;
 
+	matWorld = DirectX::XMMatrixTranspose(matWorld);
+
+	//View За·Д ёёµй±в
+	DirectX::XMMATRIX matView = DirectX::XMMatrixIdentity();
+	
+	matView = DirectX::XMMatrixTranspose(matView);
+
+	//Projection За·Д ёёµй±в
+	DirectX::XMMATRIX matProjection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45.0f), m_tRes.fWidth / m_tRes.fHeight, 1.f, 1000.f);
+
+	matProjection = DirectX::XMMatrixTranspose(matProjection);
 
 	D3D11_MAPPED_SUBRESOURCE tSub = {};
 
 	Device::GetInstance()->GetContext()->Map(g_pCB, 0, D3D11_MAP_WRITE_DISCARD, 0, &tSub);
-	memcpy(tSub.pData, &matWorld, sizeof(DirectX::XMMATRIX));
+	DirectX::XMMATRIX arrMatrix[3] = { matWorld, matView, matProjection };
+	memcpy(tSub.pData, &arrMatrix, sizeof(DirectX::XMMATRIX)*3);
 	Device::GetInstance()->GetContext()->Unmap(g_pCB, 0);
 
 	// пїЅпїЅпї?0пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅЮёрё®їпїЅ Vertex Shader пїЅпїЅпїЅпїЅпїЅпїЅ пїЅШґпїЅ пїЅпїЅпїЅЫёпїЅ пїЅпїЅпїЅпїЅ
