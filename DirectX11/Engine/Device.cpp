@@ -118,8 +118,8 @@ int Device::Init(HWND hWnd, const TResolution tRes, bool bWindowed)
 	// ViewPort
 	D3D11_VIEWPORT tVP = {};
 
-	tVP.Width = static_cast<UINT>(tRes.fWidth);
-	tVP.Height = static_cast<UINT>(tRes.fHeight);
+	tVP.Width = static_cast<FLOAT>(tRes.fWidth);
+	tVP.Height = static_cast<FLOAT>(tRes.fHeight);
 
 	tVP.TopLeftX = 0;
 	tVP.TopLeftY = 0;

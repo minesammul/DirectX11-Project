@@ -73,6 +73,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <TargetName>$(ProjectName)_Debug</TargetName>
+    <IncludePath>D:\GitHub Project\DirectX11\DirectX11\CoreLib;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)Library\Debug\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -98,7 +100,11 @@
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
+      <ObjectFileOutput />
     </FxCompile>
+    <Lib>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

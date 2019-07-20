@@ -11,3 +11,12 @@
 
 #include "define.h"
 #include "struct.h"
+
+
+#include <WrapCriticalSection.h>
+
+#ifdef _DEBUG
+#pragma comment(lib, "CoreLib_Debug.lib")
+#else
+#pragma comment(lib, "CoreLib.lib")
+#endif
