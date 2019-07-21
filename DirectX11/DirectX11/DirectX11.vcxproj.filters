@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ClientCode">
+      <UniqueIdentifier>{5b7cdeb1-1f47-4a42-9595-a612e946e71c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -25,7 +28,22 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>ClientCode</Filter>
+    </ClInclude>
+    <ClInclude Include="StartClient.h">
+      <Filter>ClientCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>ClientCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ClientCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>ClientCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>ClientCode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -33,7 +51,22 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="DirectX11.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>ClientCode</Filter>
+    </ClCompile>
+    <ClCompile Include="StartClient.cpp">
+      <Filter>ClientCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>ClientCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ClientCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>ClientCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>ClientCode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -45,9 +45,6 @@
     <ClInclude Include="struct.h">
       <Filter>EngineCode\Header</Filter>
     </ClInclude>
-    <ClInclude Include="func.h">
-      <Filter>EngineCode\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Device.h">
       <Filter>EngineCode\Manager</Filter>
     </ClInclude>
@@ -70,9 +67,6 @@
     </ClCompile>
     <ClCompile Include="Core.cpp">
       <Filter>EngineCode\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="func.cpp">
-      <Filter>EngineCode\Header</Filter>
     </ClCompile>
     <ClCompile Include="Device.cpp">
       <Filter>EngineCode\Manager</Filter>
