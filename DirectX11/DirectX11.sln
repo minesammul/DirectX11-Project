@@ -5,7 +5,8 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "DirectX11\DirectX11.vcxproj", "{6DE2C6A7-7333-4532-AF38-3BDBCC8C8C74}"
 	ProjectSection(ProjectDependencies) = postProject
-		{7F62A629-D587-4339-A18D-EECB8161410F} = {7F62A629-D587-4339-A18D-EECB8161410F}
+		{5B7E6700-0380-4BEF-A5B9-241FA64597E2} = {5B7E6700-0380-4BEF-A5B9-241FA64597E2}
+		{29869773-DA06-44B2-B50B-33AB48478143} = {29869773-DA06-44B2-B50B-33AB48478143}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{29869773-DA06-44B2-B50B-33AB48478143}"
@@ -14,11 +15,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcx
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreLib", "CoreLib\CoreLib.vcxproj", "{5B7E6700-0380-4BEF-A5B9-241FA64597E2}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2DStudyFramework", "2DStudyFramework\2DStudyFramework.vcxproj", "{7F62A629-D587-4339-A18D-EECB8161410F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{29869773-DA06-44B2-B50B-33AB48478143} = {29869773-DA06-44B2-B50B-33AB48478143}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,14 +48,6 @@ Global
 		{5B7E6700-0380-4BEF-A5B9-241FA64597E2}.Release|x64.Build.0 = Release|x64
 		{5B7E6700-0380-4BEF-A5B9-241FA64597E2}.Release|x86.ActiveCfg = Release|Win32
 		{5B7E6700-0380-4BEF-A5B9-241FA64597E2}.Release|x86.Build.0 = Release|Win32
-		{7F62A629-D587-4339-A18D-EECB8161410F}.Debug|x64.ActiveCfg = Debug|x64
-		{7F62A629-D587-4339-A18D-EECB8161410F}.Debug|x64.Build.0 = Debug|x64
-		{7F62A629-D587-4339-A18D-EECB8161410F}.Debug|x86.ActiveCfg = Debug|Win32
-		{7F62A629-D587-4339-A18D-EECB8161410F}.Debug|x86.Build.0 = Debug|Win32
-		{7F62A629-D587-4339-A18D-EECB8161410F}.Release|x64.ActiveCfg = Release|x64
-		{7F62A629-D587-4339-A18D-EECB8161410F}.Release|x64.Build.0 = Release|x64
-		{7F62A629-D587-4339-A18D-EECB8161410F}.Release|x86.ActiveCfg = Release|Win32
-		{7F62A629-D587-4339-A18D-EECB8161410F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
