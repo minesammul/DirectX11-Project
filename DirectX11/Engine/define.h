@@ -6,3 +6,20 @@
 #define KEYAWAY(eType) KEY(eType, KEY_STATE::STATE_AWAY)
 #define KEYNONE(eType) KEY(eType, KEY_STATE::STATE_NONE)
 #define MOUSEPOS KeyMgr::GetInstance()->GetMousePos()
+
+enum class COMPONENT_TYPE
+{
+	TRNASFORM,  // 위치정보(위치, 크기, 회전)
+
+	MESHRENDER, // 렌더링
+
+	COLLIDER2D,
+
+	COLLIDER3D,
+
+	ANIMATOR2D,
+
+	ANIMATOR3D,
+
+	END,
+};
