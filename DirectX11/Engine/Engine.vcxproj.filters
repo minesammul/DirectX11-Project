@@ -25,24 +25,6 @@
     <Filter Include="ShaderCode">
       <UniqueIdentifier>{8dee9554-1ce4-41d4-8934-215f9070a497}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EngineCode\GameObject">
-      <UniqueIdentifier>{2a69f161-7c08-44c4-838e-f770699c5355}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="EngineCode\GameObject\Component">
-      <UniqueIdentifier>{d6dfdfc6-6a93-4588-8a80-5d2bd2198743}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="EngineCode\Resource">
-      <UniqueIdentifier>{d7fa41f3-ae6f-43d4-896f-ff95c8d3dfc9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="EngineCode\Resource\Mesh">
-      <UniqueIdentifier>{76ee0f11-72f3-401f-8eeb-277c599ab0df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="EngineCode\Resource\Sound">
-      <UniqueIdentifier>{b53edbd8-769f-4dcb-afef-2c79831ba8da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="EngineCode\Resource\Texture">
-      <UniqueIdentifier>{597fd3ba-179e-4b23-b238-1b9c07060d2c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -72,32 +54,14 @@
     <ClInclude Include="FilePathSearch.h">
       <Filter>EngineCode\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="KeyMgr.h">
       <Filter>EngineCode\Manager</Filter>
     </ClInclude>
     <ClInclude Include="TimeMgr.h">
       <Filter>EngineCode\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>EngineCode</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>EngineCode\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>EngineCode\GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>EngineCode\GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshRender.h">
-      <Filter>EngineCode\GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>EngineCode\Resource\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>EngineCode\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -121,27 +85,6 @@
     </ClCompile>
     <ClCompile Include="TimeMgr.cpp">
       <Filter>EngineCode\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>EngineCode</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>EngineCode\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>EngineCode\GameObject\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>EngineCode\GameObject\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshRender.cpp">
-      <Filter>EngineCode\GameObject\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>EngineCode\Resource\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource.cpp">
-      <Filter>EngineCode\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

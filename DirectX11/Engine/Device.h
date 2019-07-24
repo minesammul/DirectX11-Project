@@ -11,7 +11,7 @@ private:
 	ID3D11Texture2D* m_pDepthStencilTexture;
 	ID3D11DepthStencilView* m_pDepthStencilView;
 
-	UINT m_uiQuality;
+	UINT m_iQuality;
 
 public:
 	Device();
@@ -19,9 +19,9 @@ public:
 
 	int Init(HWND hWnd, const TResolution tRes, bool bWindowed);
 	
-	void Clear(float(&fColor)[4])
+	void Clear(float(&_fColor)[4])
 	{
-		m_pContext->ClearRenderTargetView(m_pRenderTargetView, fColor);
+		m_pContext->ClearRenderTargetView(m_pRenderTargetView, _fColor);
 		m_pContext->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 		// 깊이 초기화 값은 최대값 1로 초기화
 		// 깊이를 통과하기 위해서는 물체의 깊이가 더 가까워야 하기 때문에,
