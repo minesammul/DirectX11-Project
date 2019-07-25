@@ -3,8 +3,15 @@
 
 
 Device::Device()
+	: m_pDevice(nullptr)
+	, m_pContext(nullptr)
+	, m_pSwapChain(nullptr)
+	, m_pRenderTargetView(nullptr)
+	, m_pDepthStencilTexture(nullptr)
+	, m_pDepthStencilView(nullptr)
+	, m_uiQuality(0)
 {
-	m_iQuality = 0;
+
 }
 
 
@@ -26,6 +33,7 @@ int Device::Init(HWND hWnd, const TResolution tRes, bool bWindowed)
 #ifdef _DEBUG
 	iFlag = D3D11_CREATE_DEVICE_DEBUG;
 #endif
+
 	D3D_FEATURE_LEVEL eLv = D3D_FEATURE_LEVEL_11_0;
 	D3D_FEATURE_LEVEL eOut = D3D_FEATURE_LEVEL::D3D_FEATURE_LEVEL_11_0;
 
@@ -46,8 +54,8 @@ int Device::Init(HWND hWnd, const TResolution tRes, bool bWindowed)
 	}
 
 	// Multi Sample Level Check
-	m_pDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &m_iQuality);
-	assert(m_iQuality > 0);
+	m_pDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &m_uiQuality);
+	assert(m_uiQuality > 0);
 
 	// Create SwapChain
 	DXGI_SWAP_CHAIN_DESC tSwapDesc;
@@ -61,7 +69,7 @@ int Device::Init(HWND hWnd, const TResolution tRes, bool bWindowed)
 	tSwapDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 	tSwapDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	tSwapDesc.SampleDesc.Count = 4;
-	tSwapDesc.SampleDesc.Quality = m_iQuality - 1;			//앞서 조사한 멀티샘플링에 대한 퀼리티값에서 1를 뺀 값이 들어가야한다.
+	tSwapDesc.SampleDesc.Quality = m_uiQuality - 1;			//앞서 조사한 멀티샘플링에 대한 퀼리티값에서 1를 뺀 값이 들어가야한다.
 	tSwapDesc.OutputWindow = hWnd;
 	tSwapDesc.Windowed = bWindowed;
 	tSwapDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
@@ -100,7 +108,7 @@ int Device::Init(HWND hWnd, const TResolution tRes, bool bWindowed)
 	tTexDesc.ArraySize = 1;
 	tTexDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	tTexDesc.SampleDesc.Count = 4;
-	tTexDesc.SampleDesc.Quality = m_iQuality - 1;
+	tTexDesc.SampleDesc.Quality = m_uiQuality - 1;
 	tTexDesc.Usage = D3D11_USAGE_DEFAULT;			// 메모리 사용 용도(읽기, 쓰기 관련)
 	tTexDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;  // Texture  가 DepthStencil 용도로 사용될 것을 알림
 
@@ -132,4 +140,34 @@ int Device::Init(HWND hWnd, const TResolution tRes, bool bWindowed)
 
 
 	return S_OK;
+}
+
+void Device::CreateConstBuffer(const std::wstring & _strKey, UINT _iSize, UINT _iRegister)
+{
+	std::map<std::wstring, TConstantBuffer>::iterator iter = m_mapConstantBuffer.find(_strKey);
+	assert(iter == m_mapConstantBuffer.end());
+
+	// Create Const Buffer
+	D3D11_BUFFER_DESC tBufferDesc = {};
+	ID3D11Buffer* pBuffer = nullptr;
+
+	tBufferDesc.ByteWidth = _iSize;
+	tBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	tBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	tBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+	Device::GetInstance()->GetDevice()->CreateBuffer(&tBufferDesc, nullptr, &pBuffer);
+
+	TConstantBuffer tCB = {};
+	tCB.pBuffer = pBuffer;
+	tCB.uiSize = _iSize;
+	tCB.uiRegister = _iRegister;
+
+	m_mapConstantBuffer.insert(make_pair(_strKey, tCB));
+
+}
+
+TConstantBuffer & Device::FindConstBuffer(const std::wstring & _strKey)
+{
+	return m_mapConstantBuffer.find(_strKey)->second;
 }

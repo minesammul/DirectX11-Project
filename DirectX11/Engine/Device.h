@@ -11,12 +11,18 @@ private:
 	ID3D11Texture2D* m_pDepthStencilTexture;
 	ID3D11DepthStencilView* m_pDepthStencilView;
 
-	UINT m_iQuality;
+	UINT m_uiQuality;
+
+	std::map<std::wstring, TConstantBuffer>	m_mapConstantBuffer;
+
+public:
+	TTransform g_tTransform;
 
 public:
 	Device();
 	~Device();
 
+public:
 	int Init(HWND hWnd, const TResolution tRes, bool bWindowed);
 	
 	void Clear(float(&_fColor)[4])
@@ -48,5 +54,9 @@ public:
 		static Device instance;
 		return &instance;
 	}
+
+	void CreateConstBuffer(const std::wstring& _strKey, UINT _iSize, UINT _iRegister);
+	TConstantBuffer& FindConstBuffer(const std::wstring& _strKey);
+
 };
 

@@ -9,15 +9,18 @@ public:
 	Core();
 	~Core();
 
+public:
 	int Init(HWND hWnd, bool bWindowed);
 	void Progress();
-
-	void Update();
-	void Render();
 
 	HWND GetWindowHwnd()
 	{
 		return m_hWnd;
+	}
+
+	TResolution GetResolution()
+	{
+		return m_tRes;
 	}
 
 	static Core* GetInstance()
