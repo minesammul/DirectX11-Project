@@ -22,9 +22,10 @@ d:\github project\directx11\directx11\engine\debug\sound.obj
 d:\github project\directx11\directx11\engine\debug\texture.obj
 d:\github project\directx11\directx11\engine\debug\timemgr.obj
 d:\github project\directx11\directx11\engine\debug\transform.obj
-d:\github project\directx11\directx11\engine\debug\camera.obj
+d:\github project\directx11\directx11\engine\debug\bulletscript.obj
 d:\github project\directx11\directx11\engine\debug\component.obj
 d:\github project\directx11\directx11\engine\debug\core.obj
+d:\github project\directx11\directx11\engine\debug\camera.obj
 d:\github project\directx11\directx11\library\debug\engine_debug.lib
 d:\github project\directx11\directx11\engine\debug\engine.res
 d:\github project\directx11\directx11\engine\debug\engine.tlog\cl.command.1.tlog

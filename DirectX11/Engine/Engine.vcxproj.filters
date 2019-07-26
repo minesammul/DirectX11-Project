@@ -138,6 +138,9 @@
     <ClInclude Include="SceneMgr.h">
       <Filter>EngineCode\02. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="BulletScript.h">
+      <Filter>ScriptCode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -211,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="SceneMgr.cpp">
       <Filter>EngineCode\02. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletScript.cpp">
+      <Filter>ScriptCode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

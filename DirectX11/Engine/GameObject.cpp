@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "MeshRender.h"
+#include "Script.h"
 
 GameObject::GameObject()
 	: m_arrCom{}
@@ -20,6 +21,11 @@ void GameObject::Update()
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->Update();
 	}
+
+	for (UINT i = 0; i < m_vecScript.size(); ++i)
+	{
+		m_vecScript[i]->Update();
+	}
 }
 
 void GameObject::LateUpdate()
@@ -28,6 +34,11 @@ void GameObject::LateUpdate()
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->LateUpdate();
+	}
+
+	for (UINT i = 0; i < m_vecScript.size(); ++i)
+	{
+		m_vecScript[i]->LateUpdate();
 	}
 }
 
@@ -38,10 +49,20 @@ void GameObject::FinalUpdate()
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->FinalUpdate();
 	}
+
+	for (UINT i = 0; i < m_vecScript.size(); ++i)
+	{
+		m_vecScript[i]->FinalUpdate();
+	}
 }
 
 void GameObject::Render()
 {
+	if (!GetMeshRender())
+	{
+		return;
+	}
+
 	((MeshRender*)m_arrCom[(UINT)EComponentType::MESHRENDER])->Render();
 
 }
@@ -49,10 +70,17 @@ void GameObject::Render()
 void GameObject::AddComponent(Component * _pCom)
 {
 	// GameObject 가 해당 컴포넌트를 이미 가지고 있는 경우
-	assert(!m_arrCom[(UINT)_pCom->GetCompnentType()]);
+	EComponentType eType = _pCom->GetCompnentType();
 
-	m_arrCom[(UINT)_pCom->GetCompnentType()] = _pCom;
-	_pCom->SetGameObject(this);
+	if (EComponentType::SCRIPT == eType)
+	{
+		m_vecScript.push_back((Script*)_pCom);
+	}
+	else
+	{
+		assert(!m_arrCom[(UINT)eType]);
+		m_arrCom[(UINT)eType] = _pCom;
+	}	_pCom->SetGameObject(this);
 
 }
 

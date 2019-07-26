@@ -16,9 +16,9 @@ enum class EComponentType
 	COLLIDER3D,
 	ANIMATOR2D,
 	ANIMATOR3D,
-	SCRIPT,
 	CAMERA,
 	END,
+	SCRIPT,
 };
 
 enum class EResourceType

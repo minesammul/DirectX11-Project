@@ -29,6 +29,8 @@ Device::~Device()
 
 int Device::Init(HWND hWnd, const TResolution tRes, bool bWindowed)
 {
+	m_tRes = tRes;
+
 	int iFlag = 0;
 #ifdef _DEBUG
 	iFlag = D3D11_CREATE_DEVICE_DEBUG;

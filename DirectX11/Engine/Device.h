@@ -14,7 +14,7 @@ private:
 	UINT m_uiQuality;
 
 	std::map<std::wstring, TConstantBuffer>	m_mapConstantBuffer;
-
+	TResolution                    m_tRes;
 public:
 	TTransform g_tTransform;
 
@@ -43,6 +43,8 @@ public:
 	{
 		return m_pDevice;
 	}
+
+	const TResolution& GetResolution() { return m_tRes; }
 
 	ID3D11DeviceContext* GetContext()
 	{

@@ -46,6 +46,7 @@ void Layer::Render()
 void Layer::AddObject(GameObject * _pObj)
 {
 	m_vecParentObj.push_back(_pObj);
+	_pObj->SetLayerIdx(m_uiLayerIdx);
 }
 
 

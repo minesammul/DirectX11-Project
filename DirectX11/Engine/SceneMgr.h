@@ -1,6 +1,7 @@
 #pragma once
 
 class Scene;
+class Camera;
 
 class SceneMgr
 {
@@ -11,6 +12,10 @@ private:
 public:
 	SceneMgr();
 	~SceneMgr();
+
+public:
+	void RegisterCamera(Camera* _pCam);
+	Scene* GetCurScene() { return m_pCurScene; }
 
 public:
 	static SceneMgr* GetInstance()

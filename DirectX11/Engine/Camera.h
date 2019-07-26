@@ -20,6 +20,8 @@ private:
 	float		m_fNear;
 	float		m_fFar;
 
+	UINT		m_uiLayerCheck;
+
 public:
 	Camera();
 	virtual ~Camera();
@@ -35,12 +37,16 @@ public:
 	void SetFar(float _F) { m_fFar = _F; }
 	void SetFOV(float _FOV) { m_fFOV = _FOV; }
 
-	PROJ_TYPE GetProjType(PROJ_TYPE _eType) { m_eType = _eType; }
-	float GetScale(float _f) { return m_fScale; }
-	float GetNear(float _N) { return m_fNear; }
-	float GetFar(float _F) { return m_fFar; }
-	float GetFOV(float _FOV) { return m_fFOV; }
+	PROJ_TYPE GetProjType() { return m_eType; }
+	float GetScale() { return m_fScale; }
+	float GetNear() { return m_fNear; }
+	float GetFar() { return m_fFar; }
+	float GetFOV() { return m_fFOV; }
 
+	const DirectX::XMMATRIX& GetViewMat() { return m_matView; }
+	const DirectX::XMMATRIX& GetProjMat() { return m_matProj; }
 
+	void CheckLayer(UINT _iLayerIdx);
+	bool IsValiedLayer(UINT _iLayerIdx) { return m_uiLayerCheck & (1 << _iLayerIdx); }
 };
 

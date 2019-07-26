@@ -26,6 +26,11 @@ SceneMgr::~SceneMgr()
 {
 }
 
+void SceneMgr::RegisterCamera(Camera * _pCam)
+{
+	m_pCurScene->AddCamera(_pCam);
+}
+
 void SceneMgr::Init()
 {
 	// 수업용 임시 Scene 생성
@@ -34,39 +39,41 @@ void SceneMgr::Init()
 	// Layer 추가하기
 	m_pCurScene->AddLayer(L"Default", 0);
 	m_pCurScene->AddLayer(L"Player", 1);
+	m_pCurScene->AddLayer(L"Bullet", 2);
 
 	// Camera Object 만들기
-	//GameObject* pCamObj = new GameObject;
-	//pCamObj->AddComponent(new Transform);
-	//pCamObj->AddComponent(new Camera);
+	GameObject* pCamObj = new GameObject;
+	pCamObj->AddComponent(new Transform);
+	pCamObj->AddComponent(new Camera);
 
-	//pCamObj->GetCamera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
-	//pCamObj->GetCamera()->SetFOV(DirectX::XM_PI / 4.f);
-	//pCamObj->GetCamera()->SetScale(1.f);
+	pCamObj->GetCamera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	pCamObj->GetCamera()->SetFOV(DirectX::XM_PI / 4.f);
+	pCamObj->GetCamera()->SetScale(1.f);
 
-	//m_pCurScene->AddObject(L"Default", pCamObj);
+	pCamObj->GetCamera()->CheckLayer(m_pCurScene->FindLayer(L"Player")->GetLayerIdx());
+	pCamObj->GetCamera()->CheckLayer(m_pCurScene->FindLayer(L"Bullet")->GetLayerIdx());
 
-	// Object 3개 만들기
-	for (int i = 0; i < 3; ++i)
-	{
-		GameObject* pObj = new GameObject;
+	m_pCurScene->AddObject(L"Default", pCamObj);
 
-		Transform* pTransform = new Transform;
-		MeshRender* pMeshRender = new MeshRender;
 
-		pTransform->SetLocalPos(DirectX::XMFLOAT3(-200.f + i * 100.f, 0.f, 500.f));
-		pTransform->SetLocalScale(DirectX::XMFLOAT3(25.f, 25.f, 1.f));
-		pTransform->SetLocalRot(DirectX::XMFLOAT3(0.f, 0.f, 0.f));
+	GameObject* pObj = new GameObject;
 
-		pMeshRender->SetMesh(ResourceMgr::GetInstance()->FindRes<Mesh>(L"CircleMesh"));
-		pMeshRender->SetShader(ResourceMgr::GetInstance()->FindRes<Shader>(L"DefaultShader"));
+	Transform* pTransform = new Transform;
+	MeshRender* pMeshRender = new MeshRender;
 
-		pObj->AddComponent(pTransform);
-		pObj->AddComponent(pMeshRender);
-		pObj->AddComponent(new PlayerScript);
+	pTransform->SetLocalPos(DirectX::XMFLOAT3(0.f, 0.f, 500.f));
+	pTransform->SetLocalScale(DirectX::XMFLOAT3(25.f, 25.f, 1.f));
+	pTransform->SetLocalRot(DirectX::XMFLOAT3(0.f, 0.f, 0.f));
 
-		m_pCurScene->AddObject(L"Player", pObj);
-	}
+	pMeshRender->SetMesh(ResourceMgr::GetInstance()->FindRes<Mesh>(L"RectMesh"));
+	pMeshRender->SetShader(ResourceMgr::GetInstance()->FindRes<Shader>(L"DefaultShader"));
+
+	pObj->AddComponent(pTransform);
+	pObj->AddComponent(pMeshRender);
+	pObj->AddComponent(new PlayerScript);
+
+	m_pCurScene->AddObject(L"Player", pObj);
+
 
 	m_pCurScene->Awake();
 	m_pCurScene->Start();

@@ -2,6 +2,8 @@
 #include "Scene.h"
 
 #include "Layer.h"
+#include "Camera.h"
+#include "Device.h"
 
 Scene::Scene()
 	: m_arrLayer{}
@@ -57,13 +59,24 @@ void Scene::FinalUpdate()
 
 void Scene::Render()
 {
-	for (UINT i = 0; i < MAX_LAYER; ++i)
+	for (UINT i = 0; i < m_vecCam.size(); ++i)
 	{
-		if (nullptr == m_arrLayer[i])
-			continue;
-		
-		m_arrLayer[i]->Render();
+		Device::GetInstance()->g_tTransform.matView = m_vecCam[i]->GetViewMat();
+		Device::GetInstance()->g_tTransform.matProj = m_vecCam[i]->GetProjMat();
+		for (UINT j = 0; j < MAX_LAYER; ++j)
+		{
+			if (nullptr == m_arrLayer[j])
+			{
+				continue;
+			}
+
+			if (m_vecCam[i]->IsValiedLayer(j))
+			{
+				m_arrLayer[j]->Render();
+			}
+		}
 	}
+	m_vecCam.clear();
 }
 
 void Scene::AddLayer(const std::wstring & _strLayerName, UINT _iLayerIdx)
@@ -73,7 +86,7 @@ void Scene::AddLayer(const std::wstring & _strLayerName, UINT _iLayerIdx)
 
 	m_arrLayer[_iLayerIdx] = new Layer;
 	m_arrLayer[_iLayerIdx]->SetName(_strLayerName);
-
+	m_arrLayer[_iLayerIdx]->SetLayerIdx(_iLayerIdx);
 }
 
 void Scene::AddLayer(Layer * _pLayer, UINT _iLayerIdx)
@@ -81,7 +94,7 @@ void Scene::AddLayer(Layer * _pLayer, UINT _iLayerIdx)
 	assert(!m_arrLayer[_iLayerIdx]);
 
 	m_arrLayer[_iLayerIdx] = _pLayer;
-
+	m_arrLayer[_iLayerIdx]->SetLayerIdx(_iLayerIdx);
 }
 
 void Scene::AddObject(const std::wstring & _strLayerName, GameObject * _pObj)

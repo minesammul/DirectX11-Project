@@ -1,7 +1,8 @@
 #pragma once
 #include "Entity.h"
 
-class GameObject;
+#include "GameObject.h"
+
 class Component : public Entity
 {
 private:
@@ -17,6 +18,8 @@ public:
 
 protected:
 	void SetComponentType(EComponentType _eType) { m_eComponentType = _eType; }
+	Transform* GetTransform() { return m_pObject->GetTransform(); }
+	MeshRender* GetMeshrender() { return m_pObject->GetMeshRender(); }
 private:
 	void SetGameObject(GameObject* _pObject) { m_pObject = _pObject; }
 public:
