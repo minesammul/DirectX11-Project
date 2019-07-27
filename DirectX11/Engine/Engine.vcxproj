@@ -163,6 +163,7 @@
     <ClInclude Include="Core.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="Device.h" />
+    <ClInclude Include="EnemyScript.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FilePathSearch.h" />
     <ClInclude Include="GameObject.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="Device.cpp" />
+    <ClCompile Include="EnemyScript.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FilePathSearch.cpp" />
     <ClCompile Include="GameObject.cpp" />

@@ -141,6 +141,9 @@
     <ClInclude Include="BulletScript.h">
       <Filter>ScriptCode</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyScript.h">
+      <Filter>ScriptCode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -216,6 +219,9 @@
       <Filter>EngineCode\02. Manager</Filter>
     </ClCompile>
     <ClCompile Include="BulletScript.cpp">
+      <Filter>ScriptCode</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyScript.cpp">
       <Filter>ScriptCode</Filter>
     </ClCompile>
   </ItemGroup>

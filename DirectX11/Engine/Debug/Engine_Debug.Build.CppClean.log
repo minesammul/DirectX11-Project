@@ -2,7 +2,7 @@ d:\github project\directx11\directx11\engine\debug\engine_debug.pch
 d:\github project\directx11\directx11\engine\debug\engine.pdb
 d:\github project\directx11\directx11\engine\debug\engine.idb
 d:\github project\directx11\directx11\engine\debug\stdafx.obj
-d:\github project\directx11\directx11\engine\debug\device.obj
+d:\github project\directx11\directx11\engine\debug\enemyscript.obj
 d:\github project\directx11\directx11\engine\debug\entity.obj
 d:\github project\directx11\directx11\engine\debug\filepathsearch.obj
 d:\github project\directx11\directx11\engine\debug\gameobject.obj
@@ -23,9 +23,10 @@ d:\github project\directx11\directx11\engine\debug\texture.obj
 d:\github project\directx11\directx11\engine\debug\timemgr.obj
 d:\github project\directx11\directx11\engine\debug\transform.obj
 d:\github project\directx11\directx11\engine\debug\bulletscript.obj
+d:\github project\directx11\directx11\engine\debug\camera.obj
 d:\github project\directx11\directx11\engine\debug\component.obj
 d:\github project\directx11\directx11\engine\debug\core.obj
-d:\github project\directx11\directx11\engine\debug\camera.obj
+d:\github project\directx11\directx11\engine\debug\device.obj
 d:\github project\directx11\directx11\library\debug\engine_debug.lib
 d:\github project\directx11\directx11\engine\debug\engine.res
 d:\github project\directx11\directx11\engine\debug\engine.tlog\cl.command.1.tlog
