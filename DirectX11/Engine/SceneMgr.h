@@ -13,6 +13,9 @@ public:
 	SceneMgr();
 	~SceneMgr();
 
+private:
+	void CreatePrefab();
+
 public:
 	void RegisterCamera(Camera* _pCam);
 	Scene* GetCurScene() { return m_pCurScene; }

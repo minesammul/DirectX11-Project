@@ -10,6 +10,20 @@ GameObject::GameObject()
 }
 
 
+GameObject::GameObject(const GameObject & _origin):
+	Entity(_origin)
+{
+	for (UINT i = 0; i < (UINT)EComponentType::END; ++i)
+	{
+		m_arrCom[i] = _origin.m_arrCom[i]->Clone();
+	}
+
+	for (UINT i = 0; i < m_vecScript.size(); ++i)
+	{
+		m_vecScript.push_back(_origin.m_vecScript[i]->Clone());
+	}
+}
+
 GameObject::~GameObject()
 {
 }

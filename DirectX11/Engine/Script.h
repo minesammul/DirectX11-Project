@@ -18,5 +18,8 @@ class Script : public Component
 public:
 	Script();
 	virtual ~Script();
+	
+public:
+	CLONE(Script);
 };
 

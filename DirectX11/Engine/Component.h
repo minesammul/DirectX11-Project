@@ -12,8 +12,11 @@ private:
 
 public:
 	Component();
+	CLONE(Component);
+	Component(const Component& _com);
+
 	virtual ~Component();
-	
+
 	friend class GameObject;
 
 protected:

@@ -14,6 +14,8 @@
 #include "Texture.h"
 #include "PlayerScript.h"
 #include "ResourceMgr.h"
+#include "Prefab.h"
+#include "BulletScript.h"
 
 SceneMgr::SceneMgr()
 	: m_pCurScene(nullptr)
@@ -24,6 +26,29 @@ SceneMgr::SceneMgr()
 
 SceneMgr::~SceneMgr()
 {
+}
+
+void SceneMgr::CreatePrefab()
+{
+	GameObject* pBullet = new GameObject;
+
+	Transform* pTransform = new Transform;
+	MeshRender* pMeshRender = new MeshRender;
+
+	pTransform->SetLocalScale(DirectX::XMFLOAT3(20.f, 20.f, 1.f));
+	pTransform->SetLocalRot(DirectX::XMFLOAT3(0.f, 0.f, 0.f));
+
+	pMeshRender->SetMesh(ResourceMgr::GetInstance()->FindRes<Mesh>(L"CircleMesh"));
+	pMeshRender->SetShader(ResourceMgr::GetInstance()->FindRes<Shader>(L"DefaultShader"));
+
+	pBullet->AddComponent(pTransform);
+	pBullet->AddComponent(pMeshRender);
+	pBullet->AddComponent(new BulletScript);
+
+	BulletScript* pBulletScript = (BulletScript*)pBullet->GetScript<BulletScript>();
+	pBulletScript->SetSpeed(500.f);
+
+	ResourceMgr::GetInstance()->AddRes<Prefab>(L"BulletPrefab", new Prefab(pBullet));
 }
 
 void SceneMgr::RegisterCamera(Camera * _pCam)

@@ -14,18 +14,19 @@ private:
 	UINT					m_uiLayerIdx;
 	std::vector<Script*>    m_vecScript;
 
+public:
+	GameObject();
+	CLONE(GameObject);
+	GameObject(const GameObject& _origin);
+	virtual ~GameObject();
+	friend class Layer;
+
 private:
 	void SetLayerIdx(UINT _iIdx) { m_uiLayerIdx = _iIdx; }
 
 public:
 	template<typename T>
 	Script* GetScript();
-
-
-public:
-	GameObject();
-	virtual ~GameObject();
-	friend class Layer;
 
 public:
 	void Update();

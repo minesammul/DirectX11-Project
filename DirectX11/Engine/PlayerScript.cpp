@@ -52,24 +52,9 @@ void PlayerScript::Update()
 
 void PlayerScript::CreateBullet()
 {
-	GameObject* pBullet = new GameObject;
+	Prefab* pBulletPrefab = ResourceMgr::GetInstance()->FindRes<Prefab>(L"BulletPrefab");
+	GameObject* pClone = pBulletPrefab->Instantiate();
+	pClone->GetTransform()->SetLocalPos(GetTransform()->GetLocalPos());
+	SceneMgr::GetInstance()->GetCurScene()->AddObject(L"Bullet", pClone);
 
-	Transform* pTransform = new Transform;
-	MeshRender* pMeshRender = new MeshRender;
-
-	pTransform->SetLocalPos(GetTransform()->GetLocalPos());
-	pTransform->SetLocalScale(DirectX::XMFLOAT3(20.f, 20.f, 1.f));
-	pTransform->SetLocalRot(DirectX::XMFLOAT3(0.f, 0.f, 0.f));
-
-	pMeshRender->SetMesh(ResourceMgr::GetInstance()->FindRes<Mesh>(L"CircleMesh"));
-	pMeshRender->SetShader(ResourceMgr::GetInstance()->FindRes<Shader>(L"DefaultShader"));
-
-	pBullet->AddComponent(pTransform);
-	pBullet->AddComponent(pMeshRender);
-	pBullet->AddComponent(new BulletScript);
-
-	BulletScript* pBulletScript = (BulletScript*)pBullet->GetScript<BulletScript>();
-	pBulletScript->SetSpeed(500.f);
-
-	SceneMgr::GetInstance()->GetCurScene()->AddObject(L"Bullet", pBullet);
 }

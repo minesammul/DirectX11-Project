@@ -7,6 +7,8 @@
 #define KEYNONE(eType) KEY(eType, KEY_STATE::STATE_NONE)
 #define MOUSEPOS KeyMgr::GetInstance()->GetMousePos()
 #define MAX_LAYER 32
+#define CLONE(type) type* Clone() { return new type(*this); }
+#define CLONE_DISABLE(type) private: type* Clone(){return nullptr;}
 
 enum class EComponentType
 {
@@ -28,5 +30,6 @@ enum class EResourceType
 	TEXTURE,
 	MATERIAL,
 	SOUND,
+	PREFAB,
 	END
 };

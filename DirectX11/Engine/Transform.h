@@ -15,6 +15,8 @@ public:
 	Transform();
 	~Transform();
 
+	CLONE(Transform);
+
 public:
 	void SetLocalPos(const DirectX::XMFLOAT3& _vPos) { m_vLocalPos = _vPos; }
 	void SetLocalScale(const DirectX::XMFLOAT3& _vScale) { m_vLocalScale = _vScale; }

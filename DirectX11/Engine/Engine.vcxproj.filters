@@ -49,6 +49,9 @@
     <Filter Include="ScriptCode">
       <UniqueIdentifier>{d2be91ba-8f69-4c93-a40f-2dcea3411c1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EngineCode\04. Resource\Prefab">
+      <UniqueIdentifier>{63bf95d3-20a5-429b-9097-b1deaf42e583}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core.h">
@@ -141,6 +144,9 @@
     <ClInclude Include="BulletScript.h">
       <Filter>ScriptCode</Filter>
     </ClInclude>
+    <ClInclude Include="Prefab.h">
+      <Filter>EngineCode\04. Resource\Prefab</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -217,6 +223,9 @@
     </ClCompile>
     <ClCompile Include="BulletScript.cpp">
       <Filter>ScriptCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Prefab.cpp">
+      <Filter>EngineCode\04. Resource\Prefab</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
