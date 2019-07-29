@@ -1,4 +1,0 @@
-﻿  compilation object save succeeded; see D:\GitHub Project\DirectX11\DirectX11\x64\Debug\PixelShader.cso
-  compilation object save succeeded; see D:\GitHub Project\DirectX11\DirectX11\x64\Debug\VertexShader.cso
-  stdafx.cpp
-d:\github project\directx11\directx11\engine\global.h(16): fatal error C1083: 포함 파일을 열 수 없습니다. 'WrapCriticalSection.h': No such file or directory

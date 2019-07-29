@@ -14,7 +14,6 @@
 #include "Texture.h"
 #include "PlayerScript.h"
 #include "ResourceMgr.h"
-#include "EnemyScript.h"
 
 SceneMgr::SceneMgr()
 	: m_pCurScene(nullptr)
@@ -41,7 +40,6 @@ void SceneMgr::Init()
 	m_pCurScene->AddLayer(L"Default", 0);
 	m_pCurScene->AddLayer(L"Player", 1);
 	m_pCurScene->AddLayer(L"Bullet", 2);
-	m_pCurScene->AddLayer(L"Enemy", 3);
 
 	// Camera Object ¸¸µé±â
 	GameObject* pCamObj = new GameObject;
@@ -54,7 +52,6 @@ void SceneMgr::Init()
 
 	pCamObj->GetCamera()->CheckLayer(m_pCurScene->FindLayer(L"Player")->GetLayerIdx());
 	pCamObj->GetCamera()->CheckLayer(m_pCurScene->FindLayer(L"Bullet")->GetLayerIdx());
-	pCamObj->GetCamera()->CheckLayer(m_pCurScene->FindLayer(L"Enemy")->GetLayerIdx());
 
 	m_pCurScene->AddObject(L"Default", pCamObj);
 
@@ -76,23 +73,6 @@ void SceneMgr::Init()
 	pObj->AddComponent(new PlayerScript);
 
 	m_pCurScene->AddObject(L"Player", pObj);
-
-
-	GameObject* pEnemy = new GameObject; 
-	Transform* pETransform = new Transform;
-	MeshRender* pEMeshRender = new MeshRender;
-	pETransform->SetLocalPos(DirectX::XMFLOAT3(0.f, 200.f, 500.f));
-	pETransform->SetLocalScale(DirectX::XMFLOAT3(25.f, 25.f, 1.f));
-	pETransform->SetLocalRot(DirectX::XMFLOAT3(0.f, 0.f, 0.f));
-
-	pEMeshRender->SetMesh(ResourceMgr::GetInstance()->FindRes<Mesh>(L"RectMesh"));
-	pEMeshRender->SetShader(ResourceMgr::GetInstance()->FindRes<Shader>(L"DefaultShader"));
-
-	pEnemy->AddComponent(pETransform);
-	pEnemy->AddComponent(pEMeshRender);
-	pEnemy->AddComponent(new EnemyScript);
-
-	m_pCurScene->AddObject(L"Enemy", pEnemy);
 
 
 	m_pCurScene->Awake();

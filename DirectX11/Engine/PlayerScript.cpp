@@ -23,23 +23,23 @@ void PlayerScript::Update()
 	if (KEYHOLD(KEY_TYPE::KEY_LEFT))
 	{
 		//g_vWorldPos.x -= 100.f * DT;
-		vPos.x -= 200.f * DT;
+		vPos.x -= 100.f * DT;
 	}
 
 	if (KEYHOLD(KEY_TYPE::KEY_RIGHT))
 	{
 		//g_vWorldPos.x += 100.f * DT;
-		vPos.x += 200.f * DT;
+		vPos.x += 100.f * DT;
 	}
 
 	if (KEYHOLD(KEY_TYPE::KEY_UP))
 	{
-		vPos.y += 200.f * DT;
+		vPos.y += 100.f * DT;
 	}
 
 	if (KEYHOLD(KEY_TYPE::KEY_DOWN))
 	{
-		vPos.y -= 200.f * DT;
+		vPos.y -= 100.f * DT;
 	}
 
 	pObj->GetTransform()->SetLocalPos(vPos);

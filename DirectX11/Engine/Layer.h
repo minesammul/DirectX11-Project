@@ -26,12 +26,6 @@ private:
 public:
 	Layer();
 	virtual ~Layer();
-
-	std::vector<GameObject*> GetGameObject()
-	{
-		return m_vecParentObj;
-	}
-
 	friend class Scene;
 };
 
