@@ -1,9 +1,0 @@
-diff a/DirectX11/Engine/Core.cpp b/DirectX11/Engine/Core.cpp	(rejected hunks)
-@@ -11,7 +11,6 @@
- 
- ID3D11Buffer * g_pVB = nullptr;
- ID3D11Buffer * g_pIB = nullptr;
--ID3D11Buffer* g_pCB = nullptr;
- 
- ID3DBlob*	   g_pVtxBlob = nullptr;
- ID3DBlob*	   g_pPixelBlob = nullptr;
