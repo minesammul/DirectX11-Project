@@ -6,6 +6,9 @@
 class CAnimator2DDlg : public CComponentDlg
 {
 	DECLARE_DYNAMIC(CAnimator2DDlg)
+private:
+	bool isFocus;
+
 
 public:
 
@@ -39,4 +42,16 @@ public:
 	afx_msg void OnBtnRepeat();
 	afx_msg void OnCbAnimChange();
 	afx_msg void OnAddAnimation();
+	afx_msg void OnBnClickedAddAnimaiotnFileButton();
+	afx_msg void OnEnChangeEdit1();
+	CEdit editMaxFrameCount;
+	CEdit editNowFrameCount;
+	CEdit editOffsetX;
+	CEdit editOffsetY;
+	afx_msg void OnEnSetfocusEditOffsetX();
+	afx_msg void OnEnKillfocusEditOffsetX();
+	afx_msg void OnEnSetfocusEditOffsetY();
+	afx_msg void OnEnKillfocusEditOffsetY();
+	afx_msg void OnBnClickedButtonNextFrame();
+	afx_msg void OnBnClickedButtonPrevFrame();
 };

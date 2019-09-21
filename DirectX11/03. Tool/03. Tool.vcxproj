@@ -196,6 +196,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AddAnimDlg.h" />
+    <ClInclude Include="AddAnimFile.h" />
     <ClInclude Include="Animator2DDlg.h" />
     <ClInclude Include="BtnView.h" />
     <ClInclude Include="CameraDlg.h" />
@@ -218,6 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AddAnimDlg.cpp" />
+    <ClCompile Include="AddAnimFile.cpp" />
     <ClCompile Include="Animator2DDlg.cpp" />
     <ClCompile Include="BtnView.cpp" />
     <ClCompile Include="CameraDlg.cpp" />

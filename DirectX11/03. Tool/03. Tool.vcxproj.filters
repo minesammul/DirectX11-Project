@@ -115,6 +115,9 @@
     <ClInclude Include="ScriptDlg.h">
       <Filter>04. Dialog\ComDlg</Filter>
     </ClInclude>
+    <ClInclude Include="AddAnimFile.h">
+      <Filter>04. Dialog\AddAnimDlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -170,6 +173,9 @@
     </ClCompile>
     <ClCompile Include="ScriptDlg.cpp">
       <Filter>04. Dialog\ComDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="AddAnimFile.cpp">
+      <Filter>04. Dialog\AddAnimDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

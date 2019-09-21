@@ -18,8 +18,8 @@ CTexture::~CTexture()
 CTexture * CTexture::Load(const wstring & _strFilePath)
 {
 	// Texture ¸¦ SystemMem ¿¡ Loading
-	wchar_t szExt[20] = {};
-	_wsplitpath_s(_strFilePath.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExt, 20);
+	wchar_t szExt[256] = {};
+	_wsplitpath_s(_strFilePath.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExt, 256);
 	
 	HRESULT hRet = S_OK;
 

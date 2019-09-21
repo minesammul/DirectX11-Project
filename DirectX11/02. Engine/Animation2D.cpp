@@ -35,6 +35,46 @@ void CAnimation2D::Play()
 
 
 
+void CAnimation2D::SetNowFrameOffset(Vec2 offset)
+{
+	//SetName(_strName);
+	Vec2 beforeOffsetUV = Vec2(m_vecFrm[m_iCurFrm].LTOffset.x / m_vecFrm[m_iCurFrm].pTex->GetWidth(), m_vecFrm[m_iCurFrm].LTOffset.y / m_vecFrm[m_iCurFrm].pTex->GetHeight());
+	Vec2 offsetUV = Vec2(offset.x / m_vecFrm[m_iCurFrm].pTex->GetWidth(), offset.y / m_vecFrm[m_iCurFrm].pTex->GetHeight());
+	
+	offsetUV.x -= beforeOffsetUV.x;
+	offsetUV.y -= beforeOffsetUV.y;
+
+	m_vecFrm[m_iCurFrm].LTOffset = offset;
+
+	m_vecFrm[m_iCurFrm].vLT.x += offsetUV.x;
+	m_vecFrm[m_iCurFrm].vLT.y += offsetUV.y;
+	//float fWidth = _pTex->GetWidth();
+	//float fHeight = _pTex->GetHeight();
+
+	//tAnim2DFrm tFrm = {};
+
+	//Vec2 vCropUV = Vec2(_vCropSize.x / fWidth, _vCropSize.y / fHeight);
+	//Vec2 vLTUV = Vec2((_vLT.x + offset.x) / fWidth, (_vLT.y + offset.y) / fHeight);
+	//Vec2 offsetUV = Vec2(offset.x / fWidth, offset.y / fHeight);
+
+	//for (int i = 0; i < _iFrmCount; ++i)
+	//{
+	//	tFrm.vLT = vLTUV;
+	//	tFrm.vLT.x += (i * (vCropUV.x + 2 * offsetUV.x));
+	//	//tFrm.vLT.x += (i * vLTUV.x);
+
+	//	tFrm.vSize = vCropUV;
+	//	tFrm.vTerm = _fTerm;
+	//	tFrm.pTex = _pTex;
+
+	//	tFrm.LTOffset.x = offset.x;
+	//	tFrm.LTOffset.y = offset.y;
+
+	//	m_vecFrm.push_back(tFrm);
+	//}
+
+}
+
 void CAnimation2D::update()
 {		
 }
@@ -128,6 +168,39 @@ void CAnimation2D::Create(const wstring & _strName
 		tFrm.vTerm = _fTerm;
 		tFrm.pTex = _pTex;
 
+		tFrm.LTOffset.x = 0.0f;
+		tFrm.LTOffset.y = 0.0f;
+
+		m_vecFrm.push_back(tFrm);
+	}
+}
+
+void CAnimation2D::Create(const wstring & _strName, CResPtr<CTexture> _pTex, Vec2 _vLT, Vec2 _vCropSize, Vec2 offset, int _iFrmCount, float _fTerm)
+{
+	SetName(_strName);
+
+	float fWidth = _pTex->GetWidth();
+	float fHeight = _pTex->GetHeight();
+
+	tAnim2DFrm tFrm = {};
+
+	Vec2 vCropUV = Vec2(_vCropSize.x / fWidth, _vCropSize.y / fHeight);
+	Vec2 vLTUV = Vec2((_vLT.x + offset.x) / fWidth, (_vLT.y + offset.y) / fHeight);
+	Vec2 offsetUV = Vec2(offset.x / fWidth, offset.y / fHeight);
+
+	for (int i = 0; i < _iFrmCount; ++i)
+	{
+		tFrm.vLT = vLTUV;
+		tFrm.vLT.x += (i * (vCropUV.x + 2*offsetUV.x));
+		//tFrm.vLT.x += (i * vLTUV.x);
+
+		tFrm.vSize = vCropUV;
+		tFrm.vTerm = _fTerm;
+		tFrm.pTex = _pTex;
+
+		tFrm.LTOffset.x = offset.x;
+		tFrm.LTOffset.y = offset.y;
+
 		m_vecFrm.push_back(tFrm);
 	}
 }
@@ -163,6 +236,9 @@ void CAnimation2D::Create(const wstring & _strName, const wstring & _strFolderPa
 			tFrm.vTerm = _fTerm;
 			tFrm.vLT = Vec2(0.f, 0.f);
 			tFrm.vSize = Vec2(1.f, 1.f);
+
+			tFrm.LTOffset.x = 0.0f;
+			tFrm.LTOffset.y = 0.0f;
 
 			m_vecFrm.push_back(tFrm);
 		}

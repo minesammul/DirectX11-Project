@@ -6,6 +6,7 @@
 #include "afxdialogex.h"
 
 #include "AddAnimDlg.h"
+#include "AddAnimFile.h"
 
 #include <GameObject.h>
 #include <Animator2D.h>
@@ -33,6 +34,10 @@ void CAnimator2DDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_COMBO1, m_cbAnimList);
 	DDX_Control(pDX, IDC_BUTTON2, m_btnPlay);
 	DDX_Check(pDX, IDC_CHECK2, m_bRepeat);
+	DDX_Control(pDX, IDC_EDIT1, editMaxFrameCount);
+	DDX_Control(pDX, IDC_EDIT2, editNowFrameCount);
+	DDX_Control(pDX, IDC_EDIT3, editOffsetX);
+	DDX_Control(pDX, IDC_EDIT4, editOffsetY);
 }
 
 
@@ -52,6 +57,8 @@ void CAnimator2DDlg::init(CGameObject * _pTarget)
 	{
 		m_cbAnimList.AddString(pair.first.c_str());
 	}
+
+	isFocus = false;
 }
 
 // 상시 상태값 체크
@@ -68,6 +75,30 @@ void CAnimator2DDlg::Animator2DStateCheck(CGameObject* _pTarget)
 	{
 		m_btnPlay.SetWindowTextW(L"▶");
 	}
+
+
+	if (isFocus == true)
+	{
+		return;
+	}
+
+	CString formatStr;
+	int maxFrameCount = pCurAnim->GetMaxFrameCount();
+	formatStr.Format(L"%d", maxFrameCount);
+	editMaxFrameCount.SetWindowTextW(formatStr);
+
+	int nowFrameCount = pCurAnim->GetNowFrameCount() + 1;
+	formatStr.Format(L"%d", nowFrameCount);
+	editNowFrameCount.SetWindowTextW(formatStr);
+
+	float nowOffsetX = pCurAnim->GetNowFrameData().LTOffset.x;
+	formatStr.Format(L"%f", nowOffsetX);
+	editOffsetX.SetWindowTextW(formatStr);
+
+	float nowOffsetY = pCurAnim->GetNowFrameData().LTOffset.y;
+	formatStr.Format(L"%f", nowOffsetY);
+	editOffsetY.SetWindowTextW(formatStr);
+
 }
 
 void CAnimator2DDlg::update(CGameObject * _pTarget)
@@ -100,6 +131,7 @@ void CAnimator2DDlg::update(CGameObject * _pTarget)
 
 		m_cbAnimList.SetCurSel(idx);
 	}
+
 }
 
 
@@ -112,6 +144,14 @@ BEGIN_MESSAGE_MAP(CAnimator2DDlg, CDialogEx)
 	ON_CONTROL_RANGE(CBN_KILLFOCUS, IDC_COMBO1, IDC_COMBO1, &CComponentDlg::OnCbKillfocusEdit)
 
 	ON_BN_CLICKED(IDC_BUTTON1, &CAnimator2DDlg::OnAddAnimation)
+	ON_BN_CLICKED(IDC_BUTTON3, &CAnimator2DDlg::OnBnClickedAddAnimaiotnFileButton)
+	ON_EN_CHANGE(IDC_EDIT1, &CAnimator2DDlg::OnEnChangeEdit1)
+	ON_EN_SETFOCUS(IDC_EDIT3, &CAnimator2DDlg::OnEnSetfocusEditOffsetX)
+	ON_EN_KILLFOCUS(IDC_EDIT3, &CAnimator2DDlg::OnEnKillfocusEditOffsetX)
+	ON_EN_SETFOCUS(IDC_EDIT4, &CAnimator2DDlg::OnEnSetfocusEditOffsetY)
+	ON_EN_KILLFOCUS(IDC_EDIT4, &CAnimator2DDlg::OnEnKillfocusEditOffsetY)
+	ON_BN_CLICKED(IDC_BUTTON4, &CAnimator2DDlg::OnBnClickedButtonNextFrame)
+	ON_BN_CLICKED(IDC_BUTTON5, &CAnimator2DDlg::OnBnClickedButtonPrevFrame)
 END_MESSAGE_MAP()
 
 
@@ -161,19 +201,113 @@ void CAnimator2DDlg::OnCbAnimChange()
 	GetTarget()->Animator2D()->Pause();
 
 	m_btnPlay.SetWindowTextW(L"▶");
+
+	CAnimation2D* pCurAnim = GetTarget()->Animator2D()->GetCurAnim();
 }
 
 
 void CAnimator2DDlg::OnAddAnimation()
 {
 	CAddAnimDlg dlg;
-
 	dlg.SetTargetObject(GetTarget());
-
-
 	dlg.DoModal();
+}
 
 
-	
+void CAnimator2DDlg::OnBnClickedAddAnimaiotnFileButton()
+{
+	AddAnimFile dlg;
+	dlg.SetTargetObject(GetTarget());
+	dlg.DoModal();
+}
 
+
+void CAnimator2DDlg::OnEnChangeEdit1()
+{
+	// TODO:  RICHEDIT 컨트롤인 경우, 이 컨트롤은
+	// CComponentDlg::OnInitDialog() 함수를 재지정 
+	//하고 마스크에 OR 연산하여 설정된 ENM_CHANGE 플래그를 지정하여 CRichEditCtrl().SetEventMask()를 호출하지 않으면
+	// 이 알림 메시지를 보내지 않습니다.
+
+	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void CAnimator2DDlg::OnEnSetfocusEditOffsetX()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	isFocus = true;
+}
+
+
+void CAnimator2DDlg::OnEnKillfocusEditOffsetX()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString offsetXFormat;
+	editOffsetX.GetWindowTextW(offsetXFormat);
+	float offsetX = _wtof(offsetXFormat);
+	Vec2 offset = GetTarget()->Animator2D()->GetCurAnim()->GetNowFrameData().LTOffset;
+	offset.x = offsetX;
+	GetTarget()->Animator2D()->GetCurAnim()->SetNowFrameOffset(offset);
+
+	isFocus = false;
+}
+
+
+void CAnimator2DDlg::OnEnSetfocusEditOffsetY()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	isFocus = true;
+}
+
+
+void CAnimator2DDlg::OnEnKillfocusEditOffsetY()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString offsetYFormat;
+	editOffsetY.GetWindowTextW(offsetYFormat);
+	float offsetY = _wtof(offsetYFormat);
+	Vec2 offset = GetTarget()->Animator2D()->GetCurAnim()->GetNowFrameData().LTOffset;
+	offset.y = offsetY;
+	GetTarget()->Animator2D()->GetCurAnim()->SetNowFrameOffset(offset);
+
+	isFocus = false;
+}
+
+
+void CAnimator2DDlg::OnBnClickedButtonNextFrame()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString formatStr;
+	editNowFrameCount.GetWindowTextW(formatStr);
+	int nowFrameCount = _wtoi(formatStr);
+	nowFrameCount += 1;
+
+	editMaxFrameCount.GetWindowTextW(formatStr);
+	int maxFrameCount = _wtoi(formatStr);
+	if (nowFrameCount > maxFrameCount)
+	{
+		nowFrameCount = 1;
+	}
+
+	GetTarget()->Animator2D()->GetCurAnim()->SetFrm(nowFrameCount-1);
+}
+
+
+void CAnimator2DDlg::OnBnClickedButtonPrevFrame()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString formatStr;
+	editNowFrameCount.GetWindowTextW(formatStr);
+	int nowFrameCount = _wtoi(formatStr);
+	nowFrameCount -= 1;
+
+	editMaxFrameCount.GetWindowTextW(formatStr);
+	int maxFrameCount = _wtoi(formatStr);
+	if (nowFrameCount < 1)
+	{
+		nowFrameCount = maxFrameCount;
+	}
+
+	GetTarget()->Animator2D()->GetCurAnim()->SetFrm(nowFrameCount - 1);
 }
