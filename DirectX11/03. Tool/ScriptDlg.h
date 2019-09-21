@@ -7,7 +7,9 @@
 class CScriptDlg : public CComponentDlg
 {
 	DECLARE_DYNAMIC(CScriptDlg)
-
+private:
+	bool isFocus;
+	int deleteIndex;
 
 public:
 	virtual void init(CGameObject* _pTarget);
@@ -30,4 +32,7 @@ public:
 	CListCtrl m_ctrlScript;
 	CComboBox m_cbScript;
 	afx_msg void OnBtnAddScript();
+	afx_msg void OnBnClickedButtonDelete();
+	afx_msg void OnNMSetfocusList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnNMKillfocusList1(NMHDR *pNMHDR, LRESULT *pResult);
 };

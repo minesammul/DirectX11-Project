@@ -41,6 +41,7 @@ public:
 
 public:
 	void AddComponent(CComponent* _pCom);
+
 	CTransform* Transform() {return (CTransform*)m_arrCom[(UINT)COMPONENT_TYPE::TRANSFORM];}
 	CMeshRender* MeshRender() {return (CMeshRender*)m_arrCom[(UINT)COMPONENT_TYPE::MESHRENDER];}
 	CCamera * Camera() {return (CCamera*)m_arrCom[(UINT)COMPONENT_TYPE::CAMERA];}
