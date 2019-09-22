@@ -6,6 +6,7 @@
 
 #include "resource.h"
 #include "MainFrm.h"
+#include "CollisionLayer.h"
 
 #include <Core.h>
 #include <SceneMgr.h>
@@ -28,6 +29,7 @@ BEGIN_MESSAGE_MAP(CBtnView, CFormView)
 	ON_BN_CLICKED(IDC_CHECK1, &CBtnView::OnBtnPlay)
 	ON_BN_CLICKED(IDC_CHECK2, &CBtnView::OnBtnPause)
 	ON_BN_CLICKED(IDC_CHECK3, &CBtnView::OnBtnNextStep)
+	ON_BN_CLICKED(IDC_BUTTON1, &CBtnView::OnBnClickedButtonCollisionLayer)
 END_MESSAGE_MAP()
 
 
@@ -43,22 +45,23 @@ void CBtnView::OnDraw(CDC* pDC)
 void CBtnView::DoDataExchange(CDataExchange* pDX)
 {
 	CFormView::DoDataExchange(pDX);
-	
+
 	DDX_Control(pDX, IDC_CHECK1, m_btnPlay);
 	DDX_Control(pDX, IDC_CHECK2, m_btnPause);
 	DDX_Control(pDX, IDC_CHECK3, m_btnNextFrm);
-
+	DDX_Control(pDX, IDC_BUTTON1, collisionLayerButton);
 
 	// 버튼 세개 중앙에 배치
-	CRect rt1, rt2, rt3;
+	CRect rt1, rt2, rt3, rt4;
 	m_btnPlay.GetWindowRect(rt1);
 	m_btnPause.GetWindowRect(rt2);
 	m_btnNextFrm.GetWindowRect(rt3);
+	collisionLayerButton.GetWindowRect(rt4);
 
 	float fAccWidth = rt1.Width() + rt2.Width() + rt3.Width();
 
 	CRect rtBtnView;
-	GetClientRect(rtBtnView);	
+	GetClientRect(rtBtnView);
 
 	float fStartX = (rtBtnView.Width() / 2.f) - (fAccWidth / 2.f);
 
@@ -71,6 +74,12 @@ void CBtnView::DoDataExchange(CDataExchange* pDX)
 	fStartX += rt2.Width();
 
 	m_btnNextFrm.SetWindowPos(nullptr, fStartX, 10, rt3.Width(), rt1.Height(), 0);
+
+	fStartX += rt3.Width();
+
+	collisionLayerButton.SetWindowPos(nullptr, fStartX, 10, rt4.Width(), rt4.Height(), 0);
+
+
 }
 
 
@@ -157,3 +166,11 @@ int CBtnView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 }
 
 
+
+
+void CBtnView::OnBnClickedButtonCollisionLayer()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CollisionLayer dlg;
+	dlg.DoModal();
+}

@@ -34,6 +34,40 @@ void CCollisionMgr::update()
 	}
 }
 
+bool CCollisionMgr::IsCollisionLayers(const wstring & _strLayerName1, const wstring & _strLayerName2)
+{
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+	CLayer* pLeftLayer = pCurScene->FindLayer(_strLayerName1);
+	CLayer* pRightLayer = pCurScene->FindLayer(_strLayerName2);
+
+	assert(!(nullptr == pLeftLayer || nullptr == pRightLayer));
+
+	UINT iIdx = (UINT)(pLeftLayer->GetLayerIdx() < pRightLayer->GetLayerIdx() ? pLeftLayer->GetLayerIdx() : pRightLayer->GetLayerIdx());
+	UINT iBitIdx = iIdx == (UINT)pLeftLayer->GetLayerIdx() ? (UINT)pRightLayer->GetLayerIdx() : (UINT)pLeftLayer->GetLayerIdx();
+	
+	bool layerCollision = false;
+	if (m_arrCheck[iIdx] & (1 << iBitIdx))
+	{
+		layerCollision = true;
+	}
+
+	return layerCollision;
+}
+
+void CCollisionMgr::CollisionUnCheck(const wstring & _strLayerName1, const wstring & _strLayerName2)
+{
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+	CLayer* pLeftLayer = pCurScene->FindLayer(_strLayerName1);
+	CLayer* pRightLayer = pCurScene->FindLayer(_strLayerName2);
+
+	assert(!(nullptr == pLeftLayer || nullptr == pRightLayer));
+
+	UINT iIdx = (UINT)(pLeftLayer->GetLayerIdx() < pRightLayer->GetLayerIdx() ? pLeftLayer->GetLayerIdx() : pRightLayer->GetLayerIdx());
+	UINT iBitIdx = iIdx == (UINT)pLeftLayer->GetLayerIdx() ? (UINT)pRightLayer->GetLayerIdx() : (UINT)pLeftLayer->GetLayerIdx();
+	
+	m_arrCheck[iIdx] &= (0 << iBitIdx);
+}
+
 void CCollisionMgr::CollisionGroup(int _leftIdx, int _rightIdx)
 {
 	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();

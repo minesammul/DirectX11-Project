@@ -32,7 +32,9 @@ public:
 	
 	void ClearCheck() { memset(m_arrCheck, 0, sizeof(UINT) * MAX_LAYER); }
 
-	
+	bool IsCollisionLayers(const wstring& _strLayerName1, const wstring& _strLayerName2);
+
+	void CollisionUnCheck(const wstring& _strLayerName1, const wstring& _strLayerName2);
 
 private:
 	void CollisionGroup(int _leftIdx, int _rightIdx);	

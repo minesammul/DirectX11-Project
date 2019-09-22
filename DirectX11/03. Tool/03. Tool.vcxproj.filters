@@ -118,6 +118,7 @@
     <ClInclude Include="AddAnimFile.h">
       <Filter>04. Dialog\AddAnimDlg</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -177,6 +178,7 @@
     <ClCompile Include="AddAnimFile.cpp">
       <Filter>04. Dialog\AddAnimDlg</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="My03Tool.rc">

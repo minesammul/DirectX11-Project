@@ -37,6 +37,8 @@ public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnBtnPause();
 	afx_msg void OnBtnNextStep();
+	CButton collisionLayerButton;
+	afx_msg void OnBnClickedButtonCollisionLayer();
 };
 
 
