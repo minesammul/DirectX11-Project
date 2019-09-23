@@ -5,6 +5,7 @@
 #include "HierachyView.h"
 
 #include "GameObjectDlg.h"
+#include "ResourceDlg.h"
 
 IMPLEMENT_DYNCREATE(CHierachyView, CView)
 
@@ -22,7 +23,7 @@ CHierachyView::~CHierachyView()
 void CHierachyView::init()
 {
 	m_pGameObjectDlg->init();
-	//m_pResourceDlg;
+	m_pResourceDlg->init();
 }
 
 
@@ -75,17 +76,19 @@ int CHierachyView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	
 	m_pGameObjectDlg = new CGameObjectDlg;
 	m_pGameObjectDlg->Create(IDD_GAMEOBJECTDLG, this);
+	//m_pGameObjectDlg->SetWindowPos(nullptr, 1, 0, rt.Width() - 1, rtDlg.Height(), 0);
+	m_pGameObjectDlg->SetWindowPos(nullptr, 1, 0, rt.Width() - 1, rt.Height()/2, 0);
 	m_pGameObjectDlg->GetWindowRect(rtDlg);
-	m_pGameObjectDlg->SetWindowPos(nullptr, 1, 0, rt.Width() - 1, rtDlg.Height(), 0);
 	m_pGameObjectDlg->ShowWindow(true);
 
 	iHeight += rtDlg.Height();
 
-	//m_pResourceDlg = new CResourceDlg;
-	//m_pResourceDlg->Create(IDD_RESOURCEDLG, this);
-	//m_pResourceDlg->ShowWindow(true);
-	//m_pResourceDlg->GetWindowRect(rtDlg);
-	//m_pResourceDlg->SetWindowPos(nullptr, 0, iHeight, rt.Width(), rtDlg.Height(), 0);
-	   
+	m_pResourceDlg = new ResourceDlg;
+	m_pResourceDlg->Create(IDD_RESOURCEDLG, this);
+	m_pResourceDlg->ShowWindow(true);
+	m_pResourceDlg->GetWindowRect(rtDlg);
+	m_pResourceDlg->SetWindowPos(nullptr, 1, iHeight, rt.Width() - 1, rt.Height() - iHeight, 0);
+	//m_pResourceDlg->SetWindowPos(nullptr, 1, iHeight, rt.Width() - 1, 1000, 0);
+
 	return 0;
 }

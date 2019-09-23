@@ -5,6 +5,7 @@ wchar_t CPathMgr::g_szPath[255] = {};
 wchar_t CPathMgr::g_szExt[20] = {};
 wchar_t CPathMgr::g_szRelativePath[255] = {};
 wchar_t CPathMgr::g_szSolutionPath[255] = {};
+wchar_t CPathMgr::g_szFile[255] = {};
 
 void CPathMgr::init()
 {
@@ -52,4 +53,10 @@ const wchar_t * CPathMgr::GetRelativePath(const wchar_t * _pPath)
 const wchar_t * CPathMgr::GetSolutionPath()
 {
 	return g_szSolutionPath;
+}
+
+const wchar_t * CPathMgr::GetFileName(const wchar_t * _pPath)
+{
+	_wsplitpath_s(_pPath, nullptr, 0, nullptr, 0, g_szFile, 255, nullptr, 0);
+	return g_szFile;
 }

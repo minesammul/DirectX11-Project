@@ -2,7 +2,7 @@
 
 
 class CGameObjectDlg;
-class CResourceDlg;
+class ResourceDlg;
 
 class CHierachyView : public CView
 {
@@ -10,7 +10,7 @@ class CHierachyView : public CView
 
 private:
 	CGameObjectDlg*		m_pGameObjectDlg;
-	CResourceDlg*		m_pResourceDlg;
+	ResourceDlg*		m_pResourceDlg;
 
 
 public:

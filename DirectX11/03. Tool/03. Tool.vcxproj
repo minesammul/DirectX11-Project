@@ -209,6 +209,7 @@
     <ClInclude Include="HierachyView.h" />
     <ClInclude Include="ListDlg.h" />
     <ClInclude Include="MeshRenderDlg.h" />
+    <ClInclude Include="ResourceDlg.h" />
     <ClInclude Include="ScriptDlg.h" />
     <ClInclude Include="ToolApp.h" />
     <ClInclude Include="MainFrm.h" />
@@ -234,6 +235,7 @@
     <ClCompile Include="ListDlg.cpp" />
     <ClCompile Include="MeshRenderDlg.cpp" />
     <ClCompile Include="MySplitterWnd.cpp" />
+    <ClCompile Include="ResourceDlg.cpp" />
     <ClCompile Include="ScriptDlg.cpp" />
     <ClCompile Include="ToolApp.cpp" />
     <ClCompile Include="MainFrm.cpp" />

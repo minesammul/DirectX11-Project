@@ -103,13 +103,12 @@ void CBtnView::Dump(CDumpContext& dc) const
 // CBtnView 메시지 처리기
 void CBtnView::OnBtnPlay()
 {
-	CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
-	::SetFocus(pMainFrm->GetGameView()->m_hWnd);
-
 	// 1. 정지상태에서 재생버튼이 눌린 경우
 	// -> awake(), start() 및 update(), lateupdate() 활성화
 	if (!!m_btnPlay.GetCheck())
 	{		
+		m_btnPlay.SetWindowTextW(L"■");
+
 		CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
 
 		pCurScene->awake();
@@ -120,12 +119,19 @@ void CBtnView::OnBtnPlay()
 		else
 			CCore::GetInst()->Play(true);
 	}
+	else
+	{
+		m_btnPlay.SetWindowTextW(L"▶");
+		CCore::GetInst()->Play(false);
+	}
+
+	CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
+	::SetFocus(pMainFrm->GetGameView()->m_hWnd);
 }
 
 void CBtnView::OnBtnPause()
 {
-	CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
-	::SetFocus(pMainFrm->GetGameView()->m_hWnd);
+
 
 	// 1. 재생모드 x, 일시정지 누른 경우
 	// -> 아무일도 없다.
@@ -144,6 +150,9 @@ void CBtnView::OnBtnPause()
 	{
 		CCore::GetInst()->Play(false);
 	}	
+
+	CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
+	::SetFocus(pMainFrm->GetGameView()->m_hWnd);
 }
 
 
@@ -173,4 +182,7 @@ void CBtnView::OnBnClickedButtonCollisionLayer()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	CollisionLayer dlg;
 	dlg.DoModal();
+
+	CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
+	::SetFocus(pMainFrm->GetGameView()->m_hWnd);
 }
