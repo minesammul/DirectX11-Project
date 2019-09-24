@@ -14,6 +14,7 @@ public:
 	CGameObject* Instantiate();
 
 public:
+	CPrefab();
 	CPrefab(CGameObject* _pProtoObj);
 	virtual ~CPrefab();
 };

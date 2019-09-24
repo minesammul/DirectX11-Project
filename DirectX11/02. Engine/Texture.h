@@ -20,7 +20,8 @@ private:
 	ScratchImage				m_Image;
 	   
 public:
-	virtual CTexture* Load(const wstring& _strFilePath);
+	virtual void Load(const wstring& _strFilePath);
+	virtual void Save() {};
 
 public:
 	float GetWidth() { return (float)m_Image.GetMetadata().width; }

@@ -3,10 +3,14 @@
 
 #include "GameObject.h"
 
+CPrefab::CPrefab() : 
+	m_pProto(nullptr)
+{
+}
+
 CPrefab::CPrefab(CGameObject * _pProtoObj)
 	: m_pProto(_pProtoObj)
 {
-	assert(m_pProto);
 }
 
 CPrefab::~CPrefab()

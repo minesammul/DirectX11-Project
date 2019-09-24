@@ -3,6 +3,7 @@
 
 #include "Device.h"
 #include "ConstBuffer.h"
+#include "PathMgr.h"
 
 CMaterial::CMaterial()
 	: m_pShader(nullptr)
@@ -90,4 +91,26 @@ void CMaterial::UpdateData()
 		m_arrTex[i]->SetRegister(i, (UINT)SHADER_TYPE::PIXEL_SHADER);
 		//m_arrTex[i]->SetRegisterAll(i);
 	}	
+}
+
+void CMaterial::Load(const wstring & _strFilePath)
+{
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
+
+
+	fclose(pFile);
+}
+
+void CMaterial::Save()
+{
+	wstring strFileName = CPathMgr::GetResPath();
+	strFileName += GetName();
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFileName.c_str(), L"wb");
+
+
+
+	fclose(pFile);
 }

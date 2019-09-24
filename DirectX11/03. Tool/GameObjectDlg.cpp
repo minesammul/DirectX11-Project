@@ -149,6 +149,8 @@ BEGIN_MESSAGE_MAP(CGameObjectDlg, CDialogEx)
 	ON_NOTIFY(TVN_BEGINDRAG, IDC_TREE1, &CGameObjectDlg::OnTvnBegindrag)
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
+	ON_NOTIFY(TVN_BEGINLABELEDIT, IDC_TREE1, &CGameObjectDlg::OnTvnBeginlabeleditTree1)
+	ON_NOTIFY(TVN_ENDLABELEDIT, IDC_TREE1, &CGameObjectDlg::OnTvnEndlabeleditTree1)
 END_MESSAGE_MAP()
 
 
@@ -167,16 +169,12 @@ void CGameObjectDlg::PostNcDestroy()
 void CGameObjectDlg::OnOK()
 {
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
-
-	CDialogEx::OnOK();
 }
 
 
 void CGameObjectDlg::OnCancel()
 {
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
-
-	CDialogEx::OnCancel();
 }
 
 void CGameObjectDlg::OnSize(UINT nType, int cx, int cy)
@@ -297,4 +295,20 @@ void CGameObjectDlg::OnLButtonUp(UINT nFlags, CPoint point)
 	m_ctrlTree.SelectDropTarget(nullptr);	
 
 	CDialogEx::OnLButtonUp(nFlags, point);
+}
+
+
+void CGameObjectDlg::OnTvnBeginlabeleditTree1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMTVDISPINFO pTVDispInfo = reinterpret_cast<LPNMTVDISPINFO>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	*pResult = 0;
+}
+
+
+void CGameObjectDlg::OnTvnEndlabeleditTree1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMTVDISPINFO pTVDispInfo = reinterpret_cast<LPNMTVDISPINFO>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	*pResult = 0;
 }

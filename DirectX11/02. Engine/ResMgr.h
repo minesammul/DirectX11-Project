@@ -154,6 +154,7 @@ inline CResPtr<T> CResMgr::Load(const wstring & _strKey, const wstring & _strPat
 	pResource->Load(strFilePath);
 	m_mapRes[(UINT)eType].insert(make_pair(_strKey, pResource));
 	pResource->SetName(_strKey);
+	pResource->SetPath(_strPath);
 
 	return CResPtr<T>(pResource);
 }

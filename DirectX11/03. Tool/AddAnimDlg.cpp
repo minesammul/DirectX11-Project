@@ -91,6 +91,7 @@ void CAddAnimDlg::OnBtnSelectFolder()
 	{
 		path = Picker.GetPathName();
 		path = CPathMgr::GetRelativePath(path);
+		path += L"\\";
 		m_editFolderPath.SetWindowTextW(path);
 	}
 }

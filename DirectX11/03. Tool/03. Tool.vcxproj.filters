@@ -119,7 +119,9 @@
       <Filter>04. Dialog\AddAnimDlg</Filter>
     </ClInclude>
     <ClInclude Include="CollisionLayer.h" />
-    <ClInclude Include="ResourceDlg.h" />
+    <ClInclude Include="ResourceDlg.h">
+      <Filter>04. Dialog\HierachyDlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -180,7 +182,9 @@
       <Filter>04. Dialog\AddAnimDlg</Filter>
     </ClCompile>
     <ClCompile Include="CollisionLayer.cpp" />
-    <ClCompile Include="ResourceDlg.cpp" />
+    <ClCompile Include="ResourceDlg.cpp">
+      <Filter>04. Dialog\HierachyDlg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="My03Tool.rc">

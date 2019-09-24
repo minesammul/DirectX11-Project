@@ -7,6 +7,7 @@
 #include "afxdialogex.h"
 #include "ToolApp.h"
 #include "MainFrm.h"
+#include "HierachyView.h"
 
 #include <core.h>
 #include <TimeMgr.h>
@@ -114,11 +115,15 @@ BOOL CToolApp::InitInstance()
 	// Engine 초기화
 	CCore::GetInst()->init(hGameViewHwnd, true);
 
-	CreateTestScene();
+	
 
 	// Engine 초기화 후에 FrameWindow 초기화
 	((CMainFrame*)pFrame)->init();
+	CreateTestScene();
 
+	// HierachyView 초기화
+	CHierachyView* pView = (CHierachyView*)((CMainFrame*)pFrame)->GetHierachyView();
+	pView->init_object();
 	return TRUE;
 }
 

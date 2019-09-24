@@ -40,13 +40,14 @@
 #define IDC_EDIT7                       2007
 #define IDC_EDIT8                       2008
 #define IDC_EDIT9                       2009
+#define ID_RESOURCE_NEWMATERIAL         32771
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        328
-#define _APS_NEXT_COMMAND_VALUE         32771
+#define _APS_NEXT_COMMAND_VALUE         32772
 #define _APS_NEXT_CONTROL_VALUE         1009
 #define _APS_NEXT_SYMED_VALUE           321
 #endif

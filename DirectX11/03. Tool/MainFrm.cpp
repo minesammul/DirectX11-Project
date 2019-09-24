@@ -11,6 +11,10 @@
 #include "ComponentView.h"
 #include "BtnView.h"
 #include "DbgView.h"
+#include "ResourceDlg.h"
+
+#include <ResMgr.h>
+#include <Material.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -23,6 +27,7 @@ IMPLEMENT_DYNAMIC(CMainFrame, CFrameWnd)
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_SETFOCUS()
+	ON_COMMAND(ID_RESOURCE_NEWMATERIAL, &CMainFrame::OnResourceNewmaterialCreate)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -135,3 +140,32 @@ BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
 	return CFrameWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 }
 
+
+
+void CMainFrame::OnResourceNewmaterialCreate()
+{
+	CResPtr<CMaterial> pMtrl = new CMaterial;
+
+	CString strKey = L"New Material";
+
+	CResPtr<CMaterial> pFindMtrl = nullptr;
+	int i = 0;
+	while (true)
+	{
+		pFindMtrl = CResMgr::GetInst()->FindRes<CMaterial>(strKey.GetBuffer());
+
+		if (nullptr == pFindMtrl)
+		{
+			CResMgr::GetInst()->AddRes(strKey.GetBuffer(), pMtrl);
+			break;
+		}
+		else
+		{
+			++i;
+			strKey.Format(L"New Material %d", i);
+		}
+	}
+
+	CHierachyView* pView = (CHierachyView*)GetHierachyView();
+	pView->GetResDlg()->Renew();
+}

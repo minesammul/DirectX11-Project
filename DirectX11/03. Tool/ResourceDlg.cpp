@@ -28,6 +28,13 @@ void ResourceDlg::init()
 
 	LoadResource(strContent);
 
+	Renew();
+}
+
+void ResourceDlg::Renew()
+{
+	m_ctrlTree.DeleteAllItems();
+
 	// 항목 추가
 	HTREEITEM arrItem[(UINT)RES_TYPE::END] = {
 		AddItem(L"Material", nullptr, 0, TVI_LAST)
@@ -53,52 +60,53 @@ void ResourceDlg::init()
 
 void ResourceDlg::LoadResource(CString _strFolderPath)
 {
-	/*WIN32_FIND_DATA tData = {};
-	HANDLE h = (HANDLE)FindFirstFile(_strFolderPath.GetBuffer(), &tData);
+	wstring strFolderPath = _strFolderPath + L"\\*.*";
+
+	WIN32_FIND_DATA tData = {};
+	HANDLE h = (HANDLE)FindFirstFile(strFolderPath.c_str(), &tData);
 	UINT err = GetLastError();
 
 	while (true)
 	{
-		if (FILE_ATTRIBUTE_DIRECTORY & tData.dwFileAttributes)
+		if ((FILE_ATTRIBUTE_DIRECTORY & tData.dwFileAttributes))
 		{
-			LoadResource(_strFolderPath + tData.cFileName);
+			if (wcscmp(tData.cFileName, L".") && wcscmp(tData.cFileName, L".."))
+			{
+				wstring temp = _strFolderPath + tData.cFileName;
+				temp += L'\\';
+				LoadResource(temp.c_str());
+			}
 		}
 		else
 		{
 			const wchar_t* pExt = CPathMgr::GetExt(tData.cFileName);
+			wstring strPath = _strFolderPath + tData.cFileName;
+			wstring strKey = CPathMgr::GetRelativePath(strPath.c_str());
 
 			if (!wcscmp(pExt, L".png")
 				|| !wcscmp(pExt, L".bmp")
 				|| !wcscmp(pExt, L".jpg")
 				|| !wcscmp(pExt, L".jpeg"))
 			{
-				wstring strKey = _strFolderPath + tData.cFileName;
-
-				pTex = CResMgr::GetInst()->Load<CTexture>(strKey, strKey);
-				tFrm.pTex = pTex;
-				tFrm.vTerm = _fTerm;
-				tFrm.vLT = Vec2(0.f, 0.f);
-				tFrm.vSize = Vec2(1.f, 1.f);
-
-				m_vecFrm.push_back(tFrm);
+				CResMgr::GetInst()->Load<CTexture>(strKey, strKey);
 			}
 			else if (!wcscmp(pExt, L".mp3")
 				|| !wcscmp(pExt, L".ogg")
 				|| !wcscmp(pExt, L".wav"))
 			{
-
+				CResMgr::GetInst()->Load<CSound>(strKey, strKey);
 			}
 			else if (!wcscmp(pExt, L".mtrl"))
 			{
-
+				CResMgr::GetInst()->Load<CMaterial>(strKey, strKey);
 			}
 			else if (!wcscmp(pExt, L".mdat"))
 			{
-
+				//CResMgr::GetInst()->Load<CMeshData>(strKey, strPath);
 			}
 			else if (!wcscmp(pExt, L".prf"))
 			{
-
+				CResMgr::GetInst()->Load<CPrefab>(strKey, strKey);
 			}
 		}
 
@@ -107,7 +115,7 @@ void ResourceDlg::LoadResource(CString _strFolderPath)
 			err = GetLastError();
 			break;
 		}
-	}*/
+	}
 }
 
 HTREEITEM ResourceDlg::AddItem(CString _str, HTREEITEM _hParent, DWORD_PTR _dwData, HTREEITEM _hSortop)
@@ -204,3 +212,23 @@ END_MESSAGE_MAP()
 
 
 // ResourceDlg 메시지 처리기
+
+
+void ResourceDlg::OnOK()
+{
+
+}
+
+
+void ResourceDlg::OnCancel()
+{
+
+}
+
+
+void ResourceDlg::PostNcDestroy()
+{
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	delete this;
+	CDialogEx::PostNcDestroy();
+}

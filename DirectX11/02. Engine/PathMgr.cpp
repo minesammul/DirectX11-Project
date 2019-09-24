@@ -45,7 +45,6 @@ const wchar_t * CPathMgr::GetRelativePath(const wchar_t * _pPath)
 	wstring str = _pPath;
 
 	wcscpy_s(g_szRelativePath, str.substr(iLen, iMaxLen - iLen).c_str());
-	wcscat_s(g_szRelativePath, L"\\");
 
 	return g_szRelativePath;
 }

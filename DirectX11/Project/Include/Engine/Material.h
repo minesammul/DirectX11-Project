@@ -21,6 +21,8 @@ public:
 	void UpdateData();
 
 public:
+	virtual void Load(const wstring& _strFilePath);
+	virtual void Save();
 	CLONE(CMaterial);
 
 public:

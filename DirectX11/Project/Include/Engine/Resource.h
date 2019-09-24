@@ -13,7 +13,8 @@ public:
 	const wstring& GetPath() { return m_strPath; }
 
 public:
-	virtual CResource* Load(const wstring& _strFilePath) { return nullptr; };
+	virtual void Load(const wstring& _strFilePath) {};
+	virtual void Save() {};
 
 private:
 	void AddRef() { ++m_iRefCount; }

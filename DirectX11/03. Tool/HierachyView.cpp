@@ -22,8 +22,12 @@ CHierachyView::~CHierachyView()
 
 void CHierachyView::init()
 {
-	m_pGameObjectDlg->init();
 	m_pResourceDlg->init();
+}
+
+void CHierachyView::init_object()
+{
+	m_pGameObjectDlg->init();
 }
 
 

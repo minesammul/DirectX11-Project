@@ -15,7 +15,7 @@ CTexture::~CTexture()
 	SAFE_RELEASE(m_pTex2D);
 }
 
-CTexture * CTexture::Load(const wstring & _strFilePath)
+void CTexture::Load(const wstring & _strFilePath)
 {
 	// Texture ¸¦ SystemMem ¿¡ Loading
 	wchar_t szExt[256] = {};
@@ -48,8 +48,6 @@ CTexture * CTexture::Load(const wstring & _strFilePath)
 	}
 			
 	m_pSRV->GetResource(((ID3D11Resource**)&m_pTex2D));
-	
-	return nullptr;
 }
 
 void CTexture::SetRegister(UINT _iRegister, UINT _iShaderType)

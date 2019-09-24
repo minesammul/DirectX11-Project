@@ -9,7 +9,12 @@ class CPrefab :
 private:
 	CGameObject*	m_pProto;
 
+
 public:
+	CGameObject* Instantiate();
+
+public:
+	CPrefab();
 	CPrefab(CGameObject* _pProtoObj);
 	virtual ~CPrefab();
 };

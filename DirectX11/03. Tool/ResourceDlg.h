@@ -15,6 +15,7 @@ public:
 
 public:
 	void init();
+	void Renew();
 
 private:
 	void LoadResource(CString _strFolderPath);
@@ -39,4 +40,7 @@ public:
 	virtual void OnSize(UINT nType, int cx, int cy);
 
 	CTreeCtrl m_ctrlTree;
+	virtual void OnOK();
+	virtual void OnCancel();
+	virtual void PostNcDestroy();
 };

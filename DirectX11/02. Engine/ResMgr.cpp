@@ -273,10 +273,10 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SetShader(FindRes<CShader>(L"Std2DShader"));
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
-	pMtrl = new CMaterial;
-	pMtrl->SetName(L"2DShadowMtrl");
-	pMtrl->SetShader(FindRes<CShader>(L"2DShdowShader"));
-	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);	
+	//pMtrl = new CMaterial;
+	//pMtrl->SetName(L"2DShadowMtrl");
+	//pMtrl->SetShader(FindRes<CShader>(L"2DShdowShader"));
+	//AddRes<CMaterial>(pMtrl->GetName(), pMtrl);	
 
 	CCollider2D::CreateMaterial();
 }
