@@ -4,6 +4,7 @@
 #include "Device.h"
 #include "ConstBuffer.h"
 #include "PathMgr.h"
+#include "ResMgr.h"
 
 CMaterial::CMaterial()
 	: m_pShader(nullptr)
@@ -98,6 +99,32 @@ void CMaterial::Load(const wstring & _strFilePath)
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
 
+	// Shader Key 읽기
+	wstring strShaderName = LoadWString(pFile);
+	m_pShader = CResMgr::GetInst()->FindRes<CShader>(strShaderName);
+
+	// Shader Parameter 읽기
+	fread(&m_param, sizeof(tShaderParam), 1, pFile);
+
+	// Textrue Parameter 읽기
+	while (true)
+	{
+		int index = 0;
+		fread(&index, sizeof(int), 1, pFile);
+
+		if (index == (UINT)SHADER_PARAM::TEX_END)
+			break;
+
+		wstring strKey = LoadWString(pFile);
+		wstring strPath = LoadWString(pFile);
+
+		m_arrTex[index] = CResMgr::GetInst()->FindRes<CTexture>(strKey);
+		if (nullptr == m_arrTex[index])
+		{
+			m_arrTex[index] = CResMgr::GetInst()->Load<CTexture>(strKey, strPath);
+		}
+	}
+
 
 	fclose(pFile);
 }
@@ -105,12 +132,37 @@ void CMaterial::Load(const wstring & _strFilePath)
 void CMaterial::Save()
 {
 	wstring strFileName = CPathMgr::GetResPath();
+	strFileName += L"Material\\";
 	strFileName += GetName();
+	strFileName += L".mtrl";
 
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, strFileName.c_str(), L"wb");
 
+	// Material 이 참조하고 있는 Shader 의 이름을 저장한다.
+	wstring strKey;
+	if (nullptr != m_pShader)
+		strKey = m_pShader->GetName();
 
+	SaveWString(strKey.c_str(), pFile);
+
+	// Shader Parameter 저장
+	fwrite(&m_param, sizeof(tShaderParam), 1, pFile);
+
+	// Shader Parameter Texture 
+	for (UINT i = 0; i < (UINT)SHADER_PARAM::TEX_END - (UINT)SHADER_PARAM::TEX_0; ++i)
+	{
+		if (nullptr != m_arrTex[i])
+		{
+			fwrite(&i, sizeof(int), 1, pFile);
+			SaveWString(m_arrTex[i]->GetName().c_str(), pFile);
+			SaveWString(m_arrTex[i]->GetPath().c_str(), pFile);
+		}
+	}
+
+	// Texture 마감 데이터
+	int iTexEnd = (UINT)SHADER_PARAM::TEX_END;
+	fwrite(&iTexEnd, sizeof(int), 1, pFile);
 
 	fclose(pFile);
 }

@@ -31,3 +31,6 @@ void Safe_Delete_Map(map<T1, T2>& _map)
 
 float GetAngle(float _fRadian);
 float GetRadian(float _fAngle);
+
+void SaveWString(const wchar_t* _pStr, FILE * _pFile);
+wchar_t* LoadWString(FILE* _pFile);

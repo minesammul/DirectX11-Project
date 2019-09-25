@@ -208,6 +208,8 @@ void ResourceDlg::OnSize(UINT nType, int cx, int cy)
 
 BEGIN_MESSAGE_MAP(ResourceDlg, CDialogEx)
 	ON_WM_SIZE()
+	ON_NOTIFY(TVN_BEGINLABELEDIT, IDC_TREE1, &ResourceDlg::OnTvnBeginlabeleditTree1)
+	ON_NOTIFY(TVN_ENDLABELEDIT, IDC_TREE1, &ResourceDlg::OnTvnEndlabeleditTree1)
 END_MESSAGE_MAP()
 
 
@@ -231,4 +233,30 @@ void ResourceDlg::PostNcDestroy()
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 	delete this;
 	CDialogEx::PostNcDestroy();
+}
+
+
+void ResourceDlg::OnTvnBeginlabeleditTree1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMTVDISPINFO pTVDispInfo = reinterpret_cast<LPNMTVDISPINFO>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	
+
+	if (m_ctrlTree.GetParentItem(pTVDispInfo->item.hItem))
+	{
+		*pResult = 0;
+	}
+	else
+	{
+		*pResult = 1;
+	}
+
+}
+
+
+void ResourceDlg::OnTvnEndlabeleditTree1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMTVDISPINFO pTVDispInfo = reinterpret_cast<LPNMTVDISPINFO>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	*pResult = 0;
 }
