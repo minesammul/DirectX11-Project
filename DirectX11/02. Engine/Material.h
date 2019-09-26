@@ -14,7 +14,7 @@ class CMaterial :
 
 public:
 	CResPtr<CShader> GetShader() { return m_pShader; }
-	void SetShader(CResPtr<CShader> _pShader) { m_pShader = _pShader; }
+	void SetShader(CResPtr<CShader> _pShader);
 	void SetData(SHADER_PARAM _eType, void* _pSrc);
 
 public:

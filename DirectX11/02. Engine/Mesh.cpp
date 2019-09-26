@@ -7,6 +7,16 @@
 CMesh::CMesh()
 	: m_pVB(nullptr)
 	, m_pIB(nullptr)
+	, CResource(RES_TYPE::MESH)
+	, m_iVtxSize(0)
+	, m_iVtxCount(0)
+	, m_eVtxUsage(D3D11_USAGE_DEFAULT)
+	, m_iIdxSize(0)
+	, m_iIdxCount(0)
+	, m_pVtxSysMem(nullptr)
+	, m_pIdxSysMem(nullptr)
+	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+	, m_pLayout(nullptr)
 {
 }
 

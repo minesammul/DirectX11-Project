@@ -18,6 +18,8 @@ enum class DLG_TYPE
 
 class CComponentDlg;
 class CGameObject;
+class CResInfoDlg;
+class CResource;
 
 class CComponentView : public CView
 {
@@ -42,11 +44,15 @@ protected:
 private:
 	CGameObject*		m_pTarget;
 	CComponentDlg*		m_arrComDlg[(UINT)DLG_TYPE::END];
-	
+
+	CResource*			m_pResource;
+	CResInfoDlg*		m_arrResInfoDlg[(UINT)RES_TYPE::END];
+	CResInfoDlg*		m_pCurResInfoDlg;
 public:
 	void init();
 	void update();
 	void SetTarget(CGameObject* _pTarget);
+	void SetResoure(CResource* _pResource);
 
 private:
 	void SetDlgPos();

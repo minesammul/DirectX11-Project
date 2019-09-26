@@ -2,7 +2,8 @@
 #include "Sound.h"
 
 
-CSound::CSound()
+CSound::CSound():
+	CResource(RES_TYPE::SOUND)
 {
 }
 

@@ -6,6 +6,7 @@
 CTexture::CTexture()
 	: m_pSRV(nullptr)
 	, m_pTex2D(nullptr)
+	, CResource(RES_TYPE::TEXTURE)
 {
 }
 

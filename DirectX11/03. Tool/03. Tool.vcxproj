@@ -208,7 +208,9 @@
     <ClInclude Include="GameView.h" />
     <ClInclude Include="HierachyView.h" />
     <ClInclude Include="ListDlg.h" />
+    <ClInclude Include="MaterialDlg.h" />
     <ClInclude Include="MeshRenderDlg.h" />
+    <ClInclude Include="ResInfoDlg.h" />
     <ClInclude Include="ResourceDlg.h" />
     <ClInclude Include="ScriptDlg.h" />
     <ClInclude Include="ToolApp.h" />
@@ -233,8 +235,10 @@
     <ClCompile Include="GameView.cpp" />
     <ClCompile Include="HierachyView.cpp" />
     <ClCompile Include="ListDlg.cpp" />
+    <ClCompile Include="MaterialDlg.cpp" />
     <ClCompile Include="MeshRenderDlg.cpp" />
     <ClCompile Include="MySplitterWnd.cpp" />
+    <ClCompile Include="ResInfoDlg.cpp" />
     <ClCompile Include="ResourceDlg.cpp" />
     <ClCompile Include="ScriptDlg.cpp" />
     <ClCompile Include="ToolApp.cpp" />

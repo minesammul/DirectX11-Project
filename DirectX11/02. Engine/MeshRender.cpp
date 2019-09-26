@@ -48,6 +48,11 @@ void CMeshRender::render()
 		CAnimation2D::ClearRegister();
 	}
 
+	if (m_pMtrl->GetShader() == nullptr)
+	{
+		return;
+	}
+
 	m_pMtrl->UpdateData();
 	m_pMesh->SetLayout(m_pMtrl->GetShader());	
 	m_pMesh->render();

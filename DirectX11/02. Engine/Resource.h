@@ -7,10 +7,12 @@ class CResource :
 private:
 	wstring		m_strPath;	// 상대경로
 	int			m_iRefCount;// 참조 횟수
+	RES_TYPE	m_eType;
 
 public:
 	void SetPath(const wstring& _strPath) { m_strPath = _strPath; }
 	const wstring& GetPath() { return m_strPath; }
+	RES_TYPE GetType() { return m_eType; }
 
 public:
 	virtual void Load(const wstring& _strFilePath) {};
@@ -24,7 +26,7 @@ public:
 	CLONE_DISABLE(CResource);
 
 public:
-	CResource();
+	CResource(RES_TYPE _eType);
 	virtual ~CResource();
 
 	template<typename T> friend class CResPtr;

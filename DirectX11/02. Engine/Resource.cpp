@@ -2,7 +2,8 @@
 #include "Resource.h"
 
 
-CResource::CResource()
+CResource::CResource(RES_TYPE _eType) : 
+	m_eType(_eType)
 {
 }
 

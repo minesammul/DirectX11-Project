@@ -13,8 +13,10 @@
 #include "CameraDlg.h"
 #include "Animator2DDlg.h"
 #include "ScriptDlg.h"
+#include "MaterialDlg.h"
 
 #include <TimeMgr.h>
+#include <Resource.h>
 
 // CComponentView
 
@@ -55,6 +57,10 @@ int CComponentView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_arrComDlg[(UINT)DLG_TYPE::SCRIPT] = new CScriptDlg;
 	m_arrComDlg[(UINT)DLG_TYPE::SCRIPT]->Create(IDD_SCRIPTDLG, this);
 	m_arrComDlg[(UINT)DLG_TYPE::SCRIPT]->ShowWindow(false);
+
+	m_arrResInfoDlg[(UINT)RES_TYPE::MATERIAL] = new CMaterialDlg;
+	m_arrResInfoDlg[(UINT)RES_TYPE::MATERIAL]->Create(IDD_MTRLDLG, this);
+	m_arrResInfoDlg[(UINT)RES_TYPE::MATERIAL]->ShowWindow(false);
 
 	return 0;
 }
@@ -158,8 +164,42 @@ void CComponentView::update()
 
 void CComponentView::SetTarget(CGameObject * _pTarget)
 {
+	if (nullptr != m_pCurResInfoDlg)
+	{
+		m_pCurResInfoDlg->ShowWindow(false);
+	}
+
 	m_pTarget = _pTarget;
 	SetDlgPos();
+}
+
+void CComponentView::SetResoure(CResource * _pResource)
+{
+	for (UINT i = 0; i < (UINT)DLG_TYPE::END; ++i)
+	{
+		if (nullptr != m_arrComDlg[i])
+			m_arrComDlg[i]->ShowWindow(false);
+	}
+
+	RES_TYPE eType = _pResource->GetType();
+	m_pCurResInfoDlg = m_arrResInfoDlg[(UINT)eType];
+
+	if (nullptr == m_pCurResInfoDlg)
+		return;
+
+	m_pTarget = nullptr;
+	m_pCurResInfoDlg->ShowWindow(true);
+
+	// dlg 에 Resource 을 알려준다.
+	m_pCurResInfoDlg->SetResource(_pResource);
+
+
+	CRect rtView, rtDlg;
+	GetClientRect(rtView);
+
+	m_pCurResInfoDlg->GetWindowRect(rtDlg);
+	m_pCurResInfoDlg->SetWindowPos(nullptr, 0, 0, rtView.Width(), rtDlg.Height(), 0);
+
 }
 
 void CComponentView::SetDlgPos()

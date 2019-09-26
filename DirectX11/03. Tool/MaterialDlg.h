@@ -1,0 +1,29 @@
+﻿#pragma once
+#include "ResInfoDlg.h"
+
+// CMaterialDlg 대화 상자
+
+class CMaterialDlg : public CResInfoDlg
+{
+	DECLARE_DYNAMIC(CMaterialDlg)
+
+public:
+	CMaterialDlg(CWnd* pParent = nullptr);   // 표준 생성자입니다.
+	virtual ~CMaterialDlg();
+
+// 대화 상자 데이터입니다.
+#ifdef AFX_DESIGN_TIME
+	enum { IDD = IDD_MTRLDLG };
+#endif
+
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
+
+	DECLARE_MESSAGE_MAP()
+public:
+	void SetResource(CResource* _pRes);
+
+public:
+	CEdit m_editShaderName;
+	afx_msg void OnSelShader();
+};

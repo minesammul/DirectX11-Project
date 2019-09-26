@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "ResourceDlg.h"
 #include "afxdialogex.h"
+#include "ComponentView.h"
+#include "MainFrm.h"
 
 #include <ResMgr.h>
 #include <PathMgr.h>
@@ -210,6 +212,7 @@ BEGIN_MESSAGE_MAP(ResourceDlg, CDialogEx)
 	ON_WM_SIZE()
 	ON_NOTIFY(TVN_BEGINLABELEDIT, IDC_TREE1, &ResourceDlg::OnTvnBeginlabeleditTree1)
 	ON_NOTIFY(TVN_ENDLABELEDIT, IDC_TREE1, &ResourceDlg::OnTvnEndlabeleditTree1)
+	ON_NOTIFY(NM_CLICK, IDC_TREE1, &ResourceDlg::OnNMClickTree1)
 END_MESSAGE_MAP()
 
 
@@ -260,3 +263,62 @@ void ResourceDlg::OnTvnEndlabeleditTree1(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	*pResult = 0;
 }
+
+
+void ResourceDlg::OnNMClickTree1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	//POINT pt;
+	//::GetCursorPos(&pt);
+	//m_ctrlTree.ScreenToClient(&pt);
+
+	//HTREEITEM hTargetItem = m_ctrlTree.HitTest(pt);
+
+	//// 부모아이템은 리소스가 아니기 때문에 예외처리
+	//if (nullptr == m_ctrlTree.GetParentItem(hTargetItem))
+	//{
+	//	pResult = 0;
+	//	return;
+	//}
+
+	//if (nullptr != hTargetItem)
+	//{
+	//	CResource* pResource = (CResource*)m_ctrlTree.GetItemData(hTargetItem);
+
+	//	// ComponentView 에 알린다.
+	//	CComponentView* pComView = (CComponentView*)((CMainFrame*)AfxGetMainWnd())->GetComView();
+	//	pComView->SetResoure(pResource);
+	//}
+
+	POINT pt;
+	::GetCursorPos(&pt);
+	m_ctrlTree.ScreenToClient(&pt);
+
+	HTREEITEM selectItem = m_ctrlTree.HitTest(pt);
+	
+
+	if (selectItem == nullptr)
+	{
+		*pResult = 0;
+		return;
+	}
+
+
+	if (m_ctrlTree.GetParentItem(selectItem) == nullptr)
+	{
+		*pResult = 0;
+		return;
+	}
+
+	CResource* pResource = (CResource*)m_ctrlTree.GetItemData(selectItem);
+
+	// ComponentView 에 알린다.
+	CComponentView* pComView = (CComponentView*)((CMainFrame*)AfxGetMainWnd())->GetComView();
+	pComView->SetResoure(pResource);
+
+
+	*pResult = 0;
+}
+
+
+

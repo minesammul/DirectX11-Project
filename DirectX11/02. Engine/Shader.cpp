@@ -20,6 +20,7 @@ CShader::CShader()
 	, m_pGS	(nullptr)
 	, m_pPS	(nullptr)
 	, m_pBlendState(nullptr)
+	, CResource(RES_TYPE::SHADER)
 {
 }
 

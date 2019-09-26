@@ -45,4 +45,5 @@ public:
 	virtual void PostNcDestroy();
 	afx_msg void OnTvnBeginlabeleditTree1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnTvnEndlabeleditTree1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnNMClickTree1(NMHDR *pNMHDR, LRESULT *pResult);
 };

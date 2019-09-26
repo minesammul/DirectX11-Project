@@ -5,16 +5,27 @@
 #include "ConstBuffer.h"
 #include "PathMgr.h"
 #include "ResMgr.h"
+#include "Core.h"
 
 CMaterial::CMaterial()
 	: m_pShader(nullptr)
 	, m_param{}
 	, m_arrTex{}
+	, CResource(RES_TYPE::MATERIAL)
 {
 }
 
 CMaterial::~CMaterial()
 {
+}
+
+void CMaterial::SetShader(CResPtr<CShader> _pShader)
+{
+	m_pShader = _pShader;
+	if (CCore::GetInst()->GetState() == SCENE_STATE::STOP)
+	{
+		Save();
+	}
 }
 
 void CMaterial::SetData(SHADER_PARAM _eType, void * _pSrc)
@@ -70,10 +81,16 @@ void CMaterial::SetData(SHADER_PARAM _eType, void * _pSrc)
 		assert(nullptr);
 		break;
 	}
+	//Save();
 }
 
 void CMaterial::UpdateData()
 {
+	if (m_pShader == nullptr)
+	{
+		return;
+	}
+
 	m_pShader->UpdateData();
 
 	static CConstBuffer* pConstBuffer = CDevice::GetInst()->FindConstBuffer(L"ShaderParam");

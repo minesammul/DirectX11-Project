@@ -53,6 +53,9 @@
     <Filter Include="04. Dialog\HierachyDlg">
       <UniqueIdentifier>{e375a45a-34e0-4aa0-99f0-fc736cd67b89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Dialog\ResInfoDlg">
+      <UniqueIdentifier>{1b269050-f8f9-4d7d-b4a6-9aaac5b15726}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -118,9 +121,17 @@
     <ClInclude Include="AddAnimFile.h">
       <Filter>04. Dialog\AddAnimDlg</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionLayer.h" />
     <ClInclude Include="ResourceDlg.h">
       <Filter>04. Dialog\HierachyDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="ResInfoDlg.h">
+      <Filter>04. Dialog\ResInfoDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionLayer.h">
+      <Filter>03. View\BtnView</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialDlg.h">
+      <Filter>04. Dialog\ResInfoDlg</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -181,9 +192,17 @@
     <ClCompile Include="AddAnimFile.cpp">
       <Filter>04. Dialog\AddAnimDlg</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionLayer.cpp" />
     <ClCompile Include="ResourceDlg.cpp">
       <Filter>04. Dialog\HierachyDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="ResInfoDlg.cpp">
+      <Filter>04. Dialog\ResInfoDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionLayer.cpp">
+      <Filter>03. View\BtnView</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialDlg.cpp">
+      <Filter>04. Dialog\ResInfoDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
