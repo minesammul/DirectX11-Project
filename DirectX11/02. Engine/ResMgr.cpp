@@ -197,7 +197,7 @@ void CResMgr::CreateDefaultShader()
 	pShader->CreateVertexShader(L"Shader\\std.fx", "VS_Collider2D", 5, 0);
 	pShader->CreatePixelShader(L"Shader\\std.fx", "PS_Collider2D", 5, 0);
 
-	pShader->AddParam(SHADER_PARAM::INT_0, L"Collision Check");
+	pShader->AddParam(SHADER_PARAM::INT_0, L"Collision Check", false);
 
 
 	strKey = L"Collider2DShader";

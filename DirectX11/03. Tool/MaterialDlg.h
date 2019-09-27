@@ -22,8 +22,12 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	void SetResource(CResource* _pRes);
+	BOOL OnInitDialog();
 
 public:
 	CEdit m_editShaderName;
 	afx_msg void OnSelShader();
+	CListBox listShaderParameterType;
+	CListCtrl listctrlShaderParameterValue;
+	afx_msg void OnLbnSelchangeList1();
 };

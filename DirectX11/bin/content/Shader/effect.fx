@@ -5,7 +5,6 @@
 
 // ========================
 // 2DShadow Shader
-// g_tex_0 : Origin Texture
 // Alpablending
 // 반드시 RectMesh 로 호출되어야 함
 // ========================

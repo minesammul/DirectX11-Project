@@ -7,6 +7,7 @@ struct tPramInfo
 {
 	SHADER_PARAM eType;
 	wchar_t		 szName[50];
+	bool		 m_bAccess;
 };
 
 class CShader :
@@ -52,14 +53,16 @@ public:
 	void CreatePixelShader(const wstring& _strFilePath, const string& _strFuncName, UINT _iHigh, UINT _iLow);
 	void UpdateData();
 
-	void AddParam(SHADER_PARAM _eType, const wstring& _strMean)
+	void AddParam(SHADER_PARAM _eType, const wstring& _strMean, bool _bAccess = true)
 	{
 		tPramInfo param;
 		param.eType = _eType;
+		param.m_bAccess = _bAccess;
 		wcscpy_s(param.szName, 50, _strMean.c_str());		
 		m_vecParam.push_back(param);
 	}
 
+	const vector<tPramInfo>& GetParamInfo() { return 	m_vecParam; }
 public:
 	CShader();
 	virtual ~CShader();

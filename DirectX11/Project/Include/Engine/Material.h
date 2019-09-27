@@ -16,6 +16,7 @@ public:
 	CResPtr<CShader> GetShader() { return m_pShader; }
 	void SetShader(CResPtr<CShader> _pShader);
 	void SetData(SHADER_PARAM _eType, void* _pSrc);
+	tShaderParam GetParamData() { return m_param; }
 
 public:
 	void UpdateData();
