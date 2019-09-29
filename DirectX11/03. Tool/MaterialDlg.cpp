@@ -57,8 +57,8 @@ void CMaterialDlg::SetResource(CResource * _pRes)
 BOOL CMaterialDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-	listctrlShaderParameterValue.InsertColumn(0, L"Parameter", LVCFMT_CENTER, 65);
-	listctrlShaderParameterValue.InsertColumn(1, L"Value", LVCFMT_CENTER, 50);
+	listctrlShaderParameterValue.InsertColumn(0, L"Value", LVCFMT_CENTER, 50);
+	listctrlShaderParameterValue.InsertColumn(1, L"Parameter", LVCFMT_CENTER, 65);
 	return 0;
 }
 
@@ -66,6 +66,8 @@ BOOL CMaterialDlg::OnInitDialog()
 BEGIN_MESSAGE_MAP(CMaterialDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON1, &CMaterialDlg::OnSelShader)
 	ON_LBN_SELCHANGE(IDC_LIST1, &CMaterialDlg::OnLbnSelchangeList1)
+ON_NOTIFY(NM_CLICK, IDC_LIST2, &CMaterialDlg::OnNMClickList2)
+ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST2, &CMaterialDlg::OnLvnEndlabeleditList2)
 END_MESSAGE_MAP()
 
 
@@ -108,7 +110,7 @@ void CMaterialDlg::OnSelShader()
 void CMaterialDlg::OnLbnSelchangeList1()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-
+	   
 	int selectIndex = listShaderParameterType.GetCurSel();
 
 	if (selectIndex == -1)
@@ -229,23 +231,6 @@ void CMaterialDlg::OnLbnSelchangeList1()
 		break;
 	}
 
-	for (int index = 0; index < paramterValueCount; index++)
-	{
-		CString inputParameterName = parameterName;
-		CString inputParameterNumber;
-
-		int digits10 = 0;
-		int digits1 = 0;
-		if (index != 0)
-		{
-			digits10 = (index) / 4;
-			digits1 = (index - (digits10*4)) % 4;
-		}
-
-		inputParameterNumber.Format(L" %d%d", digits10, digits1);
-		inputParameterName += inputParameterNumber;
-		listctrlShaderParameterValue.InsertItem(index, inputParameterName);
-	}
 
 	if (isFloat == true)
 	{
@@ -310,13 +295,12 @@ void CMaterialDlg::OnLbnSelchangeList1()
 			break;
 		}
 
-
-
 		for (int index = 0; index < inputShaderParameterValue.size(); index++)
 		{
 			CString inputShaderParameterValueStr;
 
-			listctrlShaderParameterValue.SetItemText(index, 1, inputShaderParameterValueStr);
+			//listctrlShaderParameterValue.SetItemText(index, 1, inputShaderParameterValueStr);
+			listctrlShaderParameterValue.InsertItem(index, inputShaderParameterValueStr);
 		}
 	}
 	else
@@ -324,8 +308,167 @@ void CMaterialDlg::OnLbnSelchangeList1()
 		int iIdx = (UINT)selectParameterData.eType - (UINT)SHADER_PARAM::INT_0;
 		CString inputShaderParameterValueStr;
 		inputShaderParameterValueStr.Format(L"%d", ((CMaterial*)CResInfoDlg::GetRes())->GetParamData().arrInt[iIdx]);
-		listctrlShaderParameterValue.SetItemText(0, 1, inputShaderParameterValueStr);
+		//listctrlShaderParameterValue.SetItemText(0, 1, inputShaderParameterValueStr);
+		listctrlShaderParameterValue.InsertItem(0, inputShaderParameterValueStr);
 	}
+
+	//
+	for (int index = 0; index < paramterValueCount; index++)
+	{
+		CString inputParameterName = parameterName;
+		CString inputParameterNumber;
+
+		int digits10 = 0;
+		int digits1 = 0;
+		if (index != 0)
+		{
+			digits10 = (index) / 4;
+			digits1 = (index - (digits10*4)) % 4;
+		}
+
+		inputParameterNumber.Format(L" %d%d", digits10, digits1);
+		inputParameterName += inputParameterNumber;
+		listctrlShaderParameterValue.SetItemText(index, 1, inputParameterName);
+	}
+
 	
-	
+}
+
+
+void CMaterialDlg::OnNMClickList2(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	LVHITTESTINFO hitItem;
+	hitItem.pt = pNMItemActivate->ptAction;
+	listctrlShaderParameterValue.HitTest(&hitItem);
+	if (hitItem.iItem != -1)
+	{
+		listctrlShaderParameterValue.EditLabel(hitItem.iItem);
+	}
+	*pResult = 0;
+}
+
+
+
+void CMaterialDlg::OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	NMLVDISPINFO *pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	int selectIndex = listShaderParameterType.GetCurSel();
+
+	if (selectIndex == -1)
+	{
+		return;
+	}
+
+	CString selectItemName;
+	listShaderParameterType.GetText(selectIndex, selectItemName);
+
+	CResPtr<CShader> pShader = ((CMaterial*)CResInfoDlg::GetRes())->GetShader();
+	vector<tPramInfo> selectParameter = pShader->GetParamInfo();
+	tPramInfo selectParameterData;
+	for (int index = 0; index < selectParameter.size(); index++)
+	{
+		if (selectItemName.Compare(selectParameter[index].szName) == 0)
+		{
+			selectParameterData = selectParameter[index];
+			break;
+		}
+	}
+
+
+	CString strInputData;
+	listctrlShaderParameterValue.GetEditControl()->GetWindowTextW(strInputData);
+
+	switch (selectParameterData.eType)
+	{
+	case SHADER_PARAM::INT_0:
+	case SHADER_PARAM::INT_1:
+	case SHADER_PARAM::INT_2:
+	case SHADER_PARAM::INT_3:
+	{
+		int inputData = _wtoi(strInputData);
+		((CMaterial*)CResInfoDlg::GetRes())->SetData(selectParameterData.eType, &inputData);
+	}
+		break;
+	case SHADER_PARAM::FLOAT_0:
+	case SHADER_PARAM::FLOAT_1:
+	case SHADER_PARAM::FLOAT_2:
+	case SHADER_PARAM::FLOAT_3:
+	{
+		float inputData = _wtof(strInputData);
+		((CMaterial*)CResInfoDlg::GetRes())->SetData(selectParameterData.eType, &inputData);
+	}
+		break;
+	case SHADER_PARAM::VEC2_0:
+	case SHADER_PARAM::VEC2_1:
+	case SHADER_PARAM::VEC2_2:
+	case SHADER_PARAM::VEC2_3:
+	{
+		tShaderParam paramData = ((CMaterial*)CResInfoDlg::GetRes())->GetParamData();
+		Vec2 inputData = paramData.arrVec2[(UINT)selectParameterData.eType - (UINT)SHADER_PARAM::VEC2_0];
+
+		if (selectIndex == 0)
+		{
+			inputData.x = _wtof(strInputData);
+		}
+		else
+		{
+			inputData.y = _wtof(strInputData);
+		}
+
+		((CMaterial*)CResInfoDlg::GetRes())->SetData(selectParameterData.eType, &inputData);
+	}
+		break;
+	case SHADER_PARAM::VEC4_0:
+	case SHADER_PARAM::VEC4_1:
+	case SHADER_PARAM::VEC4_2:
+	{
+		tShaderParam paramData = ((CMaterial*)CResInfoDlg::GetRes())->GetParamData();
+		Vec4 inputData = paramData.arrVec4[(UINT)selectParameterData.eType - (UINT)SHADER_PARAM::VEC4_0];
+
+		if (selectIndex == 0)
+		{
+			inputData.x = _wtof(strInputData);
+		}
+		else if(selectIndex == 1)
+		{
+			inputData.y = _wtof(strInputData);
+		}
+		else if (selectIndex == 2)
+		{
+			inputData.z = _wtof(strInputData);
+		}
+		else if (selectIndex == 3)
+		{
+			inputData.w = _wtof(strInputData);
+		}
+
+		((CMaterial*)CResInfoDlg::GetRes())->SetData(selectParameterData.eType, &inputData);
+	}
+		break;
+	case SHADER_PARAM::MAT_0:
+	case SHADER_PARAM::MAT_1:
+	case SHADER_PARAM::MAT_2:
+	case SHADER_PARAM::MAT_3:
+	{
+		tShaderParam paramData = ((CMaterial*)CResInfoDlg::GetRes())->GetParamData();
+		Matrix inputData = paramData.arrMat[(UINT)selectParameterData.eType - (UINT)SHADER_PARAM::MAT_0];
+
+		int digit10 = 0;
+		if (selectIndex != 0)
+		{
+			int digit10 = selectIndex / 4;
+		}
+		int digit1 = selectIndex % 4;
+
+		inputData.m[digit10][digit1];
+
+		((CMaterial*)CResInfoDlg::GetRes())->SetData(selectParameterData.eType, &inputData);
+	}
+		break;
+	}
+
+	OnLbnSelchangeList1();
+	*pResult = 0;
 }

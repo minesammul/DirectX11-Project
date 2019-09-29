@@ -30,4 +30,6 @@ public:
 	CListBox listShaderParameterType;
 	CListCtrl listctrlShaderParameterValue;
 	afx_msg void OnLbnSelchangeList1();
+	afx_msg void OnNMClickList2(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult);
 };
