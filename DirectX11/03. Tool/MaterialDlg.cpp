@@ -466,7 +466,7 @@ void CMaterialDlg::OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult)
 		}
 		int digit1 = selectParameterValueIndex % 4;
 
-		inputData.m[digit10][digit1];
+		inputData.m[digit10][digit1] = _wtof(strInputData);
 
 		((CMaterial*)CResInfoDlg::GetRes())->SetData(selectParameterData.eType, &inputData);
 	}

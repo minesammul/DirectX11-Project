@@ -125,11 +125,20 @@ PS_OUT PS_Std2D(VTX_TEX_OUTPUT _input)
     {
         output.vOutCol = g_tex_0.Sample(g_sam_0, _input.vUV);
     }      
-        
+    
+    //dgkim Start
+    //Shader Parameter test ¿ëµµ
     if (g_vec4_0.z == 3.f)
     {
         output.vOutCol = float4(1.f, 0.f, 0.f, 1.f);
     }
+
+    if (g_mat_0._11 == 3.f)
+    {
+        output.vOutCol = float4(0.f, 0.f, 1.f, 1.f);
+    }
+    //dgkim End
+
     return output;
 }
 
