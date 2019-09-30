@@ -298,7 +298,7 @@ void CMaterialDlg::OnLbnSelchangeList1()
 		for (int index = 0; index < inputShaderParameterValue.size(); index++)
 		{
 			CString inputShaderParameterValueStr;
-
+			inputShaderParameterValueStr.Format(L"%f", inputShaderParameterValue[index]);
 			//listctrlShaderParameterValue.SetItemText(index, 1, inputShaderParameterValueStr);
 			listctrlShaderParameterValue.InsertItem(index, inputShaderParameterValueStr);
 		}
@@ -380,6 +380,9 @@ void CMaterialDlg::OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult)
 	CString strInputData;
 	listctrlShaderParameterValue.GetEditControl()->GetWindowTextW(strInputData);
 
+	int selectParameterValueIndex = pDispInfo->item.iItem;
+
+
 	switch (selectParameterData.eType)
 	{
 	case SHADER_PARAM::INT_0:
@@ -408,7 +411,7 @@ void CMaterialDlg::OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult)
 		tShaderParam paramData = ((CMaterial*)CResInfoDlg::GetRes())->GetParamData();
 		Vec2 inputData = paramData.arrVec2[(UINT)selectParameterData.eType - (UINT)SHADER_PARAM::VEC2_0];
 
-		if (selectIndex == 0)
+		if (selectParameterValueIndex == 0)
 		{
 			inputData.x = _wtof(strInputData);
 		}
@@ -423,23 +426,24 @@ void CMaterialDlg::OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult)
 	case SHADER_PARAM::VEC4_0:
 	case SHADER_PARAM::VEC4_1:
 	case SHADER_PARAM::VEC4_2:
+	case SHADER_PARAM::VEC4_3:
 	{
 		tShaderParam paramData = ((CMaterial*)CResInfoDlg::GetRes())->GetParamData();
 		Vec4 inputData = paramData.arrVec4[(UINT)selectParameterData.eType - (UINT)SHADER_PARAM::VEC4_0];
 
-		if (selectIndex == 0)
+		if (selectParameterValueIndex == 0)
 		{
 			inputData.x = _wtof(strInputData);
 		}
-		else if(selectIndex == 1)
+		else if(selectParameterValueIndex == 1)
 		{
 			inputData.y = _wtof(strInputData);
 		}
-		else if (selectIndex == 2)
+		else if (selectParameterValueIndex == 2)
 		{
 			inputData.z = _wtof(strInputData);
 		}
-		else if (selectIndex == 3)
+		else if (selectParameterValueIndex == 3)
 		{
 			inputData.w = _wtof(strInputData);
 		}
@@ -456,11 +460,11 @@ void CMaterialDlg::OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult)
 		Matrix inputData = paramData.arrMat[(UINT)selectParameterData.eType - (UINT)SHADER_PARAM::MAT_0];
 
 		int digit10 = 0;
-		if (selectIndex != 0)
+		if (selectParameterValueIndex != 0)
 		{
-			int digit10 = selectIndex / 4;
+			int digit10 = selectParameterValueIndex / 4;
 		}
-		int digit1 = selectIndex % 4;
+		int digit1 = selectParameterValueIndex % 4;
 
 		inputData.m[digit10][digit1];
 

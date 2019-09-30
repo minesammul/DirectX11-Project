@@ -81,7 +81,11 @@ void CMaterial::SetData(SHADER_PARAM _eType, void * _pSrc)
 		assert(nullptr);
 		break;
 	}
-	//Save();
+
+	/*if (CCore::GetInst()->GetState() == SCENE_STATE::STOP)
+	{
+		Save();
+	}*/
 }
 
 void CMaterial::UpdateData()

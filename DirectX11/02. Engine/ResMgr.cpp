@@ -229,6 +229,7 @@ void CResMgr::CreateDefaultShader()
 
 	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
 	pShader->AddParam(SHADER_PARAM::TEX_0, L"Output Image");
+	pShader->AddParam(SHADER_PARAM::VEC4_0, L"test vec4_0");
 
 	strKey = L"Std2DShader";
 	pShader->SetName(strKey);

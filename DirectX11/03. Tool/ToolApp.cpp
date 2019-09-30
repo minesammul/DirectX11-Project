@@ -255,8 +255,11 @@ void CToolApp::CreateTestScene()
 	CCollisionMgr::GetInst()->CollisionCheck(L"Default", L"Player");
 	CCollisionMgr::GetInst()->CollisionCheck(L"Default", L"Monster");
 
-	pCurScene->awake();
-	pCurScene->start();
+	if (CCore::GetInst()->GetState() == SCENE_STATE::PLAY)
+	{
+		pCurScene->awake();
+		pCurScene->start();
+	}
 }
 
 // CToolApp 메시지 처리기
