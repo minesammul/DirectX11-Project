@@ -21,6 +21,7 @@ void SaveWString(const wchar_t* _pStr, FILE * _pFile)
 wchar_t* LoadWString(FILE * _pFile)
 {
 	static wchar_t szBuffer[255] = {};
+	wmemset(szBuffer, L'\0', 255);
 
 	int iLen = 0;
 	fread(&iLen, sizeof(int), 1, _pFile);
