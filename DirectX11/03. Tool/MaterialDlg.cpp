@@ -28,6 +28,8 @@ void CMaterialDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT1, m_editShaderName);
 	DDX_Control(pDX, IDC_LIST1, listShaderParameterType);
 	DDX_Control(pDX, IDC_LIST2, listctrlShaderParameterValue);
+	DDX_Control(pDX, IDC_LIST3, listctrlShaderTextureParameter);
+	DDX_Control(pDX, IDC_EDIT2, editShaderTextureValue);
 }
 
 void CMaterialDlg::SetResource(CResource * _pRes)
@@ -44,12 +46,50 @@ void CMaterialDlg::SetResource(CResource * _pRes)
 	listShaderParameterType.ResetContent();
 	
 	listctrlShaderParameterValue.DeleteAllItems();
+	listctrlShaderTextureParameter.DeleteAllItems();
+	editShaderTextureValue.SetWindowTextW(L"");
 
 	vector<tPramInfo> shaderParameterData = pShader->GetParamInfo();
 	int searchTypeCount = shaderParameterData.size();
+	int insertListShaderTextureIndex = 0;
+	int insertListShaderParameterIndex = 0;
 	for (int index = 0; index < searchTypeCount; index++)
 	{
-		listShaderParameterType.InsertString(index, shaderParameterData[index].szName);
+		if (shaderParameterData[index].eType == SHADER_PARAM::TEX_0 ||
+			shaderParameterData[index].eType == SHADER_PARAM::TEX_1 ||
+			shaderParameterData[index].eType == SHADER_PARAM::TEX_2 ||
+			shaderParameterData[index].eType == SHADER_PARAM::TEX_3
+			)
+		{
+			CString inputTextureStr;
+			inputTextureStr.Format(L"%s", shaderParameterData[index].szName);
+			listctrlShaderTextureParameter.InsertItem(insertListShaderTextureIndex, inputTextureStr);
+
+			
+			switch (shaderParameterData[index].eType)
+			{
+			case SHADER_PARAM::TEX_0:
+				inputTextureStr = L"TEX_0";
+				break;
+			case SHADER_PARAM::TEX_1:
+				inputTextureStr = L"TEX_1";
+				break;
+			case SHADER_PARAM::TEX_2:
+				inputTextureStr = L"TEX_2";
+				break;
+			case SHADER_PARAM::TEX_3:
+				inputTextureStr = L"TEX_3";
+				break;
+			}
+
+			listctrlShaderTextureParameter.SetItemText(insertListShaderTextureIndex, 1, inputTextureStr);
+			
+			insertListShaderTextureIndex++;
+			continue;
+		}
+
+		listShaderParameterType.InsertString(insertListShaderParameterIndex, shaderParameterData[index].szName);
+		insertListShaderParameterIndex++;
 	}
 
 }
@@ -59,6 +99,9 @@ BOOL CMaterialDlg::OnInitDialog()
 	CDialogEx::OnInitDialog();
 	listctrlShaderParameterValue.InsertColumn(0, L"Value", LVCFMT_CENTER, 50);
 	listctrlShaderParameterValue.InsertColumn(1, L"Parameter", LVCFMT_CENTER, 65);
+
+	listctrlShaderTextureParameter.InsertColumn(0, L"Name", LVCFMT_CENTER, 190);
+	listctrlShaderTextureParameter.InsertColumn(1, L"Parameter", LVCFMT_CENTER, 80);
 	return 0;
 }
 
@@ -68,6 +111,8 @@ BEGIN_MESSAGE_MAP(CMaterialDlg, CDialogEx)
 	ON_LBN_SELCHANGE(IDC_LIST1, &CMaterialDlg::OnLbnSelchangeList1)
 ON_NOTIFY(NM_CLICK, IDC_LIST2, &CMaterialDlg::OnNMClickList2)
 ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST2, &CMaterialDlg::OnLvnEndlabeleditList2)
+ON_NOTIFY(NM_CLICK, IDC_LIST3, &CMaterialDlg::OnNMClickList3)
+ON_BN_CLICKED(IDC_BUTTON3, &CMaterialDlg::OnBnClickedButtonShaderTextureChange)
 END_MESSAGE_MAP()
 
 
@@ -124,7 +169,7 @@ void CMaterialDlg::OnLbnSelchangeList1()
 	CResPtr<CShader> pShader = ((CMaterial*)CResInfoDlg::GetRes())->GetShader();
 	vector<tPramInfo> selectParameter = pShader->GetParamInfo();
 	tPramInfo selectParameterData;
-	for (int index = 0; index < selectParameter.size(); index++)
+	for (UINT index = 0; index < selectParameter.size(); index++)
 	{
 		if (selectItemName.Compare(selectParameter[index].szName) == 0)
 		{
@@ -295,7 +340,7 @@ void CMaterialDlg::OnLbnSelchangeList1()
 			break;
 		}
 
-		for (int index = 0; index < inputShaderParameterValue.size(); index++)
+		for (UINT index = 0; index < inputShaderParameterValue.size(); index++)
 		{
 			CString inputShaderParameterValueStr;
 			inputShaderParameterValueStr.Format(L"%f", inputShaderParameterValue[index]);
@@ -367,7 +412,7 @@ void CMaterialDlg::OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult)
 	CResPtr<CShader> pShader = ((CMaterial*)CResInfoDlg::GetRes())->GetShader();
 	vector<tPramInfo> selectParameter = pShader->GetParamInfo();
 	tPramInfo selectParameterData;
-	for (int index = 0; index < selectParameter.size(); index++)
+	for (UINT index = 0; index < selectParameter.size(); index++)
 	{
 		if (selectItemName.Compare(selectParameter[index].szName) == 0)
 		{
@@ -399,7 +444,7 @@ void CMaterialDlg::OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult)
 	case SHADER_PARAM::FLOAT_2:
 	case SHADER_PARAM::FLOAT_3:
 	{
-		float inputData = _wtof(strInputData);
+		float inputData = static_cast<float>(_wtof(strInputData));
 		((CMaterial*)CResInfoDlg::GetRes())->SetData(selectParameterData.eType, &inputData);
 	}
 		break;
@@ -413,11 +458,12 @@ void CMaterialDlg::OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult)
 
 		if (selectParameterValueIndex == 0)
 		{
-			inputData.x = _wtof(strInputData);
+			
+			inputData.x = static_cast<float>(_wtof(strInputData));
 		}
 		else
 		{
-			inputData.y = _wtof(strInputData);
+			inputData.y = static_cast<float>(_wtof(strInputData));
 		}
 
 		((CMaterial*)CResInfoDlg::GetRes())->SetData(selectParameterData.eType, &inputData);
@@ -433,19 +479,19 @@ void CMaterialDlg::OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult)
 
 		if (selectParameterValueIndex == 0)
 		{
-			inputData.x = _wtof(strInputData);
+			inputData.x = static_cast<float>(_wtof(strInputData));
 		}
 		else if(selectParameterValueIndex == 1)
 		{
-			inputData.y = _wtof(strInputData);
+			inputData.y = static_cast<float>(_wtof(strInputData));
 		}
 		else if (selectParameterValueIndex == 2)
 		{
-			inputData.z = _wtof(strInputData);
+			inputData.z = static_cast<float>(_wtof(strInputData));
 		}
 		else if (selectParameterValueIndex == 3)
 		{
-			inputData.w = _wtof(strInputData);
+			inputData.w = static_cast<float>(_wtof(strInputData));
 		}
 
 		((CMaterial*)CResInfoDlg::GetRes())->SetData(selectParameterData.eType, &inputData);
@@ -466,7 +512,7 @@ void CMaterialDlg::OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult)
 		}
 		int digit1 = selectParameterValueIndex % 4;
 
-		inputData.m[digit10][digit1] = _wtof(strInputData);
+		inputData.m[digit10][digit1] = static_cast<float>(_wtof(strInputData));
 
 		((CMaterial*)CResInfoDlg::GetRes())->SetData(selectParameterData.eType, &inputData);
 	}
@@ -475,4 +521,53 @@ void CMaterialDlg::OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult)
 
 	OnLbnSelchangeList1();
 	*pResult = 0;
+}
+
+
+void CMaterialDlg::OnNMClickList3(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	LVHITTESTINFO hitItem;
+	hitItem.pt = pNMItemActivate->ptAction;
+	listctrlShaderTextureParameter.HitTest(&hitItem);
+	if (hitItem.iItem != -1)
+	{
+		CString inputStr;
+		CResPtr<CTexture>* m_arrTexParam = ((CMaterial*)CResInfoDlg::GetRes())->GetTexData();
+		inputStr = m_arrTexParam[hitItem.iItem]->GetName().c_str();
+		editShaderTextureValue.SetWindowTextW(inputStr);
+	}
+
+	*pResult = 0;
+}
+
+
+void CMaterialDlg::OnBnClickedButtonShaderTextureChange()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	const map<wstring, CResource*>& mapRes = CResMgr::GetInst()->GetResources(RES_TYPE::TEXTURE);
+
+	vector<CString> vecFileName;
+	vector<CString> vecResName;
+
+	for (const auto& pair : mapRes)
+	{
+		vecFileName.push_back(CPathMgr::GetFileName(pair.second->GetName().c_str()));
+		vecResName.push_back(pair.second->GetName().c_str());
+	}
+
+	CListDlg dlg(L"Texture", vecResName);
+	int iRet = dlg.DoModal();
+
+	if (IDOK == iRet)
+	{
+		CString strSelect = dlg.GetSelectItem();
+		CResPtr<CTexture> pTexture = CResMgr::GetInst()->FindRes<CTexture>(strSelect.GetBuffer());
+
+		listctrlShaderTextureParameter.GetSelectionMark();
+		SHADER_PARAM eType = (SHADER_PARAM)(listctrlShaderTextureParameter.GetSelectionMark() + (int)SHADER_PARAM::TEX_0);
+		((CMaterial*)CResInfoDlg::GetRes())->SetData(eType, &pTexture);
+
+		editShaderTextureValue.SetWindowTextW(strSelect);
+	}
 }

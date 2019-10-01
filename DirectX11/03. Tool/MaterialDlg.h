@@ -32,4 +32,8 @@ public:
 	afx_msg void OnLbnSelchangeList1();
 	afx_msg void OnNMClickList2(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult);
+	CListCtrl listctrlShaderTextureParameter;
+	CEdit editShaderTextureValue;
+	afx_msg void OnNMClickList3(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnBnClickedButtonShaderTextureChange();
 };

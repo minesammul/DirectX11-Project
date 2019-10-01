@@ -17,6 +17,7 @@ public:
 	void SetShader(CResPtr<CShader> _pShader);
 	void SetData(SHADER_PARAM _eType, void* _pSrc);
 	tShaderParam GetParamData() { return m_param; }
+	CResPtr<CTexture>* GetTexData() { return m_arrTex; }
 
 public:
 	void UpdateData();

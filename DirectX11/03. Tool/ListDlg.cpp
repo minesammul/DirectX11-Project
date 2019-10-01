@@ -41,6 +41,9 @@ BOOL CListDlg::OnInitDialog()
 
 	SetWindowTextW(m_strCaption);
 
+	CRect listctrlRect;
+	GetClientRect(&listctrlRect);
+	m_ctrl.InsertColumn(0, L"No Show",0, listctrlRect.Width());
 	// 리스트 컨트롤에 목록 채우기
 	for (UINT i = 0; i < m_vecList.size(); ++i)
 	{
