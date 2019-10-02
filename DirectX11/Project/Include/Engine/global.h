@@ -31,3 +31,6 @@ using namespace std;
 extern tTransform g_transform;
 extern tAnim2D g_anim2d;
 extern tGlobalValue g_global;
+
+// 숙제.
+// - 플레이어 Animation 에 그림자 만들기

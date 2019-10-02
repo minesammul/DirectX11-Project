@@ -34,6 +34,8 @@ public:
 	template<typename T>
 	void AddRes(const wstring& _strKey, CResPtr<T> _pResource);
 
+	void AddRes(RES_TYPE _eType, CResource* _pResource);
+
 	template<typename T>
 	void AddCloneRes(CResPtr<T> _pResource);
 
@@ -146,6 +148,8 @@ inline CResPtr<T> CResMgr::Load(const wstring & _strKey, const wstring & _strPat
 	CResPtr<T> pRes = FindRes<T>(_strKey);
 	if (nullptr != pRes)
 	{
+		// 중복키 문제
+		assert(nullptr);
 	}
 
 	T* pResource = new T;

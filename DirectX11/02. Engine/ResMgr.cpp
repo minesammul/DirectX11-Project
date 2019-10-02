@@ -286,3 +286,13 @@ void CResMgr::CreateDefaultMaterial()
 
 	CCollider2D::CreateMaterial();
 }
+
+void CResMgr::AddRes(RES_TYPE _eType, CResource * _pResource)
+{
+	map<wstring, CResource*>::iterator iter = m_mapRes[(UINT)_eType].find(_pResource->GetName());
+
+	if (iter != m_mapRes[(UINT)_eType].end())
+		return;
+
+	m_mapRes[(UINT)_eType].insert(make_pair(_pResource->GetName(), _pResource));
+}

@@ -187,3 +187,19 @@ void CMaterial::Save()
 
 	fclose(pFile);
 }
+
+bool CMaterial::LoadFromScene(FILE * _pFile)
+{
+	CResource::LoadFromScene(_pFile);
+
+	// 키값, 경로
+	CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(GetName());
+
+	if (nullptr != pMtrl)
+		return false;
+
+	wstring strPath = CPathMgr::GetResPath();
+	strPath += GetPath();
+
+	Load(strPath);
+}

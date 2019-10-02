@@ -1,1 +1,7 @@
 *.ipch
+*.tlog
+*.obj
+*.pdb
+*.idb
+*.pch
+*.log

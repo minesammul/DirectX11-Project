@@ -30,6 +30,9 @@
     <ClInclude Include="MonsterScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="SaveLoadMgr.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -47,6 +50,9 @@
     </ClCompile>
     <ClCompile Include="MonsterScript.cpp">
       <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveLoadMgr.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

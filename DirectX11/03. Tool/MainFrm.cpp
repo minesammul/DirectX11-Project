@@ -15,6 +15,7 @@
 
 #include <ResMgr.h>
 #include <Material.h>
+#include <SaveLoadMgr.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -28,6 +29,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_SETFOCUS()
 	ON_COMMAND(ID_RESOURCE_NEWMATERIAL, &CMainFrame::OnResourceNewmaterialCreate)
+	ON_COMMAND(ID_32773, &CMainFrame::OnSaveScene)
+	ON_COMMAND(ID_32774, &CMainFrame::OnLoadScene)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -170,4 +173,55 @@ void CMainFrame::OnResourceNewmaterialCreate()
 	pView->GetResDlg()->Renew();
 
 	pMtrl->Save();
+}
+
+
+void CMainFrame::OnSaveScene()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	static wchar_t szFilter[] = L"Scene 파일(*.scene) | *.scene |모든파일(*.*)|*.*||";
+
+	CFileDialog dlg(FALSE, nullptr, nullptr, OFN_HIDEREADONLY, szFilter);
+
+	CString strInitPath = CPathMgr::GetResPath();
+	strInitPath += L"Scene\\";
+	dlg.m_ofn.lpstrInitialDir = strInitPath;
+
+	CString pathName;
+	INT_PTR clickResult = dlg.DoModal();
+	if (IDOK == clickResult)
+	{
+		pathName = dlg.GetPathName();
+	}
+	else if (IDCANCEL == clickResult)
+	{
+		return;
+	}
+
+	CSaveLoadMgr::SaveScene(pathName.GetBuffer());
+}
+
+
+void CMainFrame::OnLoadScene()
+{
+	static wchar_t szFilter[] = L"Scene 파일(*.scene) | *.scene |모든파일(*.*)|*.*||";
+
+	CFileDialog dlg(TRUE, nullptr, nullptr, OFN_HIDEREADONLY, szFilter);
+
+	CString strInitPath = CPathMgr::GetResPath();
+	strInitPath += L"Scene\\";
+	dlg.m_ofn.lpstrInitialDir = strInitPath;
+
+	CString pathName;
+	INT_PTR clickResult = dlg.DoModal();
+	if (IDOK == clickResult)
+	{
+		pathName = dlg.GetPathName();
+	}
+	else if (IDCANCEL == clickResult)
+	{
+		return;
+	}
+
+	CSaveLoadMgr::LoadScene(pathName.GetBuffer());
 }

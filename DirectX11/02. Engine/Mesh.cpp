@@ -3,6 +3,7 @@
 
 #include "Device.h"
 #include "Shader.h"
+#include "ResMgr.h"
 
 CMesh::CMesh()
 	: m_pVB(nullptr)
@@ -139,4 +140,21 @@ void CMesh::render()
 	CONTEXT->IASetInputLayout(m_pLayout);
 
 	CONTEXT->DrawIndexed(m_iIdxCount, 0, 0);
+}
+
+bool CMesh::LoadFromScene(FILE * _pFile)
+{
+	CResource::LoadFromScene(_pFile);
+
+	// 키값, 경로
+	CResPtr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(GetName());
+
+	if (nullptr != pMesh)
+		return false;
+
+	wstring strPath = CPathMgr::GetResPath();
+	strPath += GetPath();
+	Load(strPath);
+
+	return false;
 }

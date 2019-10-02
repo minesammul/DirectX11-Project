@@ -40,6 +40,8 @@ public:
 	void SetLayout(CResPtr<CShader> _pShader);
 	void render();
 
+	virtual bool LoadFromScene(FILE* _pFile);
+
 public:
 	CMesh();
 	virtual ~CMesh();

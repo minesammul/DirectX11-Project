@@ -112,7 +112,7 @@
 call ScriptCopy.bat</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>cd $(SolutionDir)\bin\
+      <Command>cd $(SolutionDir)bin\
 call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -195,6 +195,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="HilightScript.h" />
     <ClInclude Include="MonsterScript.h" />
     <ClInclude Include="PlayerScript.h" />
+    <ClInclude Include="SaveLoadMgr.h" />
     <ClInclude Include="ScriptMgr.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -204,6 +205,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="HilightScript.cpp" />
     <ClCompile Include="MonsterScript.cpp" />
     <ClCompile Include="PlayerScript.cpp" />
+    <ClCompile Include="SaveLoadMgr.cpp" />
     <ClCompile Include="ScriptMgr.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -17,6 +17,8 @@ public:
 public:
 	virtual void Load(const wstring& _strFilePath) {};
 	virtual void Save() {};
+	virtual void SaveToScene(FILE* _pFile);
+	virtual bool LoadFromScene(FILE* _pFile);
 
 private:
 	void AddRef() { ++m_iRefCount; }

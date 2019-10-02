@@ -34,6 +34,8 @@ public:
 	template<typename T>
 	void AddRes(const wstring& _strKey, CResPtr<T> _pResource);
 
+	void AddRes(RES_TYPE _eType, CResource* _pResource);
+
 	template<typename T>
 	void AddCloneRes(CResPtr<T> _pResource);
 

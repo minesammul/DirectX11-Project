@@ -25,6 +25,8 @@ public:
 public:
 	virtual void Load(const wstring& _strFilePath);
 	virtual void Save();
+	virtual bool LoadFromScene(FILE* _pFile);
+
 	CLONE(CMaterial);
 
 public:
