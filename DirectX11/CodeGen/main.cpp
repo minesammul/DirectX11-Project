@@ -27,7 +27,8 @@ int main()
 		if (wcscmp(tData.cFileName, L"stdafx.h")
 			&& wcscmp(tData.cFileName, L"ScriptMgr.h")
 			&& wcscmp(tData.cFileName, L"targetver.h")
-			&& wcscmp(tData.cFileName, L"STScript.h"))
+			&& wcscmp(tData.cFileName, L"STScript.h")
+			&& wcscmp(tData.cFileName, L"SaveLoadMgr.h"))
 		{
 			g_vecName.push_back(wstring(tData.cFileName).substr(0, wcslen(tData.cFileName) - 2));
 		}
