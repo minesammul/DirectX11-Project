@@ -43,6 +43,8 @@ void CGameObjectDlg::init()
 {
 	// Scene 에서 GameObject 정보를 가져와서
 	// TreeControl 에 추가한다.
+	m_ctrlTree.DeleteAllItems();
+
 	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
 
 	for (UINT i = 0; i < MAX_LAYER; ++i)

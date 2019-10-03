@@ -186,3 +186,21 @@ CGameObject * CScene::FindGameObject(const wstring & _strName, vector<CGameObjec
 
 	return nullptr;
 }
+
+bool CScene::IsExistGameObjectName(const wstring & _strName)
+{
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		if (nullptr == m_arrLayer[i])
+			continue;
+
+		for (UINT j = 0; j < m_arrLayer[i]->m_vecParentObj.size(); ++j)
+		{
+			if (m_arrLayer[i]->m_vecParentObj[j]->GetName().compare(_strName)==0)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}

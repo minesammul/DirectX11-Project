@@ -16,6 +16,13 @@
 #include <ResMgr.h>
 #include <Material.h>
 #include <SaveLoadMgr.h>
+#include <GameObject.h>
+#include <Scene.h>
+#include <SceneMgr.h>
+#include <Transform.h>
+#include <MeshRender.h>
+#include <Animator2D.h>
+#include <Collider2D.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -31,6 +38,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_RESOURCE_NEWMATERIAL, &CMainFrame::OnResourceNewmaterialCreate)
 	ON_COMMAND(ID_32773, &CMainFrame::OnSaveScene)
 	ON_COMMAND(ID_32774, &CMainFrame::OnLoadScene)
+	ON_COMMAND(ID_GAMEOBJECT_2DRECT, &CMainFrame::OnGameobject2drect)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -224,4 +232,49 @@ void CMainFrame::OnLoadScene()
 	}
 
 	CSaveLoadMgr::LoadScene(pathName.GetBuffer());
+}
+
+
+void CMainFrame::OnGameobject2drect()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+	CGameObject* newObject = new CGameObject;
+
+	CString newObjectName;
+	int newObjectNumber = 0;
+	while (true)
+	{
+		newObjectName.Format(L"2DRect_%d", newObjectNumber);
+		if (pCurScene->IsExistGameObjectName(newObjectName.GetBuffer()) == true)
+		{
+			newObjectNumber++;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	newObject->SetName(newObjectName.GetBuffer());
+
+	CTransform* pTransform = new CTransform;
+	CMeshRender* pMeshRender = new CMeshRender;
+	CCollider2D* pCollider2D = new CCollider2D;
+	CAnimator2D* pAnimator2D = new CAnimator2D;
+
+	pTransform->SetLocalPos(Vec3(0.f, 0.f, 500.f));
+	pTransform->SetLocalScale(Vec3(100.f, 100.f, 1.f));
+	pTransform->SetLocalRot(Vec3(0.f, 0.f, 0.f));
+
+	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
+
+	newObject->AddComponent(pTransform);
+	newObject->AddComponent(pMeshRender);
+	newObject->AddComponent(pCollider2D);
+
+	pCurScene->AddObject(L"Default", newObject);
+
+	((CHierachyView*)GetHierachyView())->init_object();
 }

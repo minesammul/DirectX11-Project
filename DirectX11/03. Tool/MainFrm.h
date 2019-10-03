@@ -61,6 +61,7 @@ public:
 	afx_msg void OnResourceNewmaterialCreate();
 	afx_msg void OnSaveScene();
 	afx_msg void OnLoadScene();
+	afx_msg void OnGameobject2drect();
 };
 
 
