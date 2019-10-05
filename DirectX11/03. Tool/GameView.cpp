@@ -3,7 +3,9 @@
 
 #include "stdafx.h"
 #include "GameView.h"
-
+#include "MainFrm.h"
+#include "ComponentView.h"
+#include <SceneMgr.h>
 
 // CGameView
 
@@ -58,6 +60,13 @@ void CGameView::OnLButtonDown(UINT nFlags, CPoint point)
 
 	CRect rt;
 	GetClientRect(rt);
+
+	POINT mousePoint;
+	mousePoint.x = point.x;
+	mousePoint.y = point.y;
+	CComponentView* pComView = (CComponentView*)((CMainFrame*)AfxGetMainWnd())->GetComView();
+
+	pComView->SetTarget(CSceneMgr::GetInst()->MousePicking(mousePoint, rt));
 
 	CView::OnLButtonDown(nFlags, point);
 }

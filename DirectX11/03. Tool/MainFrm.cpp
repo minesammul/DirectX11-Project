@@ -23,6 +23,7 @@
 #include <MeshRender.h>
 #include <Animator2D.h>
 #include <Collider2D.h>
+#include <KeyMgr.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

@@ -15,6 +15,8 @@ public:
 	void RegisterCamera(CCamera* _pCam);
 	CScene* GetCurScene() { return m_pCurScene; }
 
+	CGameObject* MousePicking(POINT mousePoint, RECT windowRect);
+
 public:
 	void init();
 	void progress();

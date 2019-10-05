@@ -245,7 +245,7 @@ void CToolApp::CreateTestScene()
 
 		CGameObject* pClone = pChild->Clone();
 		pClone->SetName(szName);
-		pClone->Transform()->SetLocalPos(Vec3(-500.f + 150.f * (float)i, 250.f, 1.f));
+		pClone->Transform()->SetLocalPos(Vec3(-500.f + 150.f * (float)i, 250.f, 500.f));
 		pClone->Transform()->SetLocalScale(Vec3(100.f, 100.f, 1.f));
 		pCurScene->AddObject(L"Monster", pClone);
 	}	

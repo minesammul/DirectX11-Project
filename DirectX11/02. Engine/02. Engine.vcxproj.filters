@@ -180,6 +180,7 @@
     <ClInclude Include="Animation2D.h">
       <Filter>EngineCode\06. Module</Filter>
     </ClInclude>
+    <ClInclude Include="MousePicking.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="func.cpp">
@@ -293,6 +294,7 @@
     <ClCompile Include="Animation2D.cpp">
       <Filter>EngineCode\06. Module</Filter>
     </ClCompile>
+    <ClCompile Include="MousePicking.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="std.fx">

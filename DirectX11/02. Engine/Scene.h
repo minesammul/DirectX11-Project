@@ -35,6 +35,7 @@ public:
 	CGameObject* FindGameObject(const wstring& _strName, vector<CGameObject*>& _vecOut);
 	bool IsExistGameObjectName(const wstring& _strName);
 
+	vector<CCamera*> GetCamera() { return m_vecCam; }
 
 public:
 	CLONE_DISABLE(CScene);
