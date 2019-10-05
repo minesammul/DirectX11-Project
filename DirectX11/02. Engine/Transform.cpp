@@ -52,3 +52,17 @@ void CTransform::UpdateData()
 	pCB->UpdateData();	
 	pCB->SetRegister((UINT)SHADER_TYPE::VERTEX_SHADER);
 }
+
+void CTransform::SaveToScene(FILE * _pFile)
+{
+	fwrite(&m_vLocalPos, sizeof(Vec3), 1, _pFile);
+	fwrite(&m_vLocalScale, sizeof(Vec3), 1, _pFile);
+	fwrite(&m_vLocalRot, sizeof(Vec3), 1, _pFile);
+}
+
+void CTransform::LoadFromScene(FILE * _pFile)
+{
+	fread(&m_vLocalPos, sizeof(Vec3), 1, _pFile);
+	fread(&m_vLocalScale, sizeof(Vec3), 1, _pFile);
+	fread(&m_vLocalRot, sizeof(Vec3), 1, _pFile);
+}

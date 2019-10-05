@@ -59,7 +59,8 @@ public:
 	void UpdateData();
 	void render();
 
-
+	virtual void SaveToScene(FILE* _pFile);
+	virtual void LoadFromScene(FILE* _pFile);
 
 	CLONE(CCollider2D);
 

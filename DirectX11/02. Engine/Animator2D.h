@@ -48,6 +48,8 @@ public:
 	bool IsRepeat() { return m_bRepeat; }
 	void SetRepeat(bool _bTrue) { m_bRepeat = _bTrue; }	
 
+	virtual void SaveToScene(FILE* _pFile);
+	virtual void LoadFromScene(FILE* _pFile);
 public:
 	CLONE(CAnimator2D);
 

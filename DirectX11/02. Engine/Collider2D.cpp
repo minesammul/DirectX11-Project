@@ -169,3 +169,20 @@ void CCollider2D::OnCollisionExit(CCollider2D * _pOther)
 		vecScript[i]->OnCollisionExit(_pOther);
 	}
 }
+
+
+void CCollider2D::SaveToScene(FILE * _pFile)
+{
+	fwrite(&m_vOffset, sizeof(Vec3), 1, _pFile);
+	fwrite(&m_vScale, sizeof(Vec3), 1, _pFile);
+	fwrite(&m_eType, sizeof(UINT), 1, _pFile);
+}
+
+void CCollider2D::LoadFromScene(FILE * _pFile)
+{
+	fread(&m_vOffset, sizeof(Vec3), 1, _pFile);
+	fread(&m_vScale, sizeof(Vec3), 1, _pFile);
+	fread(&m_eType, sizeof(UINT), 1, _pFile);
+
+	SetColliderType(m_eType);
+}

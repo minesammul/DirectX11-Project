@@ -2,6 +2,7 @@
 #include "Texture.h"
 
 #include "Device.h"
+#include "ResMgr.h"
 
 CTexture::CTexture()
 	: m_pSRV(nullptr)
@@ -63,6 +64,21 @@ void CTexture::SetRegisterAll(UINT _iRegister)
 {
 	CONTEXT->VSSetShaderResources(_iRegister, 1, &m_pSRV);
 	CONTEXT->PSSetShaderResources(_iRegister, 1, &m_pSRV);
+}
+
+bool CTexture::LoadFromScene(FILE * _pFile)
+{
+	CResource::LoadFromScene(_pFile);
+
+	CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(GetName().c_str());
+	if (nullptr != pTex)
+		return false;
+
+	wstring strPath = CPathMgr::GetResPath();
+	strPath += GetPath();
+	Load(strPath);
+
+	return true;
 }
 
 void CTexture::ClearRegister(UINT _iRegister, UINT _iShaderType)

@@ -53,3 +53,23 @@ void CCamera::CheckLayer(UINT _iLayerIdx)
 	else
 		m_iLayerCheck |= iCheck;
 }
+
+void CCamera::SaveToScene(FILE * _pFile)
+{
+	fwrite(&m_eType, sizeof(UINT), 1, _pFile);
+	fwrite(&m_fScale, sizeof(float), 1, _pFile);
+	fwrite(&m_fFOV, sizeof(float), 1, _pFile);
+	fwrite(&m_fNear, sizeof(float), 1, _pFile);
+	fwrite(&m_fFar, sizeof(float), 1, _pFile);
+	fwrite(&m_iLayerCheck, sizeof(UINT), 1, _pFile);
+}
+
+void CCamera::LoadFromScene(FILE * _pFile)
+{
+	fread(&m_eType, sizeof(UINT), 1, _pFile);
+	fread(&m_fScale, sizeof(float), 1, _pFile);
+	fread(&m_fFOV, sizeof(float), 1, _pFile);
+	fread(&m_fNear, sizeof(float), 1, _pFile);
+	fread(&m_fFar, sizeof(float), 1, _pFile);
+	fread(&m_iLayerCheck, sizeof(UINT), 1, _pFile);
+}

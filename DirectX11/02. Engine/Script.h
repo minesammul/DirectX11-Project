@@ -28,6 +28,8 @@ public:
 
 public:
 	UINT GetScriptType() { return m_iScriptType; }
+	virtual void SaveToScene(FILE* _pFile) {}
+	virtual void LoadFromScene(FILE* _pFile) {}
 
 	CLONE(CScript);
 		

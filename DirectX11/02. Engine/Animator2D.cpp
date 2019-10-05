@@ -4,6 +4,8 @@
 #include "Animation2D.h"
 
 
+
+
 CAnimator2D::CAnimator2D()
 	: CComponent(COMPONENT_TYPE::ANIMATOR2D)
 	, m_bPlayFirst(false)
@@ -140,4 +142,53 @@ void CAnimator2D::Pause()
 	{
 		m_pCurAnim->Pause();
 	}
+}
+
+void CAnimator2D::SaveToScene(FILE * _pFile)
+{
+	fwrite(&m_bPlayFirst, sizeof(bool), 1, _pFile);
+	fwrite(&m_bRepeat, sizeof(bool), 1, _pFile);
+
+
+	map<wstring, CAnimation2D*> m_mapAnim;
+
+	// Animation 개수 저장
+	UINT iSize = (UINT)m_mapAnim.size();
+	fwrite(&iSize, sizeof(UINT), 1, _pFile);
+
+	// 각 Animation 저장
+	//for (const auto& pair : m_mapAnim)
+	//{
+	//	pair.second->SaveToScene(_pFile);
+	//}
+
+	// 현재 Animation 정보 저장
+	bool bCurAnim = (bool)m_pCurAnim;
+	fwrite(&bCurAnim, 1, 1, _pFile);
+
+	if (nullptr == m_pCurAnim)
+		return;
+
+	SaveWString(m_pCurAnim->GetName().c_str(), _pFile);
+}
+
+void CAnimator2D::LoadFromScene(FILE * _pFile)
+{
+	fread(&m_bPlayFirst, sizeof(bool), 1, _pFile);
+	fread(&m_bRepeat, sizeof(bool), 1, _pFile);
+
+	// Aniamtion 로딩
+
+
+
+
+	// 현재 Animation 정보 저장
+	bool bCurAnim = false;
+	fread(&bCurAnim, 1, 1, _pFile);
+
+	if (false == bCurAnim)
+		return;
+
+	wstring strCurAnim = LoadWString(_pFile);
+	m_pCurAnim = m_mapAnim.find(strCurAnim)->second;
 }

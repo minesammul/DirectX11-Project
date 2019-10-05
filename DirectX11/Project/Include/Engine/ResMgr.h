@@ -148,8 +148,7 @@ inline CResPtr<T> CResMgr::Load(const wstring & _strKey, const wstring & _strPat
 	CResPtr<T> pRes = FindRes<T>(_strKey);
 	if (nullptr != pRes)
 	{
-		// 중복키 문제
-		assert(nullptr);
+		return pRes;
 	}
 
 	T* pResource = new T;

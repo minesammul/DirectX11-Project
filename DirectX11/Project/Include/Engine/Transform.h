@@ -28,6 +28,9 @@ public:
 	virtual void finalupdate();
 	void UpdateData();
 
+	virtual void SaveToScene(FILE* _pFile);
+	virtual void LoadFromScene(FILE* _pFile);
+
 public:
 	CLONE(CTransform);
 	

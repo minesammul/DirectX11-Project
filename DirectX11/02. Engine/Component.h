@@ -26,6 +26,9 @@ public:
 	CGameObject* ParentObject() { return m_pObject->GetParent(); }
 	bool HasParent() { return m_pObject->GetParent(); };
 
+	virtual void SaveToScene(FILE* _pFile) = 0;
+	virtual void LoadFromScene(FILE* _pFile) = 0;
+
 protected:	
 	CTransform* Transform() { return m_pObject->Transform(); }
 	CMeshRender* MeshRender() { return m_pObject->MeshRender(); }

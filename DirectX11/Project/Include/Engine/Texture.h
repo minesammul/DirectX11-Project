@@ -31,6 +31,8 @@ public:
 	void SetRegister(UINT _iRegister, UINT _iShaderType);
 	void SetRegisterAll(UINT _iRegister);
 
+	virtual bool LoadFromScene(FILE* _pFile);
+
 	static void ClearRegister(UINT _iRegister, UINT _iShaderType);
 
 public:

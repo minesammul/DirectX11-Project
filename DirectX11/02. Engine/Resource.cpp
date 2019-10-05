@@ -18,7 +18,7 @@ bool CResource::LoadFromScene(FILE * _pFile)
 
 	// °æ·Î
 	m_strPath = LoadWString(_pFile);
-	return false;
+	return true;
 }
 
 CResource::CResource(RES_TYPE _eType) :

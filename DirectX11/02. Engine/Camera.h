@@ -48,6 +48,9 @@ public:
 	void CheckLayer(UINT _iLayerIdx);
 	bool IsValiedLayer(UINT _iLayerIdx){return m_iLayerCheck & (1 << _iLayerIdx);}
 
+	virtual void SaveToScene(FILE* _pFile);
+	virtual void LoadFromScene(FILE* _pFile);
+
 	CLONE(CCamera);
 
 public:

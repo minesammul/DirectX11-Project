@@ -27,6 +27,9 @@ public:
 	virtual void update();
 	void render();
 
+	virtual void SaveToScene(FILE* _pFile);
+	virtual void LoadFromScene(FILE* _pFile);
+
 	CLONE(CMeshRender);
 
 public:
