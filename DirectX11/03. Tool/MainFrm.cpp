@@ -188,7 +188,7 @@ void CMainFrame::OnResourceNewmaterialCreate()
 void CMainFrame::OnSaveScene()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	static wchar_t szFilter[] = L"Scene 파일(*.scene) | *.scene |모든파일(*.*)|*.*||";
+	static wchar_t szFilter[] = L"Scene 파일(*.scene)|*.scene|모든파일(*.*)|*.*||";
 
 	CFileDialog dlg(FALSE, nullptr, nullptr, OFN_HIDEREADONLY, szFilter);
 
@@ -213,7 +213,7 @@ void CMainFrame::OnSaveScene()
 
 void CMainFrame::OnLoadScene()
 {
-	static wchar_t szFilter[] = L"Scene 파일(*.scene) | *.scene |모든파일(*.*)|*.*||";
+	static wchar_t szFilter[] = L"Scene 파일(*.scene)|*.scene|모든파일(*.*)|*.*||";
 
 	CFileDialog dlg(TRUE, nullptr, nullptr, OFN_HIDEREADONLY, szFilter);
 
@@ -233,6 +233,9 @@ void CMainFrame::OnLoadScene()
 	}
 
 	CSaveLoadMgr::LoadScene(pathName.GetBuffer());
+
+	ResourceDlg* pResDlg = ((CHierachyView*)GetHierachyView())->GetResDlg();
+	pResDlg->Renew();
 }
 
 
