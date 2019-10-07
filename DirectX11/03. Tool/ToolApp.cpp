@@ -153,6 +153,8 @@ int CToolApp::ExitInstance()
 
 void CToolApp::CreateTestScene()
 {
+	return;
+
 	CResMgr::GetInst()->Load<CTexture>(L"Player", L"Texture\\00.png");
 	CResMgr::GetInst()->Load<CTexture>(L"Effect", L"Texture\\Effect.png");
 	CResMgr::GetInst()->Load<CTexture>(L"Link", L"Texture\\Animation\\Link\\link_0.png");

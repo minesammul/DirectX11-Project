@@ -185,6 +185,12 @@ void CSceneMgr::FindGameObject(const wstring & _strTagName, vector<CGameObject*>
 	m_pCurScene->FindGameObject(_strTagName, _vecOut);
 }
 
+void CSceneMgr::ChangeScene(CScene * _pNextScene)
+{
+	SAFE_DELETE(m_pCurScene);
+	m_pCurScene = _pNextScene;
+}
+
 
 void CSceneMgr::CreatePrefab()
 {

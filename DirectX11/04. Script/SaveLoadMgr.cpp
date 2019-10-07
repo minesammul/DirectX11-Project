@@ -8,6 +8,8 @@
 #include <GameObject.h>
 #include <func.h>
 #include <Component.h>
+#include <Script.h>
+#include <Camera.h>
 
 CSaveLoadMgr::CSaveLoadMgr(){}
 CSaveLoadMgr::~CSaveLoadMgr(){}
@@ -68,10 +70,7 @@ void CSaveLoadMgr::SaveGameObject(CGameObject * _pObject, FILE * _pFile)
 
 	// LayerIdx 저장
 	// Layer 에 속해있지 않는 오브젝트는 존재하면 안된다.
-	int iLayerIdx = _pObject->GetLayerIdx();
-	assert(-1 != iLayerIdx);
-
-	fwrite(&iLayerIdx, sizeof(UINT), 1, _pFile);
+	_pObject->SaveToScene(_pFile);
 
 	UINT i = 0;
 	for (i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
@@ -92,7 +91,20 @@ void CSaveLoadMgr::SaveGameObject(CGameObject * _pObject, FILE * _pFile)
 
 
 	// Script 저장
+	const vector<CScript*>& vecScripts = _pObject->GetScripts();
 
+	UINT iScriptCount = (UINT)vecScripts.size();
+	fwrite(&iScriptCount, sizeof(UINT), 1, _pFile);
+
+	wstring strScriptName;
+	for (UINT i = 0; i < iScriptCount; ++i)
+	{
+		// Script Name
+		strScriptName = CScriptMgr::GetScriptName(vecScripts[i]);
+		SaveWString(strScriptName.c_str(), _pFile);
+
+		vecScripts[i]->SaveToScene(_pFile);
+	}
 
 
 
@@ -123,7 +135,7 @@ void CSaveLoadMgr::SaveLayer(CLayer * _pLayer, FILE * _pFile)
 	UINT iSize = (UINT)vecObject.size();
 	fwrite(&iSize, sizeof(UINT), 1, _pFile);
 
-	for (size_t i = 0; vecObject.size(); ++i)
+	for (size_t i = 0; i < vecObject.size(); ++i)
 	{
 		SaveGameObject(vecObject[i], _pFile);
 	}
@@ -138,10 +150,15 @@ void CSaveLoadMgr::LoadScene(const wstring & _strPath)
 	LoadResource(pFile);
 
 	// Scene 불러오기
+	CScene* pScene = new CScene;
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		LoadLayer(pFile);
+		pScene->AddLayer(LoadLayer(pFile), 1);
 	}
+
+	// SceneMgr 에 현재 Scene 으로 지정
+	CSceneMgr::GetInst()->ChangeScene(pScene);
+
 
 	fclose(pFile);
 }
@@ -208,6 +225,89 @@ CLayer * CSaveLoadMgr::LoadLayer(FILE * _pFile)
 
 	CLayer* pLayer = new CLayer;
 
+	// Layer 이름
+	wstring strLayerName = LoadWString(_pFile);
+	pLayer->SetName(strLayerName);
+
+	// GameObject 로딩	
+	UINT iSize = 0;
+	fread(&iSize, sizeof(UINT), 1, _pFile);
+
+	for (UINT i = 0; i < iSize; ++i)
+	{
+		pLayer->AddObject(LoadGameObject(_pFile), false);
+	}
 
 	return pLayer;
+}
+
+CGameObject * CSaveLoadMgr::LoadGameObject(FILE * _pFile)
+{
+	// 이름 읽기
+	CGameObject* pObject = new CGameObject;
+	wstring strObjName = LoadWString(_pFile);
+	pObject->SetName(strObjName);
+
+	// LayerIdx 읽기	
+	pObject->LoadFromScene(_pFile);
+
+
+	UINT iComType = 0;
+	while (true)
+	{
+		fread(&iComType, sizeof(UINT), 1, _pFile);
+
+		if ((UINT)COMPONENT_TYPE::END == iComType)
+			break;
+
+		CComponent* pCom = nullptr;
+		switch ((COMPONENT_TYPE)iComType)
+		{
+		case COMPONENT_TYPE::TRANSFORM:
+			pCom = new CTransform;
+			break;
+		case COMPONENT_TYPE::MESHRENDER:
+			pCom = new CMeshRender;
+			break;
+		case COMPONENT_TYPE::CAMERA:
+			pCom = new CCamera;
+			break;
+		case COMPONENT_TYPE::COLLIDER2D:
+			pCom = new CCollider2D;
+			break;
+		case COMPONENT_TYPE::COLLIDER3D:
+			break;
+		case COMPONENT_TYPE::ANIMATOR2D:
+			pCom = new CAnimator2D;
+			break;
+		case COMPONENT_TYPE::ANIMATOR3D:
+			break;
+		}
+
+		pCom->LoadFromScene(_pFile);
+		pObject->AddComponent(pCom);
+	}
+
+	// Script 불러오기	
+	UINT iScriptCount = 0;
+	fread(&iScriptCount, sizeof(UINT), 1, _pFile);
+
+	wstring strScriptName;
+	for (UINT i = 0; i < iScriptCount; ++i)
+	{
+		// Script Name		
+		strScriptName = LoadWString(_pFile);
+		CScript* pScript = CScriptMgr::GetScript(strScriptName);
+		pObject->AddComponent(pScript);
+	}
+
+	UINT iSize = 0;
+	fread(&iSize, sizeof(UINT), 1, _pFile);
+	for (size_t i = 0; i < iSize; ++i)
+	{
+		CGameObject* pChild = LoadGameObject(_pFile);
+		pObject->AddChild(pChild);
+	}
+
+	return pObject;
 }

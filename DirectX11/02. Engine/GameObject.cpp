@@ -270,6 +270,17 @@ void CGameObject::Active(bool _bTrue)
 	CEventMgr::GetInst()->AddEvent(event);
 }
 
+void CGameObject::SaveToScene(FILE * _pFile)
+{
+	fwrite(&m_iLayerIdx, sizeof(int), 1, _pFile);
+	assert(-1 != m_iLayerIdx); // 저장 기준, LayerIdx 가 -1 인 오브젝트는 없어야 한다.
+}
+
+void CGameObject::LoadFromScene(FILE * _pFile)
+{
+	fread(&m_iLayerIdx, sizeof(int), 1, _pFile);
+}
+
 void CGameObject::SetParent(CGameObject * _pParent)
 {
 	m_pParent = _pParent;

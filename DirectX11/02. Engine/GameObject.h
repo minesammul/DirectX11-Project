@@ -63,6 +63,9 @@ public:
 	bool IsActive() { return m_bActive; }
 	void Active(bool _bTrue);
 
+	void SaveToScene(FILE* _pFile);
+	void LoadFromScene(FILE* _pFile);
+
 private:
 	void SetLayerIdx(UINT _iIdx) { m_iLayerIdx = _iIdx; }	
 	void SetParent(CGameObject* _pParent);

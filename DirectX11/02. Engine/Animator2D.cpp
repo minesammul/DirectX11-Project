@@ -149,18 +149,15 @@ void CAnimator2D::SaveToScene(FILE * _pFile)
 	fwrite(&m_bPlayFirst, sizeof(bool), 1, _pFile);
 	fwrite(&m_bRepeat, sizeof(bool), 1, _pFile);
 
-
-	map<wstring, CAnimation2D*> m_mapAnim;
-
 	// Animation 개수 저장
 	UINT iSize = (UINT)m_mapAnim.size();
 	fwrite(&iSize, sizeof(UINT), 1, _pFile);
 
 	// 각 Animation 저장
-	//for (const auto& pair : m_mapAnim)
-	//{
-	//	pair.second->SaveToScene(_pFile);
-	//}
+	for (const auto& pair : m_mapAnim)
+	{
+		pair.second->SaveToScene(_pFile);
+	}
 
 	// 현재 Animation 정보 저장
 	bool bCurAnim = (bool)m_pCurAnim;
@@ -178,7 +175,18 @@ void CAnimator2D::LoadFromScene(FILE * _pFile)
 	fread(&m_bRepeat, sizeof(bool), 1, _pFile);
 
 	// Aniamtion 로딩
+	UINT iSize = 0;
+	fread(&iSize, sizeof(UINT), 1, _pFile);
 
+	// 각 Animation 저장
+	for (UINT i = 0; i < iSize; ++i)
+	{
+		CAnimation2D* pAnim2D = new CAnimation2D;
+		pAnim2D->LoadFromScene(_pFile);
+
+		m_mapAnim.insert(make_pair(pAnim2D->GetName(), pAnim2D));
+
+	}
 
 
 

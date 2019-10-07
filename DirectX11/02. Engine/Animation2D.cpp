@@ -90,9 +90,9 @@ void CAnimation2D::finalupdate()
 
 	m_fAccTime += DT;
 
-	if (m_vecFrm[m_iCurFrm].vTerm < m_fAccTime)
+	if (m_vecFrm[m_iCurFrm].fTerm < m_fAccTime)
 	{
-		float fDiff = m_fAccTime - m_vecFrm[m_iCurFrm].vTerm;
+		float fDiff = m_fAccTime - m_vecFrm[m_iCurFrm].fTerm;
 		
 		UINT iNextFrm = m_iCurFrm + 1;
 
@@ -107,10 +107,10 @@ void CAnimation2D::finalupdate()
 		{
 			while (true)
 			{
-				fDiff -= m_vecFrm[iNextFrm].vTerm;
+				fDiff -= m_vecFrm[iNextFrm].fTerm;
 				if (fDiff < 0.f)
 				{
-					m_fAccTime = m_vecFrm[iNextFrm].vTerm + fDiff;
+					m_fAccTime = m_vecFrm[iNextFrm].fTerm + fDiff;
 					break;
 				}
 
@@ -165,7 +165,7 @@ void CAnimation2D::Create(const wstring & _strName
 		tFrm.vLT.x += (i * vCropUV.x);
 
 		tFrm.vSize = vCropUV;
-		tFrm.vTerm = _fTerm;
+		tFrm.fTerm = _fTerm;
 		tFrm.pTex = _pTex;
 
 		tFrm.LTOffset.x = 0.0f;
@@ -195,7 +195,7 @@ void CAnimation2D::Create(const wstring & _strName, CResPtr<CTexture> _pTex, Vec
 		//tFrm.vLT.x += (i * vLTUV.x);
 
 		tFrm.vSize = vCropUV;
-		tFrm.vTerm = _fTerm;
+		tFrm.fTerm = _fTerm;
 		tFrm.pTex = _pTex;
 
 		tFrm.LTOffset.x = offset.x;
@@ -233,7 +233,7 @@ void CAnimation2D::Create(const wstring & _strName, const wstring & _strFolderPa
 
 			pTex = CResMgr::GetInst()->Load<CTexture>(strKey, strKey);
 			tFrm.pTex = pTex;
-			tFrm.vTerm = _fTerm;
+			tFrm.fTerm = _fTerm;
 			tFrm.vLT = Vec2(0.f, 0.f);
 			tFrm.vSize = Vec2(1.f, 1.f);
 
@@ -248,6 +248,45 @@ void CAnimation2D::Create(const wstring & _strName, const wstring & _strFolderPa
 			err = GetLastError();
 			break;
 		}
+	}
+}
+
+void CAnimation2D::SaveToScene(FILE * _pFile)
+{
+	SaveWString(GetName().c_str(), _pFile);
+
+	UINT iFrmCount = (UINT)m_vecFrm.size();
+	fwrite(&iFrmCount, sizeof(UINT), 1, _pFile);
+
+	for (size_t i = 0; i < m_vecFrm.size(); ++i)
+	{
+		SaveWString(m_vecFrm[i].pTex->GetName().c_str(), _pFile);
+
+		fwrite(&m_vecFrm[i].vLT, sizeof(Vec2), 1, _pFile);
+		fwrite(&m_vecFrm[i].vSize, sizeof(Vec2), 1, _pFile);
+		fwrite(&m_vecFrm[i].fTerm, sizeof(float), 1, _pFile);
+	}
+}
+
+void CAnimation2D::LoadFromScene(FILE * _pFile)
+{
+	SetName(LoadWString(_pFile));
+
+	UINT iFrmCount = 0;
+	fread(&iFrmCount, sizeof(UINT), 1, _pFile);
+
+	wstring strKey;
+	tAnim2DFrm frm = {};
+	for (size_t i = 0; i < iFrmCount; ++i)
+	{
+		strKey = LoadWString(_pFile);
+		frm.pTex = CResMgr::GetInst()->FindRes<CTexture>(strKey);
+
+		fread(&frm.vLT, sizeof(Vec2), 1, _pFile);
+		fread(&frm.vSize, sizeof(Vec2), 1, _pFile);
+		fread(&frm.fTerm, sizeof(float), 1, _pFile);
+
+		m_vecFrm.push_back(frm);
 	}
 }
 

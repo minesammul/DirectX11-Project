@@ -108,8 +108,8 @@ void CMeshRender::LoadFromScene(FILE * _pFile)
 	fread(&bMtrl, 1, 1, _pFile);
 	if (bMtrl)
 	{
-		LoadWString(_pFile);
-		LoadWString(_pFile);
+		strKey = LoadWString(_pFile);
+		strPath = LoadWString(_pFile);
 
 		m_pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(strKey);
 		if (nullptr == m_pMtrl)

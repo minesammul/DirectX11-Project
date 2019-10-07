@@ -136,7 +136,7 @@ void CCollider2D::OnCollisionEnter(CCollider2D * _pOther)
 	++m_iColCount;
 
 
-	vector<CScript*>& vecScript = Object()->GetScripts();
+	const vector<CScript*>& vecScript = Object()->GetScripts();
 	for (UINT i = 0; i < vecScript.size(); ++i)
 	{
 		vecScript[i]->OnCollisionEnter(_pOther);
@@ -146,7 +146,7 @@ void CCollider2D::OnCollisionEnter(CCollider2D * _pOther)
 void CCollider2D::OnCollision(CCollider2D * _pOther)
 {
 
-	vector<CScript*>& vecScript = Object()->GetScripts();
+	const vector<CScript*>& vecScript = Object()->GetScripts();
 	for (UINT i = 0; i < vecScript.size(); ++i)
 	{
 		vecScript[i]->OnCollision(_pOther);
@@ -163,7 +163,7 @@ void CCollider2D::OnCollisionExit(CCollider2D * _pOther)
 		m_pCurMtrl = g_pOriginMtrl;
 	}
 
-	vector<CScript*>& vecScript = Object()->GetScripts();
+	const vector<CScript*>& vecScript = Object()->GetScripts();
 	for (UINT i = 0; i < vecScript.size(); ++i)
 	{
 		vecScript[i]->OnCollisionExit(_pOther);

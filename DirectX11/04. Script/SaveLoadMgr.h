@@ -17,5 +17,6 @@ public:
 	static void LoadScene(const wstring& _strPath);
 	static void LoadResource(FILE* _pFile);
 	static CLayer* LoadLayer(FILE* _pFile);
+	static CGameObject* LoadGameObject(FILE* _pFile);
 };
 

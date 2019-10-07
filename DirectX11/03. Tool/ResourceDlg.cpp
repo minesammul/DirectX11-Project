@@ -37,6 +37,8 @@ void ResourceDlg::Renew()
 {
 	m_ctrlTree.DeleteAllItems();
 
+	return;
+
 	// 항목 추가
 	HTREEITEM arrItem[(UINT)RES_TYPE::END] = {
 		AddItem(L"Material", nullptr, 0, TVI_LAST)

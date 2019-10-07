@@ -57,7 +57,7 @@ void CScriptDlg::update(CGameObject * _pTarget)
 
 	m_ctrlScript.DeleteAllItems();
 
-	vector<CScript*>& vecScript = _pTarget->GetScripts();
+	const vector<CScript*>& vecScript = _pTarget->GetScripts();
 
 	for (UINT i = 0; i < vecScript.size(); ++i)
 	{

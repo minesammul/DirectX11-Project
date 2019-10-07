@@ -10,7 +10,7 @@ struct tAnim2DFrm
 	CResPtr<CTexture>   pTex;
 	Vec2				vLT;
 	Vec2				vSize;	
-	float				vTerm;
+	float				fTerm;
 	Vec2 LTOffset;
 };
 
@@ -54,6 +54,10 @@ public:
 		else
 			m_bFinish = true;
 	}
+
+
+	void SaveToScene(FILE* _pFile);
+	void LoadFromScene(FILE* _pFile);
 
 public:
 	static void ClearRegister();
