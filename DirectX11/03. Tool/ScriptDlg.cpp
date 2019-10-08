@@ -41,6 +41,7 @@ void CScriptDlg::init(CGameObject * _pTarget)
 	SetTarget(_pTarget);
 
 	m_cbScript.ResetContent();
+	m_ctrlScript.DeleteAllItems();
 
 	for (UINT i = 0; i < vecName.size(); ++i)
 	{
