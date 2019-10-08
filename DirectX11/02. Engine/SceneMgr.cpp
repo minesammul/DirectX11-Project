@@ -123,7 +123,6 @@ CGameObject* CSceneMgr::MousePicking(POINT mousePoint, RECT windowRect)
 
 			if (isObjectBottomLeftTriangleClick || isObjectUpperRightTriangleClick)
 			{
-				//if(selectObject->)
 				float clickObjectDist = 0;
 				if (isObjectBottomLeftTriangleClick)
 				{
@@ -148,14 +147,25 @@ CGameObject* CSceneMgr::MousePicking(POINT mousePoint, RECT windowRect)
 
 void CSceneMgr::init()
 {
-	// Resource Load
-	//CreatePrefab();	
-	
-	//// 수업용 임시 Scene 생성
+	// 수업용 임시 Scene 생성
 	m_pCurScene = new CScene;
 
 	// Layer 추가하기
-	m_pCurScene->AddLayer(L"Default", 0);	
+	m_pCurScene->AddLayer(L"Default", 0);
+
+	// Camera Object 만들기
+	CGameObject* newObject = new CGameObject;
+
+	newObject->SetName(L"MainCamera");
+	newObject->AddComponent(new CTransform);
+	newObject->AddComponent(new CCamera);
+
+	newObject->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	newObject->Camera()->SetFOV(XM_PI / 4.f);
+	newObject->Camera()->SetScale(1.f);
+	newObject->Camera()->CheckLayer(m_pCurScene->FindLayer(L"Default")->GetLayerIdx());
+
+	m_pCurScene->AddObject(L"Default", newObject);
 }
 
 void CSceneMgr::progress()
