@@ -38,6 +38,10 @@ void CScriptDlg::init(CGameObject * _pTarget)
 	vector<wstring> vecName;
 	CScriptMgr::GetScriptInfo(vecName);
 
+	SetTarget(_pTarget);
+
+	m_cbScript.ResetContent();
+
 	for (UINT i = 0; i < vecName.size(); ++i)
 	{
 		m_cbScript.AddString(vecName[i].c_str());
@@ -67,6 +71,8 @@ void CScriptDlg::update(CGameObject * _pTarget)
 }
 
 
+
+
 BEGIN_MESSAGE_MAP(CScriptDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON1, &CScriptDlg::OnBtnAddScript)
 	ON_BN_CLICKED(IDC_BUTTON3, &CScriptDlg::OnBnClickedButtonDelete)
@@ -85,7 +91,8 @@ void CScriptDlg::OnBtnAddScript()
 	m_cbScript.GetLBText(iSel, strScriptName);
 
 	CScript* pNewScript = CScriptMgr::GetScript(strScriptName.GetBuffer());
-	GetTarget()->AddComponent(pNewScript);
+	CGameObject* targetObject = GetTarget();
+	targetObject->AddComponent(pNewScript);
 }
 
 void CScriptDlg::OnBnClickedButtonDelete()

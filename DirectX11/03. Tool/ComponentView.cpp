@@ -99,9 +99,13 @@ void CComponentView::Dump(CDumpContext& dc) const
 
 void CComponentView::init()
 {
+	if (nullptr == m_pTarget)
+		return;
+
 	// 타겟 오브젝트 찾기
 	vector<CGameObject*> vecOut;
-	CSceneMgr::GetInst()->FindGameObject(L"Player", vecOut);
+	//CSceneMgr::GetInst()->FindGameObject(L"Player", vecOut);
+	CSceneMgr::GetInst()->FindGameObject(m_pTarget->GetName(), vecOut);
 
 	if (!vecOut.empty())
 	{
@@ -110,8 +114,6 @@ void CComponentView::init()
 
 	SetDlgPos();	
 
-	if (nullptr == m_pTarget)
-		return;
 
 	for (UINT i = 0; i < (UINT)DLG_TYPE::END; ++i)
 	{
@@ -154,9 +156,25 @@ void CComponentView::update()
 
 	for (UINT i = 0; i < (UINT)DLG_TYPE::END; ++i)
 	{
-		if (nullptr == m_pTarget->GetComponent((COMPONENT_TYPE)i)
-			|| nullptr == m_arrComDlg[i])
+		if (i != (UINT)DLG_TYPE::SCRIPT)
+		{
+			if (nullptr == m_pTarget->GetComponent((COMPONENT_TYPE)i))
+			{
+				continue;
+			}
+		}
+		else
+		{
+			if (m_pTarget->GetScripts().empty())
+			{
+				continue;
+			}
+		}
+
+		if (nullptr == m_arrComDlg[i])
+		{
 			continue;
+		}
 
 		m_arrComDlg[i]->update(m_pTarget);
 	}

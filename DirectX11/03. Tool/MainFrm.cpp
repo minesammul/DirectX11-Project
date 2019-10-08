@@ -26,6 +26,7 @@
 #include <Collider2D.h>
 #include <KeyMgr.h>
 #include <Core.h>
+#include <Script.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

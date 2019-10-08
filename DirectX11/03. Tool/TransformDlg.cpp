@@ -104,7 +104,13 @@ void CTransformDlg::update(CGameObject * _pTarget)
 
 	// Layer 확인
 	CLayer* pLayer = CSceneMgr::GetInst()->GetCurScene()->GetLayer(GetTarget()->GetLayerIdx());
-	UINT iSel = m_cbLayer.FindString(0, pLayer->GetName().c_str());
+	int iSel = m_cbLayer.FindString(0, pLayer->GetName().c_str());
+	if (iSel == -1)
+	{
+		int layerCount = m_cbLayer.GetCount();
+		m_cbLayer.InsertString(layerCount, pLayer->GetName().c_str());
+		iSel = layerCount;
+	}
 	m_cbLayer.SetCurSel(iSel);
 
 	m_bActive = GetTarget()->IsActive();

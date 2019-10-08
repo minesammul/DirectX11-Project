@@ -207,6 +207,7 @@ void CGameObjectDlg::OnTvnSelchangedTree(NMHDR *pNMHDR, LRESULT *pResult)
 	CComponentView* pComView = (CComponentView*) ((CMainFrame*)AfxGetMainWnd())->GetComView();
 
 	pComView->SetTarget(pTargetObj);
+	pComView->init();
 
 	*pResult = 0;
 }
