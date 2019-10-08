@@ -25,9 +25,5 @@ public:
 
 	void FindGameObject(const wstring& _strTagName, vector<CGameObject*>& _vecOut);
 	void ChangeScene(CScene* _pNextScene);
-
-	// юс╫ц
-private:
-	void CreatePrefab();
 };
 

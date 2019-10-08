@@ -8,6 +8,8 @@ enum class SCENE_STATE
 	PLAY,
 	PAUSE,
 	STOP,
+	SAVE,
+	LOAD,
 };
 
 class CCore

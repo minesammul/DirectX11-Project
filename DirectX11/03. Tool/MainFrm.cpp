@@ -12,6 +12,7 @@
 #include "BtnView.h"
 #include "DbgView.h"
 #include "ResourceDlg.h"
+#include "GameObjectDlg.h"
 
 #include <ResMgr.h>
 #include <Material.h>
@@ -24,6 +25,7 @@
 #include <Animator2D.h>
 #include <Collider2D.h>
 #include <KeyMgr.h>
+#include <Core.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -232,10 +234,19 @@ void CMainFrame::OnLoadScene()
 		return;
 	}
 
+	CCore::GetInst()->SetState(SCENE_STATE::LOAD);
+
 	CSaveLoadMgr::LoadScene(pathName.GetBuffer());
 
+	// GameObject 트리컨트롤 목록 갱신
+	CGameObjectDlg* ObjectDlg = ((CHierachyView*)GetHierachyView())->GetObjectDlg();
+	ObjectDlg->init();
+
+	// ResDlg 트리컨트롤 리소스 목록 갱신
 	ResourceDlg* pResDlg = ((CHierachyView*)GetHierachyView())->GetResDlg();
 	pResDlg->Renew();
+
+	CCore::GetInst()->SetState(SCENE_STATE::STOP);
 }
 
 

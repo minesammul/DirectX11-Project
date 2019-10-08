@@ -190,27 +190,3 @@ void CSceneMgr::ChangeScene(CScene * _pNextScene)
 	SAFE_DELETE(m_pCurScene);
 	m_pCurScene = _pNextScene;
 }
-
-
-void CSceneMgr::CreatePrefab()
-{
-	/*CGameObject* pBullet = new CGameObject;
-
-	CTransform* pTransform = new CTransform;
-	CMeshRender* pMeshRender = new CMeshRender;
-		
-	pTransform->SetLocalScale(Vec3(20.f, 20.f, 1.f));
-	pTransform->SetLocalRot(Vec3(0.f, 0.f, 0.f));
-
-	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh"));
-	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"VtxColorMtrl"));
-
-	pBullet->AddComponent(pTransform);
-	pBullet->AddComponent(pMeshRender);
-	pBullet->AddComponent(new CBulletScript);
-
-	CBulletScript* pBulletScript = (CBulletScript*)pBullet->GetScript<CBulletScript>();
-	pBulletScript->SetSpeed(500.f);
-	
-	CResMgr::GetInst()->AddRes<CPrefab>(L"BulletPrefab", new CPrefab(pBullet));*/
-}

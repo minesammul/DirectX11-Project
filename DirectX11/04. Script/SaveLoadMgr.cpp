@@ -153,7 +153,9 @@ void CSaveLoadMgr::LoadScene(const wstring & _strPath)
 	CScene* pScene = new CScene;
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		pScene->AddLayer(LoadLayer(pFile), 1);
+		CLayer* pLayer = LoadLayer(pFile);
+		if (nullptr != pLayer)
+			pScene->AddLayer(pLayer, i);
 	}
 
 	// SceneMgr 에 현재 Scene 으로 지정

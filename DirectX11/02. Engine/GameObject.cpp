@@ -5,6 +5,7 @@
 #include "MeshRender.h"
 #include "script.h"
 #include "EventMgr.h"
+#include "Core.h"
 
 CGameObject::CGameObject()
 	: m_pParent(nullptr)
@@ -228,7 +229,9 @@ void CGameObject::AddChild(CGameObject * _pChildObj)
 		if (_pChildObj->GetLayerIdx() != -1)
 		{
 			CLayer* pCurLayer = CSceneMgr::GetInst()->GetCurScene()->GetLayer(_pChildObj->GetLayerIdx());
-			pCurLayer->RemoveParentObj(_pChildObj);
+			// Scene Load 중에는 예외처리 검사 안함
+			if (SCENE_STATE::LOAD != CCore::GetInst()->GetState())
+				pCurLayer->RemoveParentObj(_pChildObj);
 		}		
 	}
 	

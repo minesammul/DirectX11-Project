@@ -19,6 +19,7 @@ public:
 	void init_object();
 
 	ResourceDlg* GetResDlg() { return m_pResourceDlg; }
+	CGameObjectDlg*	GetObjectDlg() { return m_pGameObjectDlg; }
 
 protected:
 	CHierachyView();           // 동적 만들기에 사용되는 protected 생성자입니다.
