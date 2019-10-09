@@ -141,7 +141,7 @@ void AddAnimFile::OnBnClickedFilePathButton()
 	{
 		pathName = dlg.GetPathName();
 		pathName = CPathMgr::GetRelativePath(pathName);
-		pathName.Delete(pathName.GetLength() - 1, 1);
+		//pathName.Delete(pathName.GetLength() - 1, 1);
 		m_editFolderPath.SetWindowTextW(pathName);
 	}
 }
