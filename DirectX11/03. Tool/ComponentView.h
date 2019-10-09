@@ -20,6 +20,7 @@ class CComponentDlg;
 class CGameObject;
 class CResInfoDlg;
 class CResource;
+class AddComponentDlg;
 
 class CComponentView : public CView
 {
@@ -48,6 +49,9 @@ private:
 	CResource*			m_pResource;
 	CResInfoDlg*		m_arrResInfoDlg[(UINT)RES_TYPE::END];
 	CResInfoDlg*		m_pCurResInfoDlg;
+
+	AddComponentDlg* addComponentDlg;
+
 public:
 	void init();
 	void update();

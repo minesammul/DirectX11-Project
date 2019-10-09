@@ -14,6 +14,7 @@
 #include "Animator2DDlg.h"
 #include "ScriptDlg.h"
 #include "MaterialDlg.h"
+#include "AddComponentDlg.h"
 
 #include <TimeMgr.h>
 #include <Resource.h>
@@ -62,6 +63,9 @@ int CComponentView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_arrResInfoDlg[(UINT)RES_TYPE::MATERIAL]->Create(IDD_MTRLDLG, this);
 	m_arrResInfoDlg[(UINT)RES_TYPE::MATERIAL]->ShowWindow(false);
 
+	addComponentDlg = new AddComponentDlg;
+	addComponentDlg->Create(IDD_ADDCOMPONENT, this);
+	addComponentDlg->ShowWindow(false);
 	return 0;
 }
 
@@ -122,6 +126,8 @@ void CComponentView::init()
 
 		m_arrComDlg[i]->init(m_pTarget);
 	}
+	addComponentDlg->SetGameObject(m_pTarget);
+	addComponentDlg->Renew();
 }
 
 
@@ -178,6 +184,7 @@ void CComponentView::update()
 
 		m_arrComDlg[i]->update(m_pTarget);
 	}
+	addComponentDlg->SetGameObject(m_pTarget);
 }
 
 void CComponentView::SetTarget(CGameObject * _pTarget)
@@ -234,7 +241,8 @@ void CComponentView::SetDlgPos()
 
 		return;
 	}
-		   
+	addComponentDlg->ShowWindow(false);
+
 	// Dlg Size 조절
 	int iHeight = 0;
 
@@ -264,6 +272,12 @@ void CComponentView::SetDlgPos()
 	m_arrComDlg[(UINT)DLG_TYPE::SCRIPT]->GetWindowRect(rtDlg);
 	m_arrComDlg[(UINT)DLG_TYPE::SCRIPT]->SetWindowPos(nullptr, 0, iHeight, rtView.Width(), rtDlg.Height(), 0);
 	m_arrComDlg[(UINT)DLG_TYPE::SCRIPT]->ShowWindow(true);
+
+	iHeight += rtDlg.Height();
+
+	addComponentDlg->GetWindowRect(rtDlg);
+	addComponentDlg->SetWindowPos(nullptr, 0, iHeight, rtView.Width(), rtDlg.Height(), 0);
+	addComponentDlg->ShowWindow(true);
 }
 
 

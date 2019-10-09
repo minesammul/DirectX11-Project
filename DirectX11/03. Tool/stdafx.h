@@ -64,6 +64,7 @@
 #include <afxcontrolbars.h>
 #include <afxcontrolbars.h>
 #include <afxcontrolbars.h>
+#include <afxcontrolbars.h>
 
 #ifdef _DEBUG
 #pragma comment(lib, "Uryty_debug.lib")

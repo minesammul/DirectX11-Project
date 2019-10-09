@@ -217,7 +217,15 @@ void CAnimator2DDlg::OnAddAnimation()
 void CAnimator2DDlg::OnBnClickedAddAnimaiotnFileButton()
 {
 	AddAnimFile dlg;
-	dlg.SetTargetObject(GetTarget());
+
+	CGameObject* targetObject = GetTarget();
+
+	if (targetObject == nullptr)
+	{
+		assert(false);
+	}
+
+	dlg.SetTargetObject(targetObject);
 	dlg.DoModal();
 }
 

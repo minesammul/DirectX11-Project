@@ -133,6 +133,9 @@
     <ClInclude Include="MaterialDlg.h">
       <Filter>04. Dialog\ResInfoDlg</Filter>
     </ClInclude>
+    <ClInclude Include="AddComponentDlg.h">
+      <Filter>04. Dialog\ComDlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -203,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="MaterialDlg.cpp">
       <Filter>04. Dialog\ResInfoDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="AddComponentDlg.cpp">
+      <Filter>04. Dialog\ComDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
