@@ -313,5 +313,18 @@ void CGameObjectDlg::OnTvnEndlabeleditTree1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMTVDISPINFO pTVDispInfo = reinterpret_cast<LPNMTVDISPINFO>(pNMHDR);
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
+	CString changeObjectName = pTVDispInfo->item.pszText;
+
+	CGameObject* selectObject = (CGameObject*)m_ctrlTree.GetItemData(pTVDispInfo->item.hItem);
+
+	vector<CGameObject*> changeObject;
+
+	CSceneMgr::GetInst()->GetCurScene()->FindGameObject(selectObject->GetName(), changeObject);
+
+	changeObject[0]->SetName(changeObjectName.GetBuffer());
+
+	init();
+
 	*pResult = 0;
 }
