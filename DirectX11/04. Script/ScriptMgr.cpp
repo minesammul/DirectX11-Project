@@ -2,6 +2,7 @@
 #include "ScriptMgr.h"
 
 #include "BulletScript.h"
+#include "GravityScript.h"
 #include "HilightScript.h"
 #include "MonsterScript.h"
 #include "PlayerScript.h"
@@ -9,6 +10,7 @@
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"BulletScript");
+	_vec.push_back(L"GravityScript");
 	_vec.push_back(L"HilightScript");
 	_vec.push_back(L"MonsterScript");
 	_vec.push_back(L"PlayerScript");
@@ -18,6 +20,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
 	if (L"BulletScript" == _strScriptName)
 		return new CBulletScript;
+	if (L"GravityScript" == _strScriptName)
+		return new CGravityScript;
 	if (L"HilightScript" == _strScriptName)
 		return new CHilightScript;
 	if (L"MonsterScript" == _strScriptName)
@@ -33,6 +37,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 	{
 	case SCRIPT_TYPE::BULLETSCRIPT:
 		return L"BulletScript";
+		break;
+
+	case SCRIPT_TYPE::GRAVITYSCRIPT:
+		return L"GravityScript";
 		break;
 
 	case SCRIPT_TYPE::HILIGHTSCRIPT:

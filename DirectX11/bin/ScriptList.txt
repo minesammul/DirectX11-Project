@@ -1,4 +1,5 @@
 BulletScript
+GravityScript
 HilightScript
 MonsterScript
 PlayerScript

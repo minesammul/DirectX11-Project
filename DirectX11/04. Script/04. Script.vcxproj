@@ -192,6 +192,7 @@ call CodeGen.exe</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BulletScript.h" />
+    <ClInclude Include="GravityScript.h" />
     <ClInclude Include="HilightScript.h" />
     <ClInclude Include="MonsterScript.h" />
     <ClInclude Include="PlayerScript.h" />
@@ -202,6 +203,7 @@ call CodeGen.exe</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BulletScript.cpp" />
+    <ClCompile Include="GravityScript.cpp" />
     <ClCompile Include="HilightScript.cpp" />
     <ClCompile Include="MonsterScript.cpp" />
     <ClCompile Include="PlayerScript.cpp" />
