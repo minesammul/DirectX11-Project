@@ -229,12 +229,6 @@ void CResMgr::CreateDefaultShader()
 
 	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
 	pShader->AddParam(SHADER_PARAM::TEX_0, L"Output Image");
-	
-	//dgkim Start
-	//Shader Parameter test용도로 넣은 코드 
-	pShader->AddParam(SHADER_PARAM::VEC4_0, L"test vec4_0");
-	pShader->AddParam(SHADER_PARAM::MAT_0, L"test MAT_0");
-	//dgkim End
 
 	strKey = L"Std2DShader";
 	pShader->SetName(strKey);

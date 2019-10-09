@@ -118,27 +118,13 @@ PS_OUT PS_Std2D(VTX_TEX_OUTPUT _input)
         float2 vAnimUV = vLT + (vSize * _input.vUV);   
         output.vOutCol = g_tex_anim.Sample(g_sam_0, vAnimUV);        
        
-        output.vOutCol.r *= g_vec2_0.x;
-        output.vOutCol.gb *= g_vec2_0.y;
+        //output.vOutCol.r *= g_vec2_0.x;
+        //output.vOutCol.gb *= g_vec2_0.y;
     }
     else
     {
         output.vOutCol = g_tex_0.Sample(g_sam_0, _input.vUV);
-    }      
-    
-    //dgkim Start
-    //Shader Parameter test ¿ëµµ
-    if (g_vec4_0.z == 3.f)
-    {
-        output.vOutCol = float4(1.f, 0.f, 0.f, 1.f);
-    }
-
-    if (g_mat_0._11 == 3.f)
-    {
-        output.vOutCol = float4(0.f, 0.f, 1.f, 1.f);
-    }
-    //dgkim End
-
+    }    
     return output;
 }
 
