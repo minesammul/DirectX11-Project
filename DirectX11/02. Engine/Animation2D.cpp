@@ -265,6 +265,7 @@ void CAnimation2D::SaveToScene(FILE * _pFile)
 		fwrite(&m_vecFrm[i].vLT, sizeof(Vec2), 1, _pFile);
 		fwrite(&m_vecFrm[i].vSize, sizeof(Vec2), 1, _pFile);
 		fwrite(&m_vecFrm[i].fTerm, sizeof(float), 1, _pFile);
+		fwrite(&m_vecFrm[i].LTOffset, sizeof(Vec2), 1, _pFile);
 	}
 }
 
@@ -285,6 +286,7 @@ void CAnimation2D::LoadFromScene(FILE * _pFile)
 		fread(&frm.vLT, sizeof(Vec2), 1, _pFile);
 		fread(&frm.vSize, sizeof(Vec2), 1, _pFile);
 		fread(&frm.fTerm, sizeof(float), 1, _pFile);
+		fread(&frm.LTOffset, sizeof(Vec2), 1, _pFile);
 
 		m_vecFrm.push_back(frm);
 	}

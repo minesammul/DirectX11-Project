@@ -15,6 +15,7 @@
 #include "ScriptDlg.h"
 #include "MaterialDlg.h"
 #include "AddComponentDlg.h"
+#include "Collider2DDlg.h"
 
 #include <TimeMgr.h>
 #include <Resource.h>
@@ -50,6 +51,10 @@ int CComponentView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_arrComDlg[(UINT)DLG_TYPE::CAMERA] = new CCameraDlg;
 	m_arrComDlg[(UINT)DLG_TYPE::CAMERA]->Create(IDD_CAMERADLG, this);
 	m_arrComDlg[(UINT)DLG_TYPE::CAMERA]->ShowWindow(false);
+
+	m_arrComDlg[(UINT)DLG_TYPE::COLLIDER2D] = new Collider2DDlg;
+	m_arrComDlg[(UINT)DLG_TYPE::COLLIDER2D]->Create(IDD_COLLIDER2DDLG, this);
+	m_arrComDlg[(UINT)DLG_TYPE::COLLIDER2D]->ShowWindow(false);
 
 	m_arrComDlg[(UINT)DLG_TYPE::ANIMATOR2D] = new CAnimator2DDlg;
 	m_arrComDlg[(UINT)DLG_TYPE::ANIMATOR2D]->Create(IDD_ANIMATOR2DDLG, this);
@@ -108,7 +113,6 @@ void CComponentView::init()
 
 	// 타겟 오브젝트 찾기
 	vector<CGameObject*> vecOut;
-	//CSceneMgr::GetInst()->FindGameObject(L"Player", vecOut);
 	CSceneMgr::GetInst()->FindGameObject(m_pTarget->GetName(), vecOut);
 
 	if (!vecOut.empty())

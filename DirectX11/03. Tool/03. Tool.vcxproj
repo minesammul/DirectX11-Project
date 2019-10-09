@@ -201,6 +201,7 @@
     <ClInclude Include="Animator2DDlg.h" />
     <ClInclude Include="BtnView.h" />
     <ClInclude Include="CameraDlg.h" />
+    <ClInclude Include="Collider2DDlg.h" />
     <ClInclude Include="CollisionLayer.h" />
     <ClInclude Include="ComponentDlg.h" />
     <ClInclude Include="ComponentView.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="Animator2DDlg.cpp" />
     <ClCompile Include="BtnView.cpp" />
     <ClCompile Include="CameraDlg.cpp" />
+    <ClCompile Include="Collider2DDlg.cpp" />
     <ClCompile Include="CollisionLayer.cpp" />
     <ClCompile Include="ComponentDlg.cpp" />
     <ClCompile Include="ComponentView.cpp" />
