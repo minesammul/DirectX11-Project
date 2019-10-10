@@ -65,6 +65,7 @@ void CTransformDlg::init(CGameObject * _pTarget)
 {
 	// 현재 레이어 목록 추가
 	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+	m_cbLayer.ResetContent();
 
 	for (UINT i = 0 , j = 0; i < MAX_LAYER; ++i)
 	{

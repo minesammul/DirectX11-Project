@@ -71,8 +71,10 @@ void CLayer::AddObject(CGameObject * _pObj, bool _bMoveAll)
 	{
 		m_vecParentObj.push_back(_pObj);
 	}
+
 	_pObj->SetLayerIdx(m_iLayerIdx);
 	
+
 	// 2. 자식 오브젝트도 전부 옮길것인지
 	if (_bMoveAll)
 	{

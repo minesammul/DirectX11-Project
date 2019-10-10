@@ -139,6 +139,9 @@
     <ClInclude Include="Collider2DDlg.h">
       <Filter>04. Dialog\ComDlg</Filter>
     </ClInclude>
+    <ClInclude Include="AddLayerDlg.h">
+      <Filter>03. View\BtnView</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -215,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="Collider2DDlg.cpp">
       <Filter>04. Dialog\ComDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="AddLayerDlg.cpp">
+      <Filter>03. View\BtnView</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

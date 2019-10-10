@@ -198,6 +198,7 @@
     <ClInclude Include="AddAnimDlg.h" />
     <ClInclude Include="AddAnimFile.h" />
     <ClInclude Include="AddComponentDlg.h" />
+    <ClInclude Include="AddLayerDlg.h" />
     <ClInclude Include="Animator2DDlg.h" />
     <ClInclude Include="BtnView.h" />
     <ClInclude Include="CameraDlg.h" />
@@ -227,6 +228,7 @@
     <ClCompile Include="AddAnimDlg.cpp" />
     <ClCompile Include="AddAnimFile.cpp" />
     <ClCompile Include="AddComponentDlg.cpp" />
+    <ClCompile Include="AddLayerDlg.cpp" />
     <ClCompile Include="Animator2DDlg.cpp" />
     <ClCompile Include="BtnView.cpp" />
     <ClCompile Include="CameraDlg.cpp" />

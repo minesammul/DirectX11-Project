@@ -39,6 +39,8 @@ public:
 	afx_msg void OnBtnNextStep();
 	CButton collisionLayerButton;
 	afx_msg void OnBnClickedButtonCollisionLayer();
+	afx_msg void OnBnClickedButtonAddLayer();
+	CButton buttonAddLayer;
 };
 
 

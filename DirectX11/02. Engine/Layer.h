@@ -24,9 +24,9 @@ public:
 public:
 	void AddObject(CGameObject* _pObj, bool _bMoveAll);	
 	int GetLayerIdx() { return m_iLayerIdx; }
-	
+	void SetLayerIdx(UINT _iIdx) { m_iLayerIdx = _iIdx; }
+
 private:
-	void SetLayerIdx(UINT _iIdx) {m_iLayerIdx = _iIdx;}
 	void RegisterObj(CGameObject* _pObj) { m_vecObject.push_back(_pObj); }
 	void ClearRegisterObj() { m_vecObject.clear(); }
 	void RemoveParentObj(CGameObject* _pObj);
