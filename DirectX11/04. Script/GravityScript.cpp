@@ -6,6 +6,7 @@ CGravityScript::CGravityScript():
 	CScript((UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
 {
 	nowGravityValue = GRAVITY_VALUE;
+	activeGravity = true;
 }
 
 
@@ -15,6 +16,11 @@ CGravityScript::~CGravityScript()
 
 void CGravityScript::update()
 {
+	if (activeGravity == false)
+	{
+		return;
+	}
+
 	nowGravityValue += GRAVITY_VALUE;
 
 	Vec3 objectPosition = Object()->Transform()->GetLocalPos();

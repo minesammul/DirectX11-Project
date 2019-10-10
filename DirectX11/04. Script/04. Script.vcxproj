@@ -195,6 +195,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="GravityScript.h" />
     <ClInclude Include="HilightScript.h" />
     <ClInclude Include="MonsterScript.h" />
+    <ClInclude Include="PlatformCollisionScript.h" />
     <ClInclude Include="PlayerScript.h" />
     <ClInclude Include="SaveLoadMgr.h" />
     <ClInclude Include="ScriptMgr.h" />
@@ -206,6 +207,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="GravityScript.cpp" />
     <ClCompile Include="HilightScript.cpp" />
     <ClCompile Include="MonsterScript.cpp" />
+    <ClCompile Include="PlatformCollisionScript.cpp" />
     <ClCompile Include="PlayerScript.cpp" />
     <ClCompile Include="SaveLoadMgr.cpp" />
     <ClCompile Include="ScriptMgr.cpp" />

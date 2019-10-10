@@ -153,7 +153,7 @@ void CSaveLoadMgr::LoadScene(const wstring & _strPath)
 	CScene* pScene = new CScene;
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		CLayer* pLayer = LoadLayer(pFile);
+		CLayer* pLayer = LoadLayer(pFile, i);
 		if (nullptr != pLayer)
 			pScene->AddLayer(pLayer, i);
 	}
@@ -217,7 +217,7 @@ void CSaveLoadMgr::LoadResource(FILE * _pFile)
 	}
 }
 
-CLayer * CSaveLoadMgr::LoadLayer(FILE * _pFile)
+CLayer * CSaveLoadMgr::LoadLayer(FILE * _pFile, int layerIndex)
 {
 	bool bExist = true;
 	fread(&bExist, 1, 1, _pFile);
@@ -230,6 +230,9 @@ CLayer * CSaveLoadMgr::LoadLayer(FILE * _pFile)
 	// Layer 이름
 	wstring strLayerName = LoadWString(_pFile);
 	pLayer->SetName(strLayerName);
+	
+	// Layer Index
+	pLayer->SetLayerIdx(layerIndex);
 
 	// GameObject 로딩	
 	UINT iSize = 0;

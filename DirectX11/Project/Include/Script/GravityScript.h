@@ -7,6 +7,9 @@ private:
 	const float GRAVITY_VALUE = 0.98f;
 	float nowGravityValue;
 
+	bool activeGravity;
+
+
 public:
 	CGravityScript();
 	~CGravityScript();
@@ -16,6 +19,6 @@ public:
 
 public:
 	virtual void update();
-
+	void SetActiveGravity(bool gravity) { activeGravity = gravity; }
 };
 

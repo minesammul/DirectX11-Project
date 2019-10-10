@@ -11,24 +11,15 @@
     <Filter Include="Manager">
       <UniqueIdentifier>{eb00af6d-00da-4922-a664-f86eb7c39997}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Example Scripts">
+      <UniqueIdentifier>{916f77f3-8676-401c-919a-a243a4ec3150}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="BulletScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="HilightScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="ScriptMgr.h">
       <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="MonsterScript.h">
-      <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="SaveLoadMgr.h">
       <Filter>Manager</Filter>
@@ -36,29 +27,47 @@
     <ClInclude Include="GravityScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="PlatformCollisionScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletScript.h">
+      <Filter>Example Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="HilightScript.h">
+      <Filter>Example Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterScript.h">
+      <Filter>Example Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerScript.h">
+      <Filter>Example Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="BulletScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="HilightScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="ScriptMgr.cpp">
       <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="MonsterScript.cpp">
-      <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="SaveLoadMgr.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="GravityScript.cpp">
       <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformCollisionScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletScript.cpp">
+      <Filter>Example Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="HilightScript.cpp">
+      <Filter>Example Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterScript.cpp">
+      <Filter>Example Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerScript.cpp">
+      <Filter>Example Scripts</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
