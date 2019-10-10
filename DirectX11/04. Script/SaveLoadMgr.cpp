@@ -10,6 +10,7 @@
 #include <Component.h>
 #include <Script.h>
 #include <Camera.h>
+#include <CollisionMgr.h>
 
 CSaveLoadMgr::CSaveLoadMgr(){}
 CSaveLoadMgr::~CSaveLoadMgr(){}
@@ -30,6 +31,28 @@ void CSaveLoadMgr::SaveScene(const wstring& _strPath)
 		CLayer* pLayer = pCurScene->GetLayer(i);
 		SaveLayer(pLayer, pFile);
 	}
+
+	//Layer Collision Check Save
+	for (UINT layerIndex = 0; layerIndex < MAX_LAYER; layerIndex++)
+	{
+		for (UINT checkLayerIndex = layerIndex; checkLayerIndex < MAX_LAYER; checkLayerIndex++)
+		{
+			CLayer* layer = CSceneMgr::GetInst()->GetCurScene()->GetLayer(layerIndex);
+			CLayer* checkLayer = CSceneMgr::GetInst()->GetCurScene()->GetLayer(checkLayerIndex);
+			if (layer == nullptr || checkLayer == nullptr)
+			{
+				continue;
+			}
+			
+			bool collisionCheck = CCollisionMgr::GetInst()->IsCollisionLayers(
+				layer->GetName(),
+				checkLayer->GetName()
+			);
+
+			fwrite(&collisionCheck, sizeof(bool), 1, pFile);
+		}
+	}
+
 
 	fclose(pFile);
 }
@@ -161,6 +184,29 @@ void CSaveLoadMgr::LoadScene(const wstring & _strPath)
 	// SceneMgr 에 현재 Scene 으로 지정
 	CSceneMgr::GetInst()->ChangeScene(pScene);
 
+	// Layer Collision Check Load
+	for (UINT layerIndex = 0; layerIndex < MAX_LAYER; layerIndex++)
+	{
+		for (UINT checkLayerIndex = layerIndex; checkLayerIndex < MAX_LAYER; checkLayerIndex++)
+		{
+			CLayer* layer = CSceneMgr::GetInst()->GetCurScene()->GetLayer(layerIndex);
+			CLayer* checkLayer = CSceneMgr::GetInst()->GetCurScene()->GetLayer(checkLayerIndex);
+			if (layer == nullptr || checkLayer == nullptr)
+			{
+				continue;
+			}
+			bool collisionCheck = false;
+			fread(&collisionCheck, sizeof(bool), 1, pFile);
+			
+			if (collisionCheck == true)
+			{
+				CCollisionMgr::GetInst()->CollisionCheck(
+					layer->GetName(),
+					checkLayer->GetName()
+				);
+			}
+		}
+	}
 
 	fclose(pFile);
 }
