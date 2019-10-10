@@ -30,7 +30,13 @@ int main()
 			&& wcscmp(tData.cFileName, L"STScript.h")
 			&& wcscmp(tData.cFileName, L"SaveLoadMgr.h"))
 		{
-			g_vecName.push_back(wstring(tData.cFileName).substr(0, wcslen(tData.cFileName) - 2));
+			const wchar_t* subStr = L"Script";
+			wchar_t* tokStr = wcsstr(tData.cFileName, subStr);
+
+			if (tokStr != nullptr)
+			{
+				g_vecName.push_back(wstring(tData.cFileName).substr(0, wcslen(tData.cFileName) - 2));
+			}
 		}
 
 		if (!FindNextFile(handle, &tData))
