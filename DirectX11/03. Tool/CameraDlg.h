@@ -34,4 +34,6 @@ public:
 	afx_msg void OnEnChangeScale();
 	afx_msg void OnEnChangeFOV();
 	afx_msg void OnCbnSelchangeCombo();
+	CListCtrl listCtrlCameraViewLayer;
+	afx_msg void OnNMClickListViewLayerCheck(NMHDR *pNMHDR, LRESULT *pResult);
 };

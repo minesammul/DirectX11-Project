@@ -7,7 +7,9 @@
 
 #include <GameObject.h>
 #include <Camera.h>
-
+#include <SceneMgr.h>
+#include <Scene.h>
+#include <Layer.h>
 
 // CCameraDlg 대화 상자
 
@@ -29,6 +31,7 @@ void CCameraDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT1, m_editFar);
 	DDX_Control(pDX, IDC_EDIT2, m_editScale);
 	DDX_Control(pDX, IDC_EDIT3, m_editFOV);
+	DDX_Control(pDX, IDC_LIST1, listCtrlCameraViewLayer);
 }
 
 void CCameraDlg::update(CGameObject * _pTarget)
@@ -80,6 +83,28 @@ void CCameraDlg::update(CGameObject * _pTarget)
 
 	str.Format(L"%f", fData);
 	m_editFOV.SetWindowTextW(str);
+
+	listCtrlCameraViewLayer.DeleteAllItems();
+
+	int listInputIndex = 0;
+	for (int layerIndex = 0; layerIndex < MAX_LAYER; layerIndex++)
+	{
+		CLayer* curLayer = CSceneMgr::GetInst()->GetCurScene()->GetLayer(layerIndex);
+		if (curLayer == nullptr)
+		{
+			continue;
+		}
+		
+		listCtrlCameraViewLayer.InsertItem(listInputIndex, curLayer->GetName().c_str());
+		
+		bool cameraView = false;
+		cameraView = pCam->IsValiedLayer(layerIndex);
+
+		listCtrlCameraViewLayer.SetCheck(listInputIndex, cameraView);
+
+		listInputIndex++;
+	}
+
 }
 
 
@@ -96,6 +121,7 @@ BEGIN_MESSAGE_MAP(CCameraDlg, CDialogEx)
 	ON_EN_CHANGE(IDC_EDIT3, &CCameraDlg::OnEnChangeFOV)
 
 	ON_CBN_SELCHANGE(IDC_COMBO1, &CCameraDlg::OnCbnSelchangeCombo)
+	ON_NOTIFY(NM_CLICK, IDC_LIST1, &CCameraDlg::OnNMClickListViewLayerCheck)
 END_MESSAGE_MAP()
 
 BOOL CCameraDlg::OnInitDialog()
@@ -105,6 +131,8 @@ BOOL CCameraDlg::OnInitDialog()
 	m_cbProj.AddString(L"Orthographic");
 	m_cbProj.AddString(L"Perspective");		
 
+	listCtrlCameraViewLayer.SetExtendedStyle(LVS_EX_CHECKBOXES);
+	//listCtrlCameraViewLayer.InsertColumn(0, L"non Head");
 	return TRUE;
 }
 
@@ -154,4 +182,33 @@ void CCameraDlg::OnCbnSelchangeCombo()
 	}
 
 	OnOK();
+}
+
+
+void CCameraDlg::OnNMClickListViewLayerCheck(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	if (pNMItemActivate->iItem == -1)
+	{
+		return;
+	}
+
+	CCamera* camera = GetTarget()->Camera();
+	CString checkViewLayerName = listCtrlCameraViewLayer.GetItemText(pNMItemActivate->iItem, 0);
+	
+	CLayer* selectLayer = CSceneMgr::GetInst()->GetCurScene()->FindLayer(checkViewLayerName.GetBuffer());
+	int selectLayerIndex = selectLayer->GetLayerIdx();
+	camera->CheckLayer(selectLayerIndex);
+
+	if (listCtrlCameraViewLayer.GetCheck(pNMItemActivate->iItem) == true)
+	{
+		listCtrlCameraViewLayer.SetCheck(pNMItemActivate->iItem, false);
+	}
+	else
+	{
+		listCtrlCameraViewLayer.SetCheck(pNMItemActivate->iItem, true);
+	}
+
+	*pResult = 0;
 }
