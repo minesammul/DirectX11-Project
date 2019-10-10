@@ -82,8 +82,12 @@ void CCollisionMgr::CollisionGroup(int _leftIdx, int _rightIdx)
 		for (UINT j = 0; j < vecRight.size(); ++j)
 		{
 			// 두 오브젝트 중에서 충돌체가 없는 경우가 있다면
-			if (vecLeft[i]->Collider2D() == nullptr || vecLeft[i]->Collider2D() == nullptr)
+			/*if (vecLeft[i]->Collider2D() == nullptr || vecLeft[i]->Collider2D() == nullptr)
+				continue;*/
+			if (vecLeft[i]->Collider2D() == nullptr || vecRight[j]->Collider2D() == nullptr)
+			{
 				continue;
+			}
 
 			colID.left = vecLeft[i]->Collider2D()->GetID();
 			colID.right = vecRight[j]->Collider2D()->GetID();
