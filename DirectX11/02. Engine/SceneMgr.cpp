@@ -44,105 +44,130 @@ void CSceneMgr::RegisterCamera(CCamera * _pCam)
 
 CGameObject* CSceneMgr::MousePicking(POINT mousePoint, RECT windowRect)
 {
-	vector<CGameObject*> cameraObject;
-	m_pCurScene->FindGameObject(L"MainCamera", cameraObject);
+	//vector<CGameObject*> cameraObject;
+	//m_pCurScene->FindGameObject(L"MainCamera", cameraObject);
+
+	vector<CCamera*> cameraObjects = m_pCurScene->GetCamera();
+	vector<CCamera*>::reverse_iterator cameraObjectsReverseIterator;
+	cameraObjectsReverseIterator = cameraObjects.rbegin();
 	
-	Matrix projectionMatrix = cameraObject[0]->Camera()->GetProjMat();
-	DirectX::XMVECTOR projectionDeterminant = DirectX::XMMatrixDeterminant(projectionMatrix);
-	Matrix inverseProjectionMatrix = DirectX::XMMatrixInverse(&projectionDeterminant, projectionMatrix);
+	CGameObject* finalSelectObject = nullptr;
 
-	Matrix viewMatrix = cameraObject[0]->Camera()->GetViewMat();
-	DirectX::XMVECTOR viewDeterminant = DirectX::XMMatrixDeterminant(viewMatrix);
-	Matrix inverseViewMatrix = DirectX::XMMatrixInverse(&viewDeterminant, viewMatrix);
-		
-	DirectX::XMVECTOR mouseClickPosition = DirectX::XMVectorSet(
-		(2*(float)(mousePoint.x - (windowRect.right/2)))/(float)windowRect.right,
-		(2*(float)((windowRect.bottom / 2)- mousePoint.y))/(float)windowRect.bottom,
-		1.f,
-		0.f);
-
-	mouseClickPosition = DirectX::XMVector3Transform(mouseClickPosition, inverseProjectionMatrix);
-	mouseClickPosition = DirectX::XMVector3Transform(mouseClickPosition, inverseViewMatrix);
-
-	DirectX::XMVECTOR mouseClickOriginPos = mouseClickPosition;
-	mouseClickOriginPos = DirectX::XMVectorSetZ(mouseClickOriginPos, 1.f);
-	
-	CResPtr<CMesh> pRectMesh = CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh");
-	VTX* pVtx = (VTX*)pRectMesh->GetVtxSysMem();
-
-	CGameObject* selectObject = nullptr;
-	float selectObjectZ = 1000.f;
-
-	for (int layerIndex = 0; layerIndex < MAX_LAYER; layerIndex++)
+	while (cameraObjectsReverseIterator != cameraObjects.rend())
 	{
-		if (m_pCurScene->GetLayer(layerIndex) == nullptr)
-		{
-			continue;
-		}
+		//Matrix projectionMatrix = cameraObject[0]->Camera()->GetProjMat();
+		Matrix projectionMatrix = (*cameraObjectsReverseIterator)->GetProjMat();
+		DirectX::XMVECTOR projectionDeterminant = DirectX::XMMatrixDeterminant(projectionMatrix);
+		Matrix inverseProjectionMatrix = DirectX::XMMatrixInverse(&projectionDeterminant, projectionMatrix);
 
-		vector<CGameObject*> gameObject = m_pCurScene->GetLayer(layerIndex)->GetParentObject();
-		for (int gameObjectIndex = 0; gameObjectIndex < gameObject.size(); gameObjectIndex++)
+		Matrix viewMatrix = (*cameraObjectsReverseIterator)->GetViewMat();
+		DirectX::XMVECTOR viewDeterminant = DirectX::XMMatrixDeterminant(viewMatrix);
+		Matrix inverseViewMatrix = DirectX::XMMatrixInverse(&viewDeterminant, viewMatrix);
+
+		DirectX::XMVECTOR mouseClickPosition = DirectX::XMVectorSet(
+			(2 * (float)(mousePoint.x - (windowRect.right / 2))) / (float)windowRect.right,
+			(2 * (float)((windowRect.bottom / 2) - mousePoint.y)) / (float)windowRect.bottom,
+			1.f,
+			0.f);
+
+		mouseClickPosition = DirectX::XMVector3Transform(mouseClickPosition, inverseProjectionMatrix);
+		mouseClickPosition = DirectX::XMVector3Transform(mouseClickPosition, inverseViewMatrix);
+
+		DirectX::XMVECTOR mouseClickOriginPos = mouseClickPosition;
+		mouseClickOriginPos = DirectX::XMVectorSetZ(mouseClickOriginPos, 1.f);
+
+		CResPtr<CMesh> pRectMesh = CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh");
+		VTX* pVtx = (VTX*)pRectMesh->GetVtxSysMem();
+
+		CGameObject* selectObject = nullptr;
+		float selectObjectZ = 1000.f;
+
+		for (int layerIndex = 0; layerIndex < MAX_LAYER; layerIndex++)
 		{
-			if (selectObject == nullptr)
+
+			if (m_pCurScene->GetLayer(layerIndex) == nullptr)
 			{
-				selectObject = gameObject[gameObjectIndex];
+				continue;
 			}
 
-
-			wstring tempName = gameObject[gameObjectIndex]->GetName();
-			Matrix tempWorldMatrix = gameObject[gameObjectIndex]->Transform()->GetWorldMat();
-
-			DirectX::XMVECTOR objectWorldPos[4];
-			for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++)
+			if ((*cameraObjectsReverseIterator)->IsValiedLayer(layerIndex) == false)
 			{
-				objectWorldPos[vertexIndex] = DirectX::XMVector3TransformCoord(pVtx[vertexIndex].vPos, tempWorldMatrix);
+				continue;
 			}
 
-			DirectX::XMVECTOR mouseClickDirection = mouseClickPosition - mouseClickOriginPos;
-			mouseClickDirection = DirectX::XMVector3Normalize(mouseClickDirection);
-			float clickObjectUpperRightTriangleDist;
-			
-			bool isObjectUpperRightTriangleClick = DirectX::TriangleTests::Intersects(
-				mouseClickOriginPos,
-				mouseClickDirection,
-				objectWorldPos[0],
-				objectWorldPos[1],
-				objectWorldPos[3],
-				clickObjectUpperRightTriangleDist
-				);
-
-			float clickObjectBottomLeftTriangleDist;
-			bool isObjectBottomLeftTriangleClick = DirectX::TriangleTests::Intersects(
-				mouseClickOriginPos,
-				mouseClickDirection,
-				objectWorldPos[0],
-				objectWorldPos[3],
-				objectWorldPos[2],
-				clickObjectBottomLeftTriangleDist
-			);
-
-			if (isObjectBottomLeftTriangleClick || isObjectUpperRightTriangleClick)
+			vector<CGameObject*> gameObject = m_pCurScene->GetLayer(layerIndex)->GetParentObject();
+			for (int gameObjectIndex = 0; gameObjectIndex < gameObject.size(); gameObjectIndex++)
 			{
-				float clickObjectDist = 0;
-				if (isObjectBottomLeftTriangleClick)
-				{
-					clickObjectDist = clickObjectBottomLeftTriangleDist;
-				}
-				else if (isObjectUpperRightTriangleClick)
-				{
-					clickObjectDist = clickObjectUpperRightTriangleDist;
-				}
-
-				if (clickObjectDist < selectObjectZ)
+				if (selectObject == nullptr)
 				{
 					selectObject = gameObject[gameObjectIndex];
-					selectObjectZ = clickObjectDist;
+				}
+
+
+				wstring tempName = gameObject[gameObjectIndex]->GetName();
+				Matrix tempWorldMatrix = gameObject[gameObjectIndex]->Transform()->GetWorldMat();
+
+				DirectX::XMVECTOR objectWorldPos[4];
+				for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++)
+				{
+					objectWorldPos[vertexIndex] = DirectX::XMVector3TransformCoord(pVtx[vertexIndex].vPos, tempWorldMatrix);
+				}
+
+				DirectX::XMVECTOR mouseClickDirection = mouseClickPosition - mouseClickOriginPos;
+				mouseClickDirection = DirectX::XMVector3Normalize(mouseClickDirection);
+				float clickObjectUpperRightTriangleDist;
+
+				bool isObjectUpperRightTriangleClick = DirectX::TriangleTests::Intersects(
+					mouseClickOriginPos,
+					mouseClickDirection,
+					objectWorldPos[0],
+					objectWorldPos[1],
+					objectWorldPos[3],
+					clickObjectUpperRightTriangleDist
+				);
+
+				float clickObjectBottomLeftTriangleDist;
+				bool isObjectBottomLeftTriangleClick = DirectX::TriangleTests::Intersects(
+					mouseClickOriginPos,
+					mouseClickDirection,
+					objectWorldPos[0],
+					objectWorldPos[3],
+					objectWorldPos[2],
+					clickObjectBottomLeftTriangleDist
+				);
+
+				if (isObjectBottomLeftTriangleClick || isObjectUpperRightTriangleClick)
+				{
+					float clickObjectDist = 0;
+					if (isObjectBottomLeftTriangleClick)
+					{
+						clickObjectDist = clickObjectBottomLeftTriangleDist;
+					}
+					else if (isObjectUpperRightTriangleClick)
+					{
+						clickObjectDist = clickObjectUpperRightTriangleDist;
+					}
+
+					if (clickObjectDist < selectObjectZ)
+					{
+						selectObject = gameObject[gameObjectIndex];
+						selectObjectZ = clickObjectDist;
+					}
 				}
 			}
 		}
+
+		if (selectObject != nullptr &&
+			selectObject->GetComponent(COMPONENT_TYPE::CAMERA) == nullptr)
+		{
+			finalSelectObject = selectObject;
+			break;
+		}
+
+		cameraObjectsReverseIterator++;
 	}
 
-	return selectObject;
+	return finalSelectObject;
 }
 
 void CSceneMgr::init()
