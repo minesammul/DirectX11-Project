@@ -7,6 +7,7 @@
 
 #include <GameObject.h>
 #include <Animator2D.h>
+#include <Camera.h>
 
 // AddComponentDlg 대화 상자
 
@@ -118,6 +119,7 @@ void AddComponentDlg::OnBnClickedButtonAddComponent()
 	case COMPONENT_TYPE::MESHRENDER:
 		break;
 	case COMPONENT_TYPE::CAMERA:
+		targetObject->AddComponent(new CCamera);
 		break;
 	case COMPONENT_TYPE::COLLIDER2D:
 		break;
