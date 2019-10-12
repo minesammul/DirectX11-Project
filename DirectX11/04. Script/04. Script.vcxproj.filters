@@ -14,6 +14,12 @@
     <Filter Include="Example Scripts">
       <UniqueIdentifier>{916f77f3-8676-401c-919a-a243a4ec3150}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script Component">
+      <UniqueIdentifier>{4252df1e-c2a8-4a06-a0fd-46ff66b7461c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\CharacterStageCollisionScript">
+      <UniqueIdentifier>{49bcba2f-8483-4c81-b678-51f57425a0a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -27,9 +33,6 @@
     <ClInclude Include="GravityScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="PlatformCollisionScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="BulletScript.h">
       <Filter>Example Scripts</Filter>
     </ClInclude>
@@ -40,7 +43,43 @@
       <Filter>Example Scripts</Filter>
     </ClInclude>
     <ClInclude Include="PlayerScript.h">
-      <Filter>Example Scripts</Filter>
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionState.h">
+      <Filter>Script Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionStateIdle.h">
+      <Filter>Script Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionStateMove.h">
+      <Filter>Script Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionStateJump.h">
+      <Filter>Script Component</Filter>
+    </ClInclude>
+    <ClInclude Include="BottomWallCollisionScript.h">
+      <Filter>Scripts\CharacterStageCollisionScript</Filter>
+    </ClInclude>
+    <ClInclude Include="LeftWallCollisionScript.h">
+      <Filter>Scripts\CharacterStageCollisionScript</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformCollisionScript.h">
+      <Filter>Scripts\CharacterStageCollisionScript</Filter>
+    </ClInclude>
+    <ClInclude Include="RightWallCollisionScript.h">
+      <Filter>Scripts\CharacterStageCollisionScript</Filter>
+    </ClInclude>
+    <ClInclude Include="TopWallCollisionScript.h">
+      <Filter>Scripts\CharacterStageCollisionScript</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionStateSit.h">
+      <Filter>Script Component</Filter>
+    </ClInclude>
+    <ClInclude Include="RightBottomWallCollisionScript.h">
+      <Filter>Scripts\CharacterStageCollisionScript</Filter>
+    </ClInclude>
+    <ClInclude Include="LeftBottomWallCollisionScript.h">
+      <Filter>Scripts\CharacterStageCollisionScript</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -54,9 +93,6 @@
     <ClCompile Include="GravityScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="PlatformCollisionScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="BulletScript.cpp">
       <Filter>Example Scripts</Filter>
     </ClCompile>
@@ -67,7 +103,43 @@
       <Filter>Example Scripts</Filter>
     </ClCompile>
     <ClCompile Include="PlayerScript.cpp">
-      <Filter>Example Scripts</Filter>
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionState.cpp">
+      <Filter>Script Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionStateIdle.cpp">
+      <Filter>Script Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionStateMove.cpp">
+      <Filter>Script Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionStateJump.cpp">
+      <Filter>Script Component</Filter>
+    </ClCompile>
+    <ClCompile Include="BottomWallCollisionScript.cpp">
+      <Filter>Scripts\CharacterStageCollisionScript</Filter>
+    </ClCompile>
+    <ClCompile Include="LeftWallCollisionScript.cpp">
+      <Filter>Scripts\CharacterStageCollisionScript</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformCollisionScript.cpp">
+      <Filter>Scripts\CharacterStageCollisionScript</Filter>
+    </ClCompile>
+    <ClCompile Include="RightWallCollisionScript.cpp">
+      <Filter>Scripts\CharacterStageCollisionScript</Filter>
+    </ClCompile>
+    <ClCompile Include="TopWallCollisionScript.cpp">
+      <Filter>Scripts\CharacterStageCollisionScript</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionStateSit.cpp">
+      <Filter>Script Component</Filter>
+    </ClCompile>
+    <ClCompile Include="RightBottomWallCollisionScript.cpp">
+      <Filter>Scripts\CharacterStageCollisionScript</Filter>
+    </ClCompile>
+    <ClCompile Include="LeftBottomWallCollisionScript.cpp">
+      <Filter>Scripts\CharacterStageCollisionScript</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -18,6 +18,7 @@ void CGravityScript::update()
 {
 	if (activeGravity == false)
 	{
+		nowGravityValue = GRAVITY_VALUE;
 		return;
 	}
 

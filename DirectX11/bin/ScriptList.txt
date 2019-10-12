@@ -1,6 +1,12 @@
+BottomWallCollisionScript
 BulletScript
 GravityScript
 HilightScript
+LeftBottomWallCollisionScript
+LeftWallCollisionScript
 MonsterScript
 PlatformCollisionScript
 PlayerScript
+RightBottomWallCollisionScript
+RightWallCollisionScript
+TopWallCollisionScript

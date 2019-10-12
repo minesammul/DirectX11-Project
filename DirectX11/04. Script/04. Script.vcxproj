@@ -191,24 +191,45 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BottomWallCollisionScript.h" />
     <ClInclude Include="BulletScript.h" />
     <ClInclude Include="GravityScript.h" />
     <ClInclude Include="HilightScript.h" />
+    <ClInclude Include="LeftBottomWallCollisionScript.h" />
+    <ClInclude Include="LeftWallCollisionScript.h" />
     <ClInclude Include="MonsterScript.h" />
     <ClInclude Include="PlatformCollisionScript.h" />
+    <ClInclude Include="PlayerActionState.h" />
+    <ClInclude Include="PlayerActionStateIdle.h" />
+    <ClInclude Include="PlayerActionStateJump.h" />
+    <ClInclude Include="PlayerActionStateMove.h" />
+    <ClInclude Include="PlayerActionStateSit.h" />
     <ClInclude Include="PlayerScript.h" />
+    <ClInclude Include="RightBottomWallCollisionScript.h" />
+    <ClInclude Include="RightWallCollisionScript.h" />
     <ClInclude Include="SaveLoadMgr.h" />
     <ClInclude Include="ScriptMgr.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TopWallCollisionScript.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BottomWallCollisionScript.cpp" />
     <ClCompile Include="BulletScript.cpp" />
     <ClCompile Include="GravityScript.cpp" />
     <ClCompile Include="HilightScript.cpp" />
+    <ClCompile Include="LeftBottomWallCollisionScript.cpp" />
+    <ClCompile Include="LeftWallCollisionScript.cpp" />
     <ClCompile Include="MonsterScript.cpp" />
     <ClCompile Include="PlatformCollisionScript.cpp" />
+    <ClCompile Include="PlayerActionState.cpp" />
+    <ClCompile Include="PlayerActionStateIdle.cpp" />
+    <ClCompile Include="PlayerActionStateJump.cpp" />
+    <ClCompile Include="PlayerActionStateMove.cpp" />
+    <ClCompile Include="PlayerActionStateSit.cpp" />
     <ClCompile Include="PlayerScript.cpp" />
+    <ClCompile Include="RightBottomWallCollisionScript.cpp" />
+    <ClCompile Include="RightWallCollisionScript.cpp" />
     <ClCompile Include="SaveLoadMgr.cpp" />
     <ClCompile Include="ScriptMgr.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -217,6 +238,7 @@ call CodeGen.exe</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TopWallCollisionScript.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
