@@ -44,6 +44,7 @@ public:
 
 	const map<wstring, CAnimation2D*>& GetAnimList() { return m_mapAnim; }
 	CAnimation2D* GetCurAnim() { return m_pCurAnim; }
+	void SetCurAnim(CAnimation2D* animation) { m_pCurAnim = animation; }
 
 	bool IsRepeat() { return m_bRepeat; }
 	void SetRepeat(bool _bTrue) { m_bRepeat = _bTrue; }	
