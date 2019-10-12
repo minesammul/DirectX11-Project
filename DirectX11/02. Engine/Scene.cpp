@@ -61,6 +61,7 @@ void CScene::lateupdate()
 
 void CScene::finalupdate()
 {
+	m_vecCam.clear();
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
 		if (nullptr == m_arrLayer[i])
@@ -87,7 +88,7 @@ void CScene::render()
 		}
 	}
 
-	m_vecCam.clear();
+	//m_vecCam.clear();
 
 	// 각 레이어에 속한 오브젝트 해제
 	for (UINT i = 0; i < MAX_LAYER; ++i)
