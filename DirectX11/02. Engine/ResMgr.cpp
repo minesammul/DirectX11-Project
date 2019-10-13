@@ -229,6 +229,8 @@ void CResMgr::CreateDefaultShader()
 
 	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
 	pShader->AddParam(SHADER_PARAM::TEX_0, L"Output Image");
+	pShader->AddParam(SHADER_PARAM::INT_0, L"Grid Count");
+	pShader->AddParam(SHADER_PARAM::VEC2_0, L"Output Grid Position");
 
 	strKey = L"Std2DShader";
 	pShader->SetName(strKey);

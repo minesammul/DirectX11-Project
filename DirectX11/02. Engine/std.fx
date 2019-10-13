@@ -98,8 +98,38 @@ PS_OUT PS_Tex(VTX_TEX_OUTPUT _input)
 VTX_TEX_OUTPUT VS_Std2D(VTX_TEX_INPUT _input)
 {
     VTX_TEX_OUTPUT output = (VTX_TEX_OUTPUT) 0.f;
-    
-    float4 vWorldPos = mul(float4(_input.vPos, 1.f), g_matWorld);
+    //임시코드 나중에 따로 타일맵 셰이더를 작성한다.
+    float tileSizeX = _input.vPos.x / g_int_0;
+    float tileSizeY = _input.vPos.y / g_int_0;
+    _input.vPos.x /= g_int_0;
+    _input.vPos.y /= g_int_0;
+    int repeatCount = g_int_0 - 1;
+    for (int index = 0; index < repeatCount; index++)
+    {
+        if (tileSizeX < 0)
+        {
+            _input.vPos.x += tileSizeX;
+        }
+        else
+        {
+            _input.vPos.x -= tileSizeX;
+        }
+
+        if(tileSizeY > 0)
+        {
+            _input.vPos.y += tileSizeY;
+        }
+        else
+        {
+            _input.vPos.y -= tileSizeY;
+        }
+    }
+
+    _input.vPos.x += tileSizeX * g_vec2_0.x;
+    _input.vPos.y -= tileSizeY * g_vec2_0.y;
+    //
+
+        float4 vWorldPos = mul(float4(_input.vPos, 1.f), g_matWorld);
     float4 vViewPos = mul(vWorldPos, g_matView);
     float4 vProj = mul(vViewPos, g_matProj);
 
