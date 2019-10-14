@@ -12,6 +12,8 @@
 #include "PlayerScript.h"
 #include "RightBottomWallCollisionScript.h"
 #include "RightWallCollisionScript.h"
+#include "TileMapScript.h"
+#include "TileScript.h"
 #include "TopWallCollisionScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
@@ -27,6 +29,8 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"PlayerScript");
 	_vec.push_back(L"RightBottomWallCollisionScript");
 	_vec.push_back(L"RightWallCollisionScript");
+	_vec.push_back(L"TileMapScript");
+	_vec.push_back(L"TileScript");
 	_vec.push_back(L"TopWallCollisionScript");
 }
 
@@ -54,6 +58,10 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CRightBottomWallCollisionScript;
 	if (L"RightWallCollisionScript" == _strScriptName)
 		return new CRightWallCollisionScript;
+	if (L"TileMapScript" == _strScriptName)
+		return new CTileMapScript;
+	if (L"TileScript" == _strScriptName)
+		return new CTileScript;
 	if (L"TopWallCollisionScript" == _strScriptName)
 		return new CTopWallCollisionScript;
 	return nullptr;
@@ -105,6 +113,14 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::RIGHTWALLCOLLISIONSCRIPT:
 		return L"RightWallCollisionScript";
+		break;
+
+	case SCRIPT_TYPE::TILEMAPSCRIPT:
+		return L"TileMapScript";
+		break;
+
+	case SCRIPT_TYPE::TILESCRIPT:
+		return L"TileScript";
 		break;
 
 	case SCRIPT_TYPE::TOPWALLCOLLISIONSCRIPT:

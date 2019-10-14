@@ -9,4 +9,6 @@ PlatformCollisionScript
 PlayerScript
 RightBottomWallCollisionScript
 RightWallCollisionScript
+TileMapScript
+TileScript
 TopWallCollisionScript

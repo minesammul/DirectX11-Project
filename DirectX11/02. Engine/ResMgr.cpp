@@ -218,7 +218,23 @@ void CResMgr::CreateDefaultShader()
 	strKey = L"TextureShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
-		
+	
+	// ==============
+	// TileSet2DShader
+	// ==============
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\std.fx", "VS_TileSet2D", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\std.fx", "PS_TileSet2D", 5, 0);
+
+	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
+	pShader->AddParam(SHADER_PARAM::TEX_0, L"Output Image");
+	pShader->AddParam(SHADER_PARAM::INT_0, L"Grid Count");
+	pShader->AddParam(SHADER_PARAM::INT_1, L"Tile Count");
+	pShader->AddParam(SHADER_PARAM::INT_2, L"Select Tile");
+
+	strKey = L"TileSet2DShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 
 	// ==============
 	// Std2D Shader
@@ -229,8 +245,6 @@ void CResMgr::CreateDefaultShader()
 
 	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
 	pShader->AddParam(SHADER_PARAM::TEX_0, L"Output Image");
-	pShader->AddParam(SHADER_PARAM::INT_0, L"Grid Count");
-	pShader->AddParam(SHADER_PARAM::VEC2_0, L"Output Grid Position");
 
 	strKey = L"Std2DShader";
 	pShader->SetName(strKey);
