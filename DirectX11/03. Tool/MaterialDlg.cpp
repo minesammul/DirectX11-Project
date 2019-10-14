@@ -36,17 +36,21 @@ void CMaterialDlg::SetResource(CResource * _pRes)
 {
 	CResInfoDlg::SetResource(_pRes);
 
-	CResPtr<CShader> pShader = ((CMaterial*)_pRes)->GetShader();
-	if (nullptr == pShader)
-		m_editShaderName.SetWindowTextW(L"");
-	else
-		m_editShaderName.SetWindowTextW(pShader->GetName().c_str());
-
-
 	listShaderParameterType.ResetContent();
-	
 	listctrlShaderParameterValue.DeleteAllItems();
 	listctrlShaderTextureParameter.DeleteAllItems();
+
+	CResPtr<CShader> pShader = ((CMaterial*)_pRes)->GetShader();
+	if (nullptr == pShader)
+	{
+		m_editShaderName.SetWindowTextW(L"");
+		return;
+	}
+	else
+	{
+		m_editShaderName.SetWindowTextW(pShader->GetName().c_str());
+	}
+
 	editShaderTextureValue.SetWindowTextW(L"");
 
 	vector<tPramInfo> shaderParameterData = pShader->GetParamInfo();
