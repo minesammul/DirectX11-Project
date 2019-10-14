@@ -2,7 +2,7 @@ d:\github project\directx11\directx11\04. script\debug\script_debug.pch
 d:\github project\directx11\directx11\04. script\debug\04. script.pdb
 d:\github project\directx11\directx11\04. script\debug\04. script.idb
 d:\github project\directx11\directx11\04. script\debug\stdafx.obj
-d:\github project\directx11\directx11\04. script\debug\topwallcollisionscript.obj
+d:\github project\directx11\directx11\04. script\debug\tilemapscript.obj
 d:\github project\directx11\directx11\04. script\debug\scriptmgr.obj
 d:\github project\directx11\directx11\04. script\debug\saveloadmgr.obj
 d:\github project\directx11\directx11\04. script\debug\rightwallcollisionscript.obj
@@ -21,6 +21,8 @@ d:\github project\directx11\directx11\04. script\debug\hilightscript.obj
 d:\github project\directx11\directx11\04. script\debug\gravityscript.obj
 d:\github project\directx11\directx11\04. script\debug\bulletscript.obj
 d:\github project\directx11\directx11\04. script\debug\bottomwallcollisionscript.obj
+d:\github project\directx11\directx11\04. script\debug\topwallcollisionscript.obj
+d:\github project\directx11\directx11\04. script\debug\tilescript.obj
 d:\github project\directx11\directx11\project\library\script\x86\script_debug.lib
 d:\github project\directx11\directx11\04. script\debug\04. script.tlog\cl.command.1.tlog
 d:\github project\directx11\directx11\04. script\debug\04. script.tlog\cl.read.1.tlog

@@ -10,12 +10,17 @@ class CSceneMgr
 private:
 	CScene*	m_pCurScene;
 	CScene* m_pNextScene;
-	   	 
+	
+	CGameObject* mousePickingObject;
+	DirectX::XMVECTOR mousePickingPosition;
+
 public:
 	void RegisterCamera(CCamera* _pCam);
 	CScene* GetCurScene() { return m_pCurScene; }
 
 	CGameObject* MousePicking(POINT mousePoint, RECT windowRect);
+	CGameObject* GetMousePickingObject();
+	DirectX::XMVECTOR GetMousePickingPosition();
 
 public:
 	void init();

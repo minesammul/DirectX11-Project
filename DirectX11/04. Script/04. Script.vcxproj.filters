@@ -81,6 +81,12 @@
     <ClInclude Include="LeftBottomWallCollisionScript.h">
       <Filter>Scripts\CharacterStageCollisionScript</Filter>
     </ClInclude>
+    <ClInclude Include="TileScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMapScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -140,6 +146,12 @@
     </ClCompile>
     <ClCompile Include="LeftBottomWallCollisionScript.cpp">
       <Filter>Scripts\CharacterStageCollisionScript</Filter>
+    </ClCompile>
+    <ClCompile Include="TileScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMapScript.cpp">
+      <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
