@@ -28,6 +28,7 @@
 CSceneMgr::CSceneMgr()
 	: m_pCurScene(nullptr)
 	, m_pNextScene(nullptr)
+	, mousePickingObject(nullptr)
 {
 }
 
@@ -75,6 +76,8 @@ CGameObject* CSceneMgr::MousePicking(POINT mousePoint, RECT windowRect)
 
 		DirectX::XMVECTOR mouseClickOriginPos = mouseClickPosition;
 		mouseClickOriginPos = DirectX::XMVectorSetZ(mouseClickOriginPos, 1.f);
+
+		mousePickingPosition = mouseClickPosition;
 
 		CResPtr<CMesh> pRectMesh = CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh");
 		VTX* pVtx = (VTX*)pRectMesh->GetVtxSysMem();
@@ -167,7 +170,19 @@ CGameObject* CSceneMgr::MousePicking(POINT mousePoint, RECT windowRect)
 		cameraObjectsReverseIterator++;
 	}
 
+	mousePickingObject = finalSelectObject;
+
 	return finalSelectObject;
+}
+
+CGameObject * CSceneMgr::GetMousePickingObject()
+{
+	return mousePickingObject;
+}
+
+DirectX::XMVECTOR CSceneMgr::GetMousePickingPosition()
+{
+	return mousePickingPosition;
 }
 
 void CSceneMgr::init()
