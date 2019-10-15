@@ -184,7 +184,7 @@ void CMainFrame::OnResourceNewmaterialCreate()
 	CHierachyView* pView = (CHierachyView*)GetHierachyView();
 	pView->GetResDlg()->Renew();
 
-	pMtrl->Save();
+	//pMtrl->Save();
 }
 
 
