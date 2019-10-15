@@ -101,12 +101,6 @@ CGameObject* CSceneMgr::MousePicking(POINT mousePoint, RECT windowRect)
 			vector<CGameObject*> gameObject = m_pCurScene->GetLayer(layerIndex)->GetParentObject();
 			for (int gameObjectIndex = 0; gameObjectIndex < gameObject.size(); gameObjectIndex++)
 			{
-				if (selectObject == nullptr)
-				{
-					selectObject = gameObject[gameObjectIndex];
-				}
-
-
 				wstring tempName = gameObject[gameObjectIndex]->GetName();
 				Matrix tempWorldMatrix = gameObject[gameObjectIndex]->Transform()->GetWorldMat();
 
