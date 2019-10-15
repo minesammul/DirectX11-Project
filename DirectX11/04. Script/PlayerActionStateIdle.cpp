@@ -85,6 +85,11 @@ void PlayerActionStateIdle::ChangeIdleToJump(CPlayerScript * player)
 				if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_SPACE) == KEY_STATE::STATE_TAB)
 				{
 					gravityScript->SetActiveGravity(true);
+
+					Vec3 playerPosition = player->Object()->Transform()->GetLocalPos();
+					playerPosition.y += 20.f;
+					player->Object()->Transform()->SetLocalPos(playerPosition);
+
 					PlayerActionStateJump::GetInstance()->SetJumpPower(PlayerActionStateJump::GetInstance()->JUMP_POWER);
 					player->SetActionState(PlayerActionStateJump::GetInstance());
 				}

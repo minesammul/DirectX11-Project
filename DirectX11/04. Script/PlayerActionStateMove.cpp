@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "PlayerActionStateMove.h"
 #include "PlayerActionStateIdle.h"
-#include "GravityScript.h"
 
 PlayerActionStateMove::PlayerActionStateMove()
 {

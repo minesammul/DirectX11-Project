@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "PlayerActionStateSit.h"
 #include "PlayerActionStateJump.h"
-//#include "GravityScript.h"
 
 PlayerActionStateSit::PlayerActionStateSit()
 {
