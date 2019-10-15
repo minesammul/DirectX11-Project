@@ -47,6 +47,11 @@ void CTileMapScript::awake()
 		}
 	}
 
+	if (tilesetScript->Object()->IsActive()==false)
+	{
+		tilesetScript = nullptr;
+	}
+
 	//
 	CResPtr<CTexture> tileTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\No Animation Tile\\16x16\\16x16Tileset.png");
 	Object()->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &tileTexture);
