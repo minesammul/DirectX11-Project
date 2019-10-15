@@ -8,6 +8,7 @@
 class CMaterial :
 	public CResource
 {
+private:
 	CResPtr<CShader>	m_pShader;
 	tShaderParam		m_param;
 	CResPtr<CTexture>   m_arrTex[(UINT)SHADER_PARAM::TEX_END - (UINT)SHADER_PARAM::TEX_0];
@@ -18,6 +19,8 @@ public:
 	void SetData(SHADER_PARAM _eType, void* _pSrc);
 	tShaderParam GetParamData() { return m_param; }
 	CResPtr<CTexture>* GetTexData() { return m_arrTex; }
+
+	void SetTileData(int tileData[]);
 
 public:
 	void UpdateData();

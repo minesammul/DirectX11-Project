@@ -1,6 +1,11 @@
 #ifndef _VALUE
 #define _VALUE
 
+struct TileComponent
+{
+    int4 referenceIndex;
+};
+
 cbuffer MATRIX : register(b0)
 {
     row_major matrix g_matWorld;
@@ -16,6 +21,8 @@ cbuffer MATERIAL : register(b1)
     int g_int_1;
     int g_int_2;
     int g_int_3;
+
+    TileComponent g_tileData[256];
 
     float g_float_0;
     float g_float_1;

@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Scripts">
       <UniqueIdentifier>{004dc63f-8a69-44eb-a7c9-a3f3e6a5fae7}</UniqueIdentifier>
     </Filter>
@@ -20,10 +16,11 @@
     <Filter Include="Scripts\CharacterStageCollisionScript">
       <UniqueIdentifier>{49bcba2f-8483-4c81-b678-51f57425a0a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Defalut">
+      <UniqueIdentifier>{1a9be6af-0890-48c1-918c-23666061dcd3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
     <ClInclude Include="ScriptMgr.h">
       <Filter>Manager</Filter>
     </ClInclude>
@@ -87,9 +84,14 @@
     <ClInclude Include="TileMapScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Defalut</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Defalut</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="ScriptMgr.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
@@ -152,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="TileMapScript.cpp">
       <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Defalut</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
