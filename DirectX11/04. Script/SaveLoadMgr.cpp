@@ -349,6 +349,7 @@ CGameObject * CSaveLoadMgr::LoadGameObject(FILE * _pFile)
 		// Script Name		
 		strScriptName = LoadWString(_pFile);
 		CScript* pScript = CScriptMgr::GetScript(strScriptName);
+		pScript->LoadFromScene(_pFile);
 		pObject->AddComponent(pScript);
 	}
 
