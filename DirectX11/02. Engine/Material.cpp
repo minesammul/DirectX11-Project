@@ -88,6 +88,14 @@ void CMaterial::SetData(SHADER_PARAM _eType, void * _pSrc)
 	}*/
 }
 
+void CMaterial::SetTileData(int tileData[])
+{
+	for (int index = 0; index < 1024; index++)
+	{
+		m_param.referenceTileIndex[index] = tileData[index];
+	}
+}
+
 void CMaterial::UpdateData()
 {
 	if (m_pShader == nullptr)

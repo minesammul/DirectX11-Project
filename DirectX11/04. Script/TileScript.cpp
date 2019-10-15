@@ -25,6 +25,9 @@ void CTileScript::awake()
 
 	selectTileIndex = -1;
 	Object()->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_2, &selectTileIndex);
+
+	selectTileX = -1;
+	selectTileY = -1;
 }
 
 void CTileScript::update()
@@ -35,15 +38,22 @@ void CTileScript::update()
 		{
 			DirectX::XMVECTOR mousePickingPosition = CSceneMgr::GetInst()->GetMousePickingPosition();
 			Vec3 objectScale = Object()->Transform()->GetLocalScale();
-			
+			Vec3 objectPosition = Object()->Transform()->GetLocalPos();
+
 			int gridX = mousePickingPosition.vector4_f32[0] + objectScale.x / 2;
 			int gridY = (mousePickingPosition.vector4_f32[1] - objectScale.y / 2)*(-1);
+
+			gridX -= objectPosition.x;
+			gridY += objectPosition.y;
 
 			float gridSizeX = objectScale.x / gridCount;
 			float gridSizeY = objectScale.y / gridCount;
 
 			int gridColumn = gridX / gridSizeX;
 			int gridRow = gridY / gridSizeY;
+
+			selectTileX = gridColumn;
+			selectTileY = gridRow;
 
 			selectTileIndex = gridColumn + gridCount * gridRow;
 			Object()->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_2, &selectTileIndex);
