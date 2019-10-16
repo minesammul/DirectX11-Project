@@ -47,6 +47,9 @@ public:
 	void SetScale(const Vec3& _vScale) { m_vScale = _vScale; m_vScale.z = 0.f; }
 	const Vec3& GetScale() { return m_vScale; }
 
+	Vec3 GetFinalPositon() { return m_vFinalPos; }
+	Vec3 GetFinalScale() { return m_vFinalScale; }
+
 	void SetColliderType(COLLIDER2D_TYPE _eType);
 	COLLIDER2D_TYPE GetCollider2DType() { return m_eType; }
 	
