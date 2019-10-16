@@ -14,15 +14,9 @@ CRightBottomWallCollisionScript::~CRightBottomWallCollisionScript()
 {
 }
 
-void CRightBottomWallCollisionScript::update()
-{
-
-}
 
 void CRightBottomWallCollisionScript::OnCollisionEnter(CCollider2D * _pOther)
 {
-	collisionPosition = Object()->GetParent()->Transform()->GetLocalPos();
-
 	collisionOn = true;
 
 	vector<CGameObject*> brotherObject = Object()->GetParent()->GetChild();
@@ -74,7 +68,7 @@ void CRightBottomWallCollisionScript::OnCollision(CCollider2D * _pOther)
 		float y1 = objectWorldPos[USE_POINT_INDEX_0].vector4_f32[1];
 		float y2 = objectWorldPos[USE_POINT_INDEX_1].vector4_f32[1];
 
-		float characterPositionX = Object()->GetParent()->Transform()->GetLocalPos().x + Object()->GetParent()->Transform()->GetLocalScale().x/2;
+		float characterPositionX = Object()->GetParent()->Collider2D()->GetFinalPositon().x + Object()->GetParent()->Collider2D()->GetFinalScale().x/2;
 		float x = characterPositionX;
 
 		if (x > x2)
@@ -84,9 +78,9 @@ void CRightBottomWallCollisionScript::OnCollision(CCollider2D * _pOther)
 
 		float y = ((y2 - y1) / (x2 - x1))*(x - x1) + y1;
 
-		Vec3 characterPosition = Object()->GetParent()->Transform()->GetLocalPos();
-		Vec3 characterScale = Object()->GetParent()->Transform()->GetLocalScale();
-		characterPosition.y = y + (Object()->GetParent()->Transform()->GetLocalScale().y / 2) - 5.f;
+		Vec3 characterPosition = Object()->GetParent()->Collider2D()->GetFinalPositon();
+		Vec3 characterScale = Object()->GetParent()->Collider2D()->GetFinalScale();
+		characterPosition.y = y + (characterScale.y / 2) - 7.f;
 		Object()->GetParent()->Transform()->SetLocalPos(characterPosition);
 	}
 }
