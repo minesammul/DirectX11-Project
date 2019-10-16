@@ -14,6 +14,7 @@ CRightWallCollisionScript::~CRightWallCollisionScript()
 
 void CRightWallCollisionScript::OnCollisionEnter(CCollider2D * _pOther)
 {
+	collisionOn = true;
 	collisionPosition = Object()->GetParent()->Transform()->GetLocalPos();
 }
 
@@ -22,4 +23,9 @@ void CRightWallCollisionScript::OnCollision(CCollider2D * _pOther)
 	Vec3 characterPosition = Object()->GetParent()->Transform()->GetLocalPos();
 	characterPosition.x = collisionPosition.x;
 	Object()->GetParent()->Transform()->SetLocalPos(characterPosition);
+}
+
+void CRightWallCollisionScript::OnCollisionExit(CCollider2D * _pOther)
+{
+	collisionOn = false;
 }

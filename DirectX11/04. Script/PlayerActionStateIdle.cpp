@@ -3,7 +3,9 @@
 #include "PlayerActionStateMove.h"
 #include "PlayerActionStateJump.h"
 #include "PlayerActionStateSit.h"
+#include "PlayerActionStateDash.h"
 #include "GravityScript.h"
+#include <Camera.h>
 
 PlayerActionStateIdle::PlayerActionStateIdle()
 {
@@ -39,6 +41,7 @@ void PlayerActionStateIdle::TransactionState(CPlayerScript * player)
 	ChangeIdleToMove(player);
 	ChangeIdleToSit(player);
 	ChangeIdleToJump(player);
+	ChangeIdleToDash(player);
 }
 
 void PlayerActionStateIdle::ChangeIdleToMove(CPlayerScript * player)
@@ -52,22 +55,6 @@ void PlayerActionStateIdle::ChangeIdleToMove(CPlayerScript * player)
 
 void PlayerActionStateIdle::ChangeIdleToJump(CPlayerScript * player)
 {
-	/*if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_SPACE) == KEY_STATE::STATE_TAB)
-	{
-		vector<CScript*> playerScripts;
-		playerScripts = player->Object()->GetScripts();
-		for (int scriptIndex = 0; scriptIndex < playerScripts.size(); scriptIndex++)
-		{
-			if (playerScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
-			{
-				CGravityScript* gravityScript = dynamic_cast<CGravityScript*>(playerScripts[scriptIndex]);
-				gravityScript->SetActiveGravity(true);
-			}
-		}
-
-		player->SetActionState(PlayerActionStateJump::GetInstance());
-	}*/
-
 	vector<CScript*> playerScripts;
 	playerScripts = player->Object()->GetScripts();
 	for (int scriptIndex = 0; scriptIndex < playerScripts.size(); scriptIndex++)
@@ -104,6 +91,49 @@ void PlayerActionStateIdle::ChangeIdleToSit(CPlayerScript * player)
 	if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_S) == KEY_STATE::STATE_TAB)
 	{
 		player->SetActionState(PlayerActionStateSit::GetInstance());
+	}
+}
+
+void PlayerActionStateIdle::ChangeIdleToDash(CPlayerScript * player)
+{
+	if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_RBTN) == KEY_STATE::STATE_TAB)
+	{
+		Vec3 playerPosition = player->Object()->Transform()->GetLocalPos();
+		PlayerActionStateDash::GetInstance()->SetStartPosition(playerPosition);
+
+		POINT mousePosition = CKeyMgr::GetInst()->GetMousePos();
+
+		vector<CCamera*> curSceneCameras = CSceneMgr::GetInst()->GetCurScene()->GetCamera();
+		CCamera* camera = nullptr;
+		for (int cameraIndex = 0; cameraIndex < curSceneCameras.size(); cameraIndex++)
+		{
+			CCamera* curCamera = curSceneCameras[cameraIndex];
+			if (curCamera->IsValiedLayer(player->Object()->GetLayerIdx()) == true)
+			{
+				camera = curCamera;
+				break;
+			}
+		}
+
+		XMVECTOR mouseDirection = CSceneMgr::GetInst()->CalculationSceneMousePosition(
+			mousePosition,
+			camera
+		);
+
+		mouseDirection = mouseDirection - playerPosition;
+		mouseDirection = XMVector3Normalize(mouseDirection);
+
+		Vec3 dashDirection = Vec3(mouseDirection.vector4_f32[0], mouseDirection.vector4_f32[1], mouseDirection.vector4_f32[2]);
+
+
+		playerPosition.x += dashDirection.x * PlayerActionStateDash::GetInstance()->DASH_FIRST_POWER;
+		playerPosition.y += dashDirection.y * PlayerActionStateDash::GetInstance()->DASH_FIRST_POWER;
+
+		player->Object()->Transform()->SetLocalPos(playerPosition);
+
+		PlayerActionStateDash::GetInstance()->SetDashDirection(dashDirection);
+
+		player->SetActionState(PlayerActionStateDash::GetInstance());
 	}
 }
 
