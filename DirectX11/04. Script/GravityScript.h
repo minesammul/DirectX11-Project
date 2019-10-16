@@ -24,5 +24,6 @@ public:
 	bool GetActiveGravity() { return activeGravity; }
 
 	float GetNowGravityValue() { return nowGravityValue; }
+	void SetNowGravityValue(float value) { nowGravityValue = value; }
 };
 

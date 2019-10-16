@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PlayerActionStateJump.h"
 #include "PlayerActionStateIdle.h"
+#include "PlayerActionStateDash.h"
 #include "GravityScript.h"
 
 
@@ -74,6 +75,12 @@ void PlayerActionStateJump::ActionMove(CPlayerScript * player)
 
 void PlayerActionStateJump::TransactionState(CPlayerScript * player)
 {
+	ChangeJumpToIdle(player);
+	ChangeJumpToDash(player);
+}
+
+void PlayerActionStateJump::ChangeJumpToIdle(CPlayerScript * player)
+{
 	vector<CScript*> objectScripts = player->Object()->GetScripts();
 	for (int scriptIndex = 0; scriptIndex < objectScripts.size(); scriptIndex++)
 	{
@@ -85,6 +92,38 @@ void PlayerActionStateJump::TransactionState(CPlayerScript * player)
 				player->SetActionState(PlayerActionStateIdle::GetInstance());
 			}
 		}
+	}
+}
+
+void PlayerActionStateJump::ChangeJumpToDash(CPlayerScript * player)
+{
+	if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_RBTN) == KEY_STATE::STATE_TAB)
+	{
+		Vec3 playerPosition = player->Object()->Transform()->GetLocalPos();
+		PlayerActionStateDash::GetInstance()->SetStartPosition(playerPosition);
+
+
+		Vec3 dashDirection = player->GetMouseDirection();
+		playerPosition.x += dashDirection.x * PlayerActionStateDash::GetInstance()->DASH_FIRST_POWER;
+		playerPosition.y += dashDirection.y * PlayerActionStateDash::GetInstance()->DASH_FIRST_POWER;
+
+		player->Object()->Transform()->SetLocalPos(playerPosition);
+
+		PlayerActionStateDash::GetInstance()->SetDashDirection(dashDirection);
+
+
+		vector<CScript*> objectScripts = player->Object()->GetScripts();
+		for (int scriptIndex = 0; scriptIndex < objectScripts.size(); scriptIndex++)
+		{
+			if (objectScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
+			{
+				CGravityScript* gravityScript = dynamic_cast<CGravityScript*>(objectScripts[scriptIndex]);
+				gravityScript->SetNowGravityValue(0.f);
+			}
+		}
+
+
+		player->SetActionState(PlayerActionStateDash::GetInstance());
 	}
 }
 
