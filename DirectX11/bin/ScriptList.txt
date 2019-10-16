@@ -6,6 +6,8 @@ LeftBottomWallCollisionScript
 LeftWallCollisionScript
 MonsterScript
 PlatformCollisionScript
+PlatformLeftCollisionScript
+PlatformRightCollisionScript
 PlayerScript
 RightBottomWallCollisionScript
 RightWallCollisionScript

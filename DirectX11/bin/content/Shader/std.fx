@@ -149,6 +149,7 @@ PS_OUT PS_TileSet2D(VTX_TEX_OUTPUT _input)
 
 // ==========================
 // 2D TileMap Shader
+// g_int_0 : Gird Count
 // g_int_1 : Texture에서의 Tile의 수
 // g_tex_1 : Samling Texture
 // ==========================

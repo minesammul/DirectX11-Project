@@ -1,28 +1,30 @@
-d:\github project\directx11\directx11\04. script\debug\script_debug.pch
 d:\github project\directx11\directx11\04. script\debug\04. script.pdb
 d:\github project\directx11\directx11\04. script\debug\04. script.idb
-d:\github project\directx11\directx11\04. script\debug\stdafx.obj
-d:\github project\directx11\directx11\04. script\debug\tilescript.obj
-d:\github project\directx11\directx11\04. script\debug\tilemapscript.obj
 d:\github project\directx11\directx11\04. script\debug\scriptmgr.obj
-d:\github project\directx11\directx11\04. script\debug\saveloadmgr.obj
-d:\github project\directx11\directx11\04. script\debug\rightwallcollisionscript.obj
 d:\github project\directx11\directx11\04. script\debug\rightbottomwallcollisionscript.obj
-d:\github project\directx11\directx11\04. script\debug\playerscript.obj
+d:\github project\directx11\directx11\04. script\debug\bottomwallcollisionscript.obj
 d:\github project\directx11\directx11\04. script\debug\playeractionstatesit.obj
 d:\github project\directx11\directx11\04. script\debug\playeractionstatemove.obj
+d:\github project\directx11\directx11\04. script\debug\leftbottomwallcollisionscript.obj
+d:\github project\directx11\directx11\04. script\debug\tilescript.obj
+d:\github project\directx11\directx11\04. script\debug\tilemapscript.obj
+d:\github project\directx11\directx11\04. script\debug\saveloadmgr.obj
+d:\github project\directx11\directx11\04. script\debug\rightwallcollisionscript.obj
+d:\github project\directx11\directx11\04. script\debug\playerscript.obj
 d:\github project\directx11\directx11\04. script\debug\playeractionstatejump.obj
 d:\github project\directx11\directx11\04. script\debug\playeractionstateidle.obj
 d:\github project\directx11\directx11\04. script\debug\playeractionstate.obj
 d:\github project\directx11\directx11\04. script\debug\platformcollisionscript.obj
 d:\github project\directx11\directx11\04. script\debug\monsterscript.obj
 d:\github project\directx11\directx11\04. script\debug\leftwallcollisionscript.obj
-d:\github project\directx11\directx11\04. script\debug\leftbottomwallcollisionscript.obj
 d:\github project\directx11\directx11\04. script\debug\hilightscript.obj
 d:\github project\directx11\directx11\04. script\debug\gravityscript.obj
 d:\github project\directx11\directx11\04. script\debug\bulletscript.obj
-d:\github project\directx11\directx11\04. script\debug\bottomwallcollisionscript.obj
 d:\github project\directx11\directx11\04. script\debug\topwallcollisionscript.obj
+d:\github project\directx11\directx11\04. script\debug\script_debug.pch
+d:\github project\directx11\directx11\04. script\debug\stdafx.obj
+d:\github project\directx11\directx11\04. script\debug\platformrightcollisionscript.obj
+d:\github project\directx11\directx11\04. script\debug\platformleftcollisionscript.obj
 d:\github project\directx11\directx11\project\library\script\x86\script_debug.lib
 d:\github project\directx11\directx11\04. script\debug\04. script.tlog\cl.command.1.tlog
 d:\github project\directx11\directx11\04. script\debug\04. script.tlog\cl.read.1.tlog

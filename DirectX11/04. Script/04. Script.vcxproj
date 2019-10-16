@@ -199,6 +199,8 @@ call CodeGen.exe</Command>
     <ClInclude Include="LeftWallCollisionScript.h" />
     <ClInclude Include="MonsterScript.h" />
     <ClInclude Include="PlatformCollisionScript.h" />
+    <ClInclude Include="PlatformLeftCollisionScript.h" />
+    <ClInclude Include="PlatformRightCollisionScript.h" />
     <ClInclude Include="PlayerActionState.h" />
     <ClInclude Include="PlayerActionStateIdle.h" />
     <ClInclude Include="PlayerActionStateJump.h" />
@@ -224,6 +226,8 @@ call CodeGen.exe</Command>
     <ClCompile Include="LeftWallCollisionScript.cpp" />
     <ClCompile Include="MonsterScript.cpp" />
     <ClCompile Include="PlatformCollisionScript.cpp" />
+    <ClCompile Include="PlatformLeftCollisionScript.cpp" />
+    <ClCompile Include="PlatformRightCollisionScript.cpp" />
     <ClCompile Include="PlayerActionState.cpp" />
     <ClCompile Include="PlayerActionStateIdle.cpp" />
     <ClCompile Include="PlayerActionStateJump.cpp" />
