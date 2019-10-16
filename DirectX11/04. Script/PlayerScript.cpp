@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "PlayerScript.h"
+#include <Camera.h>
+
 #include "PlayerActionState.h"
 #include "PlayerActionStateIdle.h"
 #include "PlayerActionStateMove.h"
@@ -70,6 +72,33 @@ void CPlayerScript::CalculationMoveDirection()
 	}
 }
 
+void CPlayerScript::CalculationMouseDirection()
+{
+	Vec3 playerPosition = Object()->Transform()->GetLocalPos();
+
+	POINT mousePosition = CKeyMgr::GetInst()->GetMousePos();
+
+	vector<CCamera*> curSceneCameras = CSceneMgr::GetInst()->GetCurScene()->GetCamera();
+	CCamera* camera = nullptr;
+	for (int cameraIndex = 0; cameraIndex < curSceneCameras.size(); cameraIndex++)
+	{
+		CCamera* curCamera = curSceneCameras[cameraIndex];
+		if (curCamera->IsValiedLayer(Object()->GetLayerIdx()) == true)
+		{
+			camera = curCamera;
+			break;
+		}
+	}
+
+	XMVECTOR sceneMousePosition = CSceneMgr::GetInst()->CalculationSceneMousePosition(
+		mousePosition,
+		camera
+	);
+
+	mouseDirection = sceneMousePosition - playerPosition;
+	mouseDirection = XMVector3Normalize(mouseDirection);
+}
+
 void CPlayerScript::start()
 {
 }
@@ -78,4 +107,5 @@ void CPlayerScript::update()
 {
 	actionState->Update(this);
 	CalculationMoveDirection();
+	CalculationMouseDirection();
 }

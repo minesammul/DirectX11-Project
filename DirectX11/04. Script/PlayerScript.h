@@ -9,6 +9,7 @@ private:
 	PlayerActionState* actionState;
 	float moveSpeed;
 	Vec3 moveDirection;
+	Vec3 mouseDirection;
 
 public:
 	CPlayerScript();
@@ -19,6 +20,7 @@ private:
 
 private:
 	void CalculationMoveDirection();
+	void CalculationMouseDirection();
 
 public:
 	virtual void start();
@@ -31,6 +33,8 @@ public:
 
 	Vec3 GetMoveDirection() { return moveDirection; }
 	void SetMoveDirection(Vec3 direction) { moveDirection = direction; }
+
+	Vec3 GetMouseDirection() { return mouseDirection; }
 };
 
 
