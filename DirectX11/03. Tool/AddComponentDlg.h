@@ -34,4 +34,6 @@ protected:
 public:
 	CComboBox comboAddComponent;
 	afx_msg void OnBnClickedButtonAddComponent();
+
+	virtual void PostNcDestroy();
 };

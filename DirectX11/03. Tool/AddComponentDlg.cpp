@@ -133,3 +133,9 @@ void AddComponentDlg::OnBnClickedButtonAddComponent()
 
 	Renew();
 }
+
+void AddComponentDlg::PostNcDestroy()
+{
+	delete this;
+	CDialogEx::PostNcDestroy();
+}
