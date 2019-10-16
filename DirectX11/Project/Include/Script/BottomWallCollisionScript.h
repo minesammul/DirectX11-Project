@@ -16,5 +16,6 @@ public:
 	virtual void OnCollision(CCollider2D* _pOther);
 	virtual void OnCollisionExit(CCollider2D* _pOther);
 	void SetCollision(bool collision) { collisionOn = collision; }
+	bool GetCollision(void) { return collisionOn; }
 };
 

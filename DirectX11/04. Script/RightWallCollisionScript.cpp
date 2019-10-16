@@ -20,8 +20,9 @@ void CRightWallCollisionScript::OnCollisionEnter(CCollider2D * _pOther)
 
 void CRightWallCollisionScript::OnCollision(CCollider2D * _pOther)
 {
-	Vec3 characterPosition = Object()->GetParent()->Transform()->GetLocalPos();
-	characterPosition.x = collisionPosition.x;
+	Vec3 characterPosition = Object()->GetParent()->Collider2D()->GetFinalPositon();
+	Vec3 characterScale = Object()->GetParent()->Collider2D()->GetFinalScale();
+	characterPosition.x = _pOther->Object()->Transform()->GetLocalPos().x - (_pOther->Object()->Transform()->GetLocalScale().x / 2) - (characterScale.x / 2);
 	Object()->GetParent()->Transform()->SetLocalPos(characterPosition);
 }
 

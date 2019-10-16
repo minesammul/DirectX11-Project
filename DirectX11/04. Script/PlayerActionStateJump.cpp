@@ -2,6 +2,7 @@
 #include "PlayerActionStateJump.h"
 #include "PlayerActionStateIdle.h"
 #include "PlayerActionStateDash.h"
+#include "TopWallCollisionScript.h"
 #include "GravityScript.h"
 
 
@@ -50,6 +51,33 @@ void PlayerActionStateJump::ActionJump(CPlayerScript * player)
 			nowJumpPower *= ADD_JUMP_POWER;
 		}
 	}
+
+	vector<CGameObject*> childObjects = player->Object()->GetChild();
+	for (int objectIndex = 0; objectIndex < childObjects.size(); objectIndex++)
+	{
+		bool isFind = false;
+
+		vector<CScript*> scripts = childObjects[objectIndex]->GetScripts();
+		for (int scriptIndex = 0; scriptIndex < scripts.size(); scriptIndex++)
+		{
+			if (scripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::TOPWALLCOLLISIONSCRIPT)
+			{
+				CTopWallCollisionScript* topWallCollisionScript = dynamic_cast<CTopWallCollisionScript*>(scripts[scriptIndex]);
+				if (topWallCollisionScript->GetCollision() == true)
+				{
+					nowJumpPower = 0.f;
+				}
+				isFind = true;
+				break;
+			}
+		}
+
+		if (isFind == true)
+		{
+			break;
+		}
+	}
+
 
 	Vec3 playerPosition = player->Object()->Transform()->GetLocalPos();
 	playerPosition.y += nowJumpPower * DT;

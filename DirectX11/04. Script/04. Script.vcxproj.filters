@@ -102,6 +102,9 @@
     <ClInclude Include="PlatformLeftCollisionScript.h">
       <Filter>Scripts\CharacterStageCollisionScript\Platform</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerActionStateDash.h">
+      <Filter>Script Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptMgr.cpp">
@@ -175,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="PlatformRightCollisionScript.cpp">
       <Filter>Scripts\CharacterStageCollisionScript\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionStateDash.cpp">
+      <Filter>Script Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

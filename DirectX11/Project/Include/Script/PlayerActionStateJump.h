@@ -24,6 +24,8 @@ private:
 	void ActionMove(CPlayerScript * player);
 
 	void TransactionState(CPlayerScript * player);
+	void ChangeJumpToIdle(CPlayerScript * player);
+	void ChangeJumpToDash(CPlayerScript * player);
 	
 	void CheckFall(CPlayerScript * player);
 	

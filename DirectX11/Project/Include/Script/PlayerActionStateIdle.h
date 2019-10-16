@@ -14,6 +14,7 @@ private:
 	void ChangeIdleToMove(CPlayerScript * player);
 	void ChangeIdleToJump(CPlayerScript * player);
 	void ChangeIdleToSit(CPlayerScript * player);
+	void ChangeIdleToDash(CPlayerScript * player);
 
 public:
 	virtual void Update(CPlayerScript * player) override;
