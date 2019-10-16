@@ -222,6 +222,8 @@ void CSceneMgr::init()
 	newObject->Camera()->CheckLayer(m_pCurScene->FindLayer(L"Default")->GetLayerIdx());
 
 	m_pCurScene->AddObject(L"Default", newObject);
+	
+	GetClientRect(CCore::GetInst()->GetWindowHwnd(), &windowRect);
 }
 
 void CSceneMgr::progress()
