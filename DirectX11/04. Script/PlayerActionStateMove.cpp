@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PlayerActionStateMove.h"
 #include "PlayerActionStateIdle.h"
+#include "PlatformRightCollisionScript.h"
 
 PlayerActionStateMove::PlayerActionStateMove()
 {
@@ -36,14 +37,20 @@ void PlayerActionStateMove::ActionState(CPlayerScript * player)
 	if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_A) == KEY_STATE::STATE_HOLD)
 	{
 		Vec3 playerPosition = player->Object()->Transform()->GetLocalPos();
-		playerPosition.x -= player->GetMoveSpeed()*DT;
+
+		playerPosition.x -= player->GetMoveSpeed()*(player->GetMoveDirection().x)*DT;
+		playerPosition.y -= player->GetMoveSpeed()*(player->GetMoveDirection().y)*DT;
+
 		player->Object()->Transform()->SetLocalPos(playerPosition);
 	}
 
 	if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_D) == KEY_STATE::STATE_HOLD)
 	{
 		Vec3 playerPosition = player->Object()->Transform()->GetLocalPos();
-		playerPosition.x += player->GetMoveSpeed()*DT;
+
+		playerPosition.x += player->GetMoveSpeed()*(player->GetMoveDirection().x)*DT;
+		playerPosition.y += player->GetMoveSpeed()*(player->GetMoveDirection().y)*DT;
+
 		player->Object()->Transform()->SetLocalPos(playerPosition);
 	}
 }

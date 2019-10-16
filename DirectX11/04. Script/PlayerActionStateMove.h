@@ -1,8 +1,12 @@
 #pragma once
 #include "PlayerActionState.h"
 
+class CPlatformRightCollisionScript;
 class PlayerActionStateMove : public PlayerActionState
 {
+private:
+	CPlatformRightCollisionScript* platformRightCollisionScript;
+
 public:
 	PlayerActionStateMove();
 	~PlayerActionStateMove();

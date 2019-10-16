@@ -8,6 +8,7 @@ class CPlayerScript :
 private:
 	PlayerActionState* actionState;
 	float moveSpeed;
+	Vec3 moveDirection;
 
 public:
 	CPlayerScript();
@@ -15,6 +16,9 @@ public:
 
 private:
 	CLONE(CPlayerScript);
+
+private:
+	void CalculationMoveDirection();
 
 public:
 	virtual void start();
@@ -24,6 +28,9 @@ public:
 	PlayerActionState* GetActionState() { return actionState; }
 
 	float GetMoveSpeed() { return moveSpeed; }
+
+	Vec3 GetMoveDirection() { return moveDirection; }
+	void SetMoveDirection(Vec3 direction) { moveDirection = direction; }
 };
 
 
