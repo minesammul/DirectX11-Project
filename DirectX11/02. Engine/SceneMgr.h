@@ -13,14 +13,18 @@ private:
 	
 	CGameObject* mousePickingObject;
 	DirectX::XMVECTOR mousePickingPosition;
+	RECT windowRect;
 
 public:
 	void RegisterCamera(CCamera* _pCam);
 	CScene* GetCurScene() { return m_pCurScene; }
 
-	CGameObject* MousePicking(POINT mousePoint, RECT windowRect);
+	CGameObject* MousePicking(POINT mousePoint);
 	CGameObject* GetMousePickingObject();
 	DirectX::XMVECTOR GetMousePickingPosition();
+	DirectX::XMVECTOR CalculationSceneMousePosition(POINT mousePoint, CCamera* camera);
+
+	void SetWindowRect(RECT rect) { windowRect = rect; }
 
 public:
 	void init();

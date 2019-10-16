@@ -43,7 +43,7 @@ void CSceneMgr::RegisterCamera(CCamera * _pCam)
 	m_pCurScene->AddCamera(_pCam);
 }
 
-CGameObject* CSceneMgr::MousePicking(POINT mousePoint, RECT windowRect)
+CGameObject* CSceneMgr::MousePicking(POINT mousePoint)
 {
 	//vector<CGameObject*> cameraObject;
 	//m_pCurScene->FindGameObject(L"MainCamera", cameraObject);
@@ -177,6 +177,28 @@ CGameObject * CSceneMgr::GetMousePickingObject()
 DirectX::XMVECTOR CSceneMgr::GetMousePickingPosition()
 {
 	return mousePickingPosition;
+}
+
+DirectX::XMVECTOR CSceneMgr::CalculationSceneMousePosition(POINT mousePoint, CCamera * camera)
+{
+	Matrix projectionMatrix = camera->GetProjMat();
+	DirectX::XMVECTOR projectionDeterminant = DirectX::XMMatrixDeterminant(projectionMatrix);
+	Matrix inverseProjectionMatrix = DirectX::XMMatrixInverse(&projectionDeterminant, projectionMatrix);
+
+	Matrix viewMatrix = camera->GetViewMat();
+	DirectX::XMVECTOR viewDeterminant = DirectX::XMMatrixDeterminant(viewMatrix);
+	Matrix inverseViewMatrix = DirectX::XMMatrixInverse(&viewDeterminant, viewMatrix);
+
+	DirectX::XMVECTOR sceneMousePosition = DirectX::XMVectorSet(
+		(2 * (float)(mousePoint.x - (windowRect.right / 2))) / (float)windowRect.right,
+		(2 * (float)((windowRect.bottom / 2) - mousePoint.y)) / (float)windowRect.bottom,
+		1.f,
+		0.f);
+
+	sceneMousePosition = DirectX::XMVector3Transform(sceneMousePosition, inverseProjectionMatrix);
+	sceneMousePosition = DirectX::XMVector3Transform(sceneMousePosition, inverseViewMatrix);
+
+	return sceneMousePosition;
 }
 
 void CSceneMgr::init()

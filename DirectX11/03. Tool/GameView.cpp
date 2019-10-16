@@ -31,6 +31,11 @@ void CGameView::OnDraw(CDC* pDC)
 {
 	CDocument* pDoc = GetDocument();
 	// TODO: 여기에 그리기 코드를 추가합니다.
+
+	CRect rt;
+	GetClientRect(rt);
+
+	CSceneMgr::GetInst()->SetWindowRect(rt);
 }
 
 
@@ -66,7 +71,7 @@ void CGameView::OnLButtonDown(UINT nFlags, CPoint point)
 	mousePoint.y = point.y;
 	CComponentView* pComView = (CComponentView*)((CMainFrame*)AfxGetMainWnd())->GetComView();
 
-	pComView->SetTarget(CSceneMgr::GetInst()->MousePicking(mousePoint, rt));
+	pComView->SetTarget(CSceneMgr::GetInst()->MousePicking(mousePoint));
 
 	CView::OnLButtonDown(nFlags, point);
 }
