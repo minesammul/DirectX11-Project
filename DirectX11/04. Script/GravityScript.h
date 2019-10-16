@@ -4,7 +4,7 @@
 class CGravityScript : public CScript
 {
 private:
-	const float GRAVITY_VALUE = 1.98f;
+	const float GRAVITY_VALUE = 4.98f;
 	float nowGravityValue;
 
 	bool activeGravity;
