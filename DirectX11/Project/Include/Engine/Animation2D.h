@@ -25,11 +25,20 @@ private:
 	bool				m_bPlay;
 	bool				m_bFinish;
 
+	int repeatStartFrame;
+	int repeatEndFrame;
+
 public:
 	int GetMaxFrameCount() { return m_vecFrm.size(); }
 	int GetNowFrameCount() { return m_iCurFrm; }
 	tAnim2DFrm GetNowFrameData() { return m_vecFrm[m_iCurFrm]; }
 	void SetNowFrameOffset(Vec2 offset);
+
+	int GetRepeatStartFrame(void) { return repeatStartFrame; }
+	void SetRepeatStartFrame(int frame) { repeatStartFrame = frame; }
+
+	int GetRepeatEndFrame(void) { return repeatEndFrame; }
+	void SetRepeatEndFrame(int frame) { repeatEndFrame = frame; }
 
 public:
 	void update();

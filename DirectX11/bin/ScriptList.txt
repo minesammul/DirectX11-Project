@@ -1,7 +1,9 @@
 BottomWallCollisionScript
 BulletScript
+EffectScript
 GravityScript
 HilightScript
+ItemScript
 LeftBottomWallCollisionScript
 LeftWallCollisionScript
 MonsterScript

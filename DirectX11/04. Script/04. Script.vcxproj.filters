@@ -25,6 +25,24 @@
     <Filter Include="Scripts\CharacterStageCollisionScript\Platform">
       <UniqueIdentifier>{643691b6-e91b-4a2d-8bca-416dc29c436f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script Component\Item">
+      <UniqueIdentifier>{fe26eb92-efe4-48cb-b20e-caf721243995}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script Component\Player">
+      <UniqueIdentifier>{886f46cf-bb3e-4df4-b320-7f9c6b5b0bad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script Component\Monster">
+      <UniqueIdentifier>{52028afb-8604-4a6e-b681-5a0703abfd00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script Component\Monster\State">
+      <UniqueIdentifier>{a7f03605-7274-49aa-8144-2cbab35cc24a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script Component\Monster\Component">
+      <UniqueIdentifier>{3900ffe6-4adb-45d1-aa0d-dee13e3825d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script Component\Monster\Component\MoveStrategy">
+      <UniqueIdentifier>{cfe0ab95-1144-4cb5-80c4-9b89da554f9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptMgr.h">
@@ -42,26 +60,8 @@
     <ClInclude Include="HilightScript.h">
       <Filter>Example Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="MonsterScript.h">
-      <Filter>Example Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerScript.h">
       <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerActionState.h">
-      <Filter>Script Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerActionStateIdle.h">
-      <Filter>Script Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerActionStateMove.h">
-      <Filter>Script Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerActionStateJump.h">
-      <Filter>Script Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerActionStateSit.h">
-      <Filter>Script Component</Filter>
     </ClInclude>
     <ClInclude Include="TileScript.h">
       <Filter>Scripts</Filter>
@@ -102,8 +102,83 @@
     <ClInclude Include="PlatformLeftCollisionScript.h">
       <Filter>Scripts\CharacterStageCollisionScript\Platform</Filter>
     </ClInclude>
+    <ClInclude Include="ItemScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionState.h">
+      <Filter>Script Component\Player</Filter>
+    </ClInclude>
     <ClInclude Include="PlayerActionStateDash.h">
-      <Filter>Script Component</Filter>
+      <Filter>Script Component\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionStateIdle.h">
+      <Filter>Script Component\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionStateJump.h">
+      <Filter>Script Component\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionStateMove.h">
+      <Filter>Script Component\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionStateSit.h">
+      <Filter>Script Component\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemKind.h">
+      <Filter>Script Component\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemEffect.h">
+      <Filter>Script Component\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemComponent.h">
+      <Filter>Script Component\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemKindStrategy.h">
+      <Filter>Script Component\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemSwordKindStrategy.h">
+      <Filter>Script Component\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemImage.h">
+      <Filter>Script Component\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterState.h">
+      <Filter>Script Component\Monster\State</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterAttackState.h">
+      <Filter>Script Component\Monster\State</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterIdleState.h">
+      <Filter>Script Component\Monster\State</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterComponent.h">
+      <Filter>Script Component\Monster\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterMoveState.h">
+      <Filter>Script Component\Monster\State</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterMove.h">
+      <Filter>Script Component\Monster\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterMoveStrategy.h">
+      <Filter>Script Component\Monster\Component\MoveStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterDash.h">
+      <Filter>Script Component\Monster\Component\MoveStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterWalk.h">
+      <Filter>Script Component\Monster\Component\MoveStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterFly.h">
+      <Filter>Script Component\Monster\Component\MoveStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Defalut</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -122,26 +197,8 @@
     <ClCompile Include="HilightScript.cpp">
       <Filter>Example Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="MonsterScript.cpp">
-      <Filter>Example Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerScript.cpp">
       <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerActionState.cpp">
-      <Filter>Script Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerActionStateIdle.cpp">
-      <Filter>Script Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerActionStateMove.cpp">
-      <Filter>Script Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerActionStateJump.cpp">
-      <Filter>Script Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerActionStateSit.cpp">
-      <Filter>Script Component</Filter>
     </ClCompile>
     <ClCompile Include="TileScript.cpp">
       <Filter>Scripts</Filter>
@@ -179,8 +236,85 @@
     <ClCompile Include="PlatformRightCollisionScript.cpp">
       <Filter>Scripts\CharacterStageCollisionScript\Platform</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerActionStateDash.cpp">
-      <Filter>Script Component</Filter>
+    <ClCompile Include="ItemScript.cpp">
+      <Filter>Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerActionState.cpp">
+      <Filter>Script Component\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionStateDash.cpp">
+      <Filter>Script Component\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionStateIdle.cpp">
+      <Filter>Script Component\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionStateJump.cpp">
+      <Filter>Script Component\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionStateMove.cpp">
+      <Filter>Script Component\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionStateSit.cpp">
+      <Filter>Script Component\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemKind.cpp">
+      <Filter>Script Component\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemEffect.cpp">
+      <Filter>Script Component\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemComponent.cpp">
+      <Filter>Script Component\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemKindStrategy.cpp">
+      <Filter>Script Component\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemSwordKindStrategy.cpp">
+      <Filter>Script Component\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemImage.cpp">
+      <Filter>Script Component\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterAttackState.cpp">
+      <Filter>Script Component\Monster\State</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterIdleState.cpp">
+      <Filter>Script Component\Monster\State</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterState.cpp">
+      <Filter>Script Component\Monster\State</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterComponent.cpp">
+      <Filter>Script Component\Monster\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterMoveState.cpp">
+      <Filter>Script Component\Monster\State</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterMove.cpp">
+      <Filter>Script Component\Monster\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterMoveStrategy.cpp">
+      <Filter>Script Component\Monster\Component\MoveStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterDash.cpp">
+      <Filter>Script Component\Monster\Component\MoveStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterWalk.cpp">
+      <Filter>Script Component\Monster\Component\MoveStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterFly.cpp">
+      <Filter>Script Component\Monster\Component\MoveStrategy</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="04. Script.rc">
+      <Filter>Defalut</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

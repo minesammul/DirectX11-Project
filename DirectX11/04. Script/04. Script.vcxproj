@@ -193,11 +193,29 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClInclude Include="BottomWallCollisionScript.h" />
     <ClInclude Include="BulletScript.h" />
+    <ClInclude Include="EffectScript.h" />
     <ClInclude Include="GravityScript.h" />
     <ClInclude Include="HilightScript.h" />
+    <ClInclude Include="ItemComponent.h" />
+    <ClInclude Include="ItemEffect.h" />
+    <ClInclude Include="ItemImage.h" />
+    <ClInclude Include="ItemKind.h" />
+    <ClInclude Include="ItemKindStrategy.h" />
+    <ClInclude Include="ItemScript.h" />
+    <ClInclude Include="ItemSwordKindStrategy.h" />
     <ClInclude Include="LeftBottomWallCollisionScript.h" />
     <ClInclude Include="LeftWallCollisionScript.h" />
+    <ClInclude Include="MonsterAttackState.h" />
+    <ClInclude Include="MonsterComponent.h" />
+    <ClInclude Include="MonsterDash.h" />
+    <ClInclude Include="MonsterFly.h" />
+    <ClInclude Include="MonsterIdleState.h" />
+    <ClInclude Include="MonsterMove.h" />
+    <ClInclude Include="MonsterMoveState.h" />
+    <ClInclude Include="MonsterMoveStrategy.h" />
     <ClInclude Include="MonsterScript.h" />
+    <ClInclude Include="MonsterState.h" />
+    <ClInclude Include="MonsterWalk.h" />
     <ClInclude Include="PlatformCollisionScript.h" />
     <ClInclude Include="PlatformLeftCollisionScript.h" />
     <ClInclude Include="PlatformRightCollisionScript.h" />
@@ -208,6 +226,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="PlayerActionStateMove.h" />
     <ClInclude Include="PlayerActionStateSit.h" />
     <ClInclude Include="PlayerScript.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="RightBottomWallCollisionScript.h" />
     <ClInclude Include="RightWallCollisionScript.h" />
     <ClInclude Include="SaveLoadMgr.h" />
@@ -221,11 +240,29 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClCompile Include="BottomWallCollisionScript.cpp" />
     <ClCompile Include="BulletScript.cpp" />
+    <ClCompile Include="EffectScript.cpp" />
     <ClCompile Include="GravityScript.cpp" />
     <ClCompile Include="HilightScript.cpp" />
+    <ClCompile Include="ItemComponent.cpp" />
+    <ClCompile Include="ItemEffect.cpp" />
+    <ClCompile Include="ItemImage.cpp" />
+    <ClCompile Include="ItemKind.cpp" />
+    <ClCompile Include="ItemKindStrategy.cpp" />
+    <ClCompile Include="ItemScript.cpp" />
+    <ClCompile Include="ItemSwordKindStrategy.cpp" />
     <ClCompile Include="LeftBottomWallCollisionScript.cpp" />
     <ClCompile Include="LeftWallCollisionScript.cpp" />
+    <ClCompile Include="MonsterAttackState.cpp" />
+    <ClCompile Include="MonsterComponent.cpp" />
+    <ClCompile Include="MonsterDash.cpp" />
+    <ClCompile Include="MonsterFly.cpp" />
+    <ClCompile Include="MonsterIdleState.cpp" />
+    <ClCompile Include="MonsterMove.cpp" />
+    <ClCompile Include="MonsterMoveState.cpp" />
+    <ClCompile Include="MonsterMoveStrategy.cpp" />
     <ClCompile Include="MonsterScript.cpp" />
+    <ClCompile Include="MonsterState.cpp" />
+    <ClCompile Include="MonsterWalk.cpp" />
     <ClCompile Include="PlatformCollisionScript.cpp" />
     <ClCompile Include="PlatformLeftCollisionScript.cpp" />
     <ClCompile Include="PlatformRightCollisionScript.cpp" />
@@ -249,6 +286,9 @@ call CodeGen.exe</Command>
     <ClCompile Include="TileMapScript.cpp" />
     <ClCompile Include="TileScript.cpp" />
     <ClCompile Include="TopWallCollisionScript.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="04. Script.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
