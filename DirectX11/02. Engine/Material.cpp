@@ -116,7 +116,10 @@ void CMaterial::UpdateData()
 	for (UINT i = 0; i < iCount; ++i)
 	{
 		if (nullptr == m_arrTex[i])
+		{
+			m_arrTex[i]->ClearRegister(i, (UINT)SHADER_TYPE::PIXEL_SHADER);
 			continue;
+		}
 
 		m_arrTex[i]->SetRegister(i, (UINT)SHADER_TYPE::PIXEL_SHADER);
 		//m_arrTex[i]->SetRegisterAll(i);
