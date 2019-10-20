@@ -277,7 +277,6 @@ void CMainFrame::OnGameobject2drect()
 	CTransform* pTransform = new CTransform;
 	CMeshRender* pMeshRender = new CMeshRender;
 	CCollider2D* pCollider2D = new CCollider2D;
-	CAnimator2D* pAnimator2D = new CAnimator2D;
 
 	pTransform->SetLocalPos(Vec3(0.f, 0.f, 500.f));
 	pTransform->SetLocalScale(Vec3(100.f, 100.f, 1.f));
