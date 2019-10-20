@@ -3,8 +3,10 @@
 
 #include "BottomWallCollisionScript.h"
 #include "BulletScript.h"
+#include "EffectScript.h"
 #include "GravityScript.h"
 #include "HilightScript.h"
+#include "ItemScript.h"
 #include "LeftBottomWallCollisionScript.h"
 #include "LeftWallCollisionScript.h"
 #include "MonsterScript.h"
@@ -22,8 +24,10 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"BottomWallCollisionScript");
 	_vec.push_back(L"BulletScript");
+	_vec.push_back(L"EffectScript");
 	_vec.push_back(L"GravityScript");
 	_vec.push_back(L"HilightScript");
+	_vec.push_back(L"ItemScript");
 	_vec.push_back(L"LeftBottomWallCollisionScript");
 	_vec.push_back(L"LeftWallCollisionScript");
 	_vec.push_back(L"MonsterScript");
@@ -44,10 +48,14 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CBottomWallCollisionScript;
 	if (L"BulletScript" == _strScriptName)
 		return new CBulletScript;
+	if (L"EffectScript" == _strScriptName)
+		return new CEffectScript;
 	if (L"GravityScript" == _strScriptName)
 		return new CGravityScript;
 	if (L"HilightScript" == _strScriptName)
 		return new CHilightScript;
+	if (L"ItemScript" == _strScriptName)
+		return new CItemScript;
 	if (L"LeftBottomWallCollisionScript" == _strScriptName)
 		return new CLeftBottomWallCollisionScript;
 	if (L"LeftWallCollisionScript" == _strScriptName)
@@ -87,12 +95,20 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"BulletScript";
 		break;
 
+	case SCRIPT_TYPE::EFFECTSCRIPT:
+		return L"EffectScript";
+		break;
+
 	case SCRIPT_TYPE::GRAVITYSCRIPT:
 		return L"GravityScript";
 		break;
 
 	case SCRIPT_TYPE::HILIGHTSCRIPT:
 		return L"HilightScript";
+		break;
+
+	case SCRIPT_TYPE::ITEMSCRIPT:
+		return L"ItemScript";
 		break;
 
 	case SCRIPT_TYPE::LEFTBOTTOMWALLCOLLISIONSCRIPT:

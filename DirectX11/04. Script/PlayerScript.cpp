@@ -108,4 +108,15 @@ void CPlayerScript::update()
 	actionState->Update(this);
 	CalculationMoveDirection();
 	CalculationMouseDirection();
+
+	if (mouseDirection.x > 0)
+	{
+		int inversOff = 0;
+		Object()->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_0, &inversOff);
+	}
+	else
+	{
+		int inversON = 1;
+		Object()->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_0, &inversON);
+	}
 }
