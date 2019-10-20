@@ -38,6 +38,8 @@ void CAnimator2DDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT2, editNowFrameCount);
 	DDX_Control(pDX, IDC_EDIT3, editOffsetX);
 	DDX_Control(pDX, IDC_EDIT4, editOffsetY);
+	DDX_Control(pDX, IDC_EDIT5, editRepeatStartFrame);
+	DDX_Control(pDX, IDC_EDIT6, editRepeatEndFrame);
 }
 
 
@@ -99,6 +101,13 @@ void CAnimator2DDlg::Animator2DStateCheck(CGameObject* _pTarget)
 	formatStr.Format(L"%f", nowOffsetY);
 	editOffsetY.SetWindowTextW(formatStr);
 
+	int repeatStartFrame = pCurAnim->GetRepeatStartFrame();
+	formatStr.Format(L"%d", repeatStartFrame+1);
+	editRepeatStartFrame.SetWindowTextW(formatStr);
+
+	int repeatEndFrame = pCurAnim->GetRepeatEndFrame();
+	formatStr.Format(L"%d", repeatEndFrame + 1);
+	editRepeatEndFrame.SetWindowTextW(formatStr);
 }
 
 void CAnimator2DDlg::update(CGameObject * _pTarget)
@@ -152,6 +161,10 @@ BEGIN_MESSAGE_MAP(CAnimator2DDlg, CDialogEx)
 	ON_EN_KILLFOCUS(IDC_EDIT4, &CAnimator2DDlg::OnEnKillfocusEditOffsetY)
 	ON_BN_CLICKED(IDC_BUTTON4, &CAnimator2DDlg::OnBnClickedButtonNextFrame)
 	ON_BN_CLICKED(IDC_BUTTON5, &CAnimator2DDlg::OnBnClickedButtonPrevFrame)
+	ON_EN_SETFOCUS(IDC_EDIT5, &CAnimator2DDlg::OnEnSetfocusEditRepeatStartFrame)
+	ON_EN_KILLFOCUS(IDC_EDIT5, &CAnimator2DDlg::OnEnKillfocusEditRepeatStartFrame)
+	ON_EN_SETFOCUS(IDC_EDIT6, &CAnimator2DDlg::OnEnSetfocusEditRepeatEndFrame)
+	ON_EN_KILLFOCUS(IDC_EDIT6, &CAnimator2DDlg::OnEnKillfocusEditRepeatEndFrame)
 END_MESSAGE_MAP()
 
 
@@ -318,4 +331,42 @@ void CAnimator2DDlg::OnBnClickedButtonPrevFrame()
 	}
 
 	GetTarget()->Animator2D()->GetCurAnim()->SetFrm(nowFrameCount - 1);
+}
+
+
+void CAnimator2DDlg::OnEnSetfocusEditRepeatStartFrame()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	isFocus = true;
+}
+
+
+void CAnimator2DDlg::OnEnKillfocusEditRepeatStartFrame()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString repeatStartFrameFormat;
+	editRepeatStartFrame.GetWindowTextW(repeatStartFrameFormat);
+	int nowRepeatStartFrame = _wtoi(repeatStartFrameFormat);
+	GetTarget()->Animator2D()->GetCurAnim()->SetRepeatStartFrame(nowRepeatStartFrame-1);
+
+	isFocus = false;
+}
+
+
+void CAnimator2DDlg::OnEnSetfocusEditRepeatEndFrame()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	isFocus = true;
+}
+
+
+void CAnimator2DDlg::OnEnKillfocusEditRepeatEndFrame()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString repeatEndFrameFormat;
+	editRepeatEndFrame.GetWindowTextW(repeatEndFrameFormat);
+	int nowRepeatEndFrame = _wtoi(repeatEndFrameFormat);
+	GetTarget()->Animator2D()->GetCurAnim()->SetRepeatEndFrame(nowRepeatEndFrame - 1);
+
+	isFocus = false;
 }

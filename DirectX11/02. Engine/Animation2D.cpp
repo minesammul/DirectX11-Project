@@ -14,6 +14,8 @@ CAnimation2D::CAnimation2D()
 	: m_iCurFrm(0)
 	, m_fAccTime(0.f)
 	, m_bFinish(false)
+	, repeatStartFrame(0)
+	, repeatEndFrame(0)
 {
 }
 
@@ -98,7 +100,7 @@ void CAnimation2D::finalupdate()
 
 		if (iNextFrm >= m_vecFrm.size())
 		{
-			iNextFrm = m_vecFrm.size() - 1; // 마지막 프레임 유지
+			iNextFrm = m_vecFrm.size()-1; // 마지막 프레임 유지
 			m_fAccTime = 0.f;
 			m_bFinish = true;
 			m_bPlay = false;
@@ -117,7 +119,7 @@ void CAnimation2D::finalupdate()
 				++iNextFrm;
 				if (m_vecFrm.size() <= iNextFrm) // Animation 종료
 				{
-					iNextFrm = m_vecFrm.size() - 1; // 마지막 프레임 유지
+					iNextFrm = m_vecFrm.size()-1; // 마지막 프레임 유지
 					m_fAccTime = 0.f;
 					m_bFinish = true;
 					m_bPlay = false;
@@ -159,6 +161,8 @@ void CAnimation2D::Create(const wstring & _strName
 	Vec2 vCropUV = Vec2(_vCropSize.x / fWidth, _vCropSize.y / fHeight);
 	Vec2 vLTUV = Vec2(_vLT.x / fWidth, _vLT.y / fHeight);
 
+	this->repeatEndFrame = _iFrmCount-1;
+
 	for (int i = 0; i < _iFrmCount; ++i)
 	{
 		tFrm.vLT = vLTUV;
@@ -187,6 +191,8 @@ void CAnimation2D::Create(const wstring & _strName, CResPtr<CTexture> _pTex, Vec
 	Vec2 vCropUV = Vec2(_vCropSize.x / fWidth, _vCropSize.y / fHeight);
 	Vec2 vLTUV = Vec2((_vLT.x + offset.x) / fWidth, (_vLT.y + offset.y) / fHeight);
 	Vec2 offsetUV = Vec2(offset.x / fWidth, offset.y / fHeight);
+
+	this->repeatEndFrame = _iFrmCount - 1;
 
 	for (int i = 0; i < _iFrmCount; ++i)
 	{
@@ -249,6 +255,8 @@ void CAnimation2D::Create(const wstring & _strName, const wstring & _strFolderPa
 			break;
 		}
 	}
+
+	this->repeatEndFrame = m_vecFrm.size() - 1;
 }
 
 void CAnimation2D::SaveToScene(FILE * _pFile)
@@ -257,6 +265,12 @@ void CAnimation2D::SaveToScene(FILE * _pFile)
 
 	UINT iFrmCount = (UINT)m_vecFrm.size();
 	fwrite(&iFrmCount, sizeof(UINT), 1, _pFile);
+
+	int repeatStartFrame = this->repeatStartFrame;
+	fwrite(&repeatStartFrame, sizeof(int), 1, _pFile);
+
+	int repeatEndFrame = this->repeatEndFrame;
+	fwrite(&repeatEndFrame, sizeof(int), 1, _pFile);
 
 	for (size_t i = 0; i < m_vecFrm.size(); ++i)
 	{
@@ -275,6 +289,15 @@ void CAnimation2D::LoadFromScene(FILE * _pFile)
 
 	UINT iFrmCount = 0;
 	fread(&iFrmCount, sizeof(UINT), 1, _pFile);
+
+	int repeatStartFrame = 0;
+	fread(&repeatStartFrame, sizeof(int), 1, _pFile);
+	this->repeatStartFrame = repeatStartFrame;
+
+	int repeatEndFrame = 0;
+	fread(&repeatEndFrame, sizeof(int), 1, _pFile);
+	this->repeatEndFrame = repeatEndFrame;
+
 
 	wstring strKey;
 	tAnim2DFrm frm = {};

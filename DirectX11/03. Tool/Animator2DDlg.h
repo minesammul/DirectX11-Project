@@ -54,4 +54,10 @@ public:
 	afx_msg void OnEnKillfocusEditOffsetY();
 	afx_msg void OnBnClickedButtonNextFrame();
 	afx_msg void OnBnClickedButtonPrevFrame();
+	CEdit editRepeatStartFrame;
+	afx_msg void OnEnSetfocusEditRepeatStartFrame();
+	afx_msg void OnEnKillfocusEditRepeatStartFrame();
+	CEdit editRepeatEndFrame;
+	afx_msg void OnEnSetfocusEditRepeatEndFrame();
+	afx_msg void OnEnKillfocusEditRepeatEndFrame();
 };
