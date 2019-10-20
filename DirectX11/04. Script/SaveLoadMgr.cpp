@@ -238,7 +238,7 @@ void CSaveLoadMgr::LoadResource(FILE * _pFile)
 				pResource = new CMaterial;
 				break;
 			case RES_TYPE::PREFAB:
-				//pResource = new CPrefab;
+				pResource = new CPrefab;
 				break;
 			case RES_TYPE::MESH:
 				pResource = new CMesh;						
