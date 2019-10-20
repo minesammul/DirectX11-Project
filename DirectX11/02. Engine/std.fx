@@ -232,6 +232,50 @@ PS_OUT PS_TileMap2D(VTX_TEX_OUTPUT _input)
 }
 
 // ==========================
+// Inverse Image 2D Shader
+// g_tex_0 : Samling Texture
+// g_int_0 : inverse on off
+// ==========================
+VTX_TEX_OUTPUT VS_Inverse2D(VTX_TEX_INPUT _input)
+{
+    VTX_TEX_OUTPUT output = (VTX_TEX_OUTPUT) 0.f;
+
+    float4 vWorldPos = mul(float4(_input.vPos, 1.f), g_matWorld);
+    float4 vViewPos = mul(vWorldPos, g_matView);
+    float4 vProj = mul(vViewPos, g_matProj);
+
+    output.vPos = vProj;
+    output.vUV = _input.vUV;
+    
+    return output;
+}
+
+PS_OUT PS_Inverse2D(VTX_TEX_OUTPUT _input)
+{
+    PS_OUT output = (PS_OUT) 0.f;
+
+    if (g_int_0 == 1)
+    {
+        _input.vUV.x = 1 - _input.vUV.x;
+    }
+
+    if (iAnimCheck)
+    {
+        float2 vAnimUV = vLT + (vSize * _input.vUV);
+        output.vOutCol = g_tex_anim.Sample(g_sam_0, vAnimUV);
+    
+        //output.vOutCol.r *= g_vec2_0.x;
+        //output.vOutCol.gb *= g_vec2_0.y;
+    }
+    else
+    {
+        output.vOutCol = g_tex_0.Sample(g_sam_0, _input.vUV);
+    }
+
+    return output;
+}
+
+// ==========================
 // Std 2D Shader
 // g_tex_0 : Samling Texture
 // g_vec2_0 : Hilight Ratio
