@@ -106,10 +106,10 @@ void ResourceDlg::LoadResource(CString _strFolderPath)
 			{
 				//CResMgr::GetInst()->Load<CMeshData>(strKey, strPath);
 			}
-			else if (!wcscmp(pExt, L".pref"))
+			/*else if (!wcscmp(pExt, L".pref"))
 			{
 				CResMgr::GetInst()->Load<CPrefab>(strKey, strKey);
-			}
+			}*/
 		}
 
 		if (false == FindNextFile(h, &tData))
