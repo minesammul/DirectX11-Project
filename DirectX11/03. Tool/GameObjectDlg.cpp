@@ -13,6 +13,9 @@
 #include <Scene.h>
 #include <Layer.h>
 #include <GameObject.h>
+#include <ResPtr.h>
+#include <ResMgr.h>
+#include <Prefab.h>
 
 
 // CGameObjectDlg 대화 상자
@@ -153,6 +156,7 @@ BEGIN_MESSAGE_MAP(CGameObjectDlg, CDialogEx)
 	ON_WM_MOUSEMOVE()
 	ON_NOTIFY(TVN_BEGINLABELEDIT, IDC_TREE1, &CGameObjectDlg::OnTvnBeginlabeleditTree1)
 	ON_NOTIFY(TVN_ENDLABELEDIT, IDC_TREE1, &CGameObjectDlg::OnTvnEndlabeleditTree1)
+	ON_NOTIFY(NM_RCLICK, IDC_TREE1, &CGameObjectDlg::OnNMRClickTreeCreatePrefab)
 END_MESSAGE_MAP()
 
 
@@ -325,6 +329,44 @@ void CGameObjectDlg::OnTvnEndlabeleditTree1(NMHDR *pNMHDR, LRESULT *pResult)
 	changeObject[0]->SetName(changeObjectName.GetBuffer());
 
 	init();
+
+	*pResult = 0;
+}
+
+
+void CGameObjectDlg::OnNMRClickTreeCreatePrefab(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	/*
+		POINT pt;
+	::GetCursorPos(&pt);
+	m_ctrlTree.ScreenToClient(&pt);
+
+	HTREEITEM selectItem = m_ctrlTree.HitTest(pt);
+	*/
+	POINT pt;
+	::GetCursorPos(&pt);
+
+	m_ctrlTree.ScreenToClient(&pt);
+
+	HTREEITEM selectItem = m_ctrlTree.HitTest(pt);
+	
+	if (selectItem == nullptr)
+	{
+		return;
+	}
+
+	CString itemText = m_ctrlTree.GetItemText(selectItem);
+	
+	vector<CGameObject*> prefabTargetObject;
+	CSceneMgr::GetInst()->FindGameObject(itemText.GetBuffer(), prefabTargetObject);
+
+	CResPtr<CPrefab> prefab = new CPrefab(prefabTargetObject[0]);
+	prefab->SetName(itemText.GetBuffer());
+
+	//CResMgr::GetInst()->AddRes<CPrefab>(prefabTargetObject[0]->GetName(), prefab);
+
+	prefab->Save();
 
 	*pResult = 0;
 }
