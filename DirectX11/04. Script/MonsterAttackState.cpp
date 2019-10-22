@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "MonsterAttackState.h"
 
+#include "MonsterIdleState.h"
+
+#include "MonsterAttack.h"
+
+#include "MonsterAttackStrategy.h"
+#include "MonsterCircleWaveBullet.h"
 
 MonsterAttackState::MonsterAttackState()
 {
@@ -33,12 +39,27 @@ void MonsterAttackState::Init(CMonsterScript * monster)
 
 		curMonsterAnimation++;
 	}
+
+	if (monsterAnimation->IsPlay() == false)
+	{
+		monsterAnimation->Play();
+	}
+
+	monster->GetMonsterAttack()->Init();
+	monster->GetMonsterAttack()->GetAttackStrategy()->SetIsAttack(false);
 }
 
 void MonsterAttackState::Update(CMonsterScript * monster)
 {
-	if (monsterAnimation->IsPlay() == false)
+	if (monster->GetMonsterAttack()->GetAttackStrategy()->GetIsAttack() == false)
 	{
-		monsterAnimation->Play();
+		monster->GetMonsterAttack()->Update(monster);
+	}
+	
+	if(monster->GetMonsterAttack()->GetAttackStrategy()->GetIsAttack() == true &&
+		monsterAnimation->IsFinish() == true)
+	{
+		monster->GetMonsterIdleState()->Init(monster);
+		monster->SetMonsterState(monster->GetMonsterIdleState());
 	}
 }

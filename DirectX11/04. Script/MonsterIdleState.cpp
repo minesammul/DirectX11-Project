@@ -35,30 +35,45 @@ void MonsterIdleState::Init(CMonsterScript * monster)
 
 		curMonsterAnimation++;
 	}
+
+	stateTime = 0.0f;
 }
 
 
 void MonsterIdleState::Update(CMonsterScript * monster)
 {
+	stateTime += DT;
+
 	if (monsterAnimation->IsPlay() == false)
 	{
 		monsterAnimation->Play();
 	}
 
-	vector<CGameObject*> player;
-	CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"Player", player);
-
-	Vec3 playerPosition = player[0]->Transform()->GetLocalPos();
-
-	Vec3 monsterPosition = monster->Object()->Transform()->GetLocalPos();
-
-	Vec3 distance = XMVector2Length(playerPosition - monsterPosition);
-
-	if (distance.x < 200.f)
+	if (stateTime > 2.f)
 	{
-		monster->GetMonsterMoveState()->Init(monster);
-		monster->SetMonsterState(monster->GetMonsterMoveState());
+		vector<CGameObject*> player;
+		CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"Player", player);
+
+		Vec3 playerPosition = player[0]->Transform()->GetLocalPos();
+
+		Vec3 monsterPosition = monster->Object()->Transform()->GetLocalPos();
+
+		Vec3 distance = XMVector2Length(playerPosition - monsterPosition);
+
+		if (100.f < distance.x && distance.x < 200.f)
+		{
+			monster->GetMonsterMoveState()->Init(monster);
+			monster->SetMonsterState(monster->GetMonsterMoveState());
+			stateTime = 0.f;
+		}
+		else if (distance.x < 100.f)
+		{
+			monster->GetMonsterAttackState()->Init(monster);
+			monster->SetMonsterState(monster->GetMonsterAttackState());
+			stateTime = 0.f;
+		}
 	}
+
 	
 }
 

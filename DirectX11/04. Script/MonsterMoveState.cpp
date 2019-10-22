@@ -3,10 +3,10 @@
 #include "MonsterAttackState.h"
 #include "MonsterIdleState.h"
 
+#include "MonsterMove.h"
+
 #include "MonsterMoveStrategy.h"
 #include "MonsterDash.h"
-
-#include "MonsterMove.h"
 
 
 MonsterMoveState::MonsterMoveState()

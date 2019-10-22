@@ -4,7 +4,7 @@ class MonsterIdleState : public MonsterState
 {
 private:
 	CAnimation2D* monsterAnimation;
-
+	float stateTime;
 
 public:
 	MonsterIdleState();
