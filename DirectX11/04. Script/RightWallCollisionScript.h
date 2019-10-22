@@ -4,7 +4,6 @@
 class CRightWallCollisionScript : public CScript
 {
 private:
-	Vec3 collisionPosition;
 	bool collisionOn;
 
 public:
