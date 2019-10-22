@@ -37,6 +37,11 @@ CGameObject * CPrefab::Instantiate()
 	return m_pProto->Clone();
 }
 
+CGameObject * CPrefab::GetPrefabObjectOriginal()
+{
+	return m_pProto;
+}
+
 bool CPrefab::LoadFromScene(FILE * _pFile)
 {
 	CResource::LoadFromScene(_pFile);
@@ -55,6 +60,7 @@ bool CPrefab::LoadFromScene(FILE * _pFile)
 void CPrefab::Save()
 {
 	wstring strFileName = CPathMgr::GetResPath();
+	strFileName += L"Prefab\\";
 	strFileName += GetName();
 	strFileName += L".pref";
 
@@ -72,6 +78,9 @@ void CPrefab::SaveProtoObject(CGameObject * _pProto, FILE* _pFile)
 	// Prefab 이 참조하고 있는 GameObject 정보를 저장한다.
 	// 이름 저장
 	SaveWString(_pProto->GetName().c_str(), _pFile);
+
+	int protoLayerIndex = _pProto->GetLayerIdx();
+	fwrite(&protoLayerIndex, sizeof(UINT), 1, _pFile);
 
 	UINT i = 0;
 	for (i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
@@ -119,6 +128,10 @@ CGameObject* CPrefab::LoadProtoObject(FILE * _pFile)
 	CGameObject* pProto = new CGameObject;
 	wstring strName = LoadWString(_pFile);
 	pProto->SetName(strName);
+
+	int protoLayerIndex = -1;
+	fread(&protoLayerIndex, sizeof(UINT), 1, _pFile);
+	pProto->SetLayerIdx(protoLayerIndex);
 
 	UINT i = 0;
 	while (true)
@@ -170,6 +183,9 @@ CGameObject* CPrefab::LoadProtoObject(FILE * _pFile)
 		UINT iScriptType = 0;
 		fread(&iScriptType, sizeof(UINT), 1, _pFile);
 		m_vecScriptType.push_back(iScriptType);
+
+		CScript* newScript = new CScript(iScriptType);
+		pProto->AddComponent(newScript);
 	}
 
 	UINT iSize = 0;
