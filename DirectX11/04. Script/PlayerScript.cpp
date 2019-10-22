@@ -5,6 +5,9 @@
 #include "PlayerActionState.h"
 #include "PlayerActionStateIdle.h"
 #include "PlayerActionStateMove.h"
+#include "PlayerActionStateJump.h"
+#include "PlayerActionStateDash.h"
+#include "PlayerActionStateSit.h"
 
 #include "PlatformRightCollisionScript.h"
 #include "PlatformLeftCollisionScript.h"
@@ -12,14 +15,43 @@
 CPlayerScript::CPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT)
 {
-	actionState = new PlayerActionStateIdle;
+	//actionState = new PlayerActionStateIdle
+	actionState = PlayerActionStateIdle::GetInstance();
 	moveSpeed = 200.f;
 	moveDirection = Vec3(1.f, 0.f, 0.f);
 }
 
 CPlayerScript::~CPlayerScript()
 {
-	delete actionState;
+	if (PlayerActionStateIdle::GetInstance() != nullptr)
+	{
+		actionState = PlayerActionStateIdle::GetInstance();
+		delete actionState;
+	}
+
+	if (PlayerActionStateJump::GetInstance() != nullptr)
+	{
+		actionState = PlayerActionStateJump::GetInstance();
+		delete actionState;
+	}
+
+	if (PlayerActionStateMove::GetInstance() != nullptr)
+	{
+		actionState = PlayerActionStateMove::GetInstance();
+		delete actionState;
+	}
+
+	if (PlayerActionStateDash::GetInstance() != nullptr)
+	{
+		actionState = PlayerActionStateDash::GetInstance();
+		delete actionState;
+	}
+
+	if (PlayerActionStateSit::GetInstance() != nullptr)
+	{
+		actionState = PlayerActionStateSit::GetInstance();
+		delete actionState;
+	}
 }
 
 void CPlayerScript::CalculationMoveDirection()
