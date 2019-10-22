@@ -22,6 +22,10 @@ enum class KEY_TYPE
 	KEY_A,
 	KEY_D,
 	KEY_E,
+	KEY_Z,
+	KEY_X,
+	KEY_C,
+	KEY_V,
 
 	KEY_LBTN,
 	KEY_RBTN,
