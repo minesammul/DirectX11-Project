@@ -66,7 +66,7 @@ BOOL CToolApp::InitInstance()
 
 	CWinApp::InitInstance();
 
-	//_CrtSetBreakAlloc(243613);
+	//_CrtSetBreakAlloc(122303);
 
 
 

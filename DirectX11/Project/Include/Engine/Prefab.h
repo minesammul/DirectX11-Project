@@ -12,6 +12,7 @@ private:
 
 public:
 	CGameObject* Instantiate();
+	CGameObject* GetPrefabObjectOriginal();
 
 public:
 	virtual bool LoadFromScene(FILE* _pFile);
@@ -24,9 +25,16 @@ private:
 public:
 	virtual void Save();
 	virtual void Load(const wstring& _strFilePath);
+
 public:
 	CPrefab();
 	CPrefab(CGameObject* _pProtoObj);
 	virtual ~CPrefab();
+
+public:
+	vector<UINT> GetScriptType(void) 
+	{
+		return m_vecScriptType;
+	}
 };
 

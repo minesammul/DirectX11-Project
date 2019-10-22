@@ -205,7 +205,10 @@ call CodeGen.exe</Command>
     <ClInclude Include="ItemSwordKindStrategy.h" />
     <ClInclude Include="LeftBottomWallCollisionScript.h" />
     <ClInclude Include="LeftWallCollisionScript.h" />
+    <ClInclude Include="MonsterAttack.h" />
     <ClInclude Include="MonsterAttackState.h" />
+    <ClInclude Include="MonsterAttackStrategy.h" />
+    <ClInclude Include="MonsterCircleWaveBullet.h" />
     <ClInclude Include="MonsterComponent.h" />
     <ClInclude Include="MonsterDash.h" />
     <ClInclude Include="MonsterFly.h" />
@@ -216,6 +219,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="MonsterScript.h" />
     <ClInclude Include="MonsterState.h" />
     <ClInclude Include="MonsterWalk.h" />
+    <ClInclude Include="ObjectEditScript.h" />
     <ClInclude Include="PlatformCollisionScript.h" />
     <ClInclude Include="PlatformLeftCollisionScript.h" />
     <ClInclude Include="PlatformRightCollisionScript.h" />
@@ -252,7 +256,10 @@ call CodeGen.exe</Command>
     <ClCompile Include="ItemSwordKindStrategy.cpp" />
     <ClCompile Include="LeftBottomWallCollisionScript.cpp" />
     <ClCompile Include="LeftWallCollisionScript.cpp" />
+    <ClCompile Include="MonsterAttack.cpp" />
     <ClCompile Include="MonsterAttackState.cpp" />
+    <ClCompile Include="MonsterAttackStrategy.cpp" />
+    <ClCompile Include="MonsterCircleWaveBullet.cpp" />
     <ClCompile Include="MonsterComponent.cpp" />
     <ClCompile Include="MonsterDash.cpp" />
     <ClCompile Include="MonsterFly.cpp" />
@@ -263,6 +270,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="MonsterScript.cpp" />
     <ClCompile Include="MonsterState.cpp" />
     <ClCompile Include="MonsterWalk.cpp" />
+    <ClCompile Include="ObjectEditScript.cpp" />
     <ClCompile Include="PlatformCollisionScript.cpp" />
     <ClCompile Include="PlatformLeftCollisionScript.cpp" />
     <ClCompile Include="PlatformRightCollisionScript.cpp" />

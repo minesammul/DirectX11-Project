@@ -10,6 +10,7 @@
 #include "LeftBottomWallCollisionScript.h"
 #include "LeftWallCollisionScript.h"
 #include "MonsterScript.h"
+#include "ObjectEditScript.h"
 #include "PlatformCollisionScript.h"
 #include "PlatformLeftCollisionScript.h"
 #include "PlatformRightCollisionScript.h"
@@ -31,6 +32,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"LeftBottomWallCollisionScript");
 	_vec.push_back(L"LeftWallCollisionScript");
 	_vec.push_back(L"MonsterScript");
+	_vec.push_back(L"ObjectEditScript");
 	_vec.push_back(L"PlatformCollisionScript");
 	_vec.push_back(L"PlatformLeftCollisionScript");
 	_vec.push_back(L"PlatformRightCollisionScript");
@@ -62,6 +64,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CLeftWallCollisionScript;
 	if (L"MonsterScript" == _strScriptName)
 		return new CMonsterScript;
+	if (L"ObjectEditScript" == _strScriptName)
+		return new CObjectEditScript;
 	if (L"PlatformCollisionScript" == _strScriptName)
 		return new CPlatformCollisionScript;
 	if (L"PlatformLeftCollisionScript" == _strScriptName)
@@ -121,6 +125,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::MONSTERSCRIPT:
 		return L"MonsterScript";
+		break;
+
+	case SCRIPT_TYPE::OBJECTEDITSCRIPT:
+		return L"ObjectEditScript";
 		break;
 
 	case SCRIPT_TYPE::PLATFORMCOLLISIONSCRIPT:

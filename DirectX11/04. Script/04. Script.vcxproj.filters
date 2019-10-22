@@ -43,6 +43,18 @@
     <Filter Include="Script Component\Monster\Component\MoveStrategy">
       <UniqueIdentifier>{cfe0ab95-1144-4cb5-80c4-9b89da554f9f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\ToolObjectEditScript">
+      <UniqueIdentifier>{9f92fbfb-7e8e-49d3-b102-bfcad3734536}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script Component\Item\Component">
+      <UniqueIdentifier>{47e8bd12-8b3f-469c-b37b-a5053a6f3db5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script Component\Item\Component\KindStrategy">
+      <UniqueIdentifier>{da30681a-890a-4e2f-91c1-7e2f7932e600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script Component\Monster\Component\AttackStrategy">
+      <UniqueIdentifier>{2958e04c-6c7b-4e29-9de9-ea6abf2c0a32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptMgr.h">
@@ -53,9 +65,6 @@
     </ClInclude>
     <ClInclude Include="GravityScript.h">
       <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="BulletScript.h">
-      <Filter>Example Scripts</Filter>
     </ClInclude>
     <ClInclude Include="HilightScript.h">
       <Filter>Example Scripts</Filter>
@@ -123,24 +132,6 @@
     <ClInclude Include="PlayerActionStateSit.h">
       <Filter>Script Component\Player</Filter>
     </ClInclude>
-    <ClInclude Include="ItemKind.h">
-      <Filter>Script Component\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemEffect.h">
-      <Filter>Script Component\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemComponent.h">
-      <Filter>Script Component\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemKindStrategy.h">
-      <Filter>Script Component\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemSwordKindStrategy.h">
-      <Filter>Script Component\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemImage.h">
-      <Filter>Script Component\Item</Filter>
-    </ClInclude>
     <ClInclude Include="EffectScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
@@ -180,6 +171,39 @@
     <ClInclude Include="resource.h">
       <Filter>Defalut</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectEditScript.h">
+      <Filter>Scripts\ToolObjectEditScript</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemComponent.h">
+      <Filter>Script Component\Item\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemEffect.h">
+      <Filter>Script Component\Item\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemImage.h">
+      <Filter>Script Component\Item\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemKind.h">
+      <Filter>Script Component\Item\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemSwordKindStrategy.h">
+      <Filter>Script Component\Item\Component\KindStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemKindStrategy.h">
+      <Filter>Script Component\Item\Component\KindStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterAttack.h">
+      <Filter>Script Component\Monster\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterAttackStrategy.h">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterCircleWaveBullet.h">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptMgr.cpp">
@@ -190,9 +214,6 @@
     </ClCompile>
     <ClCompile Include="GravityScript.cpp">
       <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="BulletScript.cpp">
-      <Filter>Example Scripts</Filter>
     </ClCompile>
     <ClCompile Include="HilightScript.cpp">
       <Filter>Example Scripts</Filter>
@@ -257,24 +278,6 @@
     <ClCompile Include="PlayerActionStateSit.cpp">
       <Filter>Script Component\Player</Filter>
     </ClCompile>
-    <ClCompile Include="ItemKind.cpp">
-      <Filter>Script Component\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemEffect.cpp">
-      <Filter>Script Component\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemComponent.cpp">
-      <Filter>Script Component\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemKindStrategy.cpp">
-      <Filter>Script Component\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemSwordKindStrategy.cpp">
-      <Filter>Script Component\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemImage.cpp">
-      <Filter>Script Component\Item</Filter>
-    </ClCompile>
     <ClCompile Include="EffectScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
@@ -310,6 +313,39 @@
     </ClCompile>
     <ClCompile Include="MonsterFly.cpp">
       <Filter>Script Component\Monster\Component\MoveStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectEditScript.cpp">
+      <Filter>Scripts\ToolObjectEditScript</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemComponent.cpp">
+      <Filter>Script Component\Item\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemEffect.cpp">
+      <Filter>Script Component\Item\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemImage.cpp">
+      <Filter>Script Component\Item\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemKind.cpp">
+      <Filter>Script Component\Item\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemKindStrategy.cpp">
+      <Filter>Script Component\Item\Component\KindStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemSwordKindStrategy.cpp">
+      <Filter>Script Component\Item\Component\KindStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterAttack.cpp">
+      <Filter>Script Component\Monster\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterAttackStrategy.cpp">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterCircleWaveBullet.cpp">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletScript.cpp">
+      <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

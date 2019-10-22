@@ -14,29 +14,34 @@ CEffectScript::~CEffectScript()
 
 void CEffectScript::start()
 {
-	////임시코드 나중에 Effect는 전부 추가할 수 있도록 한다.
-	//CGameObject* newEffect = new CGameObject;
-	//CTransform* transform = new CTransform;
-	//CAnimator2D* animator2D = new CAnimator2D;
-	//CMeshRender* meshrender = new CMeshRender;
-	//
-	//transform->SetLocalPos(Vec3(0.f, 0.f, 500.f));
-	//transform->SetLocalScale(Vec3(100.f, 100.f, 1.f));
-	//transform->SetLocalRot(Vec3(0.f, 0.f, 0.f));
+	CResMgr::GetInst()->Load<CPrefab>(L"Prefab\\Player.pref", L"Prefab\\Player.pref");
+	monsterPrefab = CResMgr::GetInst()->FindRes<CPrefab>(L"Prefab\\Player.pref");
+}
 
-	//meshrender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	//meshrender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
+void CEffectScript::update()
+{
+	if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_Z) == KEY_STATE::STATE_TAB)
+	{
+		/*
+			CScript* pNewScript = CScriptMgr::GetScript(strScriptName.GetBuffer());
+			GetTarget()->AddComponent(pNewScript);
+		*/
+		
+		//vector<CScript*> prefabInputScripts;
+		map<UINT, CScript*> prefabInputScripts;
 
-	//animator2D->AddAnimation(L"Swing Effect", L"Texture\\Effect\\Item Effect\\SwingFX\\", 0.1f);
-	//animator2D->PlayAnimation(L"Swing Effect", true);
+		vector<UINT> prefabScriptTypes = monsterPrefab->GetScriptType();
+		vector<wstring> allScriptInfo;
+		CScriptMgr::GetScriptInfo(allScriptInfo);
 
-	//newEffect->AddComponent(transform);
-	//newEffect->AddComponent(meshrender);
-	//newEffect->AddComponent(animator2D);
+		for (int scriptIndex = 0; scriptIndex < prefabScriptTypes.size(); scriptIndex++)
+		{
+			UINT scriptType = prefabScriptTypes[scriptIndex];
+			wstring scriptName = allScriptInfo[scriptType];
+			CScript* prefabScript = CScriptMgr::GetScript(scriptName);
+			prefabInputScripts[scriptType] = prefabScript;
+		}
 
-	////CSceneMgr::GetInst()->GetCurScene()->AddObject(L"Default", newEffect);
-
-	//CResPtr<CPrefab> pPrefab = new CPrefab(newEffect);
-	//CResMgr::GetInst()->AddRes<CPrefab>(L"Swing Effect Prefab", pPrefab);
-	//pPrefab->Save();
+		Instantiate(monsterPrefab, Transform()->GetLocalPos(), prefabInputScripts);
+	}
 }

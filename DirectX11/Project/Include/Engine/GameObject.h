@@ -51,6 +51,7 @@ public:
 	vector<CScript*>& GetScripts() { return m_vecScript; }
 	
 	int GetLayerIdx() { return m_iLayerIdx; }
+	void SetLayerIdx(UINT _iIdx) { m_iLayerIdx = _iIdx; }
 
 	void AddChild(CGameObject* _pChildObj);
 	CGameObject* GetParent() { return m_pParent; }
@@ -67,7 +68,6 @@ public:
 	void LoadFromScene(FILE* _pFile);
 
 private:
-	void SetLayerIdx(UINT _iIdx) { m_iLayerIdx = _iIdx; }	
 	void SetParent(CGameObject* _pParent);
 	void ClearParent(); // 부모오브젝트에서 나올때, 부모오브젝트와의 관계 제거
 	void ClearLayer();	// 오브젝트가 Layer 에서 나올때, Layer 와의 관계 제거

@@ -8,10 +8,12 @@ class MonsterMoveState;
 
 class MonsterComponent;
 class MonsterMove;
+class MonsterAttack;
 
 enum class MONSTER_COMPONENT
 {
 	MOVE,
+	ATTACK,
 	END
 };
 
@@ -38,6 +40,7 @@ public:
 	virtual void update();
 
 	MonsterMove* GetMonsterMove(void);
+	MonsterAttack* GetMonsterAttack(void);
 
 	void SetMonsterState(MonsterState* state) { monsterState = state; }
 	MonsterIdleState* GetMonsterIdleState(void) { return this->monsterIdleState; }
