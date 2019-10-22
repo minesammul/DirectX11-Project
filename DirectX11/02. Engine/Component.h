@@ -22,7 +22,10 @@ public:
 	virtual void OnDisable() {};
 
 	COMPONENT_TYPE GetCompnentType() { return m_eComType; }
+
 	CGameObject* Object() { return m_pObject; }
+	void SetGameObject(CGameObject* _pObject) { m_pObject = _pObject; }
+
 	CGameObject* ParentObject() { return m_pObject->GetParent(); }
 	bool HasParent() { return m_pObject->GetParent(); };
 
@@ -37,7 +40,7 @@ protected:
 	CAnimator2D* Animator2D() { return m_pObject->Animator2D(); }
 
 private:
-	void SetGameObject(CGameObject* _pObject) { m_pObject = _pObject; }
+
 	
 	CLONE_DISABLE(CComponent);
 public:	
