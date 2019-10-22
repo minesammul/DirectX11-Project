@@ -53,18 +53,20 @@ void CTileMapScript::awake()
 	}
 
 	//
+	m_pCloneMtrl = MeshRender()->GetCloneMaterial();
+
 	CResPtr<CTexture> tileTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\No Animation Tile\\16x16\\16x16Tileset.png");
-	Object()->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &tileTexture);
+	m_pCloneMtrl->SetData(SHADER_PARAM::TEX_1, &tileTexture);
 
 	int inputGridCount = GRID_COUNT;
-	Object()->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_0, &inputGridCount);
+	m_pCloneMtrl->SetData(SHADER_PARAM::INT_0, &inputGridCount);
 
 	int textureTileCount = 487;
-	Object()->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_1, &textureTileCount);
+	m_pCloneMtrl->SetData(SHADER_PARAM::INT_1, &textureTileCount);
 
-	Object()->MeshRender()->GetSharedMaterial()->SetTileData(referecneTileIndexData);
-
+	m_pCloneMtrl->SetTileData(referecneTileIndexData);
 	//
+
 	vector<CCamera*> cameras = CSceneMgr::GetInst()->GetCurScene()->GetCamera();
 	for (int cameraIndex = 0; cameraIndex < cameras.size(); cameraIndex++)
 	{
