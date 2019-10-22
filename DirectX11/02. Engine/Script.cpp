@@ -13,11 +13,72 @@ CScript::~CScript()
 {
 }
 
+void CScript::InsertScriptToPrefab(CGameObject * prefabObject, map<UINT, CScript*> scripts)
+{
+	for (int prefabChildIndex = 0; prefabChildIndex < prefabObject->GetChild().size(); prefabChildIndex++)
+	{
+		InsertScriptToPrefab(prefabObject->GetChild()[prefabChildIndex], scripts);
+	}
+
+	prefabObject->SetLayerIdx(0);
+	for (int scriptIndex = 0; scriptIndex < prefabObject->GetScripts().size(); scriptIndex++)
+	{
+		UINT scriptType = prefabObject->GetScripts()[scriptIndex]->GetScriptType();
+
+		delete prefabObject->GetScripts()[scriptIndex];
+		prefabObject->GetScripts()[scriptIndex] = nullptr;
+
+		prefabObject->GetScripts()[scriptIndex] = scripts[scriptType];
+		prefabObject->GetScripts()[scriptIndex]->SetGameObject(prefabObject);
+	}
+}
+
+void CScript::InsertLayerToPrefab(CGameObject * prefabObject, CGameObject * referenceObject)
+{
+	for (int prefabChildIndex = 0; prefabChildIndex < prefabObject->GetChild().size(); prefabChildIndex++)
+	{
+		InsertLayerToPrefab(prefabObject->GetChild()[prefabChildIndex], referenceObject->GetChild()[prefabChildIndex]);
+	}
+
+	prefabObject->SetLayerIdx(0);
+
+
+	tEvent event = {};
+	event.eType = EVENT_TYPE::CHANGE_LAYER;
+	event.lParam = (DWORD_PTR)prefabObject;
+	event.wParam = (DWORD_PTR)MAKELONG(false, referenceObject->GetLayerIdx());
+
+
+	CEventMgr::GetInst()->AddEvent(event);
+}
+
 void CScript::Instantiate(CResPtr<CPrefab>& _pPrefab, const Vec3 & _vPos, const wstring & _strLayerName)
 {	
 	CGameObject* pClone = _pPrefab->Instantiate();
 	pClone->Transform()->SetLocalPos(_vPos);
+
+	int layerIndex = CSceneMgr::GetInst()->GetCurScene()->FindLayer(_strLayerName)->GetLayerIdx();
+	pClone->SetLayerIdx(layerIndex);
+
 	CreateObject(pClone);	
+}
+
+void CScript::Instantiate(CResPtr<CPrefab>& _pPrefab, const Vec3 & _vPos, map<UINT, CScript*> scripts)
+{
+	CGameObject* pClone = _pPrefab->Instantiate();
+	pClone->Transform()->SetLocalPos(_vPos);
+	
+	wstring cloneName = pClone->GetName();
+	cloneName += L"Prefab";
+	pClone->SetName(cloneName);
+
+	InsertScriptToPrefab(pClone, scripts);
+
+
+	CreateObject(pClone);
+
+
+	InsertLayerToPrefab(pClone, _pPrefab->GetPrefabObjectOriginal());
 }
 
 

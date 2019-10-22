@@ -26,16 +26,23 @@ private:
 public:	
 	virtual void update() {}
 
+private:
+	void InsertScriptToPrefab(CGameObject* prefabObject, map<UINT, CScript*> scripts);
+	void InsertLayerToPrefab(CGameObject* prefabObject, CGameObject* referenceObject);
+
 public:
 	UINT GetScriptType() { return m_iScriptType; }
+	void SetScriptType(UINT scriptType) { m_iScriptType = scriptType; }
 	virtual void SaveToScene(FILE* _pFile) {}
 	virtual void LoadFromScene(FILE* _pFile) {}
 
 	CLONE(CScript);
 		
+	void Instantiate(CResPtr<CPrefab>& _pPrefab, const Vec3& _vPos, map<UINT, CScript*> scripts);
+
 protected:
 	void Instantiate(CResPtr<CPrefab>& _pPrefab, const Vec3& _vPos, const wstring& _strLayerName);
-
+	
 	virtual void OnCollisionEnter(CCollider2D* _pOther) {};
 	virtual void OnCollision(CCollider2D* _pOther) {};
 	virtual void OnCollisionExit(CCollider2D* _pOther) {};
