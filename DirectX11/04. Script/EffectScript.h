@@ -4,7 +4,8 @@
 class CEffectScript : public CScript
 {
 private:
-	CResPtr<CPrefab>	monsterPrefab;
+	bool isDestory;
+	Vec3 rotate;
 
 public:
 	CEffectScript();
@@ -13,5 +14,11 @@ public:
 public:
 	virtual void start();
 	virtual void update();
+
+	void SetRotate(Vec3 rotate) 
+	{
+		this->rotate = rotate;
+	}
+
 };
 
