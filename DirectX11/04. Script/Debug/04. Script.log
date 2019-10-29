@@ -1,1 +1,5 @@
-﻿
+﻿  Z4CameraFrameScript.cpp
+d:\github project\directx11\directx11\04. script\z4cameraframescript.cpp(31): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+LINK : warning LNK4068: /MACHINE이 지정되어 있지 않습니다. X86(으)로 기본 설정됩니다.
+  04. Script.vcxproj -> D:\GitHub Project\DirectX11\DirectX11\Project\Library\Script\x86\Script_Debug.lib
+  0개 파일이 복사되었습니다.

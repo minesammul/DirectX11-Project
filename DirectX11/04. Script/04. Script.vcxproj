@@ -191,9 +191,13 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AttackBoxScript.h" />
     <ClInclude Include="BottomWallCollisionScript.h" />
     <ClInclude Include="BulletScript.h" />
+    <ClInclude Include="CameraScript.h" />
     <ClInclude Include="EffectScript.h" />
+    <ClInclude Include="EventQueueScript.h" />
+    <ClInclude Include="EventScript.h" />
     <ClInclude Include="GravityScript.h" />
     <ClInclude Include="HilightScript.h" />
     <ClInclude Include="ItemComponent.h" />
@@ -208,16 +212,23 @@ call CodeGen.exe</Command>
     <ClInclude Include="MonsterAttack.h" />
     <ClInclude Include="MonsterAttackState.h" />
     <ClInclude Include="MonsterAttackStrategy.h" />
+    <ClInclude Include="MonsterCircleShotBullet.h" />
     <ClInclude Include="MonsterCircleWaveBullet.h" />
     <ClInclude Include="MonsterComponent.h" />
     <ClInclude Include="MonsterDash.h" />
     <ClInclude Include="MonsterFly.h" />
     <ClInclude Include="MonsterIdleState.h" />
+    <ClInclude Include="MonsterJumpTackle.h" />
     <ClInclude Include="MonsterMove.h" />
     <ClInclude Include="MonsterMoveState.h" />
     <ClInclude Include="MonsterMoveStrategy.h" />
+    <ClInclude Include="MonsterOneShotBullet.h" />
+    <ClInclude Include="MonsterResponseScript.h" />
     <ClInclude Include="MonsterScript.h" />
     <ClInclude Include="MonsterState.h" />
+    <ClInclude Include="MonsterSwing.h" />
+    <ClInclude Include="MonsterThreeShotBullet.h" />
+    <ClInclude Include="MonsterTrace.h" />
     <ClInclude Include="MonsterWalk.h" />
     <ClInclude Include="ObjectEditScript.h" />
     <ClInclude Include="PlatformCollisionScript.h" />
@@ -230,6 +241,8 @@ call CodeGen.exe</Command>
     <ClInclude Include="PlayerActionStateMove.h" />
     <ClInclude Include="PlayerActionStateSit.h" />
     <ClInclude Include="PlayerScript.h" />
+    <ClInclude Include="PotalScript.h" />
+    <ClInclude Include="PotalVerticalScript.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RightBottomWallCollisionScript.h" />
     <ClInclude Include="RightWallCollisionScript.h" />
@@ -237,14 +250,27 @@ call CodeGen.exe</Command>
     <ClInclude Include="ScriptMgr.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TextureScript.h" />
     <ClInclude Include="TileMapScript.h" />
     <ClInclude Include="TileScript.h" />
     <ClInclude Include="TopWallCollisionScript.h" />
+    <ClInclude Include="UIScript.h" />
+    <ClInclude Include="Z1MonsterExistFindScript.h" />
+    <ClInclude Include="Z2FadeScript.h" />
+    <ClInclude Include="Z3CameraBottomCheckScript.h" />
+    <ClInclude Include="Z4CameraFrameScript.h" />
+    <ClInclude Include="Z5CameraTopCheckScript.h" />
+    <ClInclude Include="Z6CameraRightCheckScript.h" />
+    <ClInclude Include="Z7CameraLeftCheckScript.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AttackBoxScript.cpp" />
     <ClCompile Include="BottomWallCollisionScript.cpp" />
     <ClCompile Include="BulletScript.cpp" />
+    <ClCompile Include="CameraScript.cpp" />
     <ClCompile Include="EffectScript.cpp" />
+    <ClCompile Include="EventQueueScript.cpp" />
+    <ClCompile Include="EventScript.cpp" />
     <ClCompile Include="GravityScript.cpp" />
     <ClCompile Include="HilightScript.cpp" />
     <ClCompile Include="ItemComponent.cpp" />
@@ -259,16 +285,23 @@ call CodeGen.exe</Command>
     <ClCompile Include="MonsterAttack.cpp" />
     <ClCompile Include="MonsterAttackState.cpp" />
     <ClCompile Include="MonsterAttackStrategy.cpp" />
+    <ClCompile Include="MonsterCircleShotBullet.cpp" />
     <ClCompile Include="MonsterCircleWaveBullet.cpp" />
     <ClCompile Include="MonsterComponent.cpp" />
     <ClCompile Include="MonsterDash.cpp" />
     <ClCompile Include="MonsterFly.cpp" />
     <ClCompile Include="MonsterIdleState.cpp" />
+    <ClCompile Include="MonsterJumpTackle.cpp" />
     <ClCompile Include="MonsterMove.cpp" />
     <ClCompile Include="MonsterMoveState.cpp" />
     <ClCompile Include="MonsterMoveStrategy.cpp" />
+    <ClCompile Include="MonsterOneShotBullet.cpp" />
+    <ClCompile Include="MonsterResponseScript.cpp" />
     <ClCompile Include="MonsterScript.cpp" />
     <ClCompile Include="MonsterState.cpp" />
+    <ClCompile Include="MonsterSwing.cpp" />
+    <ClCompile Include="MonsterThreeShotBullet.cpp" />
+    <ClCompile Include="MonsterTrace.cpp" />
     <ClCompile Include="MonsterWalk.cpp" />
     <ClCompile Include="ObjectEditScript.cpp" />
     <ClCompile Include="PlatformCollisionScript.cpp" />
@@ -281,6 +314,8 @@ call CodeGen.exe</Command>
     <ClCompile Include="PlayerActionStateMove.cpp" />
     <ClCompile Include="PlayerActionStateSit.cpp" />
     <ClCompile Include="PlayerScript.cpp" />
+    <ClCompile Include="PotalScript.cpp" />
+    <ClCompile Include="PotalVerticalScript.cpp" />
     <ClCompile Include="RightBottomWallCollisionScript.cpp" />
     <ClCompile Include="RightWallCollisionScript.cpp" />
     <ClCompile Include="SaveLoadMgr.cpp" />
@@ -291,9 +326,18 @@ call CodeGen.exe</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TextureScript.cpp" />
     <ClCompile Include="TileMapScript.cpp" />
     <ClCompile Include="TileScript.cpp" />
     <ClCompile Include="TopWallCollisionScript.cpp" />
+    <ClCompile Include="UIScript.cpp" />
+    <ClCompile Include="Z1MonsterExistFindScript.cpp" />
+    <ClCompile Include="Z2FadeScript.cpp" />
+    <ClCompile Include="Z3CameraBottomCheckScript.cpp" />
+    <ClCompile Include="Z4CameraFrameScript.cpp" />
+    <ClCompile Include="Z5CameraTopCheckScript.cpp" />
+    <ClCompile Include="Z6CameraRightCheckScript.cpp" />
+    <ClCompile Include="Z7CameraLeftCheckScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="04. Script.rc" />

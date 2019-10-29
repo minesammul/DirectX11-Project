@@ -55,6 +55,9 @@
     <Filter Include="Script Component\Monster\Component\AttackStrategy">
       <UniqueIdentifier>{2958e04c-6c7b-4e29-9de9-ea6abf2c0a32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\CameraCollisionScirpt">
+      <UniqueIdentifier>{f234a6f6-3a7d-4db6-b535-7cb313373cf6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptMgr.h">
@@ -204,6 +207,72 @@
     <ClInclude Include="BulletScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="MonsterOneShotBullet.h">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterSwing.h">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterThreeShotBullet.h">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterTrace.h">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterCircleShotBullet.h">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterJumpTackle.h">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="PotalScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterResponseScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="EventQueueScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="EventScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="PotalVerticalScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="UIScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackBoxScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Z2FadeScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Z1MonsterExistFindScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Z3CameraBottomCheckScript.h">
+      <Filter>Scripts\CameraCollisionScirpt</Filter>
+    </ClInclude>
+    <ClInclude Include="Z5CameraTopCheckScript.h">
+      <Filter>Scripts\CameraCollisionScirpt</Filter>
+    </ClInclude>
+    <ClInclude Include="Z6CameraRightCheckScript.h">
+      <Filter>Scripts\CameraCollisionScirpt</Filter>
+    </ClInclude>
+    <ClInclude Include="Z7CameraLeftCheckScript.h">
+      <Filter>Scripts\CameraCollisionScirpt</Filter>
+    </ClInclude>
+    <ClInclude Include="Z4CameraFrameScript.h">
+      <Filter>Scripts\CameraCollisionScirpt</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptMgr.cpp">
@@ -346,6 +415,72 @@
     </ClCompile>
     <ClCompile Include="BulletScript.cpp">
       <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterOneShotBullet.cpp">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterSwing.cpp">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterThreeShotBullet.cpp">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterTrace.cpp">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterCircleShotBullet.cpp">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterJumpTackle.cpp">
+      <Filter>Script Component\Monster\Component\AttackStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="PotalScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterResponseScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="EventQueueScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="EventScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="PotalVerticalScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="UIScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackBoxScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Z1MonsterExistFindScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Z2FadeScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Z3CameraBottomCheckScript.cpp">
+      <Filter>Scripts\CameraCollisionScirpt</Filter>
+    </ClCompile>
+    <ClCompile Include="Z5CameraTopCheckScript.cpp">
+      <Filter>Scripts\CameraCollisionScirpt</Filter>
+    </ClCompile>
+    <ClCompile Include="Z6CameraRightCheckScript.cpp">
+      <Filter>Scripts\CameraCollisionScirpt</Filter>
+    </ClCompile>
+    <ClCompile Include="Z7CameraLeftCheckScript.cpp">
+      <Filter>Scripts\CameraCollisionScirpt</Filter>
+    </ClCompile>
+    <ClCompile Include="Z4CameraFrameScript.cpp">
+      <Filter>Scripts\CameraCollisionScirpt</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
