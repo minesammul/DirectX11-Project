@@ -33,18 +33,19 @@ MonsterMove::~MonsterMove()
 
 void MonsterMove::Init()
 {
-	if (GetMonster()->Object()->GetName().compare(L"BigWhiteSkel") == 0)
+	if (GetMonster()->Object()->GetName().compare(L"BigWhiteSkel") == 0 ||
+		GetMonster()->Object()->GetName().compare(L"SkelDog") == 0)
 	{
 		moveStrategy = moveWalk;
 	}
-	else if(GetMonster()->Object()->GetName().compare(L"Bat") == 0)
-	{
-		moveStrategy = moveFly;
-	}
-	else
+	else if(GetMonster()->Object()->GetName().compare(L"Minotaurs") == 0)
 	{
 		moveStrategy = moveDash;
 	}
+	//else
+	//{
+	//	moveStrategy = moveDash;
+	//}
 }
 
 

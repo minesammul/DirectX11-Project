@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "TileScript.h"
 
+#include <Camera.h>
+
 
 CTileScript::CTileScript() : 
 	CScript((UINT)SCRIPT_TYPE::TILESCRIPT)
@@ -17,10 +19,10 @@ void CTileScript::awake()
 	CResPtr<CTexture> tileTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\No Animation Tile\\16x16\\16x16Tileset.png");
 	Object()->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &tileTexture);
 
-	gridCount = 23;
+	gridCount = GRID_COUNT;
 	Object()->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_0, &gridCount);
 
-	textureTileCount = 487;
+	textureTileCount = TEXTURE_TILE_COUNT;
 	Object()->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_1, &textureTileCount);
 
 	selectTileIndex = -1;
@@ -28,9 +30,62 @@ void CTileScript::awake()
 
 	selectTileX = -1;
 	selectTileY = -1;
+
+	vector<CCamera*> cameras = CSceneMgr::GetInst()->GetCurScene()->GetCamera();
+	tileMapCamera = cameras[0];
 }
 
 void CTileScript::update()
+{
+	ClickTileSetTile();
+	EditMoveTileMap();
+}
+
+void CTileScript::EditMoveTileMap()
+{
+
+	if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_A) == KEY_STATE::STATE_HOLD)
+	{
+		Vec3 ObjectPosition = tileMapCamera->Object()->Transform()->GetLocalPos();
+		ObjectPosition.x += TILE_MOVE_SPEED * DT;
+		tileMapCamera->Object()->Transform()->SetLocalPos(ObjectPosition);
+	}
+	else if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_D) == KEY_STATE::STATE_HOLD)
+	{
+		Vec3 ObjectPosition = tileMapCamera->Object()->Transform()->GetLocalPos();
+		ObjectPosition.x -= TILE_MOVE_SPEED * DT;
+		tileMapCamera->Object()->Transform()->SetLocalPos(ObjectPosition);
+	}
+
+	if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_W) == KEY_STATE::STATE_HOLD)
+	{
+		Vec3 ObjectPosition = tileMapCamera->Object()->Transform()->GetLocalPos();
+		ObjectPosition.y -= TILE_MOVE_SPEED * DT;
+		tileMapCamera->Object()->Transform()->SetLocalPos(ObjectPosition);
+	}
+	else if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_S) == KEY_STATE::STATE_HOLD)
+	{
+		Vec3 ObjectPosition = tileMapCamera->Object()->Transform()->GetLocalPos();
+		ObjectPosition.y += TILE_MOVE_SPEED * DT;
+		tileMapCamera->Object()->Transform()->SetLocalPos(ObjectPosition);
+	}
+
+	if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_Q) == KEY_STATE::STATE_TAB)
+	{
+		float nowCameraScale = tileMapCamera->GetScale();
+		nowCameraScale *= TILE_SCALE_MULTI_VALUE;
+		tileMapCamera->SetScale(nowCameraScale);
+	}
+	else if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_E) == KEY_STATE::STATE_TAB)
+	{
+		float nowCameraScale = tileMapCamera->GetScale();
+		nowCameraScale /= TILE_SCALE_MULTI_VALUE;
+		tileMapCamera->SetScale(nowCameraScale);
+	}
+
+}
+
+void CTileScript::ClickTileSetTile()
 {
 	if (CSceneMgr::GetInst()->GetMousePickingObject() == Object())
 	{

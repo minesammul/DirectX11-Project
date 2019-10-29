@@ -5,6 +5,8 @@
 #include "ItemEffect.h"
 #include "ItemImage.h"
 
+#include "EventQueueScript.h"
+
 CItemScript::CItemScript():
 	CScript((UINT)SCRIPT_TYPE::ITEMSCRIPT)
 {
@@ -18,6 +20,10 @@ CItemScript::CItemScript():
 	itemComponents[(UINT)ITEM_TYPE::KIND] = new ItemKind;
 	itemComponents[(UINT)ITEM_TYPE::IMAGE] = new ItemImage;
 	itemComponents[(UINT)ITEM_TYPE::EFFECT] = new ItemEffect;
+
+	activeAttack = false;
+	activeAttackTime = 0.f;
+	isHit = false;
 }
 
 
@@ -58,6 +64,7 @@ void CItemScript::update()
 	if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_LBTN) == KEY_STATE::STATE_TAB)
 	{
 		Play();
+		activeAttack = true;
 	}
 
 	for (UINT itemComponentIndex = 0; itemComponentIndex < (UINT)ITEM_TYPE::END; itemComponentIndex++)
@@ -70,12 +77,41 @@ void CItemScript::update()
 		itemComponents[itemComponentIndex]->Update(this);
 	}
 
+	if (activeAttack == true)
+	{
+		activeAttackTime += DT;
+		if (activeAttackTime > 0.2)
+		{
+			activeAttack = false;
+		}
+	}
+	else
+	{
+		activeAttackTime = 0.f;
+	}
+
 	/*MeshRender()->SetMaterial(m_pCloneMtrl);
 	if (nullptr != m_pCloneMtrl)
 	{
 		CResPtr<CTexture> itemTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Item\\BasicShortSword\\BasicShortSword.png");
 		m_pCloneMtrl->SetData(SHADER_PARAM::TEX_0, &itemTexture);
 	}*/
+}
+
+void CItemScript::OnCollision(CCollider2D * _pOther)
+{
+	if (activeAttack == true)
+	{
+		EVENT_PACKET packet;
+		packet.eventSendTargetID = _pOther->Object()->GetID();
+		packet.eventType = EVENTQUEUE_TYPE::ATTACK;
+		CEventQueueScript::GetInstance()->EnqueueEvent(packet);
+		
+		hitPosition = _pOther->Object()->Transform()->GetLocalPos();
+
+		activeAttack = false;
+		isHit = true;
+	}
 }
 
 void CItemScript::Play()
@@ -88,4 +124,10 @@ void CItemScript::Play()
 		}
 		itemComponents[itemComponentIndex]->Action(this);
 	}
+}
+
+ItemKind * CItemScript::GetItemKind(void)
+{
+	ItemKind* itemKind = dynamic_cast<ItemKind*>(itemComponents[(UINT)ITEM_TYPE::KIND]);
+	return itemKind;
 }

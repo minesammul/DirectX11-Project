@@ -108,6 +108,8 @@ void CPrefab::SaveProtoObject(CGameObject * _pProto, FILE* _pFile)
 	for (UINT i = 0; i < iScriptCount; ++i)
 	{
 		// Script Type
+		wstring name = vecScripts[i]->GetName();
+
 		UINT iScriptType = vecScripts[i]->GetScriptType();
 		fwrite(&iScriptType, sizeof(UINT), 1, _pFile);
 	}

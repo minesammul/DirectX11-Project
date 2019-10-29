@@ -15,6 +15,8 @@ MonsterCircleWaveBullet::~MonsterCircleWaveBullet()
 
 void MonsterCircleWaveBullet::Attack(CMonsterScript * monster)
 {
+	monster->SetMonsterDirectionImage();
+
 	for (int bulletCount = 0; bulletCount < 16; bulletCount++)
 	{
 		Vec3 bulletDirection = Vec3(1.0f, 0.0f, 0.0f);
@@ -49,5 +51,5 @@ void MonsterCircleWaveBullet::Attack(CMonsterScript * monster)
 		monster->Instantiate(bullet, monster->Object()->Transform()->GetLocalPos(), prefabInputScripts);
 	}
 
-	SetIsAttack(true);
+	SetIsAttack(false);
 }

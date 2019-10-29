@@ -7,7 +7,7 @@
 CTileMapScript::CTileMapScript() : 
 	CScript((UINT)SCRIPT_TYPE::TILEMAPSCRIPT)
 {
-	for (int tileIndex = 0; tileIndex < 1024; tileIndex++)
+	for (int tileIndex = 0; tileIndex < TILEMAP_TILE_COUNT; tileIndex++)
 	{
 		referecneTileIndexData[tileIndex] = -1;
 	}
@@ -60,7 +60,7 @@ void CTileMapScript::awake()
 
 	int inputGridCount = GRID_COUNT;
 	m_pCloneMtrl->SetData(SHADER_PARAM::INT_0, &inputGridCount);
-
+	   
 	int textureTileCount = 487;
 	m_pCloneMtrl->SetData(SHADER_PARAM::INT_1, &textureTileCount);
 
@@ -82,7 +82,6 @@ void CTileMapScript::awake()
 void CTileMapScript::update()
 {
 	EditTileMap();
-	EditMoveTileMap();
 }
 
 void CTileMapScript::SaveToScene(FILE * _pFile)
@@ -101,6 +100,12 @@ void CTileMapScript::LoadFromScene(FILE * _pFile)
 		int tileIndex = -1;
 		fread(&tileIndex, sizeof(int), 1, _pFile);
 		referecneTileIndexData[index] = tileIndex;
+
+		if (tileIndex >= 487)
+		{
+			tileIndex = -1;
+			referecneTileIndexData[index] = -1;
+		}
 	}
 }
 
@@ -159,50 +164,5 @@ void CTileMapScript::EditTileMap()
 			}
 		}
 
-	}
-}
-
-void CTileMapScript::EditMoveTileMap()
-{
-	if (tilesetScript != nullptr)
-	{
-		if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_A) == KEY_STATE::STATE_HOLD)
-		{
-			Vec3 ObjectPosition = Object()->Transform()->GetLocalPos();
-			ObjectPosition.x -= TILE_MOVE_SPEED * DT;
-			Object()->Transform()->SetLocalPos(ObjectPosition);
-		}
-		else if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_D) == KEY_STATE::STATE_HOLD)
-		{
-			Vec3 ObjectPosition = Object()->Transform()->GetLocalPos();
-			ObjectPosition.x += TILE_MOVE_SPEED * DT;
-			Object()->Transform()->SetLocalPos(ObjectPosition);
-		}
-
-		if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_W) == KEY_STATE::STATE_HOLD)
-		{
-			Vec3 ObjectPosition = Object()->Transform()->GetLocalPos();
-			ObjectPosition.y += TILE_MOVE_SPEED * DT;
-			Object()->Transform()->SetLocalPos(ObjectPosition);
-		}
-		else if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_S) == KEY_STATE::STATE_HOLD)
-		{
-			Vec3 ObjectPosition = Object()->Transform()->GetLocalPos();
-			ObjectPosition.y -= TILE_MOVE_SPEED * DT;
-			Object()->Transform()->SetLocalPos(ObjectPosition);
-		}
-
-		if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_Q) == KEY_STATE::STATE_TAB)
-		{
-			float nowCameraScale = tileMapCamera->GetScale();
-			nowCameraScale *= TILE_SCALE_MULTI_VALUE;
-			tileMapCamera->SetScale(nowCameraScale);
-		}
-		else if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_E) == KEY_STATE::STATE_TAB)
-		{
-			float nowCameraScale = tileMapCamera->GetScale();
-			nowCameraScale /= TILE_SCALE_MULTI_VALUE;
-			tileMapCamera->SetScale(nowCameraScale);
-		}
 	}
 }

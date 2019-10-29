@@ -12,6 +12,8 @@
 #include "PlatformRightCollisionScript.h"
 #include "PlatformLeftCollisionScript.h"
 
+#include "EventQueueScript.h"
+
 CPlayerScript::CPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT)
 {
@@ -19,6 +21,11 @@ CPlayerScript::CPlayerScript()
 	actionState = PlayerActionStateIdle::GetInstance();
 	moveSpeed = 200.f;
 	moveDirection = Vec3(1.f, 0.f, 0.f);
+
+	playerData.maxHp = 100;
+	playerData.nowHp = 100;
+
+	isHited = false;
 }
 
 CPlayerScript::~CPlayerScript()
@@ -52,6 +59,7 @@ CPlayerScript::~CPlayerScript()
 		actionState = PlayerActionStateSit::GetInstance();
 		delete actionState;
 	}
+
 }
 
 void CPlayerScript::CalculationMoveDirection()
@@ -133,6 +141,7 @@ void CPlayerScript::CalculationMouseDirection()
 
 void CPlayerScript::start()
 {
+	SendPlayerDataToEventQueue();
 }
 
 void CPlayerScript::update()
@@ -143,12 +152,40 @@ void CPlayerScript::update()
 
 	if (mouseDirection.x > 0)
 	{
+		cloneMtrl = Object()->MeshRender()->GetCloneMaterial();
 		int inversOff = 0;
-		Object()->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_0, &inversOff);
+		cloneMtrl->SetData(SHADER_PARAM::INT_0, &inversOff);
 	}
 	else
 	{
+		cloneMtrl = Object()->MeshRender()->GetCloneMaterial();
 		int inversON = 1;
-		Object()->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_0, &inversON);
+		cloneMtrl->SetData(SHADER_PARAM::INT_0, &inversON);
 	}
+
+	if (isHited == true)
+	{
+		isHited = false;
+		SendPlayerDataToEventQueue();
+	}
+}
+
+void CPlayerScript::SendPlayerDataToEventQueue(void)
+{
+	EVENT_PACKET packet;
+	packet.eventType = EVENTQUEUE_TYPE::PLAYER_DATA;
+	packet.value.push_back(this->playerData.maxHp);
+	packet.value.push_back(this->playerData.nowHp);
+
+	vector<CGameObject*> findObject;
+	CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"PlayerHpBar", findObject);
+	packet.eventSendTargetID = findObject[0]->GetID();
+
+	CEventQueueScript::GetInstance()->EnqueueEvent(packet);
+}
+
+void CPlayerScript::PlayerHited(void)
+{
+	playerData.nowHp -= 1;
+	isHited = true;
 }

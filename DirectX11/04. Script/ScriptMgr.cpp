@@ -1,57 +1,97 @@
 #include "stdafx.h"
 #include "ScriptMgr.h"
 
+#include "AttackBoxScript.h"
 #include "BottomWallCollisionScript.h"
 #include "BulletScript.h"
+#include "CameraScript.h"
 #include "EffectScript.h"
+#include "EventQueueScript.h"
+#include "EventScript.h"
 #include "GravityScript.h"
 #include "HilightScript.h"
 #include "ItemScript.h"
 #include "LeftBottomWallCollisionScript.h"
 #include "LeftWallCollisionScript.h"
+#include "MonsterResponseScript.h"
 #include "MonsterScript.h"
 #include "ObjectEditScript.h"
 #include "PlatformCollisionScript.h"
 #include "PlatformLeftCollisionScript.h"
 #include "PlatformRightCollisionScript.h"
 #include "PlayerScript.h"
+#include "PotalScript.h"
+#include "PotalVerticalScript.h"
 #include "RightBottomWallCollisionScript.h"
 #include "RightWallCollisionScript.h"
+#include "TextureScript.h"
 #include "TileMapScript.h"
 #include "TileScript.h"
 #include "TopWallCollisionScript.h"
+#include "UIScript.h"
+#include "Z1MonsterExistFindScript.h"
+#include "Z2FadeScript.h"
+#include "Z3CameraBottomCheckScript.h"
+#include "Z4CameraFrameScript.h"
+#include "Z5CameraTopCheckScript.h"
+#include "Z6CameraRightCheckScript.h"
+#include "Z7CameraLeftCheckScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
+	_vec.push_back(L"AttackBoxScript");
 	_vec.push_back(L"BottomWallCollisionScript");
 	_vec.push_back(L"BulletScript");
+	_vec.push_back(L"CameraScript");
 	_vec.push_back(L"EffectScript");
+	_vec.push_back(L"EventQueueScript");
+	_vec.push_back(L"EventScript");
 	_vec.push_back(L"GravityScript");
 	_vec.push_back(L"HilightScript");
 	_vec.push_back(L"ItemScript");
 	_vec.push_back(L"LeftBottomWallCollisionScript");
 	_vec.push_back(L"LeftWallCollisionScript");
+	_vec.push_back(L"MonsterResponseScript");
 	_vec.push_back(L"MonsterScript");
 	_vec.push_back(L"ObjectEditScript");
 	_vec.push_back(L"PlatformCollisionScript");
 	_vec.push_back(L"PlatformLeftCollisionScript");
 	_vec.push_back(L"PlatformRightCollisionScript");
 	_vec.push_back(L"PlayerScript");
+	_vec.push_back(L"PotalScript");
+	_vec.push_back(L"PotalVerticalScript");
 	_vec.push_back(L"RightBottomWallCollisionScript");
 	_vec.push_back(L"RightWallCollisionScript");
+	_vec.push_back(L"TextureScript");
 	_vec.push_back(L"TileMapScript");
 	_vec.push_back(L"TileScript");
 	_vec.push_back(L"TopWallCollisionScript");
+	_vec.push_back(L"UIScript");
+	_vec.push_back(L"Z1MonsterExistFindScript");
+	_vec.push_back(L"Z2FadeScript");
+	_vec.push_back(L"Z3CameraBottomCheckScript");
+	_vec.push_back(L"Z4CameraFrameScript");
+	_vec.push_back(L"Z5CameraTopCheckScript");
+	_vec.push_back(L"Z6CameraRightCheckScript");
+	_vec.push_back(L"Z7CameraLeftCheckScript");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
+	if (L"AttackBoxScript" == _strScriptName)
+		return new CAttackBoxScript;
 	if (L"BottomWallCollisionScript" == _strScriptName)
 		return new CBottomWallCollisionScript;
 	if (L"BulletScript" == _strScriptName)
 		return new CBulletScript;
+	if (L"CameraScript" == _strScriptName)
+		return new CCameraScript;
 	if (L"EffectScript" == _strScriptName)
 		return new CEffectScript;
+	if (L"EventQueueScript" == _strScriptName)
+		return new CEventQueueScript;
+	if (L"EventScript" == _strScriptName)
+		return new CEventScript;
 	if (L"GravityScript" == _strScriptName)
 		return new CGravityScript;
 	if (L"HilightScript" == _strScriptName)
@@ -62,6 +102,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CLeftBottomWallCollisionScript;
 	if (L"LeftWallCollisionScript" == _strScriptName)
 		return new CLeftWallCollisionScript;
+	if (L"MonsterResponseScript" == _strScriptName)
+		return new CMonsterResponseScript;
 	if (L"MonsterScript" == _strScriptName)
 		return new CMonsterScript;
 	if (L"ObjectEditScript" == _strScriptName)
@@ -74,16 +116,38 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlatformRightCollisionScript;
 	if (L"PlayerScript" == _strScriptName)
 		return new CPlayerScript;
+	if (L"PotalScript" == _strScriptName)
+		return new CPotalScript;
+	if (L"PotalVerticalScript" == _strScriptName)
+		return new CPotalVerticalScript;
 	if (L"RightBottomWallCollisionScript" == _strScriptName)
 		return new CRightBottomWallCollisionScript;
 	if (L"RightWallCollisionScript" == _strScriptName)
 		return new CRightWallCollisionScript;
+	if (L"TextureScript" == _strScriptName)
+		return new CTextureScript;
 	if (L"TileMapScript" == _strScriptName)
 		return new CTileMapScript;
 	if (L"TileScript" == _strScriptName)
 		return new CTileScript;
 	if (L"TopWallCollisionScript" == _strScriptName)
 		return new CTopWallCollisionScript;
+	if (L"UIScript" == _strScriptName)
+		return new CUIScript;
+	if (L"Z1MonsterExistFindScript" == _strScriptName)
+		return new CZ1MonsterExistFindScript;
+	if (L"Z2FadeScript" == _strScriptName)
+		return new CZ2FadeScript;
+	if (L"Z3CameraBottomCheckScript" == _strScriptName)
+		return new CZ3CameraBottomCheckScript;
+	if (L"Z4CameraFrameScript" == _strScriptName)
+		return new CZ4CameraFrameScript;
+	if (L"Z5CameraTopCheckScript" == _strScriptName)
+		return new CZ5CameraTopCheckScript;
+	if (L"Z6CameraRightCheckScript" == _strScriptName)
+		return new CZ6CameraRightCheckScript;
+	if (L"Z7CameraLeftCheckScript" == _strScriptName)
+		return new CZ7CameraLeftCheckScript;
 	return nullptr;
 }
 
@@ -91,6 +155,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 {
 	switch ((SCRIPT_TYPE)_pScript->GetScriptType())
 	{
+	case SCRIPT_TYPE::ATTACKBOXSCRIPT:
+		return L"AttackBoxScript";
+		break;
+
 	case SCRIPT_TYPE::BOTTOMWALLCOLLISIONSCRIPT:
 		return L"BottomWallCollisionScript";
 		break;
@@ -99,8 +167,20 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"BulletScript";
 		break;
 
+	case SCRIPT_TYPE::CAMERASCRIPT:
+		return L"CameraScript";
+		break;
+
 	case SCRIPT_TYPE::EFFECTSCRIPT:
 		return L"EffectScript";
+		break;
+
+	case SCRIPT_TYPE::EVENTQUEUESCRIPT:
+		return L"EventQueueScript";
+		break;
+
+	case SCRIPT_TYPE::EVENTSCRIPT:
+		return L"EventScript";
 		break;
 
 	case SCRIPT_TYPE::GRAVITYSCRIPT:
@@ -121,6 +201,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::LEFTWALLCOLLISIONSCRIPT:
 		return L"LeftWallCollisionScript";
+		break;
+
+	case SCRIPT_TYPE::MONSTERRESPONSESCRIPT:
+		return L"MonsterResponseScript";
 		break;
 
 	case SCRIPT_TYPE::MONSTERSCRIPT:
@@ -147,12 +231,24 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"PlayerScript";
 		break;
 
+	case SCRIPT_TYPE::POTALSCRIPT:
+		return L"PotalScript";
+		break;
+
+	case SCRIPT_TYPE::POTALVERTICALSCRIPT:
+		return L"PotalVerticalScript";
+		break;
+
 	case SCRIPT_TYPE::RIGHTBOTTOMWALLCOLLISIONSCRIPT:
 		return L"RightBottomWallCollisionScript";
 		break;
 
 	case SCRIPT_TYPE::RIGHTWALLCOLLISIONSCRIPT:
 		return L"RightWallCollisionScript";
+		break;
+
+	case SCRIPT_TYPE::TEXTURESCRIPT:
+		return L"TextureScript";
 		break;
 
 	case SCRIPT_TYPE::TILEMAPSCRIPT:
@@ -165,6 +261,38 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::TOPWALLCOLLISIONSCRIPT:
 		return L"TopWallCollisionScript";
+		break;
+
+	case SCRIPT_TYPE::UISCRIPT:
+		return L"UIScript";
+		break;
+
+	case SCRIPT_TYPE::Z1MONSTEREXISTFINDSCRIPT:
+		return L"Z1MonsterExistFindScript";
+		break;
+
+	case SCRIPT_TYPE::Z2FADESCRIPT:
+		return L"Z2FadeScript";
+		break;
+
+	case SCRIPT_TYPE::Z3CAMERABOTTOMCHECKSCRIPT:
+		return L"Z3CameraBottomCheckScript";
+		break;
+
+	case SCRIPT_TYPE::Z4CAMERAFRAMESCRIPT:
+		return L"Z4CameraFrameScript";
+		break;
+
+	case SCRIPT_TYPE::Z5CAMERATOPCHECKSCRIPT:
+		return L"Z5CameraTopCheckScript";
+		break;
+
+	case SCRIPT_TYPE::Z6CAMERARIGHTCHECKSCRIPT:
+		return L"Z6CameraRightCheckScript";
+		break;
+
+	case SCRIPT_TYPE::Z7CAMERALEFTCHECKSCRIPT:
+		return L"Z7CameraLeftCheckScript";
 		break;
 
 	}

@@ -5,7 +5,8 @@
 MonsterDash::MonsterDash()
 {
 	nowMoveDistance = 0.f;
-	SetIsMove(true);
+	dashStart = false;
+	nowDashPower = DASH_POWER;
 }
 
 
@@ -17,24 +18,42 @@ void MonsterDash::Move(CMonsterScript * monster)
 {
 	if (GetIsMove() == true)
 	{
+		if (dashStart == false)
+		{
+			monster->SetMonsterDirectionImage();
+			monsterDashDirection = monster->GetMonsterDirection();
+			dashStart = true;
+		}
+
 		Vec3 monsterPosition = monster->Object()->Transform()->GetLocalPos();
 
-		Vec3 monsterDashDirection = Vec3(1.f, 0.f, 0.f);
-
-		monsterPosition.x += monsterDashDirection.x*300.f*DT;
-
-		nowMoveDistance += monsterDashDirection.x*300.f*DT;
+		monsterPosition.x += monsterDashDirection.x*nowDashPower*DT;
 
 		monster->Object()->Transform()->SetLocalPos(monsterPosition);
+
+		float nowDashDistance = monsterDashDirection.x*nowDashPower*DT;
+
+		if (nowDashDistance < 0)
+		{
+			nowMoveDistance += nowDashDistance * (-1);
+		}
+		else
+		{
+			nowMoveDistance += nowDashDistance;
+		}
+
+
+		if (nowDashPower > MIN_DASH_POWER)
+		{
+			nowDashPower -= DECREASE_DASH_POWER;
+		}
 
 		if (nowMoveDistance > MOVE_DISTACNE)
 		{
 			nowMoveDistance = 0.f;
+			nowDashPower = DASH_POWER;
+			dashStart = false;
 			SetIsMove(false);
-		}
-		else
-		{
-			SetIsMove(true);
 		}
 	}
 }

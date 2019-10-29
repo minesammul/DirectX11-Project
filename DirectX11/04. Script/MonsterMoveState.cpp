@@ -43,10 +43,15 @@ void MonsterMoveState::Init(CMonsterScript * monster)
 
 	if (monsterAnimation != nullptr)
 	{
-		monsterAnimation->Play();
+		if (monsterAnimation->IsPlay() == false)
+		{
+			monsterAnimation->Play();
+		}
+
+		monster->GetMonsterMove()->Init();
+		monster->GetMonsterMove()->GetMoveStrategy()->SetIsMove(true);
 	}
 
-	monster->GetMonsterMove()->Init();
 }
 
 void MonsterMoveState::Update(CMonsterScript * monster)
@@ -63,6 +68,7 @@ void MonsterMoveState::Update(CMonsterScript * monster)
 	{
 		monster->GetMonsterAttackState()->Init(monster);
 		monster->SetMonsterState(monster->GetMonsterAttackState());
+		return;
 	}
 
 
@@ -71,7 +77,8 @@ void MonsterMoveState::Update(CMonsterScript * monster)
 		monster->GetMonsterMove()->Update(monster);
 	}
 
-	if (monster->GetMonsterMove()->GetMoveStrategy()->GetIsMove()==true)
+
+	if (monster->GetMonsterMove()->GetMoveStrategy()->GetIsMove() == true)
 	{
 		if (monsterAnimation->GetNowFrameCount() >= monsterAnimation->GetRepeatEndFrame())
 		{

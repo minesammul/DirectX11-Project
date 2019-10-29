@@ -129,7 +129,9 @@ void CSaveLoadMgr::SaveGameObject(CGameObject * _pObject, FILE * _pFile)
 		vecScripts[i]->SaveToScene(_pFile);
 	}
 
-
+	//Active여부
+	bool isActive = _pObject->IsActive();
+	fwrite(&isActive, sizeof(bool), 1, _pFile);
 
 
 
@@ -352,6 +354,13 @@ CGameObject * CSaveLoadMgr::LoadGameObject(FILE * _pFile)
 		pScript->LoadFromScene(_pFile);
 		pObject->AddComponent(pScript);
 	}
+
+
+	//Active여부
+	bool isActive = false;
+	fread(&isActive, sizeof(bool), 1, _pFile);
+	pObject->Active(isActive);
+
 
 	UINT iSize = 0;
 	fread(&iSize, sizeof(UINT), 1, _pFile);

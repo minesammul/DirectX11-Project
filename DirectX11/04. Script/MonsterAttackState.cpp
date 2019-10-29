@@ -8,6 +8,8 @@
 #include "MonsterAttackStrategy.h"
 #include "MonsterCircleWaveBullet.h"
 
+#include "AttackBoxScript.h"
+
 MonsterAttackState::MonsterAttackState()
 {
 }
@@ -40,26 +42,66 @@ void MonsterAttackState::Init(CMonsterScript * monster)
 		curMonsterAnimation++;
 	}
 
-	if (monsterAnimation->IsPlay() == false)
+	if (monsterAnimation != nullptr)
 	{
-		monsterAnimation->Play();
+		if (monsterAnimation->IsPlay() == false)
+		{
+			monsterAnimation->Play();
+		}
+
+		monster->GetMonsterAttack()->Init();
+		monster->GetMonsterAttack()->GetAttackStrategy()->SetIsAttack(true);
 	}
 
-	monster->GetMonsterAttack()->Init();
-	monster->GetMonsterAttack()->GetAttackStrategy()->SetIsAttack(false);
+	vector<CScript*> childScript;
+	vector<CGameObject*> childObject = monster->Object()->GetChild();
+	if (childObject.empty() == false)
+	{
+		for (int index = 0; index < childObject.size(); index++)
+		{
+			wstring attackBoxName = monster->Object()->GetName();
+			attackBoxName += L"AttackBox";
+			if (childObject[index]->GetName().compare(attackBoxName) == 0)
+			{
+				childScript = childObject[index]->GetScripts();
+				break;
+			}
+		}
+	}
+
+	if (childScript.empty() == false)
+	{
+		for (int index = 0; index < childObject.size(); index++)
+		{
+			if (childScript[index]->GetScriptType() == (UINT)SCRIPT_TYPE::ATTACKBOXSCRIPT)
+			{
+				CAttackBoxScript* attackboxScript = dynamic_cast<CAttackBoxScript*>(childScript[index]);
+				attackboxScript->SetIsAttack(true);
+				break;
+			}
+		}
+	}
 }
 
 void MonsterAttackState::Update(CMonsterScript * monster)
 {
-	if (monster->GetMonsterAttack()->GetAttackStrategy()->GetIsAttack() == false)
+	if (monsterAnimation == nullptr)
+	{
+		monster->GetMonsterIdleState()->Init(monster);
+		monster->SetMonsterState(monster->GetMonsterIdleState());
+		return;
+	}
+
+	if (monster->GetMonsterAttack()->GetAttackStrategy()->GetIsAttack() == true)
 	{
 		monster->GetMonsterAttack()->Update(monster);
 	}
 	
-	if(monster->GetMonsterAttack()->GetAttackStrategy()->GetIsAttack() == true &&
+	if(monster->GetMonsterAttack()->GetAttackStrategy()->GetIsAttack() == false &&
 		monsterAnimation->IsFinish() == true)
 	{
 		monster->GetMonsterIdleState()->Init(monster);
 		monster->SetMonsterState(monster->GetMonsterIdleState());
+		return;
 	}
 }

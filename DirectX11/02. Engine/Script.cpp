@@ -69,7 +69,7 @@ void CScript::Instantiate(CResPtr<CPrefab>& _pPrefab, const Vec3 & _vPos, map<UI
 	pClone->Transform()->SetLocalPos(_vPos);
 	
 	wstring cloneName = pClone->GetName();
-	cloneName += L"Prefab";
+	//cloneName += L"Prefab";
 	pClone->SetName(cloneName);
 
 	InsertScriptToPrefab(pClone, scripts);
@@ -79,6 +79,8 @@ void CScript::Instantiate(CResPtr<CPrefab>& _pPrefab, const Vec3 & _vPos, map<UI
 
 
 	InsertLayerToPrefab(pClone, _pPrefab->GetPrefabObjectOriginal());
+
+	pClone->start();
 }
 
 

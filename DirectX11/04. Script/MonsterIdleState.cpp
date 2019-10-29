@@ -60,17 +60,19 @@ void MonsterIdleState::Update(CMonsterScript * monster)
 
 		Vec3 distance = XMVector2Length(playerPosition - monsterPosition);
 
-		if (100.f < distance.x && distance.x < 200.f)
+		if (200.f < distance.x && distance.x < 400.f)
 		{
 			monster->GetMonsterMoveState()->Init(monster);
 			monster->SetMonsterState(monster->GetMonsterMoveState());
 			stateTime = 0.f;
+			return;
 		}
-		else if (distance.x < 100.f)
+		else if (distance.x <= 200.f)
 		{
 			monster->GetMonsterAttackState()->Init(monster);
 			monster->SetMonsterState(monster->GetMonsterAttackState());
 			stateTime = 0.f;
+			return;
 		}
 	}
 
