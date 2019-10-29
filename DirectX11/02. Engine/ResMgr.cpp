@@ -220,6 +220,37 @@ void CResMgr::CreateDefaultShader()
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 	
 	// ==============
+	// Texture UV Animation Shader
+	// ==============
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\std.fx", "VS_TexUV", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\std.fx", "PS_TexUV", 5, 0);
+
+	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
+	pShader->AddParam(SHADER_PARAM::TEX_0, L"Output Image");
+	pShader->AddParam(SHADER_PARAM::FLOAT_0, L"U Value");
+	pShader->AddParam(SHADER_PARAM::FLOAT_1, L"V Value");
+
+	strKey = L"TextureUVAnimationShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	// ==============
+	// Fade In-Out Shader
+	// ==============
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\std.fx", "VS_Fade", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\std.fx", "PS_Fade", 5, 0);
+
+	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
+	pShader->AddParam(SHADER_PARAM::TEX_0, L"Output Image");
+	pShader->AddParam(SHADER_PARAM::FLOAT_0, L"Alpha Value");
+
+	strKey = L"FadeInOutShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	// ==============
 	// TileMap2DShader
 	// ==============
 	pShader = new CShader;
