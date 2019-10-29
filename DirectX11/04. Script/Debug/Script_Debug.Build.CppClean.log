@@ -1,7 +1,5 @@
-d:\github project\directx11\directx11\04. script\debug\script_debug.pch
 d:\github project\directx11\directx11\04. script\debug\04. script.pdb
 d:\github project\directx11\directx11\04. script\debug\04. script.idb
-d:\github project\directx11\directx11\04. script\debug\stdafx.obj
 d:\github project\directx11\directx11\04. script\debug\monstercirclewavebullet.obj
 d:\github project\directx11\directx11\04. script\debug\monstercircleshotbullet.obj
 d:\github project\directx11\directx11\04. script\debug\monsterattackstrategy.obj
@@ -56,6 +54,31 @@ d:\github project\directx11\directx11\04. script\debug\playeractionstatejump.obj
 d:\github project\directx11\directx11\04. script\debug\playeractionstateidle.obj
 d:\github project\directx11\directx11\04. script\debug\playeractionstatedash.obj
 d:\github project\directx11\directx11\04. script\debug\playeractionstate.obj
+d:\github project\directx11\directx11\04. script\debug\tilemapscript.obj
+d:\github project\directx11\directx11\04. script\debug\scriptmgr.obj
+d:\github project\directx11\directx11\04. script\debug\eventqueuescript.obj
+d:\github project\directx11\directx11\04. script\debug\eventscript.obj
+d:\github project\directx11\directx11\04. script\debug\potalverticalscript.obj
+d:\github project\directx11\directx11\04. script\debug\uiscript.obj
+d:\github project\directx11\directx11\04. script\debug\attackboxscript.obj
+d:\github project\directx11\directx11\04. script\debug\monsterexistfindscript.obj
+d:\github project\directx11\directx11\04. script\debug\z1monsterexistfindscript.obj
+d:\github project\directx11\directx11\04. script\debug\z2fadescript.obj
+d:\github project\directx11\directx11\04. script\debug\z3camerabottomcheckscript.obj
+d:\github project\directx11\directx11\04. script\debug\z4cameraframescript.obj
+d:\github project\directx11\directx11\04. script\debug\script_debug.pch
+d:\github project\directx11\directx11\04. script\debug\stdafx.obj
+d:\github project\directx11\directx11\04. script\debug\z7cameraleftcheckscript.obj
+d:\github project\directx11\directx11\04. script\debug\z6camerarightcheckscript.obj
+d:\github project\directx11\directx11\04. script\debug\z5cameratopcheckscript.obj
+d:\github project\directx11\directx11\project\library\script\x86\script_debug.lib
+d:\github project\directx11\directx11\04. script\debug\04. script.res
 d:\github project\directx11\directx11\04. script\debug\04. script.tlog\cl.command.1.tlog
 d:\github project\directx11\directx11\04. script\debug\04. script.tlog\cl.read.1.tlog
 d:\github project\directx11\directx11\04. script\debug\04. script.tlog\cl.write.1.tlog
+d:\github project\directx11\directx11\04. script\debug\04. script.tlog\lib-link-cvtres.read.1.tlog
+d:\github project\directx11\directx11\04. script\debug\04. script.tlog\lib-link-cvtres.write.1.tlog
+d:\github project\directx11\directx11\04. script\debug\04. script.tlog\lib.command.1.tlog
+d:\github project\directx11\directx11\04. script\debug\04. script.tlog\rc.command.1.tlog
+d:\github project\directx11\directx11\04. script\debug\04. script.tlog\rc.read.1.tlog
+d:\github project\directx11\directx11\04. script\debug\04. script.tlog\rc.write.1.tlog
