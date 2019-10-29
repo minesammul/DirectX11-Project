@@ -3,12 +3,24 @@
 
 class MonsterAttackStrategy;
 class MonsterCircleWaveBullet;
+class MonsterOneShotBullet;
+class MonsterSwing;
+class MonsterThreeShotBullet;
+class MonsterTrace;
+class MonsterCircleShotBullet;
+class MonsterJumpTackle;
 
 class MonsterAttack : public MonsterComponent
 {
 private:
 	MonsterAttackStrategy* attackStrategy;
 	MonsterCircleWaveBullet* circleWaveBullet;
+	MonsterOneShotBullet* oneShotBullet;
+	MonsterSwing* swing;
+	MonsterThreeShotBullet* threeShotBullet;
+	MonsterTrace* trace;
+	MonsterCircleShotBullet* circleShotBullet;
+	MonsterJumpTackle* jumpTackle;
 
 public:
 	MonsterAttack();

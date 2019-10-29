@@ -11,6 +11,8 @@ private:
 	bool isDestroy;
 	bool isEffectStart;
 	CAnimation2D* effectAnimation;
+	float delayTime;
+	float nowDelayTime;
 
 public:
 	CBulletScript();
@@ -20,9 +22,14 @@ public:
 public:
 	virtual void start();
 	virtual void update();
+	virtual void OnCollisionEnter(CCollider2D* _pOther);
 
 	void SetSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
 
 	void SetDirection(Vec3 direction) { this->direction = direction; }
+
+	void SetDelayTime(float time) { delayTime = time; }
+
+	
 };
 

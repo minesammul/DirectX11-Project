@@ -28,6 +28,14 @@ private:
 
 	MonsterComponent* monsterComponent[(UINT)MONSTER_COMPONENT::END];
 
+	CResPtr<CMaterial> m_pCloneMtrl;
+
+	Vec3 monsterDirection;
+
+	int hp;
+	CResPtr<CPrefab> dieEffectPrefab;
+	bool isDie;
+
 public:
 	CLONE(CMonsterScript);
 
@@ -46,5 +54,16 @@ public:
 	MonsterIdleState* GetMonsterIdleState(void) { return this->monsterIdleState; }
 	MonsterAttackState* GetMonsterAttackState(void) { return this->monsterAttackState; }
 	MonsterMoveState* GetMonsterMoveState(void) { return this->monsterMoveState; }
+
+	void SetMonsterLeftRightImage(int OriginZeroInverseOne);
+	void SetMonsterDirectionImage(void);
+
+	Vec3 GetMonsterDirection(void) 
+	{
+		return monsterDirection;
+	}
+
+	void SetHp(int hp) { this->hp = hp; }
+	int GetHp(void) { return this->hp; }
 };
 

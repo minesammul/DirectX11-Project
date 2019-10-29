@@ -91,6 +91,76 @@ PS_OUT PS_Tex(VTX_TEX_OUTPUT _input)
 }
 
 // ==========================
+// Texture UV Animation Shader
+// g_tex_0 : Samling Texture
+// g_float_0 : u value
+// g_float_1 : v value
+// ==========================
+VTX_TEX_OUTPUT VS_TexUV(VTX_TEX_INPUT _input)
+{
+    VTX_TEX_OUTPUT output = (VTX_TEX_OUTPUT) 0.f;
+    
+    float4 vWorldPos = mul(float4(_input.vPos, 1.f), g_matWorld);
+    float4 vViewPos = mul(vWorldPos, g_matView);
+    float4 vProj = mul(vViewPos, g_matProj);
+
+    output.vPos = vProj;
+    output.vUV = _input.vUV;
+    
+    return output;
+}
+
+PS_OUT PS_TexUV(VTX_TEX_OUTPUT _input)
+{
+    PS_OUT output = (PS_OUT) 0.f;
+
+    float2 nowUV = _input.vUV;
+    nowUV.x += g_float_0;
+    nowUV.y += g_float_1;
+
+    //output.vOutCol = g_tex_0.Sample(g_sam_0, _input.vUV);
+    output.vOutCol = g_tex_0.Sample(g_sam_0, nowUV);
+    output.vOutCol *= 4.f;
+
+    return output;
+}
+
+// ==========================
+// Fade In-Out Shader
+// g_tex_0 : Samling Texture
+// g_float_0 : Alpha Value
+// ==========================
+VTX_TEX_OUTPUT VS_Fade(VTX_TEX_INPUT _input)
+{
+    VTX_TEX_OUTPUT output = (VTX_TEX_OUTPUT) 0.f;
+    
+    float4 vWorldPos = mul(float4(_input.vPos, 1.f), g_matWorld);
+    float4 vViewPos = mul(vWorldPos, g_matView);
+    float4 vProj = mul(vViewPos, g_matProj);
+
+    output.vPos = vProj;
+    output.vUV = _input.vUV;
+    
+    return output;
+}
+
+PS_OUT PS_Fade(VTX_TEX_OUTPUT _input)
+{
+    PS_OUT output = (PS_OUT) 0.f;
+
+    float2 nowUV = _input.vUV;
+
+    output.vOutCol = g_tex_0.Sample(g_sam_0, nowUV);
+    output.vOutCol.r = 0.f;
+    output.vOutCol.g = 0.f;
+    output.vOutCol.b = 0.f;
+    output.vOutCol.a = g_float_0;
+
+    return output;
+}
+
+
+// ==========================
 // 2D Tileset Shader
 // g_tex_1 : Samling Texture
 // g_int_0 : nxn의 격자의 n의 수
@@ -149,8 +219,9 @@ PS_OUT PS_TileSet2D(VTX_TEX_OUTPUT _input)
 
 // ==========================
 // 2D TileMap Shader
-// g_int_0 : Gird Count
+// g_int_0 : Gird X Count
 // g_int_1 : Texture에서의 Tile의 수
+// g_int_2 : Gire Y Count
 // g_tex_1 : Samling Texture
 // ==========================
 VTX_TEX_OUTPUT VS_TileMap2D(VTX_TEX_INPUT _input)
@@ -171,7 +242,7 @@ PS_OUT PS_TileMap2D(VTX_TEX_OUTPUT _input)
 {
     PS_OUT output = (PS_OUT) 0.f;
     
-    float gridSize = (float)1 / (float)g_int_0;
+    float gridSize = (float) 1 / (float) g_int_0;
 
     int gridNowColumn = _input.vUV.x / gridSize;
 

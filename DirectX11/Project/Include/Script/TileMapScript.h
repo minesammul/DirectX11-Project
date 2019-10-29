@@ -7,13 +7,14 @@ class CTileMapScript : public CScript
 private:
 	CResPtr<CMaterial>  m_pCloneMtrl;
 
+	const int GRID_COUNT = 32;
+	const int TILEMAP_TILE_COUNT = 1024;
+
 	int referecneTileIndexData[1024];
 
-	const int GRID_COUNT = 32;
 	CScript* tilesetScript;
 	POINT startMousePosition;
-	const float TILE_MOVE_SPEED = 200.f;
-	const float TILE_SCALE_MULTI_VALUE = 1.2f;
+
 	CCamera* tileMapCamera;
 
 public:
@@ -27,6 +28,5 @@ public:
 	virtual void LoadFromScene(FILE* _pFile);
 
 	void EditTileMap();
-	void EditMoveTileMap();
 };
 

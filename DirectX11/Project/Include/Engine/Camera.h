@@ -30,7 +30,18 @@ public:
 
 public:
 	void SetProjType(PROJ_TYPE _eType) { m_eType = _eType; }
-	void SetScale(float _f) { if (_f == 0.f) m_fScale = 0.01f; else m_fScale = _f; }
+
+	void SetScale(float _f) 
+	{ 
+		if (_f == 0.f)
+		{
+			m_fScale = 0.01f;
+		}
+		else
+		{
+			m_fScale = _f;
+		}
+	}
 	
 	void SetNear(float _N) { m_fNear = _N; }
 	void SetFar(float _F) { m_fFar = _F; }

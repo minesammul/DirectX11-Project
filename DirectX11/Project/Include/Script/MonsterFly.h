@@ -5,6 +5,8 @@ class MonsterFly : public MonsterMoveStrategy
 {
 private:
 	const float FLY_SPEED = 200.f;
+	const float MAX_FLY_DISTACNE = 200.f;
+	Vec3 nowFlyDistance;
 
 public:
 	MonsterFly();
