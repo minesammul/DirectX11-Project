@@ -22,6 +22,11 @@ private:
 	PlayerData playerData;
 	bool isHited;
 
+	bool isCameraFocusPositionFind;
+	UINT beforeCameraFocusObjectID;
+	Vec3 cameraFocusPosition;
+	int cameraFocusLayerIndex;
+
 public:
 	CPlayerScript();
 	virtual ~CPlayerScript();
@@ -37,6 +42,9 @@ public:
 	virtual void start();
 	virtual void update();
 
+	virtual void OnCollisionEnter(CCollider2D* _pOther);
+	virtual void OnCollisionExit(CCollider2D* _pOther);
+
 	void SetActionState(PlayerActionState* state) { actionState = state; }
 	PlayerActionState* GetActionState() { return actionState; }
 
@@ -49,6 +57,23 @@ public:
 
 	void SendPlayerDataToEventQueue(void);
 	void PlayerHited(void);
+
+
+	bool GetIsCameraFocusPositionFind(void) 
+	{
+		return isCameraFocusPositionFind;
+	}
+
+	void SetIsCameraFocusPositionFind(bool find)
+	{
+		isCameraFocusPositionFind = find;
+	}
+
+
+	Vec3 GetCameraFocusPosition(void)
+	{
+		return cameraFocusPosition;
+	}
 };
 
 

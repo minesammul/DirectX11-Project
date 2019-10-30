@@ -17,7 +17,6 @@
 CPlayerScript::CPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT)
 {
-	//actionState = new PlayerActionStateIdle
 	actionState = PlayerActionStateIdle::GetInstance();
 	moveSpeed = 200.f;
 	moveDirection = Vec3(1.f, 0.f, 0.f);
@@ -26,6 +25,8 @@ CPlayerScript::CPlayerScript()
 	playerData.nowHp = 100;
 
 	isHited = false;
+	isCameraFocusPositionFind = false;
+	beforeCameraFocusObjectID = 0;
 }
 
 CPlayerScript::~CPlayerScript()
@@ -142,6 +143,9 @@ void CPlayerScript::CalculationMouseDirection()
 void CPlayerScript::start()
 {
 	SendPlayerDataToEventQueue();
+
+	CLayer* findLayer = CSceneMgr::GetInst()->GetCurScene()->FindLayer(L"CameraFocus");
+	cameraFocusLayerIndex = findLayer->GetLayerIdx();
 }
 
 void CPlayerScript::update()
@@ -168,6 +172,25 @@ void CPlayerScript::update()
 		isHited = false;
 		SendPlayerDataToEventQueue();
 	}
+}
+
+void CPlayerScript::OnCollisionEnter(CCollider2D * _pOther)
+{
+	int collisionObjectLayerIndex = _pOther->Object()->GetLayerIdx();
+	if (cameraFocusLayerIndex == collisionObjectLayerIndex)
+	{
+		if (beforeCameraFocusObjectID != _pOther->GetID())
+		{
+			beforeCameraFocusObjectID = _pOther->GetID();
+			isCameraFocusPositionFind = true;
+			cameraFocusPosition = _pOther->Object()->Transform()->GetLocalPos();
+		}
+	}
+}
+
+void CPlayerScript::OnCollisionExit(CCollider2D * _pOther)
+{
+	isCameraFocusPositionFind = false;
 }
 
 void CPlayerScript::SendPlayerDataToEventQueue(void)

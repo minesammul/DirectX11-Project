@@ -2,6 +2,7 @@
 #include "PotalVerticalScript.h"
 
 #include "Z2FadeScript.h"
+#include "Z4CameraFrameScript.h"
 
 CPotalVerticalScript::CPotalVerticalScript():
 	CScript((UINT)SCRIPT_TYPE::POTALVERTICALSCRIPT)
@@ -11,6 +12,34 @@ CPotalVerticalScript::CPotalVerticalScript():
 
 CPotalVerticalScript::~CPotalVerticalScript()
 {
+}
+
+void CPotalVerticalScript::start()
+{
+	vector<CGameObject*> findObject;
+	CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"CameraFrame", findObject);
+	if (findObject.empty() == false)
+	{
+		vector<CScript*> findObjectScript = findObject[0]->GetScripts();
+		if (findObjectScript.empty() == false)
+		{
+			for (int index = 0; index < findObjectScript.size(); index++)
+			{
+				if (findObjectScript[index]->GetScriptType() == (UINT)SCRIPT_TYPE::Z4CAMERAFRAMESCRIPT)
+				{
+					cameraFrameScript = dynamic_cast<CZ4CameraFrameScript*>(findObjectScript[index]);
+				}
+			}
+		}
+		else
+		{
+			assert(false);
+		}
+	}
+	else
+	{
+		assert(false);
+	}
 }
 
 void CPotalVerticalScript::OnCollisionEnter(CCollider2D * _pOther)
@@ -59,5 +88,7 @@ void CPotalVerticalScript::OnCollisionEnter(CCollider2D * _pOther)
 				}
 			}
 		}
+
+		cameraFrameScript->SetIsPotalUse(true);
 	}
 }

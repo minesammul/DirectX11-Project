@@ -2,6 +2,7 @@
 #include "PotalScript.h"
 
 #include "Z2FadeScript.h"
+#include "Z4CameraFrameScript.h"
 
 CPotalScript::CPotalScript() :
 	CScript((UINT)SCRIPT_TYPE::POTALSCRIPT)
@@ -11,6 +12,34 @@ CPotalScript::CPotalScript() :
 
 CPotalScript::~CPotalScript()
 {
+}
+
+void CPotalScript::start()
+{
+	vector<CGameObject*> findObject;
+	CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"CameraFrame", findObject);
+	if (findObject.empty() == false)
+	{
+		vector<CScript*> findObjectScript = findObject[0]->GetScripts();
+		if (findObjectScript.empty() == false)
+		{
+			for (int index = 0; index < findObjectScript.size(); index++)
+			{
+				if (findObjectScript[index]->GetScriptType() == (UINT)SCRIPT_TYPE::Z4CAMERAFRAMESCRIPT)
+				{
+					cameraFrameScript = dynamic_cast<CZ4CameraFrameScript*>(findObjectScript[index]);
+				}
+			}
+		}
+		else
+		{
+			assert(false);
+		}
+	}
+	else
+	{
+		assert(false);
+	}
 }
 
 void CPotalScript::OnCollisionEnter(CCollider2D * _pOther)
@@ -31,7 +60,6 @@ void CPotalScript::OnCollisionEnter(CCollider2D * _pOther)
 			playerPotalPosition.x += _pOther->GetFinalScale().x;
 
 			_pOther->Object()->Transform()->SetLocalPos(playerPotalPosition);
-
 		}
 		else
 		{
@@ -44,6 +72,7 @@ void CPotalScript::OnCollisionEnter(CCollider2D * _pOther)
 
 			_pOther->Object()->Transform()->SetLocalPos(playerPotalPosition);
 		}
+
 
 		vector<CGameObject*> fadeInOutObject;
 		CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"FadeInOutObject", fadeInOutObject);
@@ -59,5 +88,8 @@ void CPotalScript::OnCollisionEnter(CCollider2D * _pOther)
 				}
 			}
 		}
+
+
+		cameraFrameScript->SetIsPotalUse(true);
 	}
 }

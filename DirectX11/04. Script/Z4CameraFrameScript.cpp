@@ -6,10 +6,12 @@
 #include "Z6CameraRightCheckScript.h"
 #include "Z7CameraLeftCheckScript.h"
 
+#include "PlayerScript.h"
 
 CZ4CameraFrameScript::CZ4CameraFrameScript() : 
 	CScript((UINT)SCRIPT_TYPE::Z4CAMERAFRAMESCRIPT)
 {
+	isPotalUse = false;
 }
 
 
@@ -24,8 +26,24 @@ void CZ4CameraFrameScript::start()
 	if (playerObject.empty() == false)
 	{
 		target = playerObject[0];
-		beforeTargetPosition = target->Transform()->GetLocalPos();
+
+		vector<CScript*> findScript = playerObject[0]->GetScripts();
+		if (findScript.empty() == false)
+		{
+			for (int index = 0; index < findScript.size(); index++)
+			{
+				if (findScript[index]->GetScriptType() == (UINT)SCRIPT_TYPE::PLAYERSCRIPT)
+				{
+					playerScript = dynamic_cast<CPlayerScript*>(findScript[index]);
+				}
+			}
+		}
+		else
+		{
+			assert(false);
+		}
 	}
+
 
 	vector<CGameObject*> childObject = Object()->GetChild();
 	for (int index = 0; index < childObject.size(); index++)
@@ -60,75 +78,108 @@ void CZ4CameraFrameScript::update()
 		Vec3 cameraFramePosition = Object()->Transform()->GetLocalPos();
 		Vec3 targetPosition = target->Transform()->GetLocalPos();
 
-		//bool isBottomCollision = cameraBottomScript->GetIsCollision();
-		//if (isBottomCollision == true)
-		//{
-		//	if (targetPosition.y <= beforeTargetPosition.y)
-		//	{
-
-		//	}
-		//	else
-		//	{
-		//		cameraFramePosition.y = targetPosition.y;
-		//	}
-		//}
-		//else
-		//{
-		//	cameraFramePosition.y = targetPosition.y;
-		//}
-
-		//bool isTopCollision = cameraTopScript->GetIsCollision();
-		//if (isTopCollision == true)
-		//{
-		//	if (targetPosition.y >= beforeTargetPosition.y)
-		//	{
-
-		//	}
-		//	else
-		//	{
-		//		cameraFramePosition.y = targetPosition.y;
-		//	}
-		//}
-		//else
-		//{
-		//	cameraFramePosition.y = targetPosition.y;
-		//}
-
-		bool isRightCollision = cameraRightScript->GetIsCollision();
-		if (isRightCollision == true)
+		if (isPotalUse == false)
 		{
-			if (targetPosition.x >= beforeTargetPosition.x)
-			{
 
+			bool isBottomCollision = cameraBottomScript->GetIsCollision();
+			bool isTopCollision = cameraTopScript->GetIsCollision();
+			if (isBottomCollision == true || isTopCollision == true)
+			{
+				if (isBottomCollision == true)
+				{
+					if (targetPosition.y > cameraFramePosition.y)
+					{
+						cameraFramePosition.y = targetPosition.y;
+					}
+				}
+
+				if (isTopCollision == true)
+				{
+					if (targetPosition.y < cameraFramePosition.y)
+					{
+						cameraFramePosition.y = targetPosition.y;
+					}
+				}
 			}
 			else
 			{
-				cameraFramePosition.x = targetPosition.x;
+				Vec3 VectorCameraFrameToTarget = targetPosition - cameraFramePosition;
+				
+				Vec3 distanceCameraFrameToTarget = VectorCameraFrameToTarget;
+
+				distanceCameraFrameToTarget.x = 0.f;
+				distanceCameraFrameToTarget.z = 0.f;
+
+				distanceCameraFrameToTarget = XMVector2Length(distanceCameraFrameToTarget);
+
+				Vec3 cameraFrameMoveDirection = XMVector2Normalize(VectorCameraFrameToTarget);
+
+				if (distanceCameraFrameToTarget.x > MOVE_START_DISTANCE)
+				{
+					cameraFramePosition.y += cameraFrameMoveDirection.y*MOVE_SPEED*DT;
+				}
+				else
+				{
+					cameraFramePosition.y = targetPosition.y;
+				}
 			}
-		}
-		else
-		{
-			cameraFramePosition.x = targetPosition.x;
-		}
 
-		bool isLeftCollision = cameraLeftScript->GetIsCollision();
-		if (isLeftCollision == true)
-		{
-			if (targetPosition.x <= beforeTargetPosition.x)
+
+			bool isRightCollision = cameraRightScript->GetIsCollision();
+			bool isLeftCollision = cameraLeftScript->GetIsCollision();
+			if (isRightCollision == true || isLeftCollision == true)
 			{
+				if (isLeftCollision == true)
+				{
+					if (targetPosition.x > cameraFramePosition.x)
+					{
+						cameraFramePosition.x = targetPosition.x;
+					}
+				}
 
+				if (isRightCollision == true)
+				{
+					if (targetPosition.x < cameraFramePosition.x)
+					{
+						cameraFramePosition.x = targetPosition.x;
+					}
+				}
 			}
 			else
 			{
-				cameraFramePosition.x = targetPosition.x;
+				Vec3 VectorCameraFrameToTarget = targetPosition - cameraFramePosition;
+
+				Vec3 distanceCameraFrameToTarget = VectorCameraFrameToTarget;
+
+				distanceCameraFrameToTarget.y = 0.f;
+				distanceCameraFrameToTarget.z = 0.f;
+
+				distanceCameraFrameToTarget = XMVector2Length(distanceCameraFrameToTarget);
+
+				Vec3 cameraFrameMoveDirection = XMVector2Normalize(VectorCameraFrameToTarget);
+
+				if (distanceCameraFrameToTarget.x > MOVE_START_DISTANCE)
+				{
+					cameraFramePosition.x += cameraFrameMoveDirection.x*MOVE_SPEED*DT;
+				}
+				else
+				{
+					cameraFramePosition.x = targetPosition.x;
+				}
 			}
+
 		}
 		else
 		{
-			cameraFramePosition.x = targetPosition.x;
-		}
+			if (playerScript->GetIsCameraFocusPositionFind() == true &&
+				isPotalUse == true)
+			{
+				cameraFramePosition = playerScript->GetCameraFocusPosition();
+				isPotalUse = false;
+				playerScript->SetIsCameraFocusPositionFind(false);
+			}
 
-		beforeTargetPosition = targetPosition;
+		}
 
 		Object()->Transform()->SetLocalPos(cameraFramePosition);
 	}
