@@ -40,6 +40,21 @@ void CPotalScript::start()
 	{
 		assert(false);
 	}
+
+
+	vector<CGameObject*> fadeInOutObject;
+	CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"FadeInOutObject", fadeInOutObject);
+	if (fadeInOutObject.empty() == false)
+	{
+		vector<CScript*> fadeInOutScript = fadeInOutObject[0]->GetScripts();
+		if (fadeInOutScript.empty() == false)
+		{
+			if (fadeInOutScript[0]->GetScriptType() == (UINT)SCRIPT_TYPE::Z2FADESCRIPT)
+			{
+				fadeScript = dynamic_cast<CZ2FadeScript*>(fadeInOutScript[0]);
+			}
+		}
+	}
 }
 
 void CPotalScript::OnCollisionEnter(CCollider2D * _pOther)
@@ -73,22 +88,7 @@ void CPotalScript::OnCollisionEnter(CCollider2D * _pOther)
 			_pOther->Object()->Transform()->SetLocalPos(playerPotalPosition);
 		}
 
-
-		vector<CGameObject*> fadeInOutObject;
-		CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"FadeInOutObject", fadeInOutObject);
-		if (fadeInOutObject.empty() == false)
-		{
-			vector<CScript*> fadeInOutScript = fadeInOutObject[0]->GetScripts();
-			if (fadeInOutScript.empty() == false)
-			{
-				if (fadeInOutScript[0]->GetScriptType() == (UINT)SCRIPT_TYPE::Z2FADESCRIPT)
-				{
-					CZ2FadeScript* fadeScript = dynamic_cast<CZ2FadeScript*>(fadeInOutScript[0]);
-					fadeScript->SetIsStart(true);
-				}
-			}
-		}
-
+		fadeScript->SetIsStart(true);
 
 		cameraFrameScript->SetIsPotalUse(true);
 	}
