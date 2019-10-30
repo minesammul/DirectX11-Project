@@ -17,6 +17,19 @@ void CZ2FadeScript::start()
 {
 	alphaValue = 1.f;
 	isStart = true;
+
+	vector<CCamera*> findCamera = CSceneMgr::GetInst()->GetCurScene()->GetCamera();
+	if (findCamera.empty() == false)
+	{
+		for (int index = 0; index < findCamera.size(); index++)
+		{
+			if (findCamera[index]->Object()->GetName().compare(L"MainCamera") == 0)
+			{
+				mainCamera = findCamera[index];
+				break;
+			}
+		}
+	}
 }
 
 void CZ2FadeScript::update()
@@ -33,22 +46,11 @@ void CZ2FadeScript::update()
 			alphaValue = 1.f;
 		}
 
-		vector<CCamera*> cameras = CSceneMgr::GetInst()->GetCurScene()->GetCamera();
-		if (cameras.empty() == false)
-		{
-			for (int index = 0; index < cameras.size(); index++)
-			{
-				if (cameras[index]->Object()->GetName().compare(L"MainCamera") == 0)
-				{
-					Vec3 cameraPosition = cameras[index]->Object()->Transform()->GetLocalPos();
-					Vec3 objectPosition = Object()->Transform()->GetLocalPos();
-					objectPosition.x = cameraPosition.x;
-					objectPosition.y = cameraPosition.y;
+		Vec3 cameraPosition = mainCamera->Object()->Transform()->GetLocalPos();
+		Vec3 objectPosition = Object()->Transform()->GetLocalPos();
+		objectPosition.x = cameraPosition.x;
+		objectPosition.y = cameraPosition.y;
 
-					Object()->Transform()->SetLocalPos(objectPosition);
-					break;
-				}
-			}
-		}
+		Object()->Transform()->SetLocalPos(objectPosition);
 	}
 }

@@ -8,6 +8,8 @@ private:
 	float alphaValue;
 	bool isStart;
 
+	CCamera* mainCamera;
+
 public:
 	CZ2FadeScript();
 	~CZ2FadeScript();
