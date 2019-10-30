@@ -5,10 +5,11 @@ class CCamera;
 class CTileMapScript : public CScript
 {
 private:
-	CResPtr<CMaterial>  m_pCloneMtrl;
-
 	const int GRID_COUNT = 32;
 	const int TILEMAP_TILE_COUNT = 1024;
+
+private:
+	CResPtr<CMaterial>  m_pCloneMtrl;
 
 	int referecneTileIndexData[1024];
 
