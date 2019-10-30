@@ -7,6 +7,7 @@
 #include <func.h>
 #include <core.h>
 
+
 #ifdef _DEBUG
 #pragma comment(lib, "Uryty_debug.lib")
 #else
@@ -55,12 +56,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MY01CLIENT));
 
     MSG msg;
-
+	
 	if (FAILED(CCore::GetInst()->init(g_hWnd, true)))
 	{
 		MessageBox(nullptr, L"엔진 초기화 실패", L"초기화 오류", MB_OK);
 		return 0;
 	}
+
+	
 
     // 기본 메시지 루프입니다:
     while (true)

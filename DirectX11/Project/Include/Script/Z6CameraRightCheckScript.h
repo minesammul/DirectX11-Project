@@ -11,6 +11,7 @@ public:
 	~CZ6CameraRightCheckScript();
 
 public:
+	virtual void OnCollisionEnter(CCollider2D* _pOther);
 	virtual void OnCollision(CCollider2D* _pOther);
 	virtual void OnCollisionExit(CCollider2D* _pOther);
 
@@ -19,5 +20,9 @@ public:
 		return isCollision;
 	}
 
+	void SetIsCollision(bool collision)
+	{
+		isCollision = collision;
+	}
 };
 
