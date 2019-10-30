@@ -407,7 +407,10 @@ float4 PS_Collider2D(VTX_TEX_OUTPUT _input) : SV_Target
     if (g_int_0)
         return float4(1.f, 0.2f, 0.2f, 1.f);
     else
-        return float4(0.2f, 1.f, 0.2f, 1.f);    
+        return float4(0.2f, 1.f, 0.2f, 1.f);
+
+    //return float4(0.f, 0.f, 0.f, 0.f);
+
 }
 
 #endif

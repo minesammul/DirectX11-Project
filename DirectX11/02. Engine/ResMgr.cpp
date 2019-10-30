@@ -196,7 +196,7 @@ void CResMgr::CreateDefaultShader()
 	pShader = new CShader;
 	pShader->CreateVertexShader(L"Shader\\std.fx", "VS_Collider2D", 5, 0);
 	pShader->CreatePixelShader(L"Shader\\std.fx", "PS_Collider2D", 5, 0);
-
+	//pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
 	pShader->AddParam(SHADER_PARAM::INT_0, L"Collision Check", false);
 
 
