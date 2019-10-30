@@ -65,7 +65,7 @@ CPlayerScript::~CPlayerScript()
 
 void CPlayerScript::CalculationMoveDirection()
 {
-	vector<CGameObject*> childObject = Object()->GetChild();
+	/*vector<CGameObject*> childObject = Object()->GetChild();
 	bool isFind = false;
 	for (int childIndex = 0; childIndex < childObject.size(); childIndex++)
 	{
@@ -110,6 +110,32 @@ void CPlayerScript::CalculationMoveDirection()
 	if (isFind == false)
 	{
 		moveDirection = Vec3(1.f, 0.f, 0.f);
+	}*/
+
+	bool isFind = false;
+	//if (platformRightCollisionScript->GetCollision())
+	//{
+	//	moveDirection = platformRightCollisionScript->GetCollisionMoveDirection();
+	//	moveDirection = XMVector3Normalize(moveDirection);
+	//	moveDirection.x *= -1;
+	//	moveDirection.y *= -1;
+	//	moveDirection.z *= -1;
+	//	isFind = true;
+	//}
+
+	//if (platformLeftCollisionScript->GetCollision())
+	//{
+	//	moveDirection = platformLeftCollisionScript->GetCollisionMoveDirection();
+	//	moveDirection = XMVector3Normalize(moveDirection);
+	//	moveDirection.x *= -1;
+	//	moveDirection.y *= -1;
+	//	moveDirection.z *= -1;
+	//	isFind = true;
+	//}
+
+	if (isFind == false)
+	{
+		moveDirection = Vec3(1.f, 0.f, 0.f);
 	}
 }
 
@@ -119,41 +145,17 @@ void CPlayerScript::CalculationMouseDirection()
 
 	POINT mousePosition = CKeyMgr::GetInst()->GetMousePos();
 
-	vector<CCamera*> curSceneCameras = CSceneMgr::GetInst()->GetCurScene()->GetCamera();
-	CCamera* camera = nullptr;
-	for (int cameraIndex = 0; cameraIndex < curSceneCameras.size(); cameraIndex++)
-	{
-		CCamera* curCamera = curSceneCameras[cameraIndex];
-		if (curCamera->IsValiedLayer(Object()->GetLayerIdx()) == true)
-		{
-			camera = curCamera;
-			break;
-		}
-	}
-
 	XMVECTOR sceneMousePosition = CSceneMgr::GetInst()->CalculationSceneMousePosition(
 		mousePosition,
-		camera
+		mainCamera
 	);
 
 	mouseDirection = sceneMousePosition - playerPosition;
 	mouseDirection = XMVector3Normalize(mouseDirection);
 }
 
-void CPlayerScript::start()
+void CPlayerScript::ChangeImageInverse()
 {
-	SendPlayerDataToEventQueue();
-
-	CLayer* findLayer = CSceneMgr::GetInst()->GetCurScene()->FindLayer(L"CameraFocus");
-	cameraFocusLayerIndex = findLayer->GetLayerIdx();
-}
-
-void CPlayerScript::update()
-{
-	actionState->Update(this);
-	CalculationMoveDirection();
-	CalculationMouseDirection();
-
 	if (mouseDirection.x > 0)
 	{
 		cloneMtrl = Object()->MeshRender()->GetCloneMaterial();
@@ -166,12 +168,77 @@ void CPlayerScript::update()
 		int inversON = 1;
 		cloneMtrl->SetData(SHADER_PARAM::INT_0, &inversON);
 	}
+}
 
+void CPlayerScript::CheckHited()
+{
 	if (isHited == true)
 	{
 		isHited = false;
 		SendPlayerDataToEventQueue();
 	}
+}
+
+void CPlayerScript::start()
+{
+	CLayer* findLayer = CSceneMgr::GetInst()->GetCurScene()->FindLayer(L"CameraFocus");
+	cameraFocusLayerIndex = findLayer->GetLayerIdx();
+
+
+	vector<CGameObject*> findObject;
+	CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"PlayerHpBar", findObject);
+	if (findObject.empty() == false)
+	{
+		playerHPBar = findObject[0];
+	}
+
+
+	vector<CCamera*> curSceneCameras = CSceneMgr::GetInst()->GetCurScene()->GetCamera();
+	for (int cameraIndex = 0; cameraIndex < curSceneCameras.size(); cameraIndex++)
+	{
+		CCamera* curCamera = curSceneCameras[cameraIndex];
+		if (curCamera->IsValiedLayer(Object()->GetLayerIdx()) == true)
+		{
+			mainCamera = curCamera;
+			break;
+		}
+	}
+
+
+	vector<CGameObject*> childObject = Object()->GetChild();
+	for (int childIndex = 0; childIndex < childObject.size(); childIndex++)
+	{
+		vector<CScript*> childScripts = childObject[childIndex]->GetScripts();
+		for (int scriptIndex = 0; scriptIndex < childScripts.size(); scriptIndex++)
+		{
+			if (childScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::PLATFORMRIGHTCOLLISIONSCRIPT)
+			{
+				platformRightCollisionScript = dynamic_cast<CPlatformRightCollisionScript*>(childScripts[scriptIndex]);
+			}
+			if (childScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::PLATFORMLEFTCOLLISIONSCRIPT)
+			{
+				platformLeftCollisionScript = dynamic_cast<CPlatformLeftCollisionScript*>(childScripts[scriptIndex]);
+			}
+		}
+	}
+
+
+	SendPlayerDataToEventQueue();
+}
+
+void CPlayerScript::update()
+{
+	actionState->Update(this);
+
+
+	CalculationMoveDirection();
+	CalculationMouseDirection();
+
+
+	ChangeImageInverse();
+
+
+	CheckHited();
 }
 
 void CPlayerScript::OnCollisionEnter(CCollider2D * _pOther)
@@ -199,10 +266,7 @@ void CPlayerScript::SendPlayerDataToEventQueue(void)
 	packet.eventType = EVENTQUEUE_TYPE::PLAYER_DATA;
 	packet.value.push_back(this->playerData.maxHp);
 	packet.value.push_back(this->playerData.nowHp);
-
-	vector<CGameObject*> findObject;
-	CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"PlayerHpBar", findObject);
-	packet.eventSendTargetID = findObject[0]->GetID();
+	packet.eventSendTargetID = playerHPBar->GetID();
 
 	CEventQueueScript::GetInstance()->EnqueueEvent(packet);
 }
