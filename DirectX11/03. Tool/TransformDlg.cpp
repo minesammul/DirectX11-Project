@@ -104,8 +104,10 @@ void CTransformDlg::update(CGameObject * _pTarget)
 	}
 
 	// Layer 확인
+	CGameObject* curTarget = GetTarget();
 	CLayer* pLayer = CSceneMgr::GetInst()->GetCurScene()->GetLayer(GetTarget()->GetLayerIdx());
-	int iSel = m_cbLayer.FindString(0, pLayer->GetName().c_str());
+	//int iSel = m_cbLayer.FindString(0, pLayer->GetName().c_str());
+	int iSel = GetTarget()->GetLayerIdx();
 	if (iSel == -1)
 	{
 		int layerCount = m_cbLayer.GetCount();
@@ -162,6 +164,9 @@ void CTransformDlg::OnCbnSelChange()
 	// Layer 변경
 	int iSel = m_cbLayer.GetCurSel();
 	DWORD_PTR iLayerIdx = m_cbLayer.GetItemData(iSel);
+
+	CGameObject* selObject = GetTarget();
+
 	int iCurIdx = GetTarget()->GetLayerIdx();
 
 	// 변경 사항이 없다.
