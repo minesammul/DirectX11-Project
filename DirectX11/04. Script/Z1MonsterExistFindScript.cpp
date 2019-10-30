@@ -12,10 +12,13 @@ CZ1MonsterExistFindScript::~CZ1MonsterExistFindScript()
 {
 }
 
+void CZ1MonsterExistFindScript::start()
+{
+	enemyLayer = CSceneMgr::GetInst()->GetCurScene()->FindLayer(L"Enemy");
+}
+
 void CZ1MonsterExistFindScript::update()
 {
-	CLayer* enemyLayer = CSceneMgr::GetInst()->GetCurScene()->FindLayer(L"Enemy");
-
 	bool isExist = false;
 	vector<CGameObject*> enemyObject = enemyLayer->GetParentObject();
 	if (enemyObject.empty() == false)
@@ -50,19 +53,6 @@ void CZ1MonsterExistFindScript::update()
 		CAnimator2D* objectAnimator = Object()->Animator2D();
 		if (objectAnimator != nullptr)
 		{
-			/*if (monsterAnimation->GetNowFrameCount() >= monsterAnimation->GetRepeatStartFrame())
-			{
-				monster->GetMonsterMove()->Update(monster);
-			}
-
-
-			if (monster->GetMonsterMove()->GetMoveStrategy()->GetIsMove() == true)
-			{
-				if (monsterAnimation->GetNowFrameCount() >= monsterAnimation->GetRepeatEndFrame())
-				{
-					monsterAnimation->SetFrm(monsterAnimation->GetRepeatStartFrame());
-				}
-			}*/
 			if (objectAnimator->GetCurAnim()->IsPlay()==false)
 			{
 				objectAnimator->GetCurAnim()->Play();
