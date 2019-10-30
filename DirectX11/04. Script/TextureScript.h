@@ -4,10 +4,14 @@
 class CTextureScript : public CScript
 {
 private:
+	const float TEXTURE_U_VALUE = 0.001f;
+
+private:
 	CResPtr<CMaterial> cloneMtrl;
+
 	float UValue;
-	const float U_VALUE = 0.0001;
 	Vec3 beforeMainCameraPosition;
+	CCamera* mainCamera;
 
 public:
 	CTextureScript();
