@@ -41,7 +41,7 @@ CMonsterScript::CMonsterScript()
 
 	}
 
-	hp = 10;
+	hp = 1;
 	isDie = false;
 }
 
@@ -61,20 +61,16 @@ CMonsterScript::~CMonsterScript()
 	}
 }
 
-void CMonsterScript::start()
+void CMonsterScript::CheckDie()
 {
-	monsterState->Init(this);
-
-	CResMgr::GetInst()->Load<CPrefab>(L"Prefab\\DieEffect.pref", L"Prefab\\DieEffect.pref");
-	dieEffectPrefab = CResMgr::GetInst()->FindRes<CPrefab>(L"Prefab\\DieEffect.pref");
+	AftertreatmentDie();
 }
 
-void CMonsterScript::update()
+void CMonsterScript::AftertreatmentDie()
 {
-	monsterState->Update(this);
-
 	if (isDie == false)
 	{
+
 		if (hp <= 0)
 		{
 			map<UINT, CScript*> prefabInputScripts;
@@ -99,42 +95,79 @@ void CMonsterScript::update()
 
 			Object()->Active(false);
 		}
+	}
+}
 
+void CMonsterScript::CheckAttackBoxDirection()
+{
+	if (isDie == false)
+	{
+		if (attackBox != nullptr)
 		{
-			vector<CGameObject*> childObject = Object()->GetChild();
-			if (childObject.empty() == false)
+			if (monsterDirection.x > 0)
 			{
-				for (int index = 0; index < childObject.size(); index++)
+				Vec3 attackBoxPosition = attackBox->Transform()->GetLocalPos();
+				if (attackBoxPosition.x < 0)
 				{
-					wstring attackBoxName = Object()->GetName();
-					attackBoxName += L"AttackBox";
-					if (childObject[index]->GetName().compare(attackBoxName) == 0)
-					{
-						if(monsterDirection.x>0)
-						{ 
-							Vec3 attackBoxPosition = childObject[index]->Transform()->GetLocalPos();
-							if (attackBoxPosition.x < 0)
-							{
-								attackBoxPosition.x *= -1;
-								childObject[index]->Transform()->SetLocalPos(attackBoxPosition);
-							}
-						}
-						else
-						{
-							Vec3 attackBoxPosition = childObject[index]->Transform()->GetLocalPos();
-							if (attackBoxPosition.x > 0)
-							{
-								attackBoxPosition.x *= -1;
-								childObject[index]->Transform()->SetLocalPos(attackBoxPosition);
-							}
-						}
-
-						break;
-					}
+					attackBoxPosition.x *= -1;
+					attackBox->Transform()->SetLocalPos(attackBoxPosition);
+				}
+			}
+			else
+			{
+				Vec3 attackBoxPosition = attackBox->Transform()->GetLocalPos();
+				if (attackBoxPosition.x > 0)
+				{
+					attackBoxPosition.x *= -1;
+					attackBox->Transform()->SetLocalPos(attackBoxPosition);
 				}
 			}
 		}
 	}
+}
+
+void CMonsterScript::start()
+{
+	monsterState->Init(this);
+
+
+	CResMgr::GetInst()->Load<CPrefab>(L"Prefab\\DieEffect.pref", L"Prefab\\DieEffect.pref");
+	dieEffectPrefab = CResMgr::GetInst()->FindRes<CPrefab>(L"Prefab\\DieEffect.pref");
+
+
+	attackBox = nullptr;
+	vector<CGameObject*> childObject = Object()->GetChild();
+	if (childObject.empty() == false)
+	{
+		for (int index = 0; index < childObject.size(); index++)
+		{
+			wstring attackBoxName = Object()->GetName();
+			attackBoxName += L"AttackBox";
+			if (childObject[index]->GetName().compare(attackBoxName) == 0)
+			{
+				attackBox = childObject[index];
+				break;
+			}
+		}
+	}
+
+	vector<CGameObject*> findObject;
+	CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"Player", findObject);
+	if (findObject.empty() == false)
+	{
+		player = findObject[0];
+	}
+}
+
+void CMonsterScript::update()
+{
+	monsterState->Update(this);
+
+
+	CheckDie();
+
+
+	CheckAttackBoxDirection();
 }
 
 MonsterMove * CMonsterScript::GetMonsterMove(void)
@@ -155,9 +188,7 @@ void CMonsterScript::SetMonsterLeftRightImage(int OriginZeroInverseOne)
 
 void CMonsterScript::SetMonsterDirectionImage(void)
 {
-	vector<CGameObject*> player;
-	CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"Player", player);
-	Vec3 playerPosition = player[0]->Transform()->GetLocalPos();
+	Vec3 playerPosition = player->Transform()->GetLocalPos();
 	Vec3 monsterPosition = Object()->Transform()->GetLocalPos();
 	Vec3 monsterDirection = playerPosition - monsterPosition;
 	monsterDirection = XMVector2Normalize(monsterDirection);

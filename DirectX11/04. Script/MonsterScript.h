@@ -36,12 +36,21 @@ private:
 	CResPtr<CPrefab> dieEffectPrefab;
 	bool isDie;
 
+	CGameObject* attackBox;
+
+	CGameObject* player;
+
 public:
 	CLONE(CMonsterScript);
 
 public:
 	CMonsterScript();
 	virtual ~CMonsterScript();
+
+private:
+	void CheckDie();
+	void AftertreatmentDie();
+	void CheckAttackBoxDirection();
 
 public:
 	virtual void start();
