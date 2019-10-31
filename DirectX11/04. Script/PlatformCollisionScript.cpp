@@ -7,6 +7,8 @@
 CPlatformCollisionScript::CPlatformCollisionScript():
 	CScript((UINT)SCRIPT_TYPE::PLATFORMCOLLISIONSCRIPT)
 {
+	playerScript = nullptr;
+	gravityScript = nullptr;
 }
 
 
@@ -37,13 +39,16 @@ void CPlatformCollisionScript::update()
 
 void CPlatformCollisionScript::OnCollisionEnter(CCollider2D * _pOther)
 {
-	if (playerScript->GetActionState() == PlayerActionStateJump::GetInstance())
+	if (playerScript != nullptr)
 	{
-		bool isFall = PlayerActionStateJump::GetInstance()->GetIsFall();
-
-		if (isFall == false)
+		if (playerScript->GetActionState() == PlayerActionStateJump::GetInstance())
 		{
-			return;
+			bool isFall = PlayerActionStateJump::GetInstance()->GetIsFall();
+
+			if (isFall == false)
+			{
+				return;
+			}
 		}
 	}
 
