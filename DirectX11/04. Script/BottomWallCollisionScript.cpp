@@ -15,10 +15,8 @@ CBottomWallCollisionScript::~CBottomWallCollisionScript()
 {
 }
 
-void CBottomWallCollisionScript::OnCollisionEnter(CCollider2D * _pOther)
+void CBottomWallCollisionScript::start()
 {
-	collisionOn = true;
-
 	vector<CGameObject*> brotherObject = Object()->GetParent()->GetChild();
 	for (int brotherIndex = 0; brotherIndex < brotherObject.size(); brotherIndex++)
 	{
@@ -29,34 +27,41 @@ void CBottomWallCollisionScript::OnCollisionEnter(CCollider2D * _pOther)
 		{
 			if (brotherScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::RIGHTBOTTOMWALLCOLLISIONSCRIPT)
 			{
-				CRightBottomWallCollisionScript* rightBottomWallCollisionScript = dynamic_cast<CRightBottomWallCollisionScript*>(brotherScripts[scriptIndex]);
-				rightBottomWallCollisionScript->SetCollision(false);
+				rightBottomWallCollisionScript = dynamic_cast<CRightBottomWallCollisionScript*>(brotherScripts[scriptIndex]);
 			}
 
 			if (brotherScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::LEFTBOTTOMWALLCOLLISIONSCRIPT)
 			{
-				CLeftBottomWallCollisionScript* leftBottomWallCollisionScript = dynamic_cast<CLeftBottomWallCollisionScript*>(brotherScripts[scriptIndex]);
-				leftBottomWallCollisionScript->SetCollision(false);
+				leftBottomWallCollisionScript = dynamic_cast<CLeftBottomWallCollisionScript*>(brotherScripts[scriptIndex]);
 			}
 		}
 	}
+
+
+	vector<CScript*> parentScripts;
+	parentScripts = Object()->GetParent()->GetScripts();
+	for (int scriptIndex = 0; scriptIndex < parentScripts.size(); scriptIndex++)
+	{
+		if (parentScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
+		{
+			gravityScript = dynamic_cast<CGravityScript*>(parentScripts[scriptIndex]);
+		}
+	}
+}
+
+void CBottomWallCollisionScript::OnCollisionEnter(CCollider2D * _pOther)
+{
+	collisionOn = true;
+
+	rightBottomWallCollisionScript->SetCollision(false);
+	leftBottomWallCollisionScript->SetCollision(false);
 }
 
 void CBottomWallCollisionScript::OnCollision(CCollider2D * _pOther)
 {
 	if (collisionOn == true)
 	{
-		vector<CScript*> parentScripts;
-		parentScripts = Object()->GetParent()->GetScripts();
-
-		for (int scriptIndex = 0; scriptIndex < parentScripts.size(); scriptIndex++)
-		{
-			if (parentScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
-			{
-				CGravityScript* gravityScript = dynamic_cast<CGravityScript*>(parentScripts[scriptIndex]);
-				gravityScript->SetActiveGravity(false);
-			}
-		}
+		gravityScript->SetActiveGravity(false);
 
 		Vec3 characterPosition = Object()->GetParent()->Collider2D()->GetFinalPositon();
 		Vec3 characterScale = Object()->GetParent()->Collider2D()->GetFinalScale();
@@ -71,14 +76,6 @@ void CBottomWallCollisionScript::OnCollision(CCollider2D * _pOther)
 void CBottomWallCollisionScript::OnCollisionExit(CCollider2D * _pOther)
 {
 	collisionOn = false;
-	vector<CScript*> parentScripts;
-	parentScripts = Object()->GetParent()->GetScripts();
-	for (int scriptIndex = 0; scriptIndex < parentScripts.size(); scriptIndex++)
-	{
-		if (parentScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
-		{
-			CGravityScript* gravityScript = dynamic_cast<CGravityScript*>(parentScripts[scriptIndex]);
-			gravityScript->SetActiveGravity(true);
-		}
-	}
+
+	gravityScript->SetActiveGravity(true);
 }
