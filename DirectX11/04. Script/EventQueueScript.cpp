@@ -121,7 +121,6 @@ void CEventQueueScript::update()
 			}
 
 			CPlayerScript* playerScript = dynamic_cast<CPlayerScript*>(findScript);
-			//uiScript->SetHp(eventQueue.front().value[0], eventQueue.front().value[1]);
 			playerScript->PlayerHited();
 
 			eventQueue.pop();

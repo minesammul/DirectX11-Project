@@ -16,7 +16,6 @@ class CItemScript : public CScript
 {
 private:
 	ItemComponent* itemComponents[(UINT)ITEM_TYPE::END];
-	CResPtr<CMaterial>  m_pOriginMtrl;
 	CResPtr<CMaterial>  m_pCloneMtrl;
 
 	bool activeAttack;

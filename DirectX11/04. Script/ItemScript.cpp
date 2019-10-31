@@ -54,7 +54,6 @@ void CItemScript::awake()
 
 void CItemScript::start()
 {
-	m_pOriginMtrl = MeshRender()->GetSharedMaterial();
 	m_pCloneMtrl = MeshRender()->GetCloneMaterial();
 }
 
@@ -67,6 +66,7 @@ void CItemScript::update()
 		activeAttack = true;
 	}
 
+
 	for (UINT itemComponentIndex = 0; itemComponentIndex < (UINT)ITEM_TYPE::END; itemComponentIndex++)
 	{
 		if (itemComponents[itemComponentIndex] == nullptr)
@@ -76,6 +76,7 @@ void CItemScript::update()
 
 		itemComponents[itemComponentIndex]->Update(this);
 	}
+
 
 	if (activeAttack == true)
 	{
@@ -89,13 +90,6 @@ void CItemScript::update()
 	{
 		activeAttackTime = 0.f;
 	}
-
-	/*MeshRender()->SetMaterial(m_pCloneMtrl);
-	if (nullptr != m_pCloneMtrl)
-	{
-		CResPtr<CTexture> itemTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Item\\BasicShortSword\\BasicShortSword.png");
-		m_pCloneMtrl->SetData(SHADER_PARAM::TEX_0, &itemTexture);
-	}*/
 }
 
 void CItemScript::OnCollision(CCollider2D * _pOther)
