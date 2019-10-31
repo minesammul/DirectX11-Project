@@ -13,16 +13,8 @@ CRightWallCollisionScript::~CRightWallCollisionScript()
 {
 }
 
-void CRightWallCollisionScript::OnCollisionEnter(CCollider2D * _pOther)
+void CRightWallCollisionScript::start()
 {
-	collisionOn = true;
-}
-
-void CRightWallCollisionScript::OnCollision(CCollider2D * _pOther)
-{
-
-	bool isBottomWallCollision = false;
-	Vec3 bottomWallCollisionPosition = Vec3(0.f, 0.f, 0.f);
 	vector<CGameObject*> brotherObject = Object()->GetParent()->GetChild();
 	for (int brotherIndex = 0; brotherIndex < brotherObject.size(); brotherIndex++)
 	{
@@ -33,13 +25,25 @@ void CRightWallCollisionScript::OnCollision(CCollider2D * _pOther)
 		{
 			if (brotherScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::BOTTOMWALLCOLLISIONSCRIPT)
 			{
-				CBottomWallCollisionScript* bottomWallCollisionScript = dynamic_cast<CBottomWallCollisionScript*>(brotherScripts[scriptIndex]);
-				isBottomWallCollision = bottomWallCollisionScript->GetCollision();
-				bottomWallCollisionPosition = bottomWallCollisionScript->GetCollisionPosition();
+				bottomWallCollisionScript = dynamic_cast<CBottomWallCollisionScript*>(brotherScripts[scriptIndex]);
 			}
 		}
 	}
+}
 
+void CRightWallCollisionScript::OnCollisionEnter(CCollider2D * _pOther)
+{
+	collisionOn = true;
+}
+
+void CRightWallCollisionScript::OnCollision(CCollider2D * _pOther)
+{
+
+	bool isBottomWallCollision = false;
+	Vec3 bottomWallCollisionPosition = Vec3(0.f, 0.f, 0.f);
+
+	isBottomWallCollision = bottomWallCollisionScript->GetCollision();
+	bottomWallCollisionPosition = bottomWallCollisionScript->GetCollisionPosition();
 
 	Vec3 characterPosition = Object()->GetParent()->Collider2D()->GetFinalPositon();
 	if (isBottomWallCollision == true)
