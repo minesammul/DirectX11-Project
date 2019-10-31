@@ -13,10 +13,8 @@ CLeftBottomWallCollisionScript::~CLeftBottomWallCollisionScript()
 {
 }
 
-void CLeftBottomWallCollisionScript::OnCollisionEnter(CCollider2D * _pOther)
+void CLeftBottomWallCollisionScript::start()
 {
-	collisionOn = true;
-
 	vector<CGameObject*> brotherObject = Object()->GetParent()->GetChild();
 	for (int brotherIndex = 0; brotherIndex < brotherObject.size(); brotherIndex++)
 	{
@@ -27,28 +25,35 @@ void CLeftBottomWallCollisionScript::OnCollisionEnter(CCollider2D * _pOther)
 		{
 			if (brotherScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::BOTTOMWALLCOLLISIONSCRIPT)
 			{
-				CBottomWallCollisionScript* bottomWallCollisionScript = dynamic_cast<CBottomWallCollisionScript*>(brotherScripts[scriptIndex]);
-				bottomWallCollisionScript->SetCollision(false);
+				bottomWallCollisionScript = dynamic_cast<CBottomWallCollisionScript*>(brotherScripts[scriptIndex]);
 			}
 		}
 	}
+
+
+	vector<CScript*> parentScripts;
+	parentScripts = Object()->GetParent()->GetScripts();
+	for (int scriptIndex = 0; scriptIndex < parentScripts.size(); scriptIndex++)
+	{
+		if (parentScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
+		{
+			gravityScript = dynamic_cast<CGravityScript*>(parentScripts[scriptIndex]);
+		}
+	}
+}
+
+void CLeftBottomWallCollisionScript::OnCollisionEnter(CCollider2D * _pOther)
+{
+	collisionOn = true;
+
+	bottomWallCollisionScript->SetCollision(false);
 }
 
 void CLeftBottomWallCollisionScript::OnCollision(CCollider2D * _pOther)
 {
 	if (collisionOn == true)
 	{
-		vector<CScript*> parentScripts;
-		parentScripts = Object()->GetParent()->GetScripts();
-
-		for (int scriptIndex = 0; scriptIndex < parentScripts.size(); scriptIndex++)
-		{
-			if (parentScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
-			{
-				CGravityScript* gravityScript = dynamic_cast<CGravityScript*>(parentScripts[scriptIndex]);
-				gravityScript->SetActiveGravity(false);
-			}
-		}
+		gravityScript->SetActiveGravity(false);
 
 		CResPtr<CMesh> pRectMesh = CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh");
 		VTX* pVtx = (VTX*)pRectMesh->GetVtxSysMem();
@@ -87,14 +92,5 @@ void CLeftBottomWallCollisionScript::OnCollisionExit(CCollider2D * _pOther)
 {
 	collisionOn = false;
 
-	vector<CScript*> parentScripts;
-	parentScripts = Object()->GetParent()->GetScripts();
-	for (int scriptIndex = 0; scriptIndex < parentScripts.size(); scriptIndex++)
-	{
-		if (parentScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
-		{
-			CGravityScript* gravityScript = dynamic_cast<CGravityScript*>(parentScripts[scriptIndex]);
-			gravityScript->SetActiveGravity(true);
-		}
-	}
+	gravityScript->SetActiveGravity(true);
 }
