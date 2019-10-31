@@ -5,7 +5,6 @@ class CMonsterResponseScript : public CScript
 {
 private:
 	map<wstring, CResPtr<CPrefab>> monsterPrefab;
-	//CResPtr<CPrefab>	monsterPrefab;
 	CResPtr<CPrefab>	monsterSpawnEffectPrefab;
 
 	bool isSpawn;
@@ -13,6 +12,10 @@ private:
 public:
 	CMonsterResponseScript();
 	~CMonsterResponseScript();
+
+private:
+	void SpawnMonster(void);
+	void WakeSealObject(void);
 
 public:
 	virtual void start();
