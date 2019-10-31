@@ -14,52 +14,43 @@ CPlatformCollisionScript::~CPlatformCollisionScript()
 {
 }
 
+void CPlatformCollisionScript::start()
+{
+	vector<CScript*> parentScripts;
+	parentScripts = Object()->GetParent()->GetScripts();
+	for (int scriptIndex = 0; scriptIndex < parentScripts.size(); scriptIndex++)
+	{
+		if (parentScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::PLAYERSCRIPT)
+		{
+			playerScript = dynamic_cast<CPlayerScript*>(parentScripts[scriptIndex]);
+		}
+		if (parentScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
+		{
+			gravityScript = dynamic_cast<CGravityScript*>(parentScripts[scriptIndex]);
+		}
+	}
+}
+
 void CPlatformCollisionScript::update()
 {
 }
 
 void CPlatformCollisionScript::OnCollisionEnter(CCollider2D * _pOther)
 {
-	vector<CScript*> parentScripts;
-	parentScripts = Object()->GetParent()->GetScripts();
-
-	for (int scriptIndex = 0; scriptIndex < parentScripts.size(); scriptIndex++)
+	if (playerScript->GetActionState() == PlayerActionStateJump::GetInstance())
 	{
-		if (parentScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::PLAYERSCRIPT)
-		{
-			CPlayerScript* playerScript = dynamic_cast<CPlayerScript*>(parentScripts[scriptIndex]);
-			if (playerScript->GetActionState() == PlayerActionStateJump::GetInstance())
-			{
-				bool isFall = PlayerActionStateJump::GetInstance()->GetIsFall();
+		bool isFall = PlayerActionStateJump::GetInstance()->GetIsFall();
 
-				if (isFall == false)
-				{
-					return;
-				}
-			}
+		if (isFall == false)
+		{
+			return;
 		}
 	}
 
-	for (int scriptIndex=0; scriptIndex < parentScripts.size(); scriptIndex++)
-	{
-		if (parentScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
-		{
-			CGravityScript* gravityScript = dynamic_cast<CGravityScript*>(parentScripts[scriptIndex]);
-			gravityScript->SetActiveGravity(false);
-		}
-	}
+	gravityScript->SetActiveGravity(false);
 }
 
 void CPlatformCollisionScript::OnCollisionExit(CCollider2D * _pOther)
 {
-	vector<CScript*> parentScripts;
-	parentScripts = Object()->GetParent()->GetScripts();
-	for (int scriptIndex = 0; scriptIndex < parentScripts.size(); scriptIndex++)
-	{
-		if (parentScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
-		{
-			CGravityScript* gravityScript = dynamic_cast<CGravityScript*>(parentScripts[scriptIndex]);
-			gravityScript->SetActiveGravity(true);
-		}
-	}
+	gravityScript->SetActiveGravity(true);
 }
