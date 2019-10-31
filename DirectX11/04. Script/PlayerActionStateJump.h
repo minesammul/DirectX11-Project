@@ -1,13 +1,18 @@
 #pragma once
 #include "PlayerActionState.h"
+class CGravityScript;
 class PlayerActionStateJump : public PlayerActionState
 {
 private:
 	const float MAX_JUMP_POWER = 700.f;
 	const float ADD_JUMP_POWER = 1.0005f;
+
+private:
 	float nowJumpPower;
 
 	bool isFall;
+
+	CGravityScript* gravityScript;
 
 public:
 	const float JUMP_POWER = 500.f;

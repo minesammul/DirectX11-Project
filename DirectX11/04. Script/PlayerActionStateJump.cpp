@@ -9,6 +9,7 @@
 PlayerActionStateJump::PlayerActionStateJump()
 {
 	isFall = false;
+	gravityScript = nullptr;
 }
 
 
@@ -109,16 +110,27 @@ void PlayerActionStateJump::TransactionState(CPlayerScript * player)
 
 void PlayerActionStateJump::ChangeJumpToIdle(CPlayerScript * player)
 {
-	vector<CScript*> objectScripts = player->Object()->GetScripts();
-	for (int scriptIndex = 0; scriptIndex < objectScripts.size(); scriptIndex++)
+	if (gravityScript == nullptr)
 	{
-		if (objectScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
+		vector<CScript*> objectScripts = player->Object()->GetScripts();
+		for (int scriptIndex = 0; scriptIndex < objectScripts.size(); scriptIndex++)
 		{
-			CGravityScript* gravityScript = dynamic_cast<CGravityScript*>(objectScripts[scriptIndex]);
-			if (gravityScript->GetActiveGravity() == false)
+			if (objectScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
 			{
-				player->SetActionState(PlayerActionStateIdle::GetInstance());
+				gravityScript = dynamic_cast<CGravityScript*>(objectScripts[scriptIndex]);
+
+				if (gravityScript->GetActiveGravity() == false)
+				{
+					player->SetActionState(PlayerActionStateIdle::GetInstance());
+				}
 			}
+		}
+	}
+	else
+	{
+		if (gravityScript->GetActiveGravity() == false)
+		{
+			player->SetActionState(PlayerActionStateIdle::GetInstance());
 		}
 	}
 }
@@ -140,14 +152,22 @@ void PlayerActionStateJump::ChangeJumpToDash(CPlayerScript * player)
 		PlayerActionStateDash::GetInstance()->SetDashDirection(dashDirection);
 
 
-		vector<CScript*> objectScripts = player->Object()->GetScripts();
-		for (int scriptIndex = 0; scriptIndex < objectScripts.size(); scriptIndex++)
+		if (gravityScript == nullptr)
 		{
-			if (objectScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
+			vector<CScript*> objectScripts = player->Object()->GetScripts();
+			for (int scriptIndex = 0; scriptIndex < objectScripts.size(); scriptIndex++)
 			{
-				CGravityScript* gravityScript = dynamic_cast<CGravityScript*>(objectScripts[scriptIndex]);
-				gravityScript->SetNowGravityValue(0.f);
+				if (objectScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
+				{
+					gravityScript = dynamic_cast<CGravityScript*>(objectScripts[scriptIndex]);
+
+					gravityScript->SetNowGravityValue(0.f);
+				}
 			}
+		}
+		else
+		{
+			gravityScript->SetNowGravityValue(0.f);
 		}
 
 
@@ -157,20 +177,35 @@ void PlayerActionStateJump::ChangeJumpToDash(CPlayerScript * player)
 
 void PlayerActionStateJump::CheckFall(CPlayerScript * player)
 {
-	vector<CScript*> objectScripts = player->Object()->GetScripts();
-	for (int scriptIndex = 0; scriptIndex < objectScripts.size(); scriptIndex++)
+	if (gravityScript == nullptr)
 	{
-		if (objectScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
+		vector<CScript*> objectScripts = player->Object()->GetScripts();
+		for (int scriptIndex = 0; scriptIndex < objectScripts.size(); scriptIndex++)
 		{
-			CGravityScript* gravityScript = dynamic_cast<CGravityScript*>(objectScripts[scriptIndex]);
-			if (gravityScript->GetNowGravityValue() > nowJumpPower)
+			if (objectScripts[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::GRAVITYSCRIPT)
 			{
-				isFall = true;
+				gravityScript = dynamic_cast<CGravityScript*>(objectScripts[scriptIndex]);
+
+				if (gravityScript->GetNowGravityValue() > nowJumpPower)
+				{
+					isFall = true;
+				}
+				else
+				{
+					isFall = false;
+				}
 			}
-			else
-			{
-				isFall = false;
-			}
+		}
+	}
+	else
+	{
+		if (gravityScript->GetNowGravityValue() > nowJumpPower)
+		{
+			isFall = true;
+		}
+		else
+		{
+			isFall = false;
 		}
 	}
 }
