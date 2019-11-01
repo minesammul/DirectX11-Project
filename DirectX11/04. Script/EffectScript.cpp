@@ -15,10 +15,7 @@ CEffectScript::~CEffectScript()
 
 void CEffectScript::start()
 {
-	if (Object()->Animator2D()->GetCurAnim()->IsPlay() == false)
-	{
-		Object()->Animator2D()->GetCurAnim()->Play();
-	}
+	Object()->Animator2D()->GetCurAnim()->Play();
 }
 
 void CEffectScript::update()
