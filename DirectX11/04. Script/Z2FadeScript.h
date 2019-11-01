@@ -4,6 +4,9 @@
 class CZ2FadeScript : public CScript
 {
 private:
+	const float COLOR_MULIT_VALUE = 4.0f;
+
+private:
 	CResPtr<CMaterial> cloneMtrl;
 	float alphaValue;
 	bool isStart;

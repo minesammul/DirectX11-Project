@@ -37,8 +37,12 @@ void CZ2FadeScript::update()
 	if (isStart == true)
 	{
 		cloneMtrl = Object()->MeshRender()->GetCloneMaterial();
-		alphaValue -= 0.01f;
+		alphaValue -= 1.f * DT;
 		cloneMtrl->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
+
+		//float colorMulValue = COLOR_MULIT_VALUE;
+		Vec4 colorMulValue = Vec4(COLOR_MULIT_VALUE, COLOR_MULIT_VALUE, COLOR_MULIT_VALUE, COLOR_MULIT_VALUE);
+		cloneMtrl->SetData(SHADER_PARAM::VEC4_0, &colorMulValue);
 
 		if (alphaValue <= 0.f)
 		{
