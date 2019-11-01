@@ -196,7 +196,7 @@ void CResMgr::CreateDefaultShader()
 	pShader = new CShader;
 	pShader->CreateVertexShader(L"Shader\\std.fx", "VS_Collider2D", 5, 0);
 	pShader->CreatePixelShader(L"Shader\\std.fx", "PS_Collider2D", 5, 0);
-	//pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
+	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
 	pShader->AddParam(SHADER_PARAM::INT_0, L"Collision Check", false);
 
 
@@ -230,6 +230,7 @@ void CResMgr::CreateDefaultShader()
 	pShader->AddParam(SHADER_PARAM::TEX_0, L"Output Image");
 	pShader->AddParam(SHADER_PARAM::FLOAT_0, L"U Value");
 	pShader->AddParam(SHADER_PARAM::FLOAT_1, L"V Value");
+	pShader->AddParam(SHADER_PARAM::VEC4_0, L"Color Mul Value");
 
 	strKey = L"TextureUVAnimationShader";
 	pShader->SetName(strKey);
@@ -295,6 +296,22 @@ void CResMgr::CreateDefaultShader()
 	pShader->AddParam(SHADER_PARAM::INT_0, L"Inverse On Off");
 
 	strKey = L"InverseImage2DShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	// ==============
+	// Inverse AfterImage 2D Shader
+	// ==============
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\std.fx", "VS_InverseAfterImage2D", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\std.fx", "PS_InverseAfterImage2D", 5, 0);
+
+	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
+	pShader->AddParam(SHADER_PARAM::TEX_0, L"Output Image");
+	pShader->AddParam(SHADER_PARAM::INT_0, L"Inverse On Off");
+	pShader->AddParam(SHADER_PARAM::FLOAT_0, L"Inverse On Off");
+
+	strKey = L"InverseAfterImage2DShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 
