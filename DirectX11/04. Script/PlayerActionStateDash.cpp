@@ -8,9 +8,11 @@
 #include "RightWallCollisionScript.h"
 #include "LeftWallCollisionScript.h"
 
+#include "ZZ2AfterImageScript.h"
 
 PlayerActionStateDash::PlayerActionStateDash()
 {
+	dashAfterImageOutputTime = 0.f;
 }
 
 
@@ -127,8 +129,53 @@ void PlayerActionStateDash::CheckDashWithWallCollision(CPlayerScript * player)
 	}
 }
 
+void PlayerActionStateDash::CreateDashAfterImage(CPlayerScript * player)
+{
+	dashAfterImageOutputTime -= DT;
+	if (dashAfterImageOutputTime < 0.f)
+	{
+		dashAfterImageOutputTime = 0.05f;
+		map<UINT, CScript*> prefabInputScripts;
+
+		CResPtr<CPrefab> dashAfterImage = player->GetDashAfterImagePrefab();
+
+		vector<UINT> prefabScriptTypes = dashAfterImage->GetScriptType();
+		vector<wstring> allScriptInfo;
+		CScriptMgr::GetScriptInfo(allScriptInfo);
+
+		for (int scriptIndex = 0; scriptIndex < prefabScriptTypes.size(); scriptIndex++)
+		{
+			UINT scriptType = prefabScriptTypes[scriptIndex];
+			wstring scriptName = allScriptInfo[scriptType];
+			CScript* prefabScript = CScriptMgr::GetScript(scriptName);
+
+			if (prefabScript->GetScriptType() == (UINT)SCRIPT_TYPE::ZZ2AFTERIMAGESCRIPT)
+			{
+				CZZ2AfterImageScript* afterImageScript = dynamic_cast<CZZ2AfterImageScript*>(prefabScript);
+
+				Vec3 mouseDirection = player->GetMouseDirection();
+
+				if (mouseDirection.x > 0)
+				{
+					afterImageScript->SetInverse(0);
+				}
+				else
+				{
+					afterImageScript->SetInverse(1);
+				}
+			}
+
+			prefabInputScripts[scriptType] = prefabScript;
+		}
+
+		Vec3 playerPosition = player->Object()->Transform()->GetLocalPos();
+		player->Instantiate(dashAfterImage, playerPosition, prefabInputScripts);
+	}
+}
+
 void PlayerActionStateDash::Update(CPlayerScript * player)
 {
 	FindAnimation(player);
 	TransactionState(player);
+	CreateDashAfterImage(player);
 }

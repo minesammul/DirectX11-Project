@@ -8,6 +8,8 @@ private:
 	const float DASH_DISTANCE = 150.f;
 	const float DASH_POWER = 2000.f;
 
+	float dashAfterImageOutputTime;
+
 public:
 	const float DASH_FIRST_POWER = 15.f;
 
@@ -21,6 +23,7 @@ private:
 	void ChangeDashToIdle(CPlayerScript * player);
 	void CheckDashDistance(CPlayerScript * player);
 	void CheckDashWithWallCollision(CPlayerScript * player);
+	void CreateDashAfterImage(CPlayerScript* player);
 
 public:
 	virtual void Update(CPlayerScript * player) override;
@@ -28,6 +31,7 @@ public:
 	static PlayerActionStateDash* GetInstance()
 	{
 		static PlayerActionStateDash* instance = new PlayerActionStateDash;
+		instance->dashAfterImageOutputTime = 0.f;
 		return instance;
 	}
 

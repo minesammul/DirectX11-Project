@@ -4,7 +4,10 @@
 #include "PlayerActionStateJump.h"
 #include "PlayerActionStateSit.h"
 #include "PlayerActionStateDash.h"
+
 #include "GravityScript.h"
+#include "EffectScript.h"
+
 #include <Camera.h>
 
 PlayerActionStateIdle::PlayerActionStateIdle()
@@ -71,6 +74,8 @@ void PlayerActionStateIdle::ChangeIdleToJump(CPlayerScript * player)
 			{
 				if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_SPACE) == KEY_STATE::STATE_TAB)
 				{
+					CreateJumpEffect(player);
+
 					gravityScript->SetActiveGravity(true);
 
 					Vec3 playerPosition = player->Object()->Transform()->GetLocalPos();
@@ -113,6 +118,36 @@ void PlayerActionStateIdle::ChangeIdleToDash(CPlayerScript * player)
 
 		player->SetActionState(PlayerActionStateDash::GetInstance());
 	}
+}
+
+void PlayerActionStateIdle::CreateJumpEffect(CPlayerScript * player)
+{
+	map<UINT, CScript*> prefabInputScripts;
+
+	CResPtr<CPrefab> moveEffect = player->GetMoveEffectPrefab();
+
+	vector<UINT> prefabScriptTypes = moveEffect->GetScriptType();
+	vector<wstring> allScriptInfo;
+	CScriptMgr::GetScriptInfo(allScriptInfo);
+
+	for (int scriptIndex = 0; scriptIndex < prefabScriptTypes.size(); scriptIndex++)
+	{
+		UINT scriptType = prefabScriptTypes[scriptIndex];
+		wstring scriptName = allScriptInfo[scriptType];
+		CScript* prefabScript = CScriptMgr::GetScript(scriptName);
+
+		if (prefabScript->GetScriptType() == (UINT)SCRIPT_TYPE::EFFECTSCRIPT)
+		{
+			CEffectScript* effectScript = dynamic_cast<CEffectScript*>(prefabScript);
+		}
+
+		prefabInputScripts[scriptType] = prefabScript;
+	}
+
+	Vec3 playerPosition = player->Object()->Transform()->GetLocalPos();
+	Vec3 effectPosition = playerPosition;
+	effectPosition.y -= player->Object()->Collider2D()->GetFinalScale().y / 4;
+	player->Instantiate(moveEffect, effectPosition, prefabInputScripts);
 }
 
 void PlayerActionStateIdle::Update(CPlayerScript * player)

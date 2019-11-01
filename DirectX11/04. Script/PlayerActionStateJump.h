@@ -5,7 +5,7 @@ class PlayerActionStateJump : public PlayerActionState
 {
 private:
 	const float MAX_JUMP_POWER = 700.f;
-	const float ADD_JUMP_POWER = 1.0005f;
+	const float ADD_JUMP_POWER = 1.005f;
 
 private:
 	float nowJumpPower;

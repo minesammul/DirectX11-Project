@@ -224,6 +224,14 @@ void CPlayerScript::start()
 
 
 	SendPlayerDataToEventQueue();
+
+
+	CResMgr::GetInst()->Load<CPrefab>(L"Prefab\\PlayerDashAfterImage.pref", L"Prefab\\PlayerDashAfterImage.pref");
+	dashAfterImage = CResMgr::GetInst()->FindRes<CPrefab>(L"Prefab\\PlayerDashAfterImage.pref");
+
+	CResMgr::GetInst()->Load<CPrefab>(L"Prefab\\PlayerMoveEffect.pref", L"Prefab\\PlayerMoveEffect.pref");
+	moveEffect = CResMgr::GetInst()->FindRes<CPrefab>(L"Prefab\\PlayerMoveEffect.pref");
+
 }
 
 void CPlayerScript::update()

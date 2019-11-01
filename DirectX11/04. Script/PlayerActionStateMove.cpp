@@ -3,6 +3,8 @@
 #include "PlayerActionStateIdle.h"
 #include "PlatformRightCollisionScript.h"
 
+#include "EffectScript.h"
+
 PlayerActionStateMove::PlayerActionStateMove()
 {
 }
@@ -36,6 +38,8 @@ void PlayerActionStateMove::ActionState(CPlayerScript * player)
 {
 	if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_A) == KEY_STATE::STATE_HOLD)
 	{
+		CreateMoveEffect(player);
+
 		Vec3 playerPosition = player->Object()->Transform()->GetLocalPos();
 
 		playerPosition.x -= player->GetMoveSpeed()*(player->GetMoveDirection().x)*DT;
@@ -46,6 +50,8 @@ void PlayerActionStateMove::ActionState(CPlayerScript * player)
 
 	if (CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_D) == KEY_STATE::STATE_HOLD)
 	{
+		CreateMoveEffect(player);
+
 		Vec3 playerPosition = player->Object()->Transform()->GetLocalPos();
 
 		playerPosition.x += player->GetMoveSpeed()*(player->GetMoveDirection().x)*DT;
@@ -61,6 +67,41 @@ void PlayerActionStateMove::TransactionState(CPlayerScript * player)
 		CKeyMgr::GetInst()->GetKeyState(KEY_TYPE::KEY_D) == KEY_STATE::STATE_AWAY)
 	{
 		player->SetActionState(PlayerActionStateIdle::GetInstance());
+	}
+}
+
+void PlayerActionStateMove::CreateMoveEffect(CPlayerScript * player)
+{
+	moveEffectOutputTime -= DT;
+	if (moveEffectOutputTime < 0.f)
+	{
+		moveEffectOutputTime = 0.15f;
+		map<UINT, CScript*> prefabInputScripts;
+
+		CResPtr<CPrefab> moveEffect = player->GetMoveEffectPrefab();
+
+		vector<UINT> prefabScriptTypes = moveEffect->GetScriptType();
+		vector<wstring> allScriptInfo;
+		CScriptMgr::GetScriptInfo(allScriptInfo);
+
+		for (int scriptIndex = 0; scriptIndex < prefabScriptTypes.size(); scriptIndex++)
+		{
+			UINT scriptType = prefabScriptTypes[scriptIndex];
+			wstring scriptName = allScriptInfo[scriptType];
+			CScript* prefabScript = CScriptMgr::GetScript(scriptName);
+
+			if (prefabScript->GetScriptType() == (UINT)SCRIPT_TYPE::EFFECTSCRIPT)
+			{
+				CEffectScript* effectScript = dynamic_cast<CEffectScript*>(prefabScript);
+			}
+
+			prefabInputScripts[scriptType] = prefabScript;
+		}
+
+		Vec3 playerPosition = player->Object()->Transform()->GetLocalPos();
+		Vec3 effectPosition = playerPosition;
+		effectPosition.y -= player->Object()->Collider2D()->GetFinalScale().y/4;
+		player->Instantiate(moveEffect, effectPosition, prefabInputScripts);
 	}
 }
 

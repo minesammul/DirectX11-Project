@@ -33,8 +33,12 @@ private:
 
 	CGameObject* playerHPBar;
 	CCamera* mainCamera;
+
 	CPlatformRightCollisionScript* platformRightCollisionScript;
 	CPlatformLeftCollisionScript* platformLeftCollisionScript;
+
+	CResPtr<CPrefab> dashAfterImage;
+	CResPtr<CPrefab> moveEffect;
 
 public:
 	CPlayerScript();
@@ -81,6 +85,16 @@ public:
 	Vec3 GetCameraFocusPosition(void)
 	{
 		return cameraFocusPosition;
+	}
+
+	CResPtr<CPrefab> GetDashAfterImagePrefab(void)
+	{
+		return dashAfterImage;
+	}
+
+	CResPtr<CPrefab> GetMoveEffectPrefab(void)
+	{
+		return moveEffect;
 	}
 };
 
