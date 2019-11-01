@@ -262,6 +262,10 @@ call CodeGen.exe</Command>
     <ClInclude Include="Z5CameraTopCheckScript.h" />
     <ClInclude Include="Z6CameraRightCheckScript.h" />
     <ClInclude Include="Z7CameraLeftCheckScript.h" />
+    <ClInclude Include="Z8BackgroundUVAniScript.h" />
+    <ClInclude Include="Z9ButtonClickScript.h" />
+    <ClInclude Include="ZZ1MouseTraceScript.h" />
+    <ClInclude Include="ZZ2AfterImageScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AttackBoxScript.cpp" />
@@ -338,6 +342,10 @@ call CodeGen.exe</Command>
     <ClCompile Include="Z5CameraTopCheckScript.cpp" />
     <ClCompile Include="Z6CameraRightCheckScript.cpp" />
     <ClCompile Include="Z7CameraLeftCheckScript.cpp" />
+    <ClCompile Include="Z8BackgroundUVAniScript.cpp" />
+    <ClCompile Include="Z9ButtonClickScript.cpp" />
+    <ClCompile Include="ZZ1MouseTraceScript.cpp" />
+    <ClCompile Include="ZZ2AfterImageScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="04. Script.rc" />

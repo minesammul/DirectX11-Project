@@ -3,17 +3,18 @@
 class CTileScript : public CScript
 {
 private:
+	const float TILE_MOVE_SPEED = 600.f;
+	const float TILE_SCALE_MULTI_VALUE = 1.2f;
+	const int GRID_COUNT = 23;
+	const int TEXTURE_TILE_COUNT = 487;
+
+private:
 	int selectTileX;
 	int selectTileY;
 	int selectTileIndex;
 	int gridCount;
 	int textureTileCount;
 	CCamera* tileMapCamera;
-
-	const float TILE_MOVE_SPEED = 600.f;
-	const float TILE_SCALE_MULTI_VALUE = 1.2f;
-	const int GRID_COUNT = 23;
-	const int TEXTURE_TILE_COUNT = 487;
 
 public:
 	CTileScript();

@@ -36,6 +36,10 @@
 #include "Z5CameraTopCheckScript.h"
 #include "Z6CameraRightCheckScript.h"
 #include "Z7CameraLeftCheckScript.h"
+#include "Z8BackgroundUVAniScript.h"
+#include "Z9ButtonClickScript.h"
+#include "ZZ1MouseTraceScript.h"
+#include "ZZ2AfterImageScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
@@ -74,6 +78,10 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"Z5CameraTopCheckScript");
 	_vec.push_back(L"Z6CameraRightCheckScript");
 	_vec.push_back(L"Z7CameraLeftCheckScript");
+	_vec.push_back(L"Z8BackgroundUVAniScript");
+	_vec.push_back(L"Z9ButtonClickScript");
+	_vec.push_back(L"ZZ1MouseTraceScript");
+	_vec.push_back(L"ZZ2AfterImageScript");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -148,6 +156,14 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CZ6CameraRightCheckScript;
 	if (L"Z7CameraLeftCheckScript" == _strScriptName)
 		return new CZ7CameraLeftCheckScript;
+	if (L"Z8BackgroundUVAniScript" == _strScriptName)
+		return new CZ8BackgroundUVAniScript;
+	if (L"Z9ButtonClickScript" == _strScriptName)
+		return new CZ9ButtonClickScript;
+	if (L"ZZ1MouseTraceScript" == _strScriptName)
+		return new CZZ1MouseTraceScript;
+	if (L"ZZ2AfterImageScript" == _strScriptName)
+		return new CZZ2AfterImageScript;
 	return nullptr;
 }
 
@@ -293,6 +309,22 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::Z7CAMERALEFTCHECKSCRIPT:
 		return L"Z7CameraLeftCheckScript";
+		break;
+
+	case SCRIPT_TYPE::Z8BACKGROUNDUVANISCRIPT:
+		return L"Z8BackgroundUVAniScript";
+		break;
+
+	case SCRIPT_TYPE::Z9BUTTONCLICKSCRIPT:
+		return L"Z9ButtonClickScript";
+		break;
+
+	case SCRIPT_TYPE::ZZ1MOUSETRACESCRIPT:
+		return L"ZZ1MouseTraceScript";
+		break;
+
+	case SCRIPT_TYPE::ZZ2AFTERIMAGESCRIPT:
+		return L"ZZ2AfterImageScript";
 		break;
 
 	}

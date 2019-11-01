@@ -16,6 +16,8 @@ private:
 	void ChangeIdleToSit(CPlayerScript * player);
 	void ChangeIdleToDash(CPlayerScript * player);
 
+	void CreateJumpEffect(CPlayerScript* player);
+
 public:
 	virtual void Update(CPlayerScript * player) override;
 

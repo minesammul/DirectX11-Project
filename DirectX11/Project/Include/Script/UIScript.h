@@ -14,6 +14,10 @@ public:
 	CUIScript();
 	~CUIScript();
 
+private:
+	void ReadjustHpBarPosition(void);
+	void RepeatHpBarAnimation(void);
+
 public:
 	virtual void start();
 	virtual void update();

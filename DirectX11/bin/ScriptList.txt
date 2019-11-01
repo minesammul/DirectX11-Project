@@ -33,3 +33,7 @@ Z4CameraFrameScript
 Z5CameraTopCheckScript
 Z6CameraRightCheckScript
 Z7CameraLeftCheckScript
+Z8BackgroundUVAniScript
+Z9ButtonClickScript
+ZZ1MouseTraceScript
+ZZ2AfterImageScript

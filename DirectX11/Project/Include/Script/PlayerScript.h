@@ -1,12 +1,16 @@
 #pragma once
 #include "Script.h"
-class PlayerActionState;
+
 
 struct PlayerData
 {
 	int maxHp;
 	int nowHp;
 };
+
+class PlayerActionState;
+class CPlatformRightCollisionScript;
+class CPlatformLeftCollisionScript;
 
 class CPlayerScript :
 	public CScript
@@ -27,6 +31,14 @@ private:
 	Vec3 cameraFocusPosition;
 	int cameraFocusLayerIndex;
 
+	CGameObject* playerHPBar;
+	CCamera* mainCamera;
+	CPlatformRightCollisionScript* platformRightCollisionScript;
+	CPlatformLeftCollisionScript* platformLeftCollisionScript;
+
+	CResPtr<CPrefab> dashAfterImage;
+	CResPtr<CPrefab> moveEffect;
+
 public:
 	CPlayerScript();
 	virtual ~CPlayerScript();
@@ -37,6 +49,8 @@ private:
 private:
 	void CalculationMoveDirection();
 	void CalculationMouseDirection();
+	void ChangeImageInverse();
+	void CheckHited();
 
 public:
 	virtual void start();
@@ -58,21 +72,28 @@ public:
 	void SendPlayerDataToEventQueue(void);
 	void PlayerHited(void);
 
-
 	bool GetIsCameraFocusPositionFind(void) 
 	{
 		return isCameraFocusPositionFind;
 	}
-
 	void SetIsCameraFocusPositionFind(bool find)
 	{
 		isCameraFocusPositionFind = find;
 	}
 
-
 	Vec3 GetCameraFocusPosition(void)
 	{
 		return cameraFocusPosition;
+	}
+
+	CResPtr<CPrefab> GetDashAfterImagePrefab(void)
+	{
+		return dashAfterImage;
+	}
+
+	CResPtr<CPrefab> GetMoveEffectPrefab(void)
+	{
+		return moveEffect;
 	}
 };
 

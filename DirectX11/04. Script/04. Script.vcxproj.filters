@@ -273,6 +273,18 @@
     <ClInclude Include="Z4CameraFrameScript.h">
       <Filter>Scripts\CameraCollisionScirpt</Filter>
     </ClInclude>
+    <ClInclude Include="Z8BackgroundUVAniScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Z9ButtonClickScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="ZZ1MouseTraceScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="ZZ2AfterImageScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptMgr.cpp">
@@ -481,6 +493,18 @@
     </ClCompile>
     <ClCompile Include="Z4CameraFrameScript.cpp">
       <Filter>Scripts\CameraCollisionScirpt</Filter>
+    </ClCompile>
+    <ClCompile Include="Z8BackgroundUVAniScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Z9ButtonClickScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="ZZ1MouseTraceScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="ZZ2AfterImageScript.cpp">
+      <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
