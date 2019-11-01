@@ -21,6 +21,8 @@ void CTextureScript::start()
 	CResPtr<CTexture> texture = Object()->Animator2D()->GetCurAnim()->GetNowFrameData().pTex;
 	cloneMtrl->SetData(SHADER_PARAM::TEX_0, &texture);
 
+	Vec4 color = Vec4(4.f, 4.f, 4.f, 1.f);
+	cloneMtrl->SetData(SHADER_PARAM::VEC4_0, &color);
 
 	beforeMainCameraPosition = Object()->Transform()->GetLocalPos();
 
@@ -49,13 +51,13 @@ void CTextureScript::update()
 		if (beforeMainCameraPosition.x < mainCameraPosition.x)
 		{
 			cloneMtrl = Object()->MeshRender()->GetCloneMaterial();
-			UValue += TEXTURE_U_VALUE;
+			UValue += TEXTURE_U_VALUE * DT;
 			cloneMtrl->SetData(SHADER_PARAM::FLOAT_0, &UValue);
 		}
 		else if(beforeMainCameraPosition.x > mainCameraPosition.x)
 		{
 			cloneMtrl = Object()->MeshRender()->GetCloneMaterial();
-			UValue -= TEXTURE_U_VALUE;
+			UValue -= TEXTURE_U_VALUE * DT;
 			cloneMtrl->SetData(SHADER_PARAM::FLOAT_0, &UValue);
 		}
 

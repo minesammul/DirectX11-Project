@@ -4,7 +4,7 @@
 class CTextureScript : public CScript
 {
 private:
-	const float TEXTURE_U_VALUE = 0.001f;
+	const float TEXTURE_U_VALUE = 0.01f;
 
 private:
 	CResPtr<CMaterial> cloneMtrl;
