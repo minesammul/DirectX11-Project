@@ -21,7 +21,7 @@ private:
 
 	bool isPotalUse;
 
-	const float MOVE_SPEED = 500.f;
+	const float MOVE_SPEED = 1200.f;
 	const float MOVE_START_DISTANCE = 100.f;
 
 public:
