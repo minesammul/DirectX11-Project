@@ -197,7 +197,7 @@ bool CCollisionMgr::CollisionRect(CCollider2D * _pLeft, CCollider2D * _pRight)
 	
 	for (UINT i = 0; i < 4; ++i)
 	{
-		if (vAxis[i].IsZero())
+		if (vAxis[i] == Vec3::Zero)
 			return false;
 
 		vAxis[i].Normalize();

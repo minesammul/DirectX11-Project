@@ -96,6 +96,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 void CMainFrame::init()
 {
 	// Init
+	((CGameView*)GetGameView())->init();
 	((CComponentView*)GetComView())->init();
 	((CHierachyView*)GetHierachyView())->init();
 
@@ -107,6 +108,7 @@ void CMainFrame::update()
 {
 	// CompnentView update
 	((CComponentView*)GetComView())->update();
+	((CGameView*)GetGameView())->update();
 }
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)

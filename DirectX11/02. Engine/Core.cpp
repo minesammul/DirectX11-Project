@@ -44,7 +44,7 @@ int CCore::init(HWND _hWnd, bool _bWindowed)
 	CDevice::GetInst()->CreateConstBuffer(L"Anim2D", sizeof(tAnim2D), 2);
 	CDevice::GetInst()->CreateConstBuffer(L"Global", sizeof(tGlobalValue), 3);
 		
-	SetRenderMode(false);
+	SetRenderMode(true);
 	SetState(SCENE_STATE::STOP);
 
 	return S_OK;
@@ -85,11 +85,11 @@ void CCore::SetState(SCENE_STATE _eState)
 	if (m_eState == SCENE_STATE::PLAY)
 	{
 		scene_progress = &CSceneMgr::progress;
-		//SetRenderMode(false);
+		SetRenderMode(false);
 	}
 	else
 	{
-		//SetRenderMode(true);
+		SetRenderMode(true);
 		scene_progress = &CSceneMgr::progress_pause;
 	}
 }

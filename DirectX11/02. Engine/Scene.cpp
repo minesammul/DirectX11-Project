@@ -6,6 +6,8 @@
 
 CScene::CScene()
 	: m_arrLayer{}
+	, m_arrCam{}
+	, m_iCamCount(0)
 {
 }
 
@@ -61,7 +63,17 @@ void CScene::lateupdate()
 
 void CScene::finalupdate()
 {
-	m_vecCam.clear();
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		if (nullptr != m_arrLayer[i])
+		{
+			m_arrLayer[i]->ClearRegisterObj();
+		}
+	}
+
+	ResetRegisterCam();
+
+
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
 		if (nullptr == m_arrLayer[i])
@@ -73,29 +85,18 @@ void CScene::finalupdate()
 
 void CScene::render()
 {
-	for (UINT i = 0; i < m_vecCam.size(); ++i)
+	for (UINT i = 0; i < m_iCamCount; ++i)
 	{
-		g_transform.matView = m_vecCam[i]->GetViewMat();
-		g_transform.matProj = m_vecCam[i]->GetProjMat();
+		g_transform.matView = m_arrCam[i]->GetViewMat();
+		g_transform.matProj = m_arrCam[i]->GetProjMat();
 
 		for (UINT j = 0; j < MAX_LAYER; ++j)
 		{
 			if (nullptr == m_arrLayer[j])
 				continue;
 
-			if(m_vecCam[i]->IsValiedLayer(j))
+			if (m_arrCam[i]->IsValiedLayer(j))
 				m_arrLayer[j]->render();
-		}
-	}
-
-	//m_vecCam.clear();
-
-	// 각 레이어에 속한 오브젝트 해제
-	for (UINT i = 0; i < MAX_LAYER; ++i)
-	{
-		if (nullptr != m_arrLayer[i])
-		{
-			m_arrLayer[i]->ClearRegisterObj();
 		}
 	}
 }
@@ -204,4 +205,12 @@ bool CScene::IsExistGameObjectName(const wstring & _strName)
 		}
 	}
 	return false;
+}
+
+void CScene::AddCamera(CCamera* _pCam)
+{
+	m_iCamCount += 1;
+	UINT iIdx = _pCam->GetCamOrder();
+	assert(!m_arrCam[iIdx]); // 카메라 순서가 겹치는 경우
+	m_arrCam[iIdx] = _pCam;
 }

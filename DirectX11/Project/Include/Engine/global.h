@@ -15,16 +15,19 @@ using namespace DirectX::PackedVector;
 #pragma comment(lib, "d3dcompiler")
 #pragma comment(lib, "dxguid")
 
-typedef XMFLOAT2 Vec2;
-//typedef XMFLOAT3 Vec3;
-typedef XMFLOAT4 Vec4;
-typedef XMMATRIX Matrix;
-
 #include <vector>
 #include <list>
 #include <map>
 
 using namespace std;
+
+#include "SimpleMath.h"
+
+using namespace DirectX::SimpleMath;
+
+typedef Vector2 Vec2;
+typedef Vector3 Vec3;
+typedef Vector4 Vec4;
 
 #include "define.h"
 #include "struct.h"
@@ -32,6 +35,3 @@ using namespace std;
 extern tTransform g_transform;
 extern tAnim2D g_anim2d;
 extern tGlobalValue g_global;
-
-// 숙제.
-// - 플레이어 Animation 에 그림자 만들기

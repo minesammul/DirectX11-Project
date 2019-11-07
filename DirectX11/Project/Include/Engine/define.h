@@ -27,7 +27,7 @@ T();\
 #define MOUSEPOS CKeyMgr::GetInst()->GetMousePos()
 
 #define MAX_LAYER 32
-
+#define MAX_CAM 32
 
 enum class COMPONENT_TYPE
 {
@@ -100,9 +100,6 @@ enum class SHADER_PARAM
 	INT_3,
 	INT_END,
 
-	TILEMAP,
-	TILEMAP_END,
-
 	FLOAT_0,
 	FLOAT_1,
 	FLOAT_2,
@@ -147,5 +144,13 @@ enum class EVENT_TYPE
 	ENABLE,
 	DISABLE,
 	CHANGE_LAYER,
+	END,
+};
+
+enum class DIR_TYPE
+{
+	DIR_RIGHT,
+	DIR_UP,
+	DIR_FRONT,
 	END,
 };

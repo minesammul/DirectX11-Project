@@ -252,39 +252,6 @@ void CResMgr::CreateDefaultShader()
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 
 	// ==============
-	// TileMap2DShader
-	// ==============
-	pShader = new CShader;
-	pShader->CreateVertexShader(L"Shader\\std.fx", "VS_TileMap2D", 5, 0);
-	pShader->CreatePixelShader(L"Shader\\std.fx", "PS_TileMap2D", 5, 0);
-
-	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
-	pShader->AddParam(SHADER_PARAM::TEX_1, L"Output Image");
-	pShader->AddParam(SHADER_PARAM::INT_0, L"Grid Count");
-	pShader->AddParam(SHADER_PARAM::INT_1, L"Tile Count");
-
-	strKey = L"TileMap2DShader";
-	pShader->SetName(strKey);
-	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
-
-	// ==============
-	// TileSet2DShader
-	// ==============
-	pShader = new CShader;
-	pShader->CreateVertexShader(L"Shader\\std.fx", "VS_TileSet2D", 5, 0);
-	pShader->CreatePixelShader(L"Shader\\std.fx", "PS_TileSet2D", 5, 0);
-
-	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
-	pShader->AddParam(SHADER_PARAM::TEX_0, L"Output Image");
-	pShader->AddParam(SHADER_PARAM::INT_0, L"Grid Count");
-	pShader->AddParam(SHADER_PARAM::INT_1, L"Tile Count");
-	pShader->AddParam(SHADER_PARAM::INT_2, L"Select Tile");
-
-	strKey = L"TileSet2DShader";
-	pShader->SetName(strKey);
-	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
-
-	// ==============
 	// Inverse Image 2D Shader
 	// ==============
 	pShader = new CShader;

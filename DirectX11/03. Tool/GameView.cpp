@@ -7,23 +7,85 @@
 #include "ComponentView.h"
 #include <SceneMgr.h>
 
+#include "GameObjectEx.h"
+#include "CameraEx.h"
+
+#include <Engine/Transform.h>
+#include <Engine/SceneMgr.h>
+#include <Engine/Scene.h>
+#include <Engine/Layer.h>
+#include <Engine/Device.h>
+#include <Engine/Core.h>
+
+#include "ToolCamScript.h"
+
 // CGameView
 
 IMPLEMENT_DYNCREATE(CGameView, CView)
 
+
+
 CGameView::CGameView()
+	: m_pToolCam(nullptr)
 {
 
 }
 
 CGameView::~CGameView()
 {
+	SAFE_DELETE(m_pToolCam);
 }
 
 BEGIN_MESSAGE_MAP(CGameView, CView)
 	ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
+
+void CGameView::init()
+{
+	m_pToolCam = new CGameObjectEx;
+
+	m_pToolCam->AddComponent(new CTransform);
+	m_pToolCam->AddComponent(new CCameraEx);
+	m_pToolCam->AddComponent(new CToolCamScript);
+
+	m_pToolCam->Transform()->SetLocalPos(Vec3(500.f, 0.f, 0.f));
+
+	for (int i = 0; i < MAX_LAYER; ++i)
+	{
+		m_pToolCam->Camera()->CheckLayer(i);
+	}
+
+}
+
+void CGameView::update()
+{
+	SCENE_STATE eState = CCore::GetInst()->GetState();
+
+	if (SCENE_STATE::PAUSE != eState && SCENE_STATE::STOP != eState)
+		return;
+
+	m_pToolCam->update();
+	m_pToolCam->lateupdate();
+	m_pToolCam->finalupdate();
+
+	g_transform.matView = m_pToolCam->Camera()->GetViewMat();
+	g_transform.matProj = m_pToolCam->Camera()->GetProjMat();
+
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		if (nullptr == pCurScene->GetLayer(i))
+			continue;
+
+		if (m_pToolCam->Camera()->IsValiedLayer(i))
+			pCurScene->GetLayer(i)->render();
+	}
+
+	CDevice::GetInst()->Present();
+
+}
 
 // CGameView 그리기
 

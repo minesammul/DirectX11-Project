@@ -45,23 +45,20 @@ void CSceneMgr::RegisterCamera(CCamera * _pCam)
 
 CGameObject* CSceneMgr::MousePicking(POINT mousePoint)
 {
-	//vector<CGameObject*> cameraObject;
-	//m_pCurScene->FindGameObject(L"MainCamera", cameraObject);
+	int nowCameraIndex = MAX_CAM - 1;
 
-	vector<CCamera*> cameraObjects = m_pCurScene->GetCamera();
-	vector<CCamera*>::reverse_iterator cameraObjectsReverseIterator;
-	cameraObjectsReverseIterator = cameraObjects.rbegin();
-	
 	CGameObject* finalSelectObject = nullptr;
 
-	while (cameraObjectsReverseIterator != cameraObjects.rend())
+	while (m_pCurScene->GetCamera(nowCameraIndex)!=nullptr &&
+		nowCameraIndex >=0 )
 	{
-		//Matrix projectionMatrix = cameraObject[0]->Camera()->GetProjMat();
-		Matrix projectionMatrix = (*cameraObjectsReverseIterator)->GetProjMat();
+		CCamera* nowCamera = m_pCurScene->GetCamera(nowCameraIndex);
+
+		Matrix projectionMatrix = nowCamera->GetProjMat();
 		DirectX::XMVECTOR projectionDeterminant = DirectX::XMMatrixDeterminant(projectionMatrix);
 		Matrix inverseProjectionMatrix = DirectX::XMMatrixInverse(&projectionDeterminant, projectionMatrix);
 
-		Matrix viewMatrix = (*cameraObjectsReverseIterator)->GetViewMat();
+		Matrix viewMatrix = nowCamera->GetViewMat();
 		DirectX::XMVECTOR viewDeterminant = DirectX::XMMatrixDeterminant(viewMatrix);
 		Matrix inverseViewMatrix = DirectX::XMMatrixInverse(&viewDeterminant, viewMatrix);
 
@@ -93,11 +90,10 @@ CGameObject* CSceneMgr::MousePicking(POINT mousePoint)
 				continue;
 			}
 
-			if ((*cameraObjectsReverseIterator)->IsValiedLayer(layerIndex) == false)
+			if (nowCamera->IsValiedLayer(layerIndex) == false)
 			{
 				continue;
 			}
-
 
 			vector<CGameObject*> gameObject = m_pCurScene->GetLayer(layerIndex)->GetParentObject();
 			for (int gameObjectIndex = 0; gameObjectIndex < gameObject.size(); gameObjectIndex++)
@@ -167,7 +163,7 @@ CGameObject* CSceneMgr::MousePicking(POINT mousePoint)
 			break;
 		}
 
-		cameraObjectsReverseIterator++;
+		nowCameraIndex -= 1;
 	}
 
 	mousePickingObject = finalSelectObject;

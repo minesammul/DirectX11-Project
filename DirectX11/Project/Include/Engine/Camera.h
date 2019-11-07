@@ -10,7 +10,7 @@ enum class PROJ_TYPE
 class CCamera :
 	public CComponent
 {
-private:
+protected:
 	Matrix		m_matView;
 	Matrix		m_matProj;
 
@@ -22,7 +22,7 @@ private:
 	float		m_fFar;
 
 	UINT		m_iLayerCheck;
-	   
+	UINT		m_iCamOrder;
 
 public:
 	virtual void update();
@@ -46,12 +46,14 @@ public:
 	void SetNear(float _N) { m_fNear = _N; }
 	void SetFar(float _F) { m_fFar = _F; }
 	void SetFOV(float _FOV) { if (_FOV == 0.f) m_fFOV = 0.01f; else m_fFOV = _FOV; }
+	void SetCamOrder(UINT _iCamOrder) { m_iCamOrder = _iCamOrder; }
 
 	PROJ_TYPE GetProjType() { return m_eType; }
 	float GetScale() { return m_fScale; }
 	float GetNear() { return m_fNear; }
 	float GetFar() { return m_fFar; }
 	float GetFOV() { return m_fFOV; }
+	UINT GetCamOrder() { return m_iCamOrder; }
 
 	const Matrix& GetViewMat() { return m_matView; }
 	const Matrix& GetProjMat() { return m_matProj; }

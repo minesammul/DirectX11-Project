@@ -142,6 +142,15 @@
     <ClInclude Include="AddLayerDlg.h">
       <Filter>03. View\BtnView</Filter>
     </ClInclude>
+    <ClInclude Include="CameraEx.h">
+      <Filter>Module</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectEx.h">
+      <Filter>Module</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolCamScript.h">
+      <Filter>Module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -221,6 +230,15 @@
     </ClCompile>
     <ClCompile Include="AddLayerDlg.cpp">
       <Filter>03. View\BtnView</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraEx.cpp">
+      <Filter>Module</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectEx.cpp">
+      <Filter>Module</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolCamScript.cpp">
+      <Filter>Module</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

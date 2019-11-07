@@ -64,12 +64,12 @@ void CBtnView::DoDataExchange(CDataExchange* pDX)
 	CRect buttonAddLayerRect;
 	buttonAddLayer.GetWindowRect(buttonAddLayerRect);
 
-	float fAccWidth = rt1.Width() + rt2.Width() + rt3.Width();
+	int fAccWidth = rt1.Width() + rt2.Width() + rt3.Width();
 
 	CRect rtBtnView;
 	GetClientRect(rtBtnView);
 
-	float fStartX = (rtBtnView.Width() / 2.f) - (fAccWidth / 2.f);
+	int fStartX = (rtBtnView.Width() / 2) - (fAccWidth / 2);
 
 	m_btnPlay.SetWindowPos(nullptr, fStartX, 10, rt1.Width(), rt1.Height(), 0);
 

@@ -9,6 +9,7 @@ private:
 	Vec3		m_vLocalScale;
 	Vec3		m_vLocalRot;
 
+	Vec3		m_vLocalDir[(UINT)DIR_TYPE::END];
 
 	Matrix		m_matWorld;
 
@@ -20,6 +21,10 @@ public:
 	const Vec3& GetLocalPos() {		return m_vLocalPos ; }
 	const Vec3& GetLocalScale() {	return m_vLocalScale; }
 	const Vec3& GetLocalRot() {		return m_vLocalRot ; }
+
+	const Vec3& GetWorldPos();
+
+	const Vec3& GetLocalDir(DIR_TYPE _eType) { return m_vLocalDir[(UINT)_eType]; }
 
 	const Matrix& GetWorldMat() { return m_matWorld; }
 

@@ -7,6 +7,7 @@
 #include "ConstBuffer.h"
 #include "Device.h"
 #include "SceneMgr.h"
+#include "Scene.h"
 
 tGlobalValue g_global = {};
 

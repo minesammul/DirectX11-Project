@@ -71,14 +71,15 @@ private:
 	void SetParent(CGameObject* _pParent);
 	void ClearParent(); // 부모오브젝트에서 나올때, 부모오브젝트와의 관계 제거
 	void ClearLayer();	// 오브젝트가 Layer 에서 나올때, Layer 와의 관계 제거
-	void Kill() { m_bDead = true; }
 	void ClearChild(UINT _iChildIdx); // 특정 인덱스 자식 오브젝트를 자식에서 제거
 
 	// 안전하게 삭제하기 위해서 연결 끊는 작업
 	// 1. 최상위 부모일 경우, Layer 에서 제거
 	// 2. 자식 오브젝트였을 경우, 부모에서 제거
 	void Disconnect();
-	
+
+protected:
+	void Kill() { m_bDead = true; }
 
 public:
 	template<typename T>

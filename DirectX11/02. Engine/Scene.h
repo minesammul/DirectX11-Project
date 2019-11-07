@@ -10,7 +10,8 @@ class CScene :
 {
 private:
 	CLayer*				m_arrLayer[MAX_LAYER];
-	vector<CCamera*>	m_vecCam;
+	CCamera*			m_arrCam[MAX_CAM];
+	int					m_iCamCount;
 
 public:
 	void awake();
@@ -29,13 +30,22 @@ public:
 	void AddObject(const wstring& _strLayerName, CGameObject* _pObj, bool _bMoveAll = true);
 	void AddObject(UINT _iLayerIdx, CGameObject* _pObj, bool _bAllMove);
 	
-	void AddCamera(CCamera* _pCam) { m_vecCam.push_back(_pCam); }
+	void AddCamera(CCamera* _pCam);
+	CCamera* GetCamera(int index)
+	{
+		return m_arrCam[index];
+	}
+
 	CLayer* FindLayer(const wstring& _strLayer);
 	CLayer* GetLayer(int _iLayerIdx) { return m_arrLayer[_iLayerIdx]; }
 	CGameObject* FindGameObject(const wstring& _strName, vector<CGameObject*>& _vecOut);
 	bool IsExistGameObjectName(const wstring& _strName);
 
-	vector<CCamera*> GetCamera() { return m_vecCam; }
+	void ResetRegisterCam()
+	{
+		memset(m_arrCam, 0, sizeof(void*)*MAX_CAM);
+		m_iCamCount = 0;
+	}
 
 public:
 	CLONE_DISABLE(CScene);
