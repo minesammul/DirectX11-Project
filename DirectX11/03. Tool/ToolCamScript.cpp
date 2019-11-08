@@ -37,5 +37,18 @@ void CToolCamScript::update()
 		vPos += (vRight * DT * 500.f);
 	}
 
+	if (KEYHOLD(KEY_TYPE::KEY_RBTN))
+	{
+		Vec2 vDragDir = CKeyMgr::GetInst()->GetDragDir();
+
+		Vec3 vRot = Transform()->GetLocalRot();
+		vRot.y += DT * XM_PI * 0.5f * vDragDir.x;
+		Transform()->SetLocalRot(vRot);
+
+		// ¿ìº¤ÅÍ È¸Àü
+		Matrix matAxis = XMMatrixRotationAxis(Transform()->GetLocalDir(DIR_TYPE::DIR_RIGHT), DT * XM_PI * 0.5f * -vDragDir.y);
+		Transform()->AddLocalRot(matAxis);
+	}
+
 	Transform()->SetLocalPos(vPos);
 }

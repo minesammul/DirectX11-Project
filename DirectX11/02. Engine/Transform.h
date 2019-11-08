@@ -13,6 +13,8 @@ private:
 
 	Matrix		m_matWorld;
 
+	Matrix		m_matAddRot;
+
 public:
 	void SetLocalPos(const Vec3& _vPos) { m_vLocalPos = _vPos; }
 	void SetLocalScale(const Vec3& _vScale) { m_vLocalScale = _vScale; }
@@ -27,6 +29,8 @@ public:
 	const Vec3& GetLocalDir(DIR_TYPE _eType) { return m_vLocalDir[(UINT)_eType]; }
 
 	const Matrix& GetWorldMat() { return m_matWorld; }
+
+	void AddLocalRot(const Matrix& _matRot);
 
 public:
 	virtual void update();

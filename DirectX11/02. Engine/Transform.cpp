@@ -22,6 +22,11 @@ const Vec3 & CTransform::GetWorldPos()
 	return vec3zero;
 }
 
+void CTransform::AddLocalRot(const Matrix & _matRot)
+{
+	m_matAddRot *= _matRot;
+}
+
 void CTransform::update()
 {		
 }
@@ -33,6 +38,16 @@ void CTransform::finalupdate()
 	Matrix matRotation = XMMatrixRotationX(m_vLocalRot.x);
 	matRotation *= XMMatrixRotationY(m_vLocalRot.y);
 	matRotation *= XMMatrixRotationZ(m_vLocalRot.z);
+
+	matRotation *= m_matAddRot;
+
+	// 추가 회전행렬이 있는 경우
+	if (m_matAddRot != Matrix::Identity)
+	{
+		// 오일러 각을 다시 재 계산한다.
+		m_vLocalRot = DecomposeRotMat(matRotation);
+	}
+
 
 	Matrix matTrans = XMMatrixTranslation(m_vLocalPos.x, m_vLocalPos.y, m_vLocalPos.z);
 
@@ -54,6 +69,8 @@ void CTransform::finalupdate()
 		const Matrix& matParentWorld = pParentObj->Transform()->GetWorldMat();
 		m_matWorld *= matParentWorld;
 	}
+
+	m_matAddRot = Matrix::Identity;
 }
 
 void CTransform::UpdateData()

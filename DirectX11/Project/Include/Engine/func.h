@@ -34,3 +34,6 @@ float GetRadian(float _fAngle);
 
 void SaveWString(const wchar_t* _pStr, FILE * _pFile);
 wchar_t* LoadWString(FILE* _pFile);
+
+bool closeEnough(const float& a, const float& b, const float& epsilon = std::numeric_limits<float>::epsilon());
+Vec3 DecomposeRotMat(const Matrix & _matRot);

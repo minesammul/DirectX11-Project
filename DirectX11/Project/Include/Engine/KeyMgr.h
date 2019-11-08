@@ -65,7 +65,8 @@ private:
 	vector<tKeyState>	m_vecKey;
 	POINT				m_ptMouse;
 	POINT				m_ptOldMouse;
-	   	 
+	Vec2				m_vDragDir;
+
 public:
 	void init();
 	void update();	   
@@ -74,5 +75,6 @@ public:
 	KEY_STATE GetKeyState(KEY_TYPE _eKey) { return m_vecKey[(UINT)_eKey].eState; }
 	const POINT & GetMousePos() { return m_ptMouse; }
 	const POINT & GetPrevMousePos() { return m_ptOldMouse; }
+	Vec2 GetDragDir() { return m_vDragDir; }
 };
 

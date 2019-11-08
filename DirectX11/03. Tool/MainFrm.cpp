@@ -282,10 +282,14 @@ void CMainFrame::OnGameobject2drect()
 
 	pTransform->SetLocalPos(Vec3(0.f, 0.f, 500.f));
 	pTransform->SetLocalScale(Vec3(100.f, 100.f, 1.f));
+	//pTransform->SetLocalScale(Vec3(100.f, 100.f, 100.f));
 	pTransform->SetLocalRot(Vec3(0.f, 0.f, 0.f));
 
 	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
+	
+	//pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
+	//pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"VtxColorMtrl"));
 
 	newObject->AddComponent(pTransform);
 	newObject->AddComponent(pMeshRender);
