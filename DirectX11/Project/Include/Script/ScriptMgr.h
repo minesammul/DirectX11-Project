@@ -6,6 +6,7 @@
 enum class SCRIPT_TYPE
 {
 	HILIGHTSCRIPT,
+	TESTSCRIPT,
 	END,
 };
 

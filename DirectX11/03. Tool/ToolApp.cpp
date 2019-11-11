@@ -121,6 +121,7 @@ BOOL CToolApp::InitInstance()
 	((CMainFrame*)pFrame)->init();
 	CreateTestScene();
 
+
 	// HierachyView 초기화
 	CHierachyView* pView = (CHierachyView*)((CMainFrame*)pFrame)->GetHierachyView();
 	pView->init_object();
@@ -150,6 +151,24 @@ int CToolApp::ExitInstance()
 
 void CToolApp::CreateTestScene()
 {
+	CGameObject* pParent = new CGameObject;
+	pParent->SetName(L"Player");
+
+	CTransform* pTransform = new CTransform;
+	CMeshRender* pMeshRender = new CMeshRender;
+
+	pTransform->SetLocalPos(Vec3(0.f, 0.f, 500.f));
+	pTransform->SetLocalScale(Vec3(100.f, 100.f, 100.f));
+	pTransform->SetLocalRot(Vec3(0.f, 0.f, 0.f));
+
+	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Material\\Gouraud.mtrl"));
+
+	pParent->AddComponent(pTransform);
+	pParent->AddComponent(pMeshRender);
+
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+	pCurScene->AddObject(L"Default", pParent);
 }
 
 // CToolApp 메시지 처리기
