@@ -5,6 +5,10 @@
 class CToolCamScript :
 	public CScript
 {
+private:
+	float		m_fSpeed;
+	float		m_fMul;
+
 public:
 	virtual void update();
 

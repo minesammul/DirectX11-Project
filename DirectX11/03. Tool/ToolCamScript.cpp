@@ -6,6 +6,8 @@
 
 CToolCamScript::CToolCamScript()
 	: CScript(0)
+	, m_fSpeed(500.f)
+	, m_fMul(1.f)
 {
 }
 
@@ -22,19 +24,19 @@ void CToolCamScript::update()
 
 	if (KEYHOLD(KEY_TYPE::KEY_W))
 	{
-		vPos += (vFront * DT * 500.f);
+		vPos += (vFront * DT * m_fSpeed * m_fMul);
 	}
 	if (KEYHOLD(KEY_TYPE::KEY_S))
 	{
-		vPos += (-vFront * DT * 500.f);
+		vPos += (-vFront * DT * m_fSpeed * m_fMul);
 	}
 	if (KEYHOLD(KEY_TYPE::KEY_A))
 	{
-		vPos += (-vRight * DT * 500.f);
+		vPos += (-vRight * DT * m_fSpeed * m_fMul);
 	}
 	if (KEYHOLD(KEY_TYPE::KEY_D))
 	{
-		vPos += (vRight * DT * 500.f);
+		vPos += (vRight * DT * m_fSpeed * m_fMul);
 	}
 
 	if (KEYHOLD(KEY_TYPE::KEY_RBTN))
@@ -48,6 +50,15 @@ void CToolCamScript::update()
 		// ¿ìº¤ÅÍ È¸Àü
 		Matrix matAxis = XMMatrixRotationAxis(Transform()->GetLocalDir(DIR_TYPE::DIR_RIGHT), DT * XM_PI * 0.5f * -vDragDir.y);
 		Transform()->AddLocalRot(matAxis);
+	}
+
+	if (KEYHOLD(KEY_TYPE::KEY_LSHIFT))
+	{
+		m_fMul += DT * 5.f;
+	}
+	if (KEYAWAY(KEY_TYPE::KEY_LSHIFT))
+	{
+		m_fMul = 1.f;
 	}
 
 	Transform()->SetLocalPos(vPos);
