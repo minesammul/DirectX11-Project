@@ -588,6 +588,17 @@ void CResMgr::CreateDefaultShader()
 	strKey = L"GouraudShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	// ==============
+	// Phong Shader
+	// ==============
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\std3d.fx", "VS_Phong", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\std3d.fx", "PS_Phong", 5, 0);
+
+	strKey = L"PhongShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 }
 
 void CResMgr::CreateDefaultMaterial()
@@ -619,10 +630,10 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SetShader(FindRes<CShader>(L"GouraudShader"));
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
-	//pMtrl = new CMaterial;
-	//pMtrl->SetName(L"2DShadowMtrl");
-	//pMtrl->SetShader(FindRes<CShader>(L"2DShdowShader"));
-	//AddRes<CMaterial>(pMtrl->GetName(), pMtrl);	
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"Material\\Phong.mtrl");
+	pMtrl->SetShader(FindRes<CShader>(L"PhongShader"));
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
 	CCollider2D::CreateMaterial();
 }

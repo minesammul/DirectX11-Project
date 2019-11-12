@@ -62,3 +62,15 @@ struct tGlobalValue
 	float fDeltaTime;
 	double dAccTime;
 };
+
+struct tLight3DInfo
+{
+	Vec3		vPos;
+	UINT		iType;
+
+	Vec3		vDir; // 방향성, spot
+	float		fRange; // 점광원, Spot
+
+	Vec3		vColor;
+	float		fAngle; // Spot
+};

@@ -1,6 +1,16 @@
 #ifndef _VALUE
 #define _VALUE
 
+struct tLight3D
+{
+    float3 vLightWorldPos;
+    uint iLightType;
+    float3 vLightDir; // 방향성, spot
+    float fLightRange; // 점광원, Spot
+    float3 vLightColor;
+    float fLightAngle; // Spot
+};
+
 cbuffer MATRIX : register(b0)
 {
     row_major matrix g_matWorld;
@@ -54,6 +64,12 @@ cbuffer GLOBAL_VALUE : register(b3)
     float fPadding;
 }
 
+cbuffer LIGHT_3D : register(b4)
+{
+    tLight3D g_arrLight3D[100];
+    int g_iLight3DCount;
+    int3 g_iLight3DPadding;
+}
 
 Texture2D g_tex_0 : register(t0);
 Texture2D g_tex_1 : register(t1);

@@ -8,12 +8,15 @@
 #include "Device.h"
 #include "SceneMgr.h"
 #include "Scene.h"
+#include "Light3D.h"
 
 tGlobalValue g_global = {};
 
 CRenderMgr::CRenderMgr()
 	: m_arrSampler{}
 	, m_arrBlendState{}
+	, m_arrLight3DInfo{}
+	, m_iLight3DCount(0)
 {
 }
 
@@ -41,6 +44,9 @@ void CRenderMgr::render()
 		pGlobal->UpdateData();
 		pGlobal->SetRegisterAll();
 
+		// 광원 정보 상수버퍼에 업데이트
+		UpdateLight3D();
+
 		CSceneMgr::GetInst()->render();
 	}
 	
@@ -54,6 +60,9 @@ void CRenderMgr::render_tool()
 	// 장치 색상 초기화
 	float arrCol[4] = { 0.6f, 0.6f, 0.6f, 1.f };
 	CDevice::GetInst()->Clear(arrCol);
+
+	// 광원 정보 상수버퍼에 업데이트
+	UpdateLight3D();
 }
 
 void CRenderMgr::CreateSamplerState()
@@ -104,4 +113,16 @@ void CRenderMgr::CreateBlendState()
 	tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	m_arrBlendState[(UINT)BLEND_TYPE::ALPHABLEND]->Create(&tDesc);
+}
+
+void CRenderMgr::UpdateLight3D()
+{
+	static CConstBuffer* pLightBuffer = CDevice::GetInst()->FindConstBuffer(L"Light3D");
+
+	pLightBuffer->AddData(m_arrLight3DInfo, sizeof(tLight3DInfo) * 100);
+	pLightBuffer->AddData(&m_iLight3DCount, sizeof(int));
+	pLightBuffer->UpdateData();
+	pLightBuffer->SetRegisterAll();
+
+	m_iLight3DCount = 0;
 }

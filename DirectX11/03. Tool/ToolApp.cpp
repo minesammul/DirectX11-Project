@@ -148,6 +148,7 @@ int CToolApp::ExitInstance()
 #include <Camera.h>
 #include <Animator2D.h>
 #include <Collider2D.h>
+#include <Light3D.h>
 
 void CToolApp::CreateTestScene()
 {
@@ -169,6 +170,20 @@ void CToolApp::CreateTestScene()
 
 	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
 	pCurScene->AddObject(L"Default", pParent);
+
+	CGameObject* pLightObj = new CGameObject;
+	pLightObj->SetName(L"Directional Light");
+	pLightObj->AddComponent(new CTransform);
+	pLightObj->AddComponent(new CLight3D);
+
+	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
+	pLightObj->Light3D()->SetLightDir(Vec3(1.f, 1.f, 1.f));
+	pLightObj->Light3D()->SetLightColor(Vec3(1.f, 0.8f, 0.7f));
+
+	//pLightObj->Light3D()->SetLightRange(1000.f);
+	//pLightObj->Light3D()->SetLightAngle(XM_PI / 4.f);
+
+	pCurScene->AddObject(L"Default", pLightObj);
 }
 
 // CToolApp 메시지 처리기

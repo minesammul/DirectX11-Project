@@ -37,6 +37,10 @@ enum class COMPONENT_TYPE
 
 	CAMERA,		// 카메라
 
+	LIGHT2D,
+
+	LIGHT3D,	// 3D 광원체
+
 	COLLIDER2D, // 2차원 충돌체
 
 	COLLIDER3D, 
@@ -152,5 +156,13 @@ enum class DIR_TYPE
 	DIR_RIGHT,
 	DIR_UP,
 	DIR_FRONT,
+	END,
+};
+
+enum class LIGHT_TYPE
+{
+	DIRECTIONAL,
+	POINT,
+	SPOT,
 	END,
 };

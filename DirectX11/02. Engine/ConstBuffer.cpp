@@ -40,7 +40,7 @@ void CConstBuffer::Create(UINT _iSize, UINT _iRegiserNum)
 	m_pSysMem = malloc(m_iSize);
 }
 
-void CConstBuffer::AddData(void * _pSrc, UINT _iSize)
+void CConstBuffer::AddData(const void * _pSrc, UINT _iSize)
 {
 	assert(!(m_iSize < m_iCurSize + _iSize));
 

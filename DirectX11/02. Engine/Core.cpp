@@ -43,6 +43,8 @@ int CCore::init(HWND _hWnd, bool _bWindowed)
 	CDevice::GetInst()->CreateConstBuffer(L"ShaderParam", sizeof(tShaderParam), 1);
 	CDevice::GetInst()->CreateConstBuffer(L"Anim2D", sizeof(tAnim2D), 2);
 	CDevice::GetInst()->CreateConstBuffer(L"Global", sizeof(tGlobalValue), 3);
+	CDevice::GetInst()->CreateConstBuffer(L"Light3D", sizeof(tLight3DInfo) * 100 + 16, 4);
+
 		
 	SetRenderMode(true);
 	SetState(SCENE_STATE::STOP);

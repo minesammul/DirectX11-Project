@@ -16,7 +16,7 @@ private:
 
 public:
 	void Create(UINT _iSize, UINT _iRegiserNum);	
-	void AddData(void* _pSrc, UINT _iSize);
+	void AddData(const void* _pSrc, UINT _iSize);
 	void UpdateData();
 	void SetRegister(UINT _iShaderType);
 	void SetRegisterAll();
