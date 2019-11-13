@@ -40,7 +40,7 @@ void CResMgr::CreateDefaultMesh()
 	// Rect Mesh
 	// ==========
 	vector<VTX> vecVtx;	VTX v;
-	vector<WORD> vecIdx;
+	vector<UINT> vecIdx;
 
 	// 0 --- 1
 	// |  \  |
@@ -76,7 +76,7 @@ void CResMgr::CreateDefaultMesh()
 
 	CMesh* pMesh = new CMesh;
 	pMesh->CreateMesh(sizeof(VTX), vecVtx.size(), D3D11_USAGE_DEFAULT, &vecVtx[0]
-		, sizeof(WORD), vecIdx.size(), &vecIdx[0]);
+		, sizeof(UINT), vecIdx.size(), &vecIdx[0]);
 
 	pMesh->SetName(L"RectMesh");
 	m_mapRes[(UINT)RES_TYPE::MESH].insert(make_pair(L"RectMesh", pMesh));
@@ -120,7 +120,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->CreateMesh(sizeof(VTX), vecVtx.size(), D3D11_USAGE_DEFAULT, &vecVtx[0]
-		, sizeof(WORD), vecIdx.size(), &vecIdx[0], D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+		, sizeof(UINT), vecIdx.size(), &vecIdx[0], D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 	pMesh->SetName(L"ColliderRectMesh");
 	m_mapRes[(UINT)RES_TYPE::MESH].insert(make_pair(L"ColliderRectMesh", pMesh));
@@ -164,7 +164,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->CreateMesh(sizeof(VTX), vecVtx.size(), D3D11_USAGE_DEFAULT, &vecVtx[0]
-		, sizeof(WORD), vecIdx.size(), &vecIdx[0]);
+		, sizeof(UINT), vecIdx.size(), &vecIdx[0]);
 
 	pMesh->SetName(L"CircleMesh");
 	m_mapRes[(UINT)RES_TYPE::MESH].insert(make_pair(L"CircleMesh", pMesh));

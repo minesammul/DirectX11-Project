@@ -145,7 +145,7 @@ void CMesh::render()
 	UINT iStride = m_iVtxSize;
 	UINT iOffset = 0;
 	CONTEXT->IASetVertexBuffers(0, 1, &m_pVB, &iStride, &iOffset);
-	CONTEXT->IASetIndexBuffer(m_pIB, DXGI_FORMAT_R16_UINT, 0);
+	CONTEXT->IASetIndexBuffer(m_pIB, DXGI_FORMAT_R32_UINT, 0);
 	CONTEXT->IASetPrimitiveTopology(m_eTopology);
 	CONTEXT->IASetInputLayout(m_pLayout);
 
