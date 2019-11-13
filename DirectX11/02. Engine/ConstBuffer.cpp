@@ -64,15 +64,15 @@ void CConstBuffer::SetRegister(UINT _iShaderType)
 {
 	if (_iShaderType & (UINT)SHADER_TYPE::VERTEX_SHADER)
 		CONTEXT->VSSetConstantBuffers(m_iRegister, 1, &m_pBuffer);
-	else if (_iShaderType & (UINT)SHADER_TYPE::HULL_SHADER)
+	if (_iShaderType & (UINT)SHADER_TYPE::HULL_SHADER)
 		CONTEXT->HSSetConstantBuffers(m_iRegister, 1, &m_pBuffer);
-	else if (_iShaderType & (UINT)SHADER_TYPE::DOMAIN_SHADER)
+	if (_iShaderType & (UINT)SHADER_TYPE::DOMAIN_SHADER)
 		CONTEXT->DSSetConstantBuffers(m_iRegister, 1, &m_pBuffer);
-	else if (_iShaderType & (UINT)SHADER_TYPE::GEOMETRY_SHADER)
+	if (_iShaderType & (UINT)SHADER_TYPE::GEOMETRY_SHADER)
 		CONTEXT->GSSetConstantBuffers(m_iRegister, 1, &m_pBuffer);
-	else if (_iShaderType & (UINT)SHADER_TYPE::COMPUTE_SHADER)
+	if (_iShaderType & (UINT)SHADER_TYPE::COMPUTE_SHADER)
 		CONTEXT->CSSetConstantBuffers(m_iRegister, 1, &m_pBuffer);
-	else if (_iShaderType & (UINT)SHADER_TYPE::PIXEL_SHADER)
+	if (_iShaderType & (UINT)SHADER_TYPE::PIXEL_SHADER)
 		CONTEXT->PSSetConstantBuffers(m_iRegister, 1, &m_pBuffer);
 }
 
