@@ -163,7 +163,7 @@ void CToolApp::CreateTestScene()
 	pTransform->SetLocalRot(Vec3(0.f, 0.f, 0.f));
 
 	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Material\\Gouraud.mtrl"));
+	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Material\\Phong.mtrl"));
 
 	pParent->AddComponent(pTransform);
 	pParent->AddComponent(pMeshRender);
@@ -176,11 +176,10 @@ void CToolApp::CreateTestScene()
 	pLightObj->AddComponent(new CTransform);
 	pLightObj->AddComponent(new CLight3D);
 
-	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
+	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::POINT);
 	pLightObj->Light3D()->SetLightDir(Vec3(1.f, 1.f, 1.f));
 	pLightObj->Light3D()->SetLightColor(Vec3(1.f, 0.8f, 0.7f));
-
-	//pLightObj->Light3D()->SetLightRange(1000.f);
+	pLightObj->Light3D()->SetLightRange(2000.f);
 	//pLightObj->Light3D()->SetLightAngle(XM_PI / 4.f);
 
 	pCurScene->AddObject(L"Default", pLightObj);
