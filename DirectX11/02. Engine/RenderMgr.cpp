@@ -58,7 +58,7 @@ void CRenderMgr::render()
 void CRenderMgr::render_tool()
 {
 	// 장치 색상 초기화
-	float arrCol[4] = { 0.6f, 0.6f, 0.6f, 1.f };
+	float arrCol[4] = { 0.0f, 0.f, 0.f, 1.f };
 	CDevice::GetInst()->Clear(arrCol);
 
 	// 광원 정보 상수버퍼에 업데이트
