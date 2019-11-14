@@ -579,22 +579,13 @@ void CResMgr::CreateDefaultShader()
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 
 	// ==============
-	// Gouraud Shader
-	// ==============
-	pShader = new CShader;
-	pShader->CreateVertexShader(L"Shader\\std3d.fx", "VS_Gouraud", 5, 0);
-	pShader->CreatePixelShader(L"Shader\\std3d.fx", "PS_Gouraud", 5, 0);
-
-	strKey = L"GouraudShader";
-	pShader->SetName(strKey);
-	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
-
-	// ==============
 	// Phong Shader
 	// ==============
 	pShader = new CShader;
 	pShader->CreateVertexShader(L"Shader\\std3d.fx", "VS_Phong", 5, 0);
 	pShader->CreatePixelShader(L"Shader\\std3d.fx", "PS_Phong", 5, 0);
+
+	pShader->AddParam(SHADER_PARAM::TEX_0, L"Diffuse Texture");
 
 	strKey = L"PhongShader";
 	pShader->SetName(strKey);
@@ -623,11 +614,6 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"Std2DMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"Std2DShader"));
-	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
-
-	pMtrl = new CMaterial;
-	pMtrl->SetName(L"Material\\Gouraud.mtrl");
-	pMtrl->SetShader(FindRes<CShader>(L"GouraudShader"));
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
 	pMtrl = new CMaterial;

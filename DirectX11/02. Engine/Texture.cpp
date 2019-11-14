@@ -26,12 +26,12 @@ void CTexture::Load(const wstring & _strFilePath)
 	HRESULT hRet = S_OK;
 
 	// dds
-	if (!wcscmp(szExt, L".dds") && !wcscmp(szExt, L".DDS"))
+	if (!wcscmp(szExt, L".dds") || !wcscmp(szExt, L".DDS"))
 	{
 		hRet = LoadFromDDSFile(_strFilePath.c_str(), DDS_FLAGS_NONE, nullptr, m_Image);
 	}
 	// tga
-	else if (!wcscmp(szExt, L".tga") && !wcscmp(szExt, L".TGA"))
+	else if (!wcscmp(szExt, L".tga") || !wcscmp(szExt, L".TGA"))
 	{
 		hRet = LoadFromTGAFile(_strFilePath.c_str(), nullptr, m_Image);
 	}

@@ -88,7 +88,9 @@ void ResourceDlg::LoadResource(CString _strFolderPath)
 			if (!wcscmp(pExt, L".png")
 				|| !wcscmp(pExt, L".bmp")
 				|| !wcscmp(pExt, L".jpg")
-				|| !wcscmp(pExt, L".jpeg"))
+				|| !wcscmp(pExt, L".jpeg")
+				|| !wcscmp(pExt, L".tga")
+				|| !wcscmp(pExt, L".dds"))
 			{
 				CResMgr::GetInst()->Load<CTexture>(strKey, strKey);
 			}
