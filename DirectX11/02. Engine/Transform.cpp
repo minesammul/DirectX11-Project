@@ -17,8 +17,8 @@ CTransform::~CTransform()
 
 const Vec3 & CTransform::GetWorldPos()
 {
-	const Vec3 vec3zero = Vec3(0.f, 0.f, 0.f);
-	XMVector3TransformCoord(vec3zero, m_matWorld);
+	static Vec3 vec3zero = Vec3(0.f, 0.f, 0.f);
+	vec3zero = XMVector3TransformCoord(vec3zero, m_matWorld);
 	return vec3zero;
 }
 
