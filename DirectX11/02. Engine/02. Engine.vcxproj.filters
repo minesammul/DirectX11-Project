@@ -319,5 +319,8 @@
     <FxCompile Include="std3d.fx">
       <Filter>ShaderCode</Filter>
     </FxCompile>
+    <FxCompile Include="func.fx">
+      <Filter>ShaderCode</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
