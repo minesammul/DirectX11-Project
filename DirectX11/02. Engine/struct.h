@@ -65,12 +65,14 @@ struct tGlobalValue
 
 struct tLight3DInfo
 {
-	Vec3		vPos;
+	Vec4		vDiff;
+	Vec4		vSpec;
+	Vec4		vAmb;
+
+	Vec4		vPos;
+	Vec4		vDir; // 방향성, spot
 	UINT		iType;
-
-	Vec3		vDir; // 방향성, spot
 	float		fRange; // 점광원, Spot
-
-	Vec3		vColor;
 	float		fAngle; // Spot
+	UINT		iPadding;
 };

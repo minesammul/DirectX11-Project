@@ -164,6 +164,8 @@ void CToolApp::CreateTestScene()
 
 	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
 	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Material\\Phong.mtrl"));
+	CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\TILE_01.tga");
+	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTex);
 
 	pParent->AddComponent(pTransform);
 	pParent->AddComponent(pMeshRender);
@@ -172,17 +174,28 @@ void CToolApp::CreateTestScene()
 	pCurScene->AddObject(L"Default", pParent);
 
 	CGameObject* pLightObj = new CGameObject;
-	pLightObj->SetName(L"Directional Light");
+	pLightObj->SetName(L"Point Light 1");
 	pLightObj->AddComponent(new CTransform);
 	pLightObj->AddComponent(new CLight3D);
 
+	pLightObj->Transform()->SetLocalPos(Vec3(-500.f, 500.f, 500.f));
 	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::POINT);
-	pLightObj->Light3D()->SetLightDir(Vec3(1.f, 1.f, 1.f));
-	pLightObj->Light3D()->SetLightColor(Vec3(1.f, 0.8f, 0.7f));
+	pLightObj->Light3D()->SetLightDir(Vec3(1.f, -1.f, 1.f));
+	pLightObj->Light3D()->SetLightDiffuse(Vec3(1.f, 0.6f, 0.6f));
+	pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));
+	pLightObj->Light3D()->SetLightAmbient(Vec3(0.15f, 0.15f, 0.15f));
 	pLightObj->Light3D()->SetLightRange(2000.f);
-	//pLightObj->Light3D()->SetLightAngle(XM_PI / 4.f);
 
 	pCurScene->AddObject(L"Default", pLightObj);
+
+	// Light 2
+	pLightObj = pLightObj->Clone();
+	pLightObj->SetName(L"Point Light 2");
+	pLightObj->Light3D()->SetLightDiffuse(Vec3(0.6f, 0.6f, 1.f));
+	pLightObj->Transform()->SetLocalPos(Vec3(500.f, 500.f, 500.f));
+
+	pCurScene->AddObject(L"Default", pLightObj);
+
 }
 
 // CToolApp 메시지 처리기

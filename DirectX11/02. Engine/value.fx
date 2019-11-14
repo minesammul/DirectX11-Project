@@ -1,14 +1,22 @@
 #ifndef _VALUE
 #define _VALUE
 
+struct tLightColor
+{
+    float4 vLightDiff; // 빛의 색상
+    float4 vLightSpec; // 반사광 세기
+    float4 vLightAmb; // 환경광 세기
+};
+
 struct tLight3D
 {
-    float3 vLightWorldPos;
+    tLightColor tColor;
+    float4 vLightWorldPos;
+    float4 vLightDir; // 방향성, spot  
     uint iLightType;
-    float3 vLightDir; // 방향성, spot
     float fLightRange; // 점광원, Spot
-    float3 vLightColor;
     float fLightAngle; // Spot
+    uint iPadding;
 };
 
 cbuffer MATRIX : register(b0)
