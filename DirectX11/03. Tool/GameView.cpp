@@ -49,7 +49,7 @@ void CGameView::init()
 	m_pToolCam->AddComponent(new CCameraEx);
 	m_pToolCam->AddComponent(new CToolCamScript);
 
-	m_pToolCam->Transform()->SetLocalPos(Vec3(500.f, 0.f, 0.f));
+	m_pToolCam->Transform()->SetLocalPos(Vec3(0.f, 0.f, 0.f));
 
 	for (int i = 0; i < MAX_LAYER; ++i)
 	{

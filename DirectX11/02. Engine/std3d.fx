@@ -54,6 +54,7 @@ float4 PS_Phong(VTX_OUT_PHONG _in) : SV_Target
     }
 
     vOutColor.rgb = (tCol.vLightDiff.rgb * vOutColor.rgb) + (tCol.vLightSpec.rgb) + (vOutColor.rgb * tCol.vLightAmb.rgb);
+    //vOutColor.rgb = (tCol.vLightDiff.rgb * vOutColor.rgb) + (tCol.vLightSpec.rgb) + (tCol.vLightAmb.rgb);
 
     return vOutColor;
 }
