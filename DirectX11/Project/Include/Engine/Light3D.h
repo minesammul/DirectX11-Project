@@ -19,8 +19,11 @@ public:
 	void SetLightSpecular(const Vec3& _vLightSpec) { m_tInfo.vSpec = _vLightSpec; }
 	void SetLightAmbient(const Vec3& _vLightAmb) { m_tInfo.vAmb = _vLightAmb; }
 	void SetLightRange(float _fRange) {m_tInfo.fRange = _fRange;}
-	void SetLightAngle(float _fAngle) { m_tInfo.fAngle = _fAngle; }
-
+	void SetLightAngle(float _fAngle)
+	{
+		float fRadian = XMConvertToRadians(_fAngle);
+		m_tInfo.fAngle = fRadian;
+	}
 
 	virtual void SaveToScene(FILE* _pFile) {};
 	virtual void LoadFromScene(FILE* _pFile) {};
