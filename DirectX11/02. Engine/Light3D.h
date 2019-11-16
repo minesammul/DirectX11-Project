@@ -14,7 +14,7 @@ public:
 
 public:
 	void SetLightType(LIGHT_TYPE _eType);
-	void SetLightDir(const Vec3& _vLightDir) { m_tInfo.vDir = _vLightDir; m_tInfo.vDir.Normalize(); }
+	void SetLightDir(const Vec3& _vLightDir) { m_tInfo.vDir = _vLightDir;}
 	void SetLightDiffuse(const Vec3& _vLightColor) { m_tInfo.vDiff = _vLightColor; }
 	void SetLightSpecular(const Vec3& _vLightSpec) { m_tInfo.vSpec = _vLightSpec; }
 	void SetLightAmbient(const Vec3& _vLightAmb) { m_tInfo.vAmb = _vLightAmb; }
