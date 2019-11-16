@@ -151,6 +151,9 @@
     <ClInclude Include="ToolCamScript.h">
       <Filter>Module</Filter>
     </ClInclude>
+    <ClInclude Include="Light3DDlg.h">
+      <Filter>04. Dialog\ComDlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -239,6 +242,9 @@
     </ClCompile>
     <ClCompile Include="ToolCamScript.cpp">
       <Filter>Module</Filter>
+    </ClCompile>
+    <ClCompile Include="Light3DDlg.cpp">
+      <Filter>04. Dialog\ComDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

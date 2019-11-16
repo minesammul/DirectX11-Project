@@ -21,7 +21,9 @@ struct VTX
 	Vec3 vPos;
 	Vec4 vColor;
 	Vec2 vUV;
-	Vec3 vNormal;
+	Vec3 vNormal;  // นýผฑ บคลอ
+	Vec3 vTangent; // มขผฑ บคลอ
+	Vec3 vBinormal;// มพนýผฑ บคลอ
 };
 
 

@@ -10,11 +10,13 @@ void CaculateLight(float3 _vViewPos, float3 _vViewNormal, int _iLightIdx, inout 
     float3 vLightViewDir = (float3) 0.f;
     float3 vViewReflectDir = (float3) 0.f;
            
+    float4 vNormalizeLightDirection = float4(g_arrLight3D[_iLightIdx].vLightDir.xyz, 0.f);
 
     if (0 == g_arrLight3D[_iLightIdx].iLightType)
     {
         // Directional Light
-        vLightViewDir = mul(float4(g_arrLight3D[_iLightIdx].vLightDir.xyz, 0.f), g_matView);
+        //vLightViewDir = mul(float4(g_arrLight3D[_iLightIdx].vLightDir.xyz, 0.f), g_matView);
+        vLightViewDir = mul(vNormalizeLightDirection, g_matView);
         fPow = saturate(dot(-vLightViewDir, _vViewNormal));
 
         // 광원에서 오는 방향 벡터를 노발 벡터 쪽으로 투영시킨 길이
@@ -55,7 +57,9 @@ void CaculateLight(float3 _vViewPos, float3 _vViewNormal, int _iLightIdx, inout 
         // Spot Light
         float3 vLightViewPos = mul(float4(g_arrLight3D[_iLightIdx].vLightWorldPos.xyz, 1.f), g_matView);
         
-        float3 vLightViewiDirection = mul(float4(g_arrLight3D[_iLightIdx].vLightDir.xyz, 0.f), g_matView);
+        //float3 vLightViewiDirection = mul(float4(g_arrLight3D[_iLightIdx].vLightDir.xyz, 0.f), g_matView);
+        float3 vLightViewiDirection = mul(vNormalizeLightDirection, g_matView);
+        
         vLightViewiDirection = normalize(vLightViewiDirection);
 
         vLightViewDir = _vViewPos - vLightViewPos;

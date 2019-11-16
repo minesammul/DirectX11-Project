@@ -158,14 +158,19 @@ void CToolApp::CreateTestScene()
 	CTransform* pTransform = new CTransform;
 	CMeshRender* pMeshRender = new CMeshRender;
 
-	pTransform->SetLocalPos(Vec3(0.f, 0.f, 800.f));
-	pTransform->SetLocalScale(Vec3(500.f, 500.f, 500.f));
+	pTransform->SetLocalPos(Vec3(0.f, 0.f, 1500.f));
+	pTransform->SetLocalScale(Vec3(1000.f, 1000.f, 1000.f));
+	//pTransform->SetLocalRot(Vec3(XM_PI / 2.f, 0.f, 0.f));
 	pTransform->SetLocalRot(Vec3(0.f, 0.f, 0.f));
 
-	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Material\\Phong.mtrl"));
+
 	CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\TILE_01.tga");
 	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTex);
+
+	pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\TILE_01_N.tga");
+	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &pTex);
 
 	pParent->AddComponent(pTransform);
 	pParent->AddComponent(pMeshRender);
@@ -174,12 +179,13 @@ void CToolApp::CreateTestScene()
 	pCurScene->AddObject(L"Default", pParent);
 
 	CGameObject* pLightObj = new CGameObject;
-	pLightObj->SetName(L"Point Light 1");
+	pLightObj->SetName(L"Direction Light");
 	pLightObj->AddComponent(new CTransform);
 	pLightObj->AddComponent(new CLight3D);
 
-	pLightObj->Transform()->SetLocalPos(Vec3(0.f, 0.f, 100.f));
-	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::SPOT);
+	pLightObj->Transform()->SetLocalPos(Vec3(0.f, 0.f, 500.f));
+	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
+	/*pLightObj->Light3D()->SetLightDir(Vec3(1.f, -1.f, 1.f));*/
 	pLightObj->Light3D()->SetLightDir(Vec3(0.f, 0.f, 1.f));
 	pLightObj->Light3D()->SetLightDiffuse(Vec3(1.f, 1.f, 1.f));
 	pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));

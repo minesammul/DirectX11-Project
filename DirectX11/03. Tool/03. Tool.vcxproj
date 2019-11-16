@@ -212,6 +212,7 @@
     <ClInclude Include="GameObjectEx.h" />
     <ClInclude Include="GameView.h" />
     <ClInclude Include="HierachyView.h" />
+    <ClInclude Include="Light3DDlg.h" />
     <ClInclude Include="ListDlg.h" />
     <ClInclude Include="MaterialDlg.h" />
     <ClInclude Include="MeshRenderDlg.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="GameObjectEx.cpp" />
     <ClCompile Include="GameView.cpp" />
     <ClCompile Include="HierachyView.cpp" />
+    <ClCompile Include="Light3DDlg.cpp" />
     <ClCompile Include="ListDlg.cpp" />
     <ClCompile Include="MaterialDlg.cpp" />
     <ClCompile Include="MeshRenderDlg.cpp" />
