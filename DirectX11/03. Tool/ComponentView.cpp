@@ -16,6 +16,7 @@
 #include "MaterialDlg.h"
 #include "AddComponentDlg.h"
 #include "Collider2DDlg.h"
+#include "Light3DDlg.h"
 
 #include <TimeMgr.h>
 #include <Resource.h>
@@ -51,6 +52,10 @@ int CComponentView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_arrComDlg[(UINT)DLG_TYPE::CAMERA] = new CCameraDlg;
 	m_arrComDlg[(UINT)DLG_TYPE::CAMERA]->Create(IDD_CAMERADLG, this);
 	m_arrComDlg[(UINT)DLG_TYPE::CAMERA]->ShowWindow(false);
+
+	m_arrComDlg[(UINT)DLG_TYPE::LIGHT3D] = new CLight3DDlg;
+	m_arrComDlg[(UINT)DLG_TYPE::LIGHT3D]->Create(IDD_LIGHT3DDLG, this);
+	m_arrComDlg[(UINT)DLG_TYPE::LIGHT3D]->ShowWindow(false);
 
 	m_arrComDlg[(UINT)DLG_TYPE::COLLIDER2D] = new Collider2DDlg;
 	m_arrComDlg[(UINT)DLG_TYPE::COLLIDER2D]->Create(IDD_COLLIDER2DDLG, this);
