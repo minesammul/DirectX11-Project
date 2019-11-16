@@ -124,6 +124,30 @@ void CMesh::CreateMesh(UINT _iVtxSize, UINT _iVtxCount, D3D11_USAGE _eVtxUsage, 
 	m_vecLayout.push_back(tLayoutDesc);
 
 	iByteOffset += sizeof(Vec3);
+
+	tLayoutDesc.AlignedByteOffset = iByteOffset;
+	tLayoutDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	tLayoutDesc.InputSlot = 0;
+	tLayoutDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	tLayoutDesc.InstanceDataStepRate = 0;
+	tLayoutDesc.SemanticName = "TANGENT";
+	tLayoutDesc.SemanticIndex = 0;
+
+	m_vecLayout.push_back(tLayoutDesc);
+
+	iByteOffset += sizeof(Vec3);
+
+	tLayoutDesc.AlignedByteOffset = iByteOffset;
+	tLayoutDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	tLayoutDesc.InputSlot = 0;
+	tLayoutDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	tLayoutDesc.InstanceDataStepRate = 0;
+	tLayoutDesc.SemanticName = "BINORMAL";
+	tLayoutDesc.SemanticIndex = 0;
+
+	m_vecLayout.push_back(tLayoutDesc);
+
+	iByteOffset += sizeof(Vec3);
 }
 
 void CMesh::SetLayout(CResPtr<CShader> _pShader)

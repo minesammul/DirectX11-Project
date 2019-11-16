@@ -48,21 +48,33 @@ void CResMgr::CreateDefaultMesh()
 
 	v.vPos = Vec3(-0.5f, 0.5f, 0.f);
 	v.vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	v.vNormal = Vec3(0.f, 0.f, -1.f);
+	v.vTangent = Vec3(1.f, 0.f, 0.f);
+	v.vBinormal = Vec3(0.f, -1.f, 0.f);
 	v.vUV = Vec2(0.f, 0.f);
 	vecVtx.push_back(v);
 
 	v.vPos = Vec3(0.5f, 0.5f, 0.f);
 	v.vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	v.vNormal = Vec3(0.f, 0.f, -1.f);
+	v.vTangent = Vec3(1.f, 0.f, 0.f);
+	v.vBinormal = Vec3(0.f, -1.f, 0.f);
 	v.vUV = Vec2(1.f, 0.f);
 	vecVtx.push_back(v);
 
 	v.vPos = Vec3(-0.5f, -0.5f, 0.f);
 	v.vColor = Vec4(0.f, 0.f, 1.f, 1.f);
+	v.vNormal = Vec3(0.f, 0.f, -1.f);
+	v.vTangent = Vec3(1.f, 0.f, 0.f);
+	v.vBinormal = Vec3(0.f, -1.f, 0.f);
 	v.vUV = Vec2(0.f, 1.f);
 	vecVtx.push_back(v);
 
 	v.vPos = Vec3(0.5f, -0.5f, 0.f);
 	v.vColor = Vec4(0.5f, 0.5f, 0.f, 1.f);
+	v.vNormal = Vec3(0.f, 0.f, -1.f);
+	v.vTangent = Vec3(1.f, 0.f, 0.f);
+	v.vBinormal = Vec3(0.f, -1.f, 0.f);
 	v.vUV = Vec2(1.f, 1.f);
 	vecVtx.push_back(v);
 
@@ -338,8 +350,8 @@ void CResMgr::CreateDefaultMesh()
 	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
 	v.vNormal = v.vPos;
 	v.vNormal.Normalize();
-	//v.vTangent = Vec3(1.f, 0.f, 0.f);
-	//v.vBinormal = Vec3(0.f, 0.f, 1.f);
+	v.vTangent = Vec3(1.f, 0.f, 0.f);
+	v.vBinormal = Vec3(0.f, 0.f, 1.f);
 	vecVtx.push_back(v);
 
 	// Body
@@ -368,13 +380,13 @@ void CResMgr::CreateDefaultMesh()
 			v.vNormal = v.vPos;
 			v.vNormal.Normalize();
 
-			//v.vTangent.x = -fRadius * sinf(phi) * sinf(theta);
-			//v.vTangent.y = 0.f;
-			//v.vTangent.z = fRadius * sinf(phi) * cosf(theta);
-			//v.vTangent.Normalize();
+			v.vTangent.x = -fRadius * sinf(phi) * sinf(theta);
+			v.vTangent.y = 0.f;
+			v.vTangent.z = fRadius * sinf(phi) * cosf(theta);
+			v.vTangent.Normalize();
 
-			//v.vTangent.Cross(v.vNormal, v.vBinormal);
-			//v.vBinormal.Normalize();
+			v.vTangent.Cross(v.vNormal, v.vBinormal);
+			v.vBinormal.Normalize();
 
 			vecVtx.push_back(v);
 		}
@@ -387,8 +399,8 @@ void CResMgr::CreateDefaultMesh()
 	v.vNormal = v.vPos;
 	v.vNormal.Normalize();
 
-	//v.vTangent = Vec3(1.f, 0.f, 0.f);
-	//v.vBinormal = Vec3(0.f, 0.f, -1.f);
+	v.vTangent = Vec3(1.f, 0.f, 0.f);
+	v.vBinormal = Vec3(0.f, 0.f, -1.f);
 	vecVtx.push_back(v);
 
 	// ÀÎµ¦½º
@@ -586,6 +598,7 @@ void CResMgr::CreateDefaultShader()
 	pShader->CreatePixelShader(L"Shader\\std3d.fx", "PS_Phong", 5, 0);
 
 	pShader->AddParam(SHADER_PARAM::TEX_0, L"Diffuse Texture");
+	pShader->AddParam(SHADER_PARAM::TEX_1, L"Normal Texture");
 
 	strKey = L"PhongShader";
 	pShader->SetName(strKey);
