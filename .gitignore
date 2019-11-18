@@ -7,3 +7,4 @@
 *.log
 DirectX11/bin/content/Texture/
 DirectX11/.vs/
+DirectX11/bin/content/

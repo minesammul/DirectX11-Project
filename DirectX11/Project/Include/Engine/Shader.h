@@ -27,7 +27,7 @@ class CShader :
 	ID3D11PixelShader *		m_pPS;
 
 	CBlendState*			m_pBlendState;
-
+	RS_TYPE					m_eRSType;
 	vector<tPramInfo>		m_vecParam;
 
 public:
@@ -44,6 +44,7 @@ public:
 	ID3D11PixelShader *		GetPS() { return m_pPS; }
 
 	void SetBlendState(CBlendState* _pBlendState) { m_pBlendState = _pBlendState; }
+	void SetRSType(RS_TYPE _eType) { m_eRSType = _eType; }
 
 public:
 	void CreateVertexShader(const wstring& _strFilePath, const string& _strFuncName, UINT _iHigh, UINT _iLow);

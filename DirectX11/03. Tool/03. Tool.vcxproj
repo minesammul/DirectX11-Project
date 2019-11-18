@@ -211,6 +211,7 @@
     <ClInclude Include="GameObjectDlg.h" />
     <ClInclude Include="GameObjectEx.h" />
     <ClInclude Include="GameView.h" />
+    <ClInclude Include="GridScript.h" />
     <ClInclude Include="HierachyView.h" />
     <ClInclude Include="Light3DDlg.h" />
     <ClInclude Include="ListDlg.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="GameObjectDlg.cpp" />
     <ClCompile Include="GameObjectEx.cpp" />
     <ClCompile Include="GameView.cpp" />
+    <ClCompile Include="GridScript.cpp" />
     <ClCompile Include="HierachyView.cpp" />
     <ClCompile Include="Light3DDlg.cpp" />
     <ClCompile Include="ListDlg.cpp" />

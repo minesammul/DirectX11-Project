@@ -154,6 +154,9 @@
     <ClInclude Include="Light3DDlg.h">
       <Filter>04. Dialog\ComDlg</Filter>
     </ClInclude>
+    <ClInclude Include="GridScript.h">
+      <Filter>Module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -245,6 +248,9 @@
     </ClCompile>
     <ClCompile Include="Light3DDlg.cpp">
       <Filter>04. Dialog\ComDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="GridScript.cpp">
+      <Filter>Module</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

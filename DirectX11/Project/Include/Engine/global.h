@@ -35,3 +35,5 @@ typedef Vector4 Vec4;
 extern tTransform g_transform;
 extern tAnim2D g_anim2d;
 extern tGlobalValue g_global;
+
+#include "func.h"

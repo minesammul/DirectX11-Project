@@ -322,5 +322,8 @@
     <FxCompile Include="func.fx">
       <Filter>ShaderCode</Filter>
     </FxCompile>
+    <FxCompile Include="tool.fx">
+      <Filter>ShaderCode</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
