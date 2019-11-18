@@ -6,6 +6,7 @@
 #include "Device.h"
 
 #include "BlendState.h"
+#include "RenderMgr.h"
 
 CShader::CShader()
 	: m_pVSBlob(nullptr)
@@ -21,6 +22,7 @@ CShader::CShader()
 	, m_pPS	(nullptr)
 	, m_pBlendState(nullptr)
 	, CResource(RES_TYPE::SHADER)
+	, m_eRSType(RS_TYPE::CULL_BACK)
 {
 }
 
@@ -110,4 +112,6 @@ void CShader::UpdateData()
 		m_pBlendState->UpdateData();
 	else
 		CBlendState::UpdateDefaultData();
+
+	CRenderMgr::GetInst()->SetRSState(m_eRSType);
 }

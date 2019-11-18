@@ -24,12 +24,14 @@ CRenderMgr::~CRenderMgr()
 {
 	Safe_Delete_Array(m_arrSampler);
 	Safe_Delete_Array(m_arrBlendState);
+	Safe_Release_Array(m_arrRSState);
 }
 
 void CRenderMgr::init()
 {
 	CreateSamplerState();
 	CreateBlendState();
+	CreateRSState();
 }
 
 void CRenderMgr::render()
@@ -63,6 +65,11 @@ void CRenderMgr::render_tool()
 
 	// 광원 정보 상수버퍼에 업데이트
 	UpdateLight3D();
+}
+
+void CRenderMgr::SetRSState(RS_TYPE _eType)
+{
+	CONTEXT->RSSetState(m_arrRSState[(UINT)_eType]);
 }
 
 void CRenderMgr::CreateSamplerState()
@@ -125,4 +132,27 @@ void CRenderMgr::UpdateLight3D()
 	pLightBuffer->SetRegisterAll();
 
 	m_iLight3DCount = 0;
+}
+
+void CRenderMgr::CreateRSState()
+{
+	// Rasterizer State
+	m_arrRSState[(UINT)RS_TYPE::CULL_BACK] = nullptr;
+
+	ID3D11RasterizerState* pRSState = nullptr;
+	D3D11_RASTERIZER_DESC tRSDesc = {};
+	tRSDesc.CullMode = D3D11_CULL_FRONT;
+	tRSDesc.FillMode = D3D11_FILL_SOLID;
+	DEVICE->CreateRasterizerState(&tRSDesc, &pRSState);
+	m_arrRSState[(UINT)RS_TYPE::CULL_FRONT] = pRSState;
+
+	tRSDesc.CullMode = D3D11_CULL_NONE;
+	tRSDesc.FillMode = D3D11_FILL_SOLID;
+	DEVICE->CreateRasterizerState(&tRSDesc, &pRSState);
+	m_arrRSState[(UINT)RS_TYPE::CULL_NONE] = pRSState;
+
+	tRSDesc.CullMode = D3D11_CULL_NONE;
+	tRSDesc.FillMode = D3D11_FILL_WIREFRAME;
+	DEVICE->CreateRasterizerState(&tRSDesc, &pRSState);
+	m_arrRSState[(UINT)RS_TYPE::WIREFRAME] = pRSState;
 }

@@ -78,6 +78,15 @@ enum class BLEND_TYPE
 	END,
 };
 
+enum class RS_TYPE
+{
+	CULL_BACK,  // CULL_CCW
+	CULL_FRONT, // CULL_CW
+	CULL_NONE,  // CULL_NONE
+	WIREFRAME,  // CULL_NONE
+	END,
+};
+
 enum class COLLIDER2D_TYPE
 {
 	RECT,
