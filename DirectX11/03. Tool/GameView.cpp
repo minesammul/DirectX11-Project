@@ -16,9 +16,10 @@
 #include <Engine/Layer.h>
 #include <Engine/Device.h>
 #include <Engine/Core.h>
+#include <Engine/RenderMgr.h>
 
 #include "ToolCamScript.h"
-
+#include "GridScript.h"
 // CGameView
 
 IMPLEMENT_DYNCREATE(CGameView, CView)
@@ -34,6 +35,9 @@ CGameView::CGameView()
 CGameView::~CGameView()
 {
 	SAFE_DELETE(m_pToolCam);
+	Safe_Delete_Vec(m_vecToolObj);
+	SAFE_DELETE(m_pGridMtrl);
+	SAFE_DELETE(m_pGridShader);
 }
 
 BEGIN_MESSAGE_MAP(CGameView, CView)
@@ -43,6 +47,23 @@ END_MESSAGE_MAP()
 
 void CGameView::init()
 {
+	// Tool Resource
+	m_pGridShader = new CShader;
+
+	m_pGridShader->CreateVertexShader(L"Shader\\tool.fx", "VS_Grid", 5, 0);
+	m_pGridShader->CreatePixelShader(L"Shader\\tool.fx", "PS_Grid", 5, 0);
+	m_pGridShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
+	m_pGridShader->SetRSType(RS_TYPE::CULL_NONE);
+	//m_pGridShader->AddParam(SHADER_PARAM::, L"");
+	//m_pGridShader->AddParam(SHADER_PARAM::, L"");
+	m_pGridShader->SetName(L"GridShader");
+
+	m_pGridMtrl = new CMaterial;
+	m_pGridMtrl->SetName(L"GridMtrl");
+	m_pGridMtrl->SetShader(m_pGridShader);
+
+
+	// Tool Camera
 	m_pToolCam = new CGameObjectEx;
 
 	m_pToolCam->AddComponent(new CTransform);
@@ -56,6 +77,21 @@ void CGameView::init()
 		m_pToolCam->Camera()->CheckLayer(i);
 	}
 
+	// Tool Object
+	// Grid Object
+	CGameObject* pGridObj = new CGameObjectEx;
+
+	pGridObj->AddComponent(new CTransform);
+	pGridObj->AddComponent(new CMeshRender);
+	pGridObj->AddComponent(new CGridScript);
+
+	pGridObj->Transform()->SetLocalScale(Vec3(100000.f, 100000.f, 1.f));
+	pGridObj->Transform()->SetLocalRot(Vec3(XM_PI / 2.f, 0.f, 0.f));
+	pGridObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pGridObj->MeshRender()->SetMaterial(m_pGridMtrl);
+
+
+	m_vecToolObj.push_back(pGridObj);
 }
 
 void CGameView::update()
@@ -69,6 +105,14 @@ void CGameView::update()
 	m_pToolCam->lateupdate();
 	m_pToolCam->finalupdate();
 
+	// Tool 전용 Object update
+	for (size_t i = 0; i < m_vecToolObj.size(); ++i)
+	{
+		m_vecToolObj[i]->update();
+		m_vecToolObj[i]->lateupdate();
+		m_vecToolObj[i]->finalupdate();
+	}
+
 	g_transform.matView = m_pToolCam->Camera()->GetViewMat();
 	g_transform.matProj = m_pToolCam->Camera()->GetProjMat();
 
@@ -81,6 +125,12 @@ void CGameView::update()
 
 		if (m_pToolCam->Camera()->IsValiedLayer(i))
 			pCurScene->GetLayer(i)->render();
+	}
+
+	// Tool 전용 Object render
+	for (size_t i = 0; i < m_vecToolObj.size(); ++i)
+	{
+		m_vecToolObj[i]->render();
 	}
 
 	CDevice::GetInst()->Present();

@@ -1,5 +1,6 @@
 ﻿#pragma once
-
+#include <Engine/Material.h>
+#include <Engine/Shader.h>
 
 // CGameView 보기
 class CGameObject;
@@ -8,6 +9,10 @@ class CGameView : public CView
 	DECLARE_DYNCREATE(CGameView)
 private:
 	CGameObject*	m_pToolCam;
+	vector<CGameObject*>	m_vecToolObj;
+
+	CMaterial*				m_pGridMtrl;
+	CShader*				m_pGridShader;
 
 public:
 	void init();
