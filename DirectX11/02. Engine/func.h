@@ -9,6 +9,15 @@ void Safe_Delete_Array(T* (&_pArr)[iSize])
 	}
 }
 
+template<typename T, int iSize>
+void Safe_Release_Array(T* (&_pArr)[iSize])
+{
+	for (int i = 0; i < iSize; ++i)
+	{
+		SAFE_RELEASE(_pArr[i]);
+	}
+}
+
 template<typename T>
 void Safe_Delete_Vec(vector<T> _vec)
 {
