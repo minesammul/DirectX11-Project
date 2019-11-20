@@ -51,7 +51,6 @@ struct tAnim2D
 struct tShaderParam
 {
 	int  arrInt[4];
-	int referenceTileIndex[1024];
 	float arrFloat[4];
 	Vec2 arrVec2[4];
 	Vec4 arrVec4[4];
