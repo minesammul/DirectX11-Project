@@ -7,6 +7,8 @@
 CTexture::CTexture()
 	: m_pSRV(nullptr)
 	, m_pTex2D(nullptr)
+	, m_pRTV(nullptr)
+	, m_pDSV(nullptr)
 	, CResource(RES_TYPE::TEXTURE)
 {
 }
@@ -14,6 +16,8 @@ CTexture::CTexture()
 CTexture::~CTexture()
 {
 	SAFE_RELEASE(m_pSRV);
+	SAFE_RELEASE(m_pRTV);
+	SAFE_RELEASE(m_pDSV);
 	SAFE_RELEASE(m_pTex2D);
 }
 
@@ -89,4 +93,44 @@ void CTexture::ClearRegister(UINT _iRegister, UINT _iShaderType)
 		CONTEXT->VSSetShaderResources(_iRegister, 1, &pView);
 	if ((UINT)SHADER_TYPE::PIXEL_SHADER & _iShaderType)
 		CONTEXT->PSSetShaderResources(_iRegister, 1, &pView);	
+}
+
+
+void CTexture::Create(UINT _iWidth, UINT _iHeight, UINT _iBindFlag, D3D11_USAGE _eUsage, DXGI_FORMAT _eFormat)
+{
+	m_iBindFlag = _iBindFlag;
+
+	// DepthStencil Texture
+	D3D11_TEXTURE2D_DESC tTexDesc = {};
+
+	// RenderTarget 과 같은 해상도로 설정
+	tTexDesc.Width = _iWidth;
+	tTexDesc.Height = _iHeight;
+	tTexDesc.MipLevels = 1;
+	tTexDesc.ArraySize = 1;
+	tTexDesc.Format = _eFormat;
+	tTexDesc.SampleDesc.Count = 4;
+	tTexDesc.SampleDesc.Quality = 0;
+	tTexDesc.Usage = _eUsage;			// 메모리 사용 용도(읽기, 쓰기 관련)
+	tTexDesc.BindFlags = _iBindFlag;  // Texture  가 DepthStencil 용도로 사용될 것을 알림
+
+	DEVICE->CreateTexture2D(&tTexDesc, nullptr, &m_pTex2D);
+
+	// DepthStencil View
+	if (m_iBindFlag & D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
+	{
+		DEVICE->CreateDepthStencilView(m_pTex2D, nullptr, &m_pDSV);
+	}
+	else
+	{
+		if (m_iBindFlag & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
+		{
+			DEVICE->CreateRenderTargetView(m_pTex2D, nullptr, &m_pRTV);
+		}
+
+		if (m_iBindFlag & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
+		{
+			DEVICE->CreateShaderResourceView(m_pTex2D, nullptr, &m_pSRV);
+		}
+	}
 }

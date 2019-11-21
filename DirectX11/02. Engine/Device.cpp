@@ -2,14 +2,14 @@
 #include "Device.h"
 
 #include "ConstBuffer.h"
+#include "ResMgr.h"
 
 CDevice::CDevice()
 	: m_pDevice(nullptr)
 	, m_pContext(nullptr)
 	, m_pSwapChain(nullptr)
 	, m_pRenderTargetView(nullptr)
-	, m_pDepthStencilTex(nullptr)
-	, m_pDepthStencilView(nullptr)
+	, m_pDepthTex(nullptr)
 	, m_iQuality(0)
 {
 }
@@ -21,9 +21,6 @@ CDevice::~CDevice()
 
 	SAFE_RELEASE(m_pSwapChain);
 	SAFE_RELEASE(m_pRenderTargetView);
-
-	SAFE_RELEASE(m_pDepthStencilTex);
-	SAFE_RELEASE(m_pDepthStencilView);
 
 	Safe_Delete_Map(m_mapConstBuffer);
 }
@@ -98,29 +95,14 @@ int CDevice::init(HWND _hWnd, const tResolution& _tRes, bool _bWindowed)
 	m_pDevice->CreateRenderTargetView(pRenderTargetTex, nullptr, &m_pRenderTargetView);
 	   
 	   	 	
-	// DepthStencil Texture
-	D3D11_TEXTURE2D_DESC tTexDesc = {};
+	m_pDepthTex = CResMgr::GetInst()->CreateTexture(L"DepthStencilTex", (UINT)_tRes.fWidth, (UINT)_tRes.fHeight
+		, D3D11_BIND_DEPTH_STENCIL, D3D11_USAGE_DEFAULT, DXGI_FORMAT_D24_UNORM_S8_UINT);
 
-	// RenderTarget 과 같은 해상도로 설정
-	tTexDesc.Width = (UINT)_tRes.fWidth;
-	tTexDesc.Height = (UINT)_tRes.fHeight;
-	tTexDesc.MipLevels = 1;
-	tTexDesc.ArraySize = 1;
-	tTexDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	tTexDesc.SampleDesc.Count = 4;
-	tTexDesc.SampleDesc.Quality = 0;
-	tTexDesc.Usage = D3D11_USAGE_DEFAULT;			// 메모리 사용 용도(읽기, 쓰기 관련)
-	tTexDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;  // Texture  가 DepthStencil 용도로 사용될 것을 알림
-
-	m_pDevice->CreateTexture2D(&tTexDesc, nullptr, &m_pDepthStencilTex);
-
-	// DepthStencil View
-	m_pDevice->CreateDepthStencilView(m_pDepthStencilTex, nullptr, &m_pDepthStencilView);
 	
 	// Output Merget State 에 RenderTagetView, DepthStencilView 전달
 	// OM 단계에 전달할 수 있는 최대 RenderTargetView 개수는 dx11 기준 8개 이다.
 	// 따라서 OMSetRenderTargets 함수는 RenderTargetView* 배열을 요구한다
-	m_pContext->OMSetRenderTargets(1, &m_pRenderTargetView, m_pDepthStencilView);
+	m_pContext->OMSetRenderTargets(1, &m_pRenderTargetView, m_pDepthTex->GetDSV());
 
 
 	// ViewPort

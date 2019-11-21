@@ -646,3 +646,18 @@ void CResMgr::AddRes(RES_TYPE _eType, CResource * _pResource)
 
 	m_mapRes[(UINT)_eType].insert(make_pair(_pResource->GetName(), _pResource));
 }
+
+CResPtr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, UINT _iWidth, UINT _iHeight
+	, UINT _iBindFlag, D3D11_USAGE _eUsage, DXGI_FORMAT _eFormat)
+{
+	CResPtr<CTexture> pTex = FindRes<CTexture>(_strKey);
+	assert(pTex == nullptr);
+
+	pTex = new CTexture;
+	pTex->Create(_iWidth, _iHeight, _iBindFlag, _eUsage, _eFormat);
+	pTex->SetName(_strKey);
+
+	m_mapRes[(UINT)RES_TYPE::TEXTURE].insert(make_pair(_strKey, pTex.GetPointer()));
+
+	return pTex;
+}
