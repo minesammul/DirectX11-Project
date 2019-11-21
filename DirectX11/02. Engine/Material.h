@@ -20,8 +20,6 @@ public:
 	tShaderParam GetParamData() { return m_param; }
 	CResPtr<CTexture>* GetTexData() { return m_arrTex; }
 
-	void SetTileData(int tileData[]);
-
 public:
 	void UpdateData();
 
