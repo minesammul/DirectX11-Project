@@ -207,6 +207,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="DepthStencilState.h" />
     <ClInclude Include="EventMgr.h" />
     <ClInclude Include="Light3D.h" />
+    <ClInclude Include="MRT.h" />
     <ClInclude Include="Prefab.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="Device.h" />
@@ -221,6 +222,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="MeshRender.h" />
     <ClInclude Include="PathMgr.h" />
     <ClInclude Include="RenderMgr.h" />
+    <ClInclude Include="RenderTarget23.h" />
     <ClInclude Include="ResMgr.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResPtr.h" />
@@ -252,6 +254,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="DepthStencilState.cpp" />
     <ClCompile Include="EventMgr.cpp" />
     <ClCompile Include="Light3D.cpp" />
+    <ClCompile Include="MRT.cpp" />
     <ClCompile Include="Prefab.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -264,6 +267,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="MeshRender.cpp" />
     <ClCompile Include="PathMgr.cpp" />
     <ClCompile Include="RenderMgr.cpp" />
+    <ClCompile Include="RenderTarget23.cpp" />
     <ClCompile Include="ResMgr.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResPtr.cpp" />

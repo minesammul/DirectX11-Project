@@ -186,6 +186,12 @@
     <ClInclude Include="Light3D.h">
       <Filter>EngineCode\03. GameObject\Component</Filter>
     </ClInclude>
+    <ClInclude Include="RenderTarget23.h">
+      <Filter>EngineCode\05. Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MRT.h">
+      <Filter>EngineCode\05. Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="func.cpp">
@@ -304,6 +310,12 @@
     </ClCompile>
     <ClCompile Include="Light3D.cpp">
       <Filter>EngineCode\03. GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTarget23.cpp">
+      <Filter>EngineCode\05. Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="MRT.cpp">
+      <Filter>EngineCode\05. Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
