@@ -135,8 +135,7 @@ void CGameView::update()
 		m_vecToolObj[i]->render();
 	}
 
-	CDevice::GetInst()->Present();
-
+	CRenderMgr::GetInst()->Present();
 }
 
 // CGameView 그리기

@@ -28,13 +28,14 @@ int CCore::init(HWND _hWnd, bool _bWindowed)
 	m_tRes.fHeight = (float)(rt.bottom - rt.top);
 	   
 	// Manager ÃÊ±âÈ­
-	if(FAILED(CDevice::GetInst()->init(m_hWnd, m_tRes, _bWindowed)))
+	if (FAILED(CDevice::GetInst()->init()))
 		return E_FAIL;
+
+	CRenderMgr::GetInst()->init(m_hWnd, m_tRes, _bWindowed);
 
 	CPathMgr::init();
 	CKeyMgr::GetInst()->init();
 	CTimeMgr::GetInst()->init();
-	CRenderMgr::GetInst()->init();
 	CResMgr::GetInst()->init();
 	CSceneMgr::GetInst()->init();	
 	

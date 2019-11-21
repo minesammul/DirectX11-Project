@@ -661,3 +661,17 @@ CResPtr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, UINT _iWidth, U
 
 	return pTex;
 }
+
+CResPtr<CTexture> CResMgr::CreateTexture(const wstring & _strKey, ID3D11Texture2D * _pTex2D)
+{
+	CResPtr<CTexture> pTex = FindRes<CTexture>(_strKey);
+	assert(pTex == nullptr);
+
+	pTex = new CTexture;
+	pTex->Create(_pTex2D);
+	pTex->SetName(_strKey);
+
+	m_mapRes[(UINT)RES_TYPE::TEXTURE].insert(make_pair(_strKey, pTex.GetPointer()));
+
+	return pTex;
+}

@@ -54,6 +54,7 @@ void CTexture::Load(const wstring & _strFilePath)
 	}
 			
 	m_pSRV->GetResource(((ID3D11Resource**)&m_pTex2D));
+	m_pTex2D->GetDesc(&m_tDesc);
 }
 
 void CTexture::SetRegister(UINT _iRegister, UINT _iShaderType)
@@ -98,37 +99,58 @@ void CTexture::ClearRegister(UINT _iRegister, UINT _iShaderType)
 
 void CTexture::Create(UINT _iWidth, UINT _iHeight, UINT _iBindFlag, D3D11_USAGE _eUsage, DXGI_FORMAT _eFormat)
 {
-	m_iBindFlag = _iBindFlag;
-
 	// DepthStencil Texture
-	D3D11_TEXTURE2D_DESC tTexDesc = {};
-
 	// RenderTarget 과 같은 해상도로 설정
-	tTexDesc.Width = _iWidth;
-	tTexDesc.Height = _iHeight;
-	tTexDesc.MipLevels = 1;
-	tTexDesc.ArraySize = 1;
-	tTexDesc.Format = _eFormat;
-	tTexDesc.SampleDesc.Count = 4;
-	tTexDesc.SampleDesc.Quality = 0;
-	tTexDesc.Usage = _eUsage;			// 메모리 사용 용도(읽기, 쓰기 관련)
-	tTexDesc.BindFlags = _iBindFlag;  // Texture  가 DepthStencil 용도로 사용될 것을 알림
+	m_tDesc.Width = _iWidth;
+	m_tDesc.Height = _iHeight;
+	m_tDesc.MipLevels = 1;
+	m_tDesc.ArraySize = 1;
+	m_tDesc.Format = _eFormat;
+	m_tDesc.SampleDesc.Count = 4;
+	m_tDesc.SampleDesc.Quality = 0;
+	m_tDesc.Usage = _eUsage;			// 메모리 사용 용도(읽기, 쓰기 관련)
+	m_tDesc.BindFlags = _iBindFlag;  // Texture  가 DepthStencil 용도로 사용될 것을 알림
 
-	DEVICE->CreateTexture2D(&tTexDesc, nullptr, &m_pTex2D);
+	DEVICE->CreateTexture2D(&m_tDesc, nullptr, &m_pTex2D);
 
 	// DepthStencil View
-	if (m_iBindFlag & D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
+	if (m_tDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
 	{
 		DEVICE->CreateDepthStencilView(m_pTex2D, nullptr, &m_pDSV);
 	}
 	else
 	{
-		if (m_iBindFlag & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
+		if (m_tDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
 		{
 			DEVICE->CreateRenderTargetView(m_pTex2D, nullptr, &m_pRTV);
 		}
 
-		if (m_iBindFlag & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
+		if (m_tDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
+		{
+			DEVICE->CreateShaderResourceView(m_pTex2D, nullptr, &m_pSRV);
+		}
+	}
+}
+
+void CTexture::Create(ID3D11Texture2D * _pTex2D)
+{
+	m_pTex2D = _pTex2D;
+
+	m_pTex2D->GetDesc(&m_tDesc);
+
+	// DepthStencil View
+	if (m_tDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
+	{
+		DEVICE->CreateDepthStencilView(m_pTex2D, nullptr, &m_pDSV);
+	}
+	else
+	{
+		if (m_tDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
+		{
+			DEVICE->CreateRenderTargetView(m_pTex2D, nullptr, &m_pRTV);
+		}
+
+		if (m_tDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
 		{
 			DEVICE->CreateShaderResourceView(m_pTex2D, nullptr, &m_pSRV);
 		}

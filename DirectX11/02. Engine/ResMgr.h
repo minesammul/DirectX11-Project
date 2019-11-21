@@ -29,6 +29,7 @@ private:
 
 public:
 	CResPtr<CTexture> CreateTexture(const wstring& _strKey, UINT _iWidth, UINT _iHeight, UINT _iBindFlag, D3D11_USAGE _eUsage, DXGI_FORMAT _eFormat);
+	CResPtr<CTexture> CreateTexture(const wstring& _strKey, ID3D11Texture2D* _pTex2D);
 
 	template<typename T>
 	CResPtr<T> FindRes(const wstring& _strKey);
