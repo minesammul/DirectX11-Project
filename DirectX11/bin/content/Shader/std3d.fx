@@ -20,6 +20,13 @@ struct VTX_OUT
     float2 vLightPow : POSITION;
 };
 
+struct PS_OUT
+{
+    float4 vColor1 : SV_Target0;
+    float4 vColor2 : SV_Target1;
+    float4 vColor3 : SV_Target2;
+    float4 vColor4 : SV_Target3;
+};
 
 // ==================
 // 3D Phong Shader (Æþ ½¦ÀÌµù)

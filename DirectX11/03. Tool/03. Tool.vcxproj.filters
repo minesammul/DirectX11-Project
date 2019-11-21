@@ -157,6 +157,9 @@
     <ClInclude Include="GridScript.h">
       <Filter>Module</Filter>
     </ClInclude>
+    <ClInclude Include="MaterialEx.h">
+      <Filter>Module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -250,6 +253,9 @@
       <Filter>04. Dialog\ComDlg</Filter>
     </ClCompile>
     <ClCompile Include="GridScript.cpp">
+      <Filter>Module</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialEx.cpp">
       <Filter>Module</Filter>
     </ClCompile>
   </ItemGroup>
