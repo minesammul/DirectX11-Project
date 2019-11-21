@@ -4,6 +4,7 @@
 #include "Transform.h"
 #include "Device.h"
 #include "SceneMgr.h"
+#include "RenderMgr.h"
 
 CCamera::CCamera()
 	: m_eType(PROJ_TYPE::PERSPECTIVE)
@@ -54,7 +55,8 @@ void CCamera::finalupdate()
 
 
 	// Projection 행렬 만들기	
-	tResolution tRes = CDevice::GetInst()->GetResolution();
+	//tResolution tRes = CDevice::GetInst()->GetResolution();
+	tResolution tRes = CRenderMgr::GetInst()->GetResolution();
 
 	if( m_eType == PROJ_TYPE::PERSPECTIVE)
 		m_matProj = XMMatrixPerspectiveFovLH(m_fFOV, tRes.fWidth / tRes.fHeight, m_fNear, m_fFar);

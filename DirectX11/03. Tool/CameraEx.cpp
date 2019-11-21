@@ -2,6 +2,7 @@
 #include "CameraEx.h"
 #include <Engine/Transform.h>
 #include <Engine/Device.h>
+#include <Engine/RenderMgr.h>
 
 CCameraEx::CCameraEx()
 {
@@ -39,7 +40,8 @@ void CCameraEx::finalupdate()
 	m_matView *= matViewRot;
 
 	// Projection 행렬 만들기	
-	tResolution tRes = CDevice::GetInst()->GetResolution();
+	//tResolution tRes = CDevice::GetInst()->GetResolution();
+	tResolution tRes = CRenderMgr::GetInst()->GetResolution();
 
 	if (m_eType == PROJ_TYPE::PERSPECTIVE)
 		m_matProj = XMMatrixPerspectiveFovLH(m_fFOV, tRes.fWidth / tRes.fHeight, m_fNear, m_fFar);
