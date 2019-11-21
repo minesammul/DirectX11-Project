@@ -6,7 +6,7 @@
 
 CToolCamScript::CToolCamScript()
 	: CScript(0)
-	, m_fSpeed(500.f)
+	, m_fSpeed(100.f)
 	, m_fMul(1.f)
 {
 }

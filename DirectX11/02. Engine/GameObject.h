@@ -85,7 +85,7 @@ protected:
 
 public:
 	template<typename T>
-	CScript* GetScript();
+	T* GetScript();
 
 public:
 	CLONE(CGameObject);
@@ -102,15 +102,15 @@ public:
 // 1. dynamic_cast 느리다.
 // 2. 상속관계에 따라서 부정확 할 수 있다.
 template<typename T>
-inline CScript * CGameObject::GetScript()
+inline T * CGameObject::GetScript()
 {
-	const type_info& info = typeid(T);	
+	const type_info& info = typeid(T);
 
 	for (UINT i = 0; i < m_vecScript.size(); ++i)
 	{
 		if (dynamic_cast<T*>(m_vecScript[i]))
-			return m_vecScript[i];
-	}	
+			return (T*)m_vecScript[i];
+	}
 
 	return nullptr;
 }

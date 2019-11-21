@@ -162,7 +162,10 @@ void CMaterial::Save()
 	strFileName += L".mtrl";
 
 	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, strFileName.c_str(), L"wb");
+	errno_t err = _wfopen_s(&pFile, strFileName.c_str(), L"wb");
+
+	if (pFile == nullptr)
+		int a = 0;
 
 	// Material 이 참조하고 있는 Shader 의 이름을 저장한다.
 	wstring strKey;

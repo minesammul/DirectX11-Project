@@ -20,6 +20,7 @@
 
 #include "ToolCamScript.h"
 #include "GridScript.h"
+#include "MaterialEx.h"
 // CGameView
 
 IMPLEMENT_DYNCREATE(CGameView, CView)
@@ -58,7 +59,7 @@ void CGameView::init()
 	//m_pGridShader->AddParam(SHADER_PARAM::, L"");
 	m_pGridShader->SetName(L"GridShader");
 
-	m_pGridMtrl = new CMaterial;
+	m_pGridMtrl = new CMaterialEx;
 	m_pGridMtrl->SetName(L"GridMtrl");
 	m_pGridMtrl->SetShader(m_pGridShader);
 
@@ -84,6 +85,7 @@ void CGameView::init()
 	pGridObj->AddComponent(new CTransform);
 	pGridObj->AddComponent(new CMeshRender);
 	pGridObj->AddComponent(new CGridScript);
+	pGridObj->GetScript<CGridScript>()->SetToolCamera(m_pToolCam);
 
 	pGridObj->Transform()->SetLocalScale(Vec3(100000.f, 100000.f, 1.f));
 	pGridObj->Transform()->SetLocalRot(Vec3(XM_PI / 2.f, 0.f, 0.f));
