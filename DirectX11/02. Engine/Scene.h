@@ -21,8 +21,6 @@ public:
 	void lateupdate();
 	void finalupdate();
 
-	void render();
-
 public:
 	void AddLayer(const wstring& _strLayerName, UINT _iLayerIdx);
 	void AddLayer(CLayer* _pLayer, UINT _iLayerIdx);

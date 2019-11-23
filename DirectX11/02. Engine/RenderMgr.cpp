@@ -14,6 +14,7 @@
 
 #include "RenderTarget23.h"
 #include "MRT.h"
+#include "Camera.h"
 
 tGlobalValue g_global = {};
 
@@ -53,6 +54,9 @@ void CRenderMgr::init(HWND _hWnd, tResolution _tres, bool _bWindow)
 	CreateRSState();
 	CreateRenderTarget();
 
+	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->OMSet();
+	m_arrMRT[(UINT)MRT_TYPE::DEFERRED]->OMSet();
+
 	// ViewPort
 	D3D11_VIEWPORT tVP = {};
 
@@ -81,10 +85,12 @@ void CRenderMgr::render()
 		// 광원 정보 상수버퍼에 업데이트
 		UpdateLight3D();
 
-		CSceneMgr::GetInst()->render();
+		for (size_t i = 0; i < m_vecCam.size(); ++i)
+		{
+			m_vecCam[i]->render();
+		}
 	}
 	
-
 	// 윈도우에 출력
 	Present();
 }
@@ -93,6 +99,8 @@ void CRenderMgr::render_tool()
 {
 	// 장치 색상 초기화
 	Clear();
+
+	m_arrMRT[(UINT)MRT_TYPE::DEFERRED]->OMSet();
 
 	// 광원 정보 상수버퍼에 업데이트
 	UpdateLight3D();
@@ -110,6 +118,11 @@ void CRenderMgr::Clear()
 		if (nullptr != m_arrMRT[i])
 			m_arrMRT[i]->clear();
 	}
+
+	// 리소스 클리어
+	ID3D11ShaderResourceView* arrView[4] = {};
+	CONTEXT->VSSetShaderResources(0, 4, arrView);
+	CONTEXT->PSSetShaderResources(0, 4, arrView);
 }
 
 void CRenderMgr::CreateSamplerState()
@@ -212,7 +225,7 @@ void CRenderMgr::CreateRenderTarget()
 	tSwapDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 	tSwapDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 
-	tSwapDesc.SampleDesc.Count = 4;
+	tSwapDesc.SampleDesc.Count = 1;
 	tSwapDesc.SampleDesc.Quality = 0;
 
 	tSwapDesc.OutputWindow = m_hWnd;	// 출력 윈도우
@@ -246,11 +259,48 @@ void CRenderMgr::CreateRenderTarget()
 	CResPtr<CTexture> pDepthTex = CResMgr::GetInst()->CreateTexture(L"DepthStencilTex", (UINT)m_tRes.fWidth, (UINT)m_tRes.fHeight
 		, D3D11_BIND_DEPTH_STENCIL, D3D11_USAGE_DEFAULT, DXGI_FORMAT_D24_UNORM_S8_UINT);
 
-	// =======================
+	// ============
+	// RenderTarget
+	// ============
 	// SwapChain RenderTarget
-	// =======================
 	m_arrRT[(UINT)RT_TYPE::SWAPCHAIN] = new CRenderTarget23;
 	m_arrRT[(UINT)RT_TYPE::SWAPCHAIN]->Create(L"SwapChainTarget", pSwapChainTex, Vec4(0.f, 0.f, 0.f, 0.f));
+
+	// Diffuse RenderTarget	
+	CResPtr<CTexture> pTargetTex = CResMgr::GetInst()->CreateTexture(L"DiffuseTargetTex", m_tRes.fWidth, m_tRes.fHeight
+		, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R8G8B8A8_UNORM);
+
+	m_arrRT[(UINT)RT_TYPE::DIFFUSE] = new CRenderTarget23;
+	m_arrRT[(UINT)RT_TYPE::DIFFUSE]->Create(L"DiffuseTarget", pTargetTex, Vec4(1.f, 0.f, 1.f, 1.f));
+
+	// Normal RenderTarget
+	pTargetTex = CResMgr::GetInst()->CreateTexture(L"NormalTargetTex", m_tRes.fWidth, m_tRes.fHeight
+		, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	m_arrRT[(UINT)RT_TYPE::NORMAL] = new CRenderTarget23;
+	m_arrRT[(UINT)RT_TYPE::NORMAL]->Create(L"NormalTarget", pTargetTex, Vec4(0.f, 0.f, 0.f, 0.f));
+
+	// Position RenderTarget
+	pTargetTex = CResMgr::GetInst()->CreateTexture(L"PositionTargetTex", m_tRes.fWidth, m_tRes.fHeight
+		, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	m_arrRT[(UINT)RT_TYPE::POSITION] = new CRenderTarget23;
+	m_arrRT[(UINT)RT_TYPE::POSITION]->Create(L"PositionTarget", pTargetTex, Vec4(0.f, 0.f, 0.f, 0.f));
+
+	// Light RenderTarget
+	pTargetTex = CResMgr::GetInst()->CreateTexture(L"LightTargetTex", m_tRes.fWidth, m_tRes.fHeight
+		, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R8G8B8A8_UNORM);
+
+	m_arrRT[(UINT)RT_TYPE::LIGHT] = new CRenderTarget23;
+	m_arrRT[(UINT)RT_TYPE::LIGHT]->Create(L"LightTarget", pTargetTex, Vec4(0.f, 0.f, 0.f, 0.f));
+
+	// Specular RenderTarget
+	pTargetTex = CResMgr::GetInst()->CreateTexture(L"SpecularTargetTex", m_tRes.fWidth, m_tRes.fHeight
+		, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R8G8B8A8_UNORM);
+
+	m_arrRT[(UINT)RT_TYPE::SPECULAR] = new CRenderTarget23;
+	m_arrRT[(UINT)RT_TYPE::SPECULAR]->Create(L"SpecularTarget", pTargetTex, Vec4(0.f, 0.f, 0.f, 0.f));
+
 
 	// =============
 	// Swapchain MRT
@@ -259,5 +309,25 @@ void CRenderMgr::CreateRenderTarget()
 	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN] = new CMRT;
 	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->Create(rt, pDepthTex);
 
-	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->OMSet();
+	// ============
+	// Deferred MRT
+	// ============
+	memset(rt, 0, sizeof(void*) * 8);
+	rt[0] = m_arrRT[(UINT)RT_TYPE::DIFFUSE];
+	rt[1] = m_arrRT[(UINT)RT_TYPE::NORMAL];
+	rt[2] = m_arrRT[(UINT)RT_TYPE::POSITION];
+
+	m_arrMRT[(UINT)MRT_TYPE::DEFERRED] = new CMRT;
+	m_arrMRT[(UINT)MRT_TYPE::DEFERRED]->Create(rt, nullptr);
+
+
+	// ============
+	// Light MRT
+	// ============
+	memset(rt, 0, sizeof(void*) * 8);
+	rt[0] = m_arrRT[(UINT)RT_TYPE::LIGHT];
+	rt[1] = m_arrRT[(UINT)RT_TYPE::SPECULAR];
+
+	m_arrMRT[(UINT)MRT_TYPE::LIGHT] = new CMRT;
+	m_arrMRT[(UINT)MRT_TYPE::LIGHT]->Create(rt, nullptr);
 }

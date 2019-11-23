@@ -2,8 +2,9 @@
 #include "Camera.h"
 
 #include "Transform.h"
-#include "Device.h"
 #include "SceneMgr.h"
+#include "Scene.h"
+#include "Layer.h"
 #include "RenderMgr.h"
 
 CCamera::CCamera()
@@ -63,8 +64,26 @@ void CCamera::finalupdate()
 	else
 		m_matProj = XMMatrixOrthographicLH(tRes.fWidth * m_fScale, tRes.fHeight * m_fScale, m_fNear, m_fFar);
 
-	CSceneMgr::GetInst()->RegisterCamera(this);
+	CRenderMgr::GetInst()->RegisterCamera(this);
 }
+
+void CCamera::render()
+{
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+
+	g_transform.matView = m_matView;
+	g_transform.matProj = m_matProj;
+
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		if (nullptr == pCurScene->GetLayer(i))
+			continue;
+
+		if (IsValiedLayer(i))
+			pCurScene->GetLayer(i)->render();
+	}
+}
+
 
 void CCamera::CheckLayer(UINT _iLayerIdx)
 {
