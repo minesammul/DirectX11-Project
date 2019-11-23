@@ -149,49 +149,29 @@ int CToolApp::ExitInstance()
 #include <Animator2D.h>
 #include <Collider2D.h>
 #include <Light3D.h>
+#include <Layer.h>
 
 void CToolApp::CreateTestScene()
 {
-	CGameObject* pParent = new CGameObject;
-	pParent->SetName(L"Player");
-
-	CTransform* pTransform = new CTransform;
-	CMeshRender* pMeshRender = new CMeshRender;
-
-	pTransform->SetLocalPos(Vec3(0.f, 0.f, 1500.f));
-	pTransform->SetLocalScale(Vec3(1000.f, 1000.f, 1000.f));
-	//pTransform->SetLocalRot(Vec3(XM_PI / 2.f, 0.f, 0.f));
-	pTransform->SetLocalRot(Vec3(0.f, 0.f, 0.f));
-
-	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Material\\Phong.mtrl"));
-
-	CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\TILE_01.tga");
-	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTex);
-
-	pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\TILE_01_N.tga");
-	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &pTex);
-
-	pParent->AddComponent(pTransform);
-	pParent->AddComponent(pMeshRender);
-
 	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
-	pCurScene->AddObject(L"Default", pParent);
 
+	pCurScene->AddLayer(L"Player", 1);
+	pCurScene->AddLayer(L"Bullet", 2);
+	pCurScene->AddLayer(L"Monster", 3);
+
+	// Light3D 추가하기
 	CGameObject* pLightObj = new CGameObject;
-	pLightObj->SetName(L"Direction Light");
+	pLightObj->SetName(L"Directional Light");
 	pLightObj->AddComponent(new CTransform);
 	pLightObj->AddComponent(new CLight3D);
 
-	pLightObj->Transform()->SetLocalPos(Vec3(0.f, 0.f, 500.f));
+	pLightObj->Transform()->SetLocalPos(Vec3(-500.f, 500.f, 500.f));
 	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
-	/*pLightObj->Light3D()->SetLightDir(Vec3(1.f, -1.f, 1.f));*/
-	pLightObj->Light3D()->SetLightDir(Vec3(0.f, 0.f, 1.f));
+	pLightObj->Light3D()->SetLightDir(Vec3(0.f, -1.f, -1.f));
 	pLightObj->Light3D()->SetLightDiffuse(Vec3(1.f, 1.f, 1.f));
 	pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));
 	pLightObj->Light3D()->SetLightAmbient(Vec3(0.15f, 0.15f, 0.15f));
 	pLightObj->Light3D()->SetLightRange(2000.f);
-	pLightObj->Light3D()->SetLightAngle(25.f);
 
 	pCurScene->AddObject(L"Default", pLightObj);
 
@@ -200,8 +180,53 @@ void CToolApp::CreateTestScene()
 	//pLightObj->SetName(L"Point Light 2");
 	//pLightObj->Light3D()->SetLightDiffuse(Vec3(0.6f, 0.6f, 1.f));
 	//pLightObj->Transform()->SetLocalPos(Vec3(500.f, 500.f, 500.f));
-
 	//pCurScene->AddObject(L"Default", pLightObj);
+
+
+	// Camera Object 만들기
+	CGameObject* pCamObj = new CGameObject;
+	pCamObj->SetName(L"MainCamera");
+	pCamObj->AddComponent(new CTransform);
+	pCamObj->AddComponent(new CCamera);
+
+	pCamObj->Camera()->SetCamOrder(0);
+	//pCamObj->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	pCamObj->Camera()->SetFOV(XM_PI / 4.f);
+	pCamObj->Camera()->SetScale(1.f);
+	pCamObj->Camera()->CheckLayer(pCurScene->FindLayer(L"Player")->GetLayerIdx());
+	pCamObj->Camera()->CheckLayer(pCurScene->FindLayer(L"Bullet")->GetLayerIdx());
+	pCamObj->Camera()->CheckLayer(pCurScene->FindLayer(L"Monster")->GetLayerIdx());
+	pCamObj->Camera()->CheckLayer(pCurScene->FindLayer(L"Default")->GetLayerIdx());
+
+	pCurScene->AddObject(L"Default", pCamObj);
+
+	// Player Object 만들기
+	CGameObject* pParent = new CGameObject;
+	pParent->SetName(L"Player");
+
+	CTransform* pTransform = new CTransform;
+	CMeshRender* pMeshRender = new CMeshRender;
+
+	pTransform->SetLocalPos(Vec3(0.f, 0.f, 500.f));
+	pTransform->SetLocalScale(Vec3(1000.f, 1000.f, 1000.f));
+	pTransform->SetLocalRot(Vec3(0.f, 0.f, 0.f));
+
+	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"PhongMtrl"));
+
+	CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\TILE_01.tga");
+	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTex);
+	pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\TILE_01_N.tga");
+	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &pTex);
+
+
+	pParent->AddComponent(pTransform);
+	pParent->AddComponent(pMeshRender);
+
+	pCurScene->AddObject(L"Player", pParent);
+
+	// 충돌 지정
+	CCollisionMgr::GetInst()->CollisionCheck(L"Player", L"Monster");
 
 }
 

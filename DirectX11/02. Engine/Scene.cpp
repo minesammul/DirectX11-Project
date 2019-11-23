@@ -83,24 +83,6 @@ void CScene::finalupdate()
 	}
 }
 
-void CScene::render()
-{
-	for (UINT i = 0; i < m_iCamCount; ++i)
-	{
-		g_transform.matView = m_arrCam[i]->GetViewMat();
-		g_transform.matProj = m_arrCam[i]->GetProjMat();
-
-		for (UINT j = 0; j < MAX_LAYER; ++j)
-		{
-			if (nullptr == m_arrLayer[j])
-				continue;
-
-			if (m_arrCam[i]->IsValiedLayer(j))
-				m_arrLayer[j]->render();
-		}
-	}
-}
-
 void CScene::AddLayer(const wstring & _strLayerName, UINT _iLayerIdx)
 {
 	if (nullptr != m_arrLayer[_iLayerIdx])

@@ -8,15 +8,27 @@ class CGameView : public CView
 {
 	DECLARE_DYNCREATE(CGameView)
 private:
-	CGameObject*	m_pToolCam;
-	vector<CGameObject*>	m_vecToolObj;
+	CGameObject*			m_pToolCam;
+	CGameObject*			m_pToolUICam;
+	CGameObject*			m_pGridObject;
 
+
+	vector<CGameObject*>	m_vecToolUI;
 	CMaterial*				m_pGridMtrl;
 	CShader*				m_pGridShader;
 
 public:
 	void init();
 	void update();
+
+private:
+	void update_tool();
+	void render_tool();
+
+private:
+	void CreateToolResource();
+	void CreateToolCamera();
+	void CreateToolObject();
 
 protected:
 	CGameView();           // 동적 만들기에 사용되는 protected 생성자입니다.

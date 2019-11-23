@@ -106,7 +106,7 @@ void CTexture::Create(UINT _iWidth, UINT _iHeight, UINT _iBindFlag, D3D11_USAGE 
 	m_tDesc.MipLevels = 1;
 	m_tDesc.ArraySize = 1;
 	m_tDesc.Format = _eFormat;
-	m_tDesc.SampleDesc.Count = 4;
+	m_tDesc.SampleDesc.Count = 1;
 	m_tDesc.SampleDesc.Quality = 0;
 	m_tDesc.Usage = _eUsage;			// 메모리 사용 용도(읽기, 쓰기 관련)
 	m_tDesc.BindFlags = _iBindFlag;  // Texture  가 DepthStencil 용도로 사용될 것을 알림
