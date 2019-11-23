@@ -64,29 +64,15 @@ struct VTX_TEX_OUTPUT
 VTX_TEX_OUTPUT VS_Tex(VTX_TEX_INPUT _input)
 {
     VTX_TEX_OUTPUT output = (VTX_TEX_OUTPUT) 0.f;
-    
-    float4 vWorldPos = mul(float4(_input.vPos, 1.f), g_matWorld);
-    float4 vViewPos = mul(vWorldPos, g_matView);
-    float4 vProj = mul(vViewPos, g_matProj);
-
-    output.vPos = vProj;
+    output.vPos = mul(float4(_input.vPos, 1.f), g_matWVP);
     output.vUV = _input.vUV;
-    
     return output;
 }
 
 PS_OUT PS_Tex(VTX_TEX_OUTPUT _input)
 {
     PS_OUT output = (PS_OUT) 0.f;
-    output.vOutCol = g_tex_0.Sample( g_sam_0 , _input.vUV);    
-    
-    if (g_int_0)
-    {
-        output.vOutCol.r *= 1.1f;
-        output.vOutCol.g *= 0.2f;
-        output.vOutCol.b *= 0.2f;
-    }
-
+    output.vOutCol = g_tex_0.Sample(g_sam_0, _input.vUV);
     return output;
 }
 

@@ -492,7 +492,6 @@ void CResMgr::CreateDefaultShader()
 	pShader->CreateVertexShader(L"Shader\\std.fx", "VS_Tex", 5, 0);
 	pShader->CreatePixelShader(L"Shader\\std.fx", "PS_Tex", 5, 0);
 
-	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
 	pShader->AddParam(SHADER_PARAM::TEX_0, L"Output Image");
 
 	strKey = L"TextureShader";
@@ -630,7 +629,7 @@ void CResMgr::CreateDefaultMaterial()
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
 	pMtrl = new CMaterial;
-	pMtrl->SetName(L"Material\\Phong.mtrl");
+	pMtrl->SetName(L"PhongMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"PhongShader"));
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 

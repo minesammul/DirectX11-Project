@@ -6,6 +6,9 @@
 #include "Texture.h"
 
 CMRT::CMRT()
+	: m_arrRT{}
+	, m_pDepthTex(nullptr)
+	, m_iRTCount(0)
 {
 }
 
@@ -34,8 +37,24 @@ void CMRT::OMSet()
 		arrView[i] = m_arrRT[i]->GetRTTex()->GetRTV();
 	}
 
-	CONTEXT->OMSetRenderTargets(m_iRTCount, arrView, m_pDepthTex->GetDSV());
+	if (m_pDepthTex != nullptr)
+	{
+		CONTEXT->OMSetRenderTargets(m_iRTCount, arrView, m_pDepthTex->GetDSV());
+	}
+	else
+	{
+		// MRT 에 깊이 텍스쳐가 없는 경우
+		// 장치에 전달된 이전 상태를 이어 받는다.
+		ID3D11DepthStencilView* pDepthView = nullptr;
+		CONTEXT->OMGetRenderTargets(0, nullptr, &pDepthView);
+
+		if (nullptr != pDepthView)
+			SAFE_RELEASE(pDepthView);
+
+		CONTEXT->OMSetRenderTargets(m_iRTCount, arrView, pDepthView);
+	}
 }
+
 
 void CMRT::clear()
 {
@@ -44,5 +63,6 @@ void CMRT::clear()
 		m_arrRT[i]->clear();
 	}
 
-	CONTEXT->ClearDepthStencilView(m_pDepthTex->GetDSV(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);	
+	if (m_pDepthTex != nullptr)
+		CONTEXT->ClearDepthStencilView(m_pDepthTex->GetDSV(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 }

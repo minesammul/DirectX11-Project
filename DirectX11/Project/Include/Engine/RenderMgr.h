@@ -5,6 +5,7 @@ class CBlendState;
 class CLight3D;
 class CRenderTarget23;
 class CMRT;
+class CCamera;
 
 class CRenderMgr
 {
@@ -20,12 +21,12 @@ private:
 	CRenderTarget23*		m_arrRT[(UINT)RT_TYPE::END];
 	CMRT*					m_arrMRT[(UINT)MRT_TYPE::END];
 
+	IDXGISwapChain*			m_pSwapChain;			// SwapChain 기능 담당
 
-	IDXGISwapChain*				m_pSwapChain;			// SwapChain 기능 담당
-
-
-	tLight3DInfo			m_arrLight3DInfo[100];
+	tLight3DInfo			m_arrLight3DInfo[100];	// Scene 에 있는 광원
 	int						m_iLight3DCount;
+	vector<CCamera*>		m_vecCam;				// Scene 에 있는 카메라
+
 	bool					m_bWindow;
 
 public:
@@ -35,15 +36,16 @@ public:
 
 public:
 	CBlendState* GetBlendState(BLEND_TYPE _eType) { return m_arrBlendState[(UINT)_eType]; }
+	CMRT* GetMRT(MRT_TYPE _eType) { return m_arrMRT[(UINT)_eType]; }
 
 public:
 	void RegisterLight3D(const tLight3DInfo& _info) { m_arrLight3DInfo[m_iLight3DCount++] = _info; }
+	void RegisterCamera(CCamera* _pCam) { m_vecCam.push_back(_pCam); }
+	void ClearCamera() { m_vecCam.clear(); }
 	void SetRSState(RS_TYPE _eType);
 	void Present() { m_pSwapChain->Present(0, 0); }
-
-	tResolution GetResolution() { return m_tRes; }
-
 	void Clear();
+	tResolution GetResolution() { return m_tRes; }
 
 private:
 	void CreateSamplerState();
