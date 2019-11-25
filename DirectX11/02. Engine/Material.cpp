@@ -98,25 +98,27 @@ void CMaterial::UpdateData()
 
 	m_pShader->UpdateData();
 
-	static CConstBuffer* pConstBuffer = CDevice::GetInst()->FindConstBuffer(L"ShaderParam");
-
-	pConstBuffer->AddData(&m_param, sizeof(tShaderParam));	
-	pConstBuffer->UpdateData();
-	pConstBuffer->SetRegisterAll();
-
 	// Texture Update го╠Б
 	UINT iCount = (UINT)SHADER_PARAM::TEX_END - (UINT)SHADER_PARAM::TEX_0;
 	for (UINT i = 0; i < iCount; ++i)
 	{
 		if (nullptr == m_arrTex[i])
 		{
-			m_arrTex[i]->ClearRegister(i, (UINT)SHADER_TYPE::PIXEL_SHADER);
-			continue;
+			CTexture::ClearRegister(i, (UINT)SHADER_TYPE::ALL_SHADER);
+			m_param.arrTexCheck[i] = 0;
 		}
+		else
+		{
+			m_arrTex[i]->SetRegister(i, (UINT)SHADER_TYPE::ALL_SHADER);
+			m_param.arrTexCheck[i] = 1;
+		}
+	}
 
-		m_arrTex[i]->SetRegister(i, (UINT)SHADER_TYPE::PIXEL_SHADER);
-		//m_arrTex[i]->SetRegisterAll(i);
-	}	
+	static CConstBuffer* pConstBuffer = CDevice::GetInst()->FindConstBuffer(L"ShaderParam");
+
+	pConstBuffer->AddData(&m_param, sizeof(tShaderParam));
+	pConstBuffer->UpdateData();
+	pConstBuffer->SetRegisterAll();
 }
 
 void CMaterial::Load(const wstring & _strFilePath)
