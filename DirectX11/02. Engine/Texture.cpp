@@ -92,10 +92,30 @@ void CTexture::ClearRegister(UINT _iRegister, UINT _iShaderType)
 
 	if ((UINT)SHADER_TYPE::VERTEX_SHADER & _iShaderType)
 		CONTEXT->VSSetShaderResources(_iRegister, 1, &pView);
+	if ((UINT)SHADER_TYPE::HULL_SHADER & _iShaderType)
+		CONTEXT->HSSetShaderResources(_iRegister, 1, &pView);
+	if ((UINT)SHADER_TYPE::DOMAIN_SHADER & _iShaderType)
+		CONTEXT->DSSetShaderResources(_iRegister, 1, &pView);
+	if ((UINT)SHADER_TYPE::GEOMETRY_SHADER & _iShaderType)
+		CONTEXT->GSSetShaderResources(_iRegister, 1, &pView);
+	if ((UINT)SHADER_TYPE::COMPUTE_SHADER & _iShaderType)
+		CONTEXT->CSSetShaderResources(_iRegister, 1, &pView);
 	if ((UINT)SHADER_TYPE::PIXEL_SHADER & _iShaderType)
-		CONTEXT->PSSetShaderResources(_iRegister, 1, &pView);	
+		CONTEXT->PSSetShaderResources(_iRegister, 1, &pView);
 }
 
+void CTexture::ClearAllRegister()
+{
+	const UINT iRegisterCount = (UINT)SHADER_PARAM::TEX_END - (UINT)SHADER_PARAM::TEX_0;
+
+	ID3D11ShaderResourceView* arrView[iRegisterCount] = {};
+	CONTEXT->VSSetShaderResources(0, iRegisterCount, arrView);
+	CONTEXT->HSSetShaderResources(0, iRegisterCount, arrView);
+	CONTEXT->DSSetShaderResources(0, iRegisterCount, arrView);
+	CONTEXT->GSSetShaderResources(0, iRegisterCount, arrView);
+	CONTEXT->CSSetShaderResources(0, iRegisterCount, arrView);
+	CONTEXT->PSSetShaderResources(0, iRegisterCount, arrView);
+}
 
 void CTexture::Create(UINT _iWidth, UINT _iHeight, UINT _iBindFlag, D3D11_USAGE _eUsage, DXGI_FORMAT _eFormat)
 {

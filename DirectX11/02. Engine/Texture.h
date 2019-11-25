@@ -45,6 +45,8 @@ public:
 
 	static void ClearRegister(UINT _iRegister, UINT _iShaderType);
 
+	static void ClearAllRegister();
+
 public:
 	CTexture();
 	virtual ~CTexture();
