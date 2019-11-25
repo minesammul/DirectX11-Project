@@ -34,7 +34,7 @@ void CSceneMgr::progress()
 	m_pCurScene->update();
 	m_pCurScene->lateupdate();
 
-	CRenderMgr::GetInst()->ClearCamera();
+	CRenderMgr::GetInst()->ClearRegisterObj();
 	m_pCurScene->finalupdate();
 
 	CCollisionMgr::GetInst()->update();
@@ -43,7 +43,7 @@ void CSceneMgr::progress()
 
 void CSceneMgr::progress_pause()
 {
-	CRenderMgr::GetInst()->ClearCamera();
+	CRenderMgr::GetInst()->ClearRegisterObj();
 	m_pCurScene->finalupdate();
 	CEventMgr::GetInst()->update();
 }
