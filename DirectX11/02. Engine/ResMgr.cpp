@@ -32,7 +32,23 @@ void CResMgr::init()
 	CreateDefaultShader();
 
 	CreateDefaultMaterial();
+
+	InitSound();
 }
+
+
+void CResMgr::InitSound()
+{
+	FMOD::System_Create(&CSound::g_pFMOD);
+
+	if (nullptr == CSound::g_pFMOD)
+	{
+		assert(nullptr);
+	}
+
+	CSound::g_pFMOD->init(32, FMOD_DEFAULT, nullptr);
+}
+
 
 void CResMgr::CreateDefaultMesh()
 {
@@ -602,6 +618,22 @@ void CResMgr::CreateDefaultShader()
 	strKey = L"PhongShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	// ==============
+	// STD3D Shader
+	// ==============
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\std3d.fx", "VS_STD3D", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\std3d.fx", "PS_STD3D", 5, 0);
+
+	pShader->AddParam(SHADER_PARAM::TEX_0, L"Diffuse Texture");
+	pShader->AddParam(SHADER_PARAM::TEX_1, L"Normal Texture");
+	//pShader->AddParam(SHADER_PARAM::TEX_2, L"Specular Texture");
+	//pShader->AddParam(SHADER_PARAM::TEX_3, L"Emissive Texture");
+
+	strKey = L"Std3DShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 }
 
 void CResMgr::CreateDefaultMaterial()
@@ -631,6 +663,11 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"PhongMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"PhongShader"));
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"Std3DMtrl");
+	pMtrl->SetShader(FindRes<CShader>(L"Std3DShader"));
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
 	CCollider2D::CreateMaterial();

@@ -26,6 +26,7 @@ private:
 	void CreateDefaultMesh();
 	void CreateDefaultShader();
 	void CreateDefaultMaterial();
+	void InitSound();
 
 public:
 	CResPtr<CTexture> CreateTexture(const wstring& _strKey, UINT _iWidth, UINT _iHeight, UINT _iBindFlag, D3D11_USAGE _eUsage, DXGI_FORMAT _eFormat);
