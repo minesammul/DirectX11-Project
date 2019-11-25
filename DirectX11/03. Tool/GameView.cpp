@@ -134,27 +134,45 @@ void CGameView::CreateToolObject()
 	m_pGridObject->MeshRender()->SetMaterial(m_pGridMtrl);
 
 	// Tool UI Object
-	CGameObject* pUI = nullptr;
+	CGameObject* arrUI[5] = {};
 
 	float fScale = 120.f;
 	CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"TextureMtrl");
 	CResPtr<CTexture> pTargetTex = nullptr;
 
-	pUI = new CGameObjectEx;
-	pUI->AddComponent(new CTransform);
-	pUI->AddComponent(new CMeshRender);
+	for (int i = 0; i < 5; ++i)
+	{
+		arrUI[i] = new CGameObjectEx;
+		arrUI[i]->AddComponent(new CTransform);
+		arrUI[i]->AddComponent(new CMeshRender);
 
-	pUI->Transform()->SetLocalScale(Vec3(fScale, fScale, 1.f));
-	pUI->Transform()->SetLocalPos(Vec3((-res.fWidth / 2.f) + (fScale / 2.f), (res.fHeight / 2.f) - (fScale / 2.f), 1.f));
+		arrUI[i]->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+		arrUI[i]->MeshRender()->SetMaterial(pMtrl);
 
-	pUI->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pUI->MeshRender()->SetMaterial(pMtrl);
-	pUI->MeshRender()->GetCloneMaterial();
+		arrUI[i]->Transform()->SetLocalScale(Vec3(fScale, fScale, 1.f));
+		arrUI[i]->Transform()->SetLocalPos(Vec3((-res.fWidth / 2.f) + (fScale / 2.f) + (fScale * i)
+			, (res.fHeight / 2.f) - (fScale / 2.f), 1.f));
+
+		arrUI[i]->MeshRender()->GetCloneMaterial();
+
+		m_vecToolUI.push_back(arrUI[i]);
+	}
 
 	pTargetTex = CResMgr::GetInst()->FindRes<CTexture>(L"DiffuseTargetTex");
-	pUI->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTargetTex);
+	arrUI[0]->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTargetTex);
 
-	m_vecToolUI.push_back(pUI);
+	pTargetTex = CResMgr::GetInst()->FindRes<CTexture>(L"NormalTargetTex");
+	arrUI[1]->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTargetTex);
+
+	pTargetTex = CResMgr::GetInst()->FindRes<CTexture>(L"PositionTargetTex");
+	arrUI[2]->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTargetTex);
+
+	pTargetTex = CResMgr::GetInst()->FindRes<CTexture>(L"LightTargetTex");
+	arrUI[3]->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTargetTex);
+
+	pTargetTex = CResMgr::GetInst()->FindRes<CTexture>(L"SpecularTargetTex");
+	arrUI[4]->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTargetTex);
+
 }
 
 
@@ -203,7 +221,9 @@ void CGameView::update_tool()
 void CGameView::render_tool()
 {
 	// Tool Camera Render	
-	m_pToolCam->Camera()->render();
+	m_pToolCam->Camera()->render(); // deferred MRT 에 출력
+
+	CRenderMgr::GetInst()->render_lights();
 
 	// SwapChain MRT 로 복구
 	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->OMSet();

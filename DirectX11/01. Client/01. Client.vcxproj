@@ -73,7 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)Project\Include\Engine;$(SolutionDir)Project\Include\DirectXTex\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Project\Library\Engine\x86\;$(SolutionDir)Project\Library\DirectXTex\x86\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Project\Library\Engine\x86\;$(SolutionDir)Project\Library\FMOD\x86\;$(SolutionDir)Project\Library\DirectXTex\x86\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin_debug\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -85,7 +85,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)Project\Include\Engine;$(SolutionDir)Project\Include\DirectXTex\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Project\Library\Engine\x86\;$(SolutionDir)Project\Library\DirectXTex\x86\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Project\Library\Engine\x86\;$(SolutionDir)Project\Library\FMOD\x86\;$(SolutionDir)Project\Library\DirectXTex\x86\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

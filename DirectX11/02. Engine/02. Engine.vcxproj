@@ -74,8 +74,8 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Project\Library\Engine\x86\</OutDir>
     <TargetName>Uryty_debug</TargetName>
-    <LibraryPath>$(SolutionDir)Project\Library\DirectXTex\x86\;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)Project\Include\DirectXTex\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Project\Library\FMOD\x86\;$(SolutionDir)Project\Library\DirectXTex\x86\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Project\Include\FMOD\;$(SolutionDir)Project\Include\DirectXTex\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -88,8 +88,8 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Project\Library\Engine\x86\</OutDir>
     <TargetName>Uryty</TargetName>
-    <LibraryPath>$(SolutionDir)Project\Library\DirectXTex\x86\;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)Project\Include\DirectXTex\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Project\Library\FMOD\x86\;$(SolutionDir)Project\Library\DirectXTex\x86\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Project\Include\FMOD\;$(SolutionDir)Project\Include\DirectXTex\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -225,6 +225,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="RenderTarget23.h" />
     <ClInclude Include="ResMgr.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="ResPtr.h" />
     <ClInclude Include="SamplerState.h" />
     <ClInclude Include="Scene.h" />
@@ -316,6 +317,12 @@ call EngineCopy.bat</Command>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="light.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="std.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
@@ -364,6 +371,9 @@ call EngineCopy.bat</Command>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </ObjectFileOutput>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="02. Engine.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

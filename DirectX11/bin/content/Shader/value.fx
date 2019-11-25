@@ -54,6 +54,11 @@ cbuffer MATERIAL : register(b1)
     row_major Matrix g_mat_1;
     row_major Matrix g_mat_2;
     row_major Matrix g_mat_3;
+
+    uint g_tcheck_0;
+    uint g_tcheck_1;
+    uint g_tcheck_2;
+    uint g_tcheck_3;
 }
 
 cbuffer ANIM2D : register(b2)

@@ -212,7 +212,7 @@ void CToolApp::CreateTestScene()
 	pTransform->SetLocalRot(Vec3(0.f, 0.f, 0.f));
 
 	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"PhongMtrl"));
+	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3DMtrl"));
 
 	CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\TILE_01.tga");
 	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTex);
@@ -224,6 +224,9 @@ void CToolApp::CreateTestScene()
 	pParent->AddComponent(pMeshRender);
 
 	pCurScene->AddObject(L"Player", pParent);
+
+	CResPtr<CSound> pSound = CResMgr::GetInst()->Load<CSound>(L"test.mp3", L"Sound\\test.mp3");
+	pSound->Play(1);
 
 	// 충돌 지정
 	CCollisionMgr::GetInst()->CollisionCheck(L"Player", L"Monster");

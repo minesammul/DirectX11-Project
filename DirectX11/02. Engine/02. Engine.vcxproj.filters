@@ -192,6 +192,7 @@
     <ClInclude Include="MRT.h">
       <Filter>EngineCode\05. Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="resource1.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="func.cpp">
@@ -337,5 +338,11 @@
     <FxCompile Include="tool.fx">
       <Filter>ShaderCode</Filter>
     </FxCompile>
+    <FxCompile Include="light.fx">
+      <Filter>ShaderCode</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="02. Engine.rc" />
   </ItemGroup>
 </Project>

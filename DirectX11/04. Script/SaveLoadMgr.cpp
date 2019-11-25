@@ -249,7 +249,7 @@ void CSaveLoadMgr::LoadResource(FILE * _pFile)
 				pResource = new CTexture;
 				break;
 			case RES_TYPE::SOUND:
-				// pResource = new CSound;
+				pResource = new CSound;
 				break;			
 			}
 
