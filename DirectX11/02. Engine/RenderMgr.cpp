@@ -89,6 +89,8 @@ void CRenderMgr::render()
 		{
 			m_vecCam[i]->render();
 		}
+
+		render_lights();
 	}
 	
 	// 윈도우에 출력
@@ -100,10 +102,31 @@ void CRenderMgr::render_tool()
 	// 장치 색상 초기화
 	Clear();
 
+	static CConstBuffer* pGlobal = CDevice::GetInst()->FindConstBuffer(L"Global");
+	pGlobal->AddData(&g_global, sizeof(tGlobalValue));
+	pGlobal->UpdateData();
+	pGlobal->SetRegisterAll();
+
 	m_arrMRT[(UINT)MRT_TYPE::DEFERRED]->OMSet();
 
 	// 광원 정보 상수버퍼에 업데이트
 	UpdateLight3D();
+}
+
+void CRenderMgr::render_lights()
+{
+	m_arrMRT[(UINT)MRT_TYPE::LIGHT]->OMSet();
+
+	for (size_t i = 0; i < m_vecLight3D.size(); ++i)
+	{
+		m_vecLight3D[i]->render();
+	}
+}
+
+void CRenderMgr::RegisterLight3D(CLight3D * _pLight3D)
+{
+	m_arrLight3DInfo[m_iLight3DCount++] = _pLight3D->GetLight3DInfo();
+	m_vecLight3D.push_back(_pLight3D);
 }
 
 void CRenderMgr::SetRSState(RS_TYPE _eType)
@@ -120,9 +143,7 @@ void CRenderMgr::Clear()
 	}
 
 	// 리소스 클리어
-	ID3D11ShaderResourceView* arrView[4] = {};
-	CONTEXT->VSSetShaderResources(0, 4, arrView);
-	CONTEXT->PSSetShaderResources(0, 4, arrView);
+	CTexture::ClearAllRegister();
 }
 
 void CRenderMgr::CreateSamplerState()
@@ -271,7 +292,7 @@ void CRenderMgr::CreateRenderTarget()
 		, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R8G8B8A8_UNORM);
 
 	m_arrRT[(UINT)RT_TYPE::DIFFUSE] = new CRenderTarget23;
-	m_arrRT[(UINT)RT_TYPE::DIFFUSE]->Create(L"DiffuseTarget", pTargetTex, Vec4(1.f, 0.f, 1.f, 1.f));
+	m_arrRT[(UINT)RT_TYPE::DIFFUSE]->Create(L"DiffuseTarget", pTargetTex, Vec4(0.f, 0.f, 0.f, 1.f));
 
 	// Normal RenderTarget
 	pTargetTex = CResMgr::GetInst()->CreateTexture(L"NormalTargetTex", m_tRes.fWidth, m_tRes.fHeight

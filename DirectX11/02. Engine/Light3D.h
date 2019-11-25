@@ -11,6 +11,7 @@ private:
 public:
 	virtual void update() {}
 	virtual void finalupdate();
+	void render();
 
 public:
 	void SetLightType(LIGHT_TYPE _eType);

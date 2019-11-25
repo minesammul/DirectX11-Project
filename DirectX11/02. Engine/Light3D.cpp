@@ -17,7 +17,11 @@ void CLight3D::finalupdate()
 {
 	m_tInfo.vPos = Transform()->GetWorldPos();
 
-	CRenderMgr::GetInst()->RegisterLight3D(m_tInfo);
+	CRenderMgr::GetInst()->RegisterLight3D(this);
+}
+
+void CLight3D::render()
+{
 }
 
 void CLight3D::SetLightType(LIGHT_TYPE _eType)

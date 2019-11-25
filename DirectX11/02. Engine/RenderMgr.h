@@ -25,6 +25,8 @@ private:
 
 	tLight3DInfo			m_arrLight3DInfo[100];	// Scene 에 있는 광원
 	int						m_iLight3DCount;
+	vector<CLight3D*>		m_vecLight3D;
+
 	vector<CCamera*>		m_vecCam;				// Scene 에 있는 카메라
 
 	bool					m_bWindow;
@@ -33,15 +35,21 @@ public:
 	void init(HWND _hWnd, tResolution _tres, bool _bWindow);
 	void render();
 	void render_tool();
+	void render_lights();
 
 public:
 	CBlendState* GetBlendState(BLEND_TYPE _eType) { return m_arrBlendState[(UINT)_eType]; }
 	CMRT* GetMRT(MRT_TYPE _eType) { return m_arrMRT[(UINT)_eType]; }
 
 public:
-	void RegisterLight3D(const tLight3DInfo& _info) { m_arrLight3DInfo[m_iLight3DCount++] = _info; }
+	void RegisterLight3D(CLight3D* _pLight3D);
 	void RegisterCamera(CCamera* _pCam) { m_vecCam.push_back(_pCam); }
-	void ClearCamera() { m_vecCam.clear(); }
+	void ClearRegisterObj()
+	{
+		m_vecCam.clear(); 
+		m_vecLight3D.clear();
+		m_iLight3DCount = 0;
+	}
 	void SetRSState(RS_TYPE _eType);
 	void Present() { m_pSwapChain->Present(0, 0); }
 	void Clear();
