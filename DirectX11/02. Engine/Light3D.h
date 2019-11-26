@@ -1,12 +1,18 @@
 #pragma once
 #include "Component.h"
 
+#include "ResPtr.h"
+#include "Material.h"
+#include "Mesh.h"
+
 class CLight3D :
 	public CComponent
 {
 private:
 	tLight3DInfo		m_tInfo;
-
+	CResPtr<CMaterial>	m_pMtrl;
+	CResPtr<CMesh>		m_pMesh;
+	int					m_iIdx;  //RenderMgr 에 등록시킬때 추가된 배열의 인덱스
 
 public:
 	virtual void update() {}

@@ -507,6 +507,7 @@ void CResMgr::CreateDefaultShader()
 	pShader = new CShader;
 	pShader->CreateVertexShader(L"Shader\\std.fx", "VS_Tex", 5, 0);
 	pShader->CreatePixelShader(L"Shader\\std.fx", "PS_Tex", 5, 0);
+	pShader->SetDepthStencilState(CRenderMgr::GetInst()->GetDepthStencilState(DEPTH_STENCIL_TYPE::NO_DEPTH_TEST_WRITE));
 
 	pShader->AddParam(SHADER_PARAM::TEX_0, L"Output Image");
 
@@ -634,6 +635,36 @@ void CResMgr::CreateDefaultShader()
 	strKey = L"Std3DShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	// ========================
+	// Directional Light Shader
+	// ========================
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\light.fx", "VS_DirLight", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\light.fx", "PS_DirLight", 5, 0);
+
+	// pShader->AddParam(SHADER_PARAM::TEX_0, L"Diffuse Target Texture");
+	// pShader->AddParam(SHADER_PARAM::TEX_1, L"Normal Target Texture");
+	// pShader->AddParam(SHADER_PARAM::TEX_2, L"Position Target Texture");
+	// pShader->AddParam(SHADER_PARAM::INT_0, L"Light Index");
+
+	strKey = L"DirLightShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+
+	// =============
+	// Merge Shader
+	// =============
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\light.fx", "VS_Merge", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\light.fx", "PS_Merge", 5, 0);
+	pShader->SetDepthStencilState(CRenderMgr::GetInst()->GetDepthStencilState(DEPTH_STENCIL_TYPE::NO_DEPTH_TEST_WRITE));
+
+	strKey = L"MergeShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
 }
 
 void CResMgr::CreateDefaultMaterial()
@@ -645,30 +676,65 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SetShader(FindRes<CShader>(L"VtxColorShader"));
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
+
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"Collider2DMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"Collider2DShader"));
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
 
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"TextureMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"TextureShader"));
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
+
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"Std2DMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"Std2DShader"));
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
 
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"PhongMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"PhongShader"));
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
+
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"Std3DMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"Std3DShader"));
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
+
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"DirLightMtrl");
+	pMtrl->SetShader(FindRes<CShader>(L"DirLightShader"));
+
+	CResPtr<CTexture> pTex = FindRes<CTexture>(L"NormalTargetTex");
+	pMtrl->SetData(SHADER_PARAM::TEX_0, &pTex);
+
+	pTex = FindRes<CTexture>(L"PositionTargetTex");
+	pMtrl->SetData(SHADER_PARAM::TEX_1, &pTex);
+
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
+
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"MergeMtrl");
+	pMtrl->SetShader(FindRes<CShader>(L"MergeShader"));
+
+	pTex = FindRes<CTexture>(L"DiffuseTargetTex");
+	pMtrl->SetData(SHADER_PARAM::TEX_0, &pTex);
+
+	pTex = FindRes<CTexture>(L"LightTargetTex");
+	pMtrl->SetData(SHADER_PARAM::TEX_1, &pTex);
+
+	pTex = FindRes<CTexture>(L"SpecularTex");
+	pMtrl->SetData(SHADER_PARAM::TEX_2, &pTex);
+
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
 
 	CCollider2D::CreateMaterial();
 }
