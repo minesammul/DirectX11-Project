@@ -225,8 +225,8 @@ void CToolApp::CreateTestScene()
 
 	pCurScene->AddObject(L"Player", pParent);
 
-	CResPtr<CSound> pSound = CResMgr::GetInst()->Load<CSound>(L"test.mp3", L"Sound\\test.mp3");
-	pSound->Play(1);
+	//CResPtr<CSound> pSound = CResMgr::GetInst()->Load<CSound>(L"test.mp3", L"Sound\\test.mp3");
+	//pSound->Play(1);
 
 	// 충돌 지정
 	CCollisionMgr::GetInst()->CollisionCheck(L"Player", L"Monster");
