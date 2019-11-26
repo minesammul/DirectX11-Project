@@ -6,6 +6,7 @@
 #include "Device.h"
 
 #include "BlendState.h"
+#include "DepthStencilState.h"
 #include "RenderMgr.h"
 
 CShader::CShader()
@@ -21,6 +22,7 @@ CShader::CShader()
 	, m_pGS	(nullptr)
 	, m_pPS	(nullptr)
 	, m_pBlendState(nullptr)
+	, m_pDepthStencilState(nullptr)
 	, CResource(RES_TYPE::SHADER)
 	, m_eRSType(RS_TYPE::CULL_BACK)
 {
@@ -108,10 +110,18 @@ void CShader::UpdateData()
 	CONTEXT->GSSetShader(m_pGS, nullptr, 0);
 	CONTEXT->PSSetShader(m_pPS, nullptr, 0);
 
+
 	if (m_pBlendState)
 		m_pBlendState->UpdateData();
 	else
 		CBlendState::UpdateDefaultData();
+
+
+	if (m_pDepthStencilState)
+		m_pDepthStencilState->UpdateData();
+	else
+		CDepthStencilState::UpdateDefaultData();
+
 
 	CRenderMgr::GetInst()->SetRSState(m_eRSType);
 }

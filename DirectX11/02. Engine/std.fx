@@ -45,10 +45,12 @@ PS_OUT PS(VTX_OUTPUT _input)
     return output;
 }
 
-// ==========================
+// ========================================
 // Texture Shader
 // g_tex_0 : Samling Texture
-// ==========================
+// BlendState = default
+// DepthStencilState = No Depth Test, write
+// =======================================
 struct VTX_TEX_INPUT
 {
     float3 vPos : POSITION;

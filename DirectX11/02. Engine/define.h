@@ -177,6 +177,16 @@ enum class LIGHT_TYPE
 	END,
 };
 
+enum class DEPTH_STENCIL_TYPE
+{
+	DEFAULT, // LESS
+	LESS_EQUAL,
+	NO_DEPTH_TEST,
+	NO_DEPTH_WRITE,
+	NO_DEPTH_TEST_WRITE,
+	END,
+};
+
 enum class RT_TYPE
 {
 	SWAPCHAIN,

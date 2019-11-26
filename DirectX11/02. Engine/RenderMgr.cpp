@@ -3,6 +3,7 @@
 
 #include "SamplerState.h"
 #include "BlendState.h"
+#include "DepthStencilState.h"
 
 #include "ConstBuffer.h"
 #include "Device.h"
@@ -34,6 +35,7 @@ CRenderMgr::~CRenderMgr()
 {
 	Safe_Delete_Array(m_arrSampler);
 	Safe_Delete_Array(m_arrBlendState);
+	Safe_Delete_Array(m_arrDSState);
 	Safe_Release_Array(m_arrRSState);
 
 	Safe_Delete_Array(m_arrMRT);
@@ -51,6 +53,7 @@ void CRenderMgr::init(HWND _hWnd, tResolution _tres, bool _bWindow)
 
 	CreateSamplerState();
 	CreateBlendState();
+	CreateDepthStencilState();
 	CreateRSState();
 	CreateRenderTarget();
 
@@ -121,12 +124,22 @@ void CRenderMgr::render_lights()
 	{
 		m_vecLight3D[i]->render();
 	}
+
+	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->OMSet();
+
+	CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"MergeMtrl");
+	CResPtr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh");
+	pMtrl->UpdateData();
+	pMesh->SetLayout(pMtrl->GetShader());
+	pMesh->render();
 }
 
-void CRenderMgr::RegisterLight3D(CLight3D * _pLight3D)
+int CRenderMgr::RegisterLight3D(CLight3D * _pLight3D)
 {
+	int iIdx = m_iLight3DCount;
 	m_arrLight3DInfo[m_iLight3DCount++] = _pLight3D->GetLight3DInfo();
 	m_vecLight3D.push_back(_pLight3D);
+	return iIdx;
 }
 
 void CRenderMgr::SetRSState(RS_TYPE _eType)
@@ -194,6 +207,47 @@ void CRenderMgr::CreateBlendState()
 	tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	m_arrBlendState[(UINT)BLEND_TYPE::ALPHABLEND]->Create(&tDesc);
+}
+
+void CRenderMgr::CreateDepthStencilState()
+{
+	// Default State
+	m_arrDSState[(UINT)DEPTH_STENCIL_TYPE::DEFAULT] = nullptr;
+
+	CDepthStencilState* pDSState = nullptr;
+	D3D11_DEPTH_STENCIL_DESC tDesc = {};
+
+	// Less Equal
+	pDSState = new CDepthStencilState;
+	tDesc.DepthEnable = true;
+	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL; // D3D11_DEPTH_WRITE_MASK_ZERO;
+	tDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+	pDSState->Create(tDesc);
+	m_arrDSState[(UINT)DEPTH_STENCIL_TYPE::LESS_EQUAL] = pDSState;
+
+	// No Depth Test
+	pDSState = new CDepthStencilState;
+	tDesc.DepthEnable = false;
+	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL; // D3D11_DEPTH_WRITE_MASK_ZERO;
+	tDesc.DepthFunc = D3D11_COMPARISON_ALWAYS;
+	pDSState->Create(tDesc);
+	m_arrDSState[(UINT)DEPTH_STENCIL_TYPE::NO_DEPTH_TEST] = pDSState;
+
+	// No Depth Write
+	pDSState = new CDepthStencilState;
+	tDesc.DepthEnable = true;
+	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	tDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+	pDSState->Create(tDesc);
+	m_arrDSState[(UINT)DEPTH_STENCIL_TYPE::NO_DEPTH_WRITE] = pDSState;
+
+	// No Depth Test, Write
+	pDSState = new CDepthStencilState;
+	tDesc.DepthEnable = false;
+	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	tDesc.DepthFunc = D3D11_COMPARISON_ALWAYS;
+	pDSState->Create(tDesc);
+	m_arrDSState[(UINT)DEPTH_STENCIL_TYPE::NO_DEPTH_TEST_WRITE] = pDSState;
 }
 
 void CRenderMgr::UpdateLight3D()
