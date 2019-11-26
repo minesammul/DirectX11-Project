@@ -2,6 +2,7 @@
 #include "Resource.h"
 
 class CBlendState;
+class CDepthStencilState;
 
 struct tPramInfo
 {
@@ -27,6 +28,7 @@ class CShader :
 	ID3D11PixelShader *		m_pPS;
 
 	CBlendState*			m_pBlendState;
+	CDepthStencilState*		m_pDepthStencilState;
 	RS_TYPE					m_eRSType;
 	vector<tPramInfo>		m_vecParam;
 
@@ -44,6 +46,7 @@ public:
 	ID3D11PixelShader *		GetPS() { return m_pPS; }
 
 	void SetBlendState(CBlendState* _pBlendState) { m_pBlendState = _pBlendState; }
+	void SetDepthStencilState(CDepthStencilState* _pDSState) { m_pDepthStencilState = _pDSState; }
 	void SetRSType(RS_TYPE _eType) { m_eRSType = _eType; }
 
 public:
