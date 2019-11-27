@@ -56,12 +56,13 @@ enum class COMPONENT_TYPE
 
 enum class RES_TYPE
 {
-	MATERIAL,
 	PREFAB,
+	FILTER,
+	MATERIAL,
 	MESH,
 	SHADER,
-	TEXTURE,	
-	SOUND,		
+	TEXTURE,
+	SOUND,
 	END
 };
 

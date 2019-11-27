@@ -55,6 +55,9 @@
     <Filter Include="EngineCode\05. Rendering\State">
       <UniqueIdentifier>{92fe2562-d6c9-4023-b2f1-e834daddbd9f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EngineCode\04. Resource\Filter">
+      <UniqueIdentifier>{1fb1bd1f-aaa3-4570-a1f2-6645b0cf2a53}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="func.h">
@@ -193,6 +196,9 @@
       <Filter>EngineCode\05. Rendering</Filter>
     </ClInclude>
     <ClInclude Include="resource1.h" />
+    <ClInclude Include="Filter23.h">
+      <Filter>EngineCode\04. Resource\Filter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="func.cpp">
@@ -318,6 +324,12 @@
     <ClCompile Include="MRT.cpp">
       <Filter>EngineCode\05. Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Filter23.cpp">
+      <Filter>EngineCode\04. Resource\Filter</Filter>
+    </ClCompile>
+    <ClCompile Include="ResDefaultCreate.cpp">
+      <Filter>EngineCode\02. Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="std.fx">
@@ -339,6 +351,9 @@
       <Filter>ShaderCode</Filter>
     </FxCompile>
     <FxCompile Include="light.fx">
+      <Filter>ShaderCode</Filter>
+    </FxCompile>
+    <FxCompile Include="skybox.fx">
       <Filter>ShaderCode</Filter>
     </FxCompile>
   </ItemGroup>
