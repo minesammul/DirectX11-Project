@@ -12,6 +12,7 @@ CMaterial::CMaterial()
 	, m_param{}
 	, m_arrTex{}
 	, CResource(RES_TYPE::MATERIAL)
+	, m_bSave(true)
 {
 }
 
@@ -80,6 +81,11 @@ void CMaterial::SetData(SHADER_PARAM _eType, void * _pSrc)
 	default:
 		assert(nullptr);
 		break;
+	}
+
+	if (CCore::GetInst()->GetState() == SCENE_STATE::STOP && m_bSave)
+	{
+		Save();
 	}
 
 	/*if (CCore::GetInst()->GetState() == SCENE_STATE::STOP)
@@ -167,7 +173,7 @@ void CMaterial::Save()
 	errno_t err = _wfopen_s(&pFile, strFileName.c_str(), L"wb");
 
 	if (pFile == nullptr)
-		int a = 0;
+		return;
 
 	// Material 이 참조하고 있는 Shader 의 이름을 저장한다.
 	wstring strKey;
