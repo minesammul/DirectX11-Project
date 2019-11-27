@@ -8,6 +8,7 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Prefab.h"
+#include "Filter23.h"
 #include "ResPtr.h"
 #include "PathMgr.h"
 
@@ -26,6 +27,7 @@ private:
 	void CreateDefaultMesh();
 	void CreateDefaultShader();
 	void CreateDefaultMaterial();
+	void CreateDefaultFilter();
 	void InitSound();
 
 public:
@@ -69,6 +71,8 @@ inline CResPtr<T> CResMgr::FindRes(const wstring & _strKey)
 		eType = RES_TYPE::MATERIAL;	   
 	else if (typeid(T).hash_code() == typeid(CPrefab).hash_code())
 		eType = RES_TYPE::PREFAB;
+	else if (typeid(T).hash_code() == typeid(CFilter23).hash_code())
+		eType = RES_TYPE::FILTER;
 
 	iter = m_mapRes[(UINT)eType].find(_strKey);
 	if (iter == m_mapRes[(UINT)eType].end())
@@ -96,7 +100,9 @@ inline void CResMgr::AddRes(const wstring & _strKey, CResPtr<T> _pResource)
 		eType = RES_TYPE::MATERIAL;
 	else if (typeid(T).hash_code() == typeid(CPrefab).hash_code())
 		eType = RES_TYPE::PREFAB;
-	
+	else if (typeid(T).hash_code() == typeid(CFilter23).hash_code())
+		eType = RES_TYPE::FILTER;
+
 	iter = m_mapRes[(UINT)eType].find(_strKey);
 	assert(iter == m_mapRes[(UINT)eType].end());	
 		
@@ -122,6 +128,8 @@ inline void CResMgr::AddCloneRes(CResPtr<T> _pResource)
 		eType = RES_TYPE::MATERIAL;
 	else if (typeid(T).hash_code() == typeid(CPrefab).hash_code())
 		eType = RES_TYPE::PREFAB;		
+	else if (typeid(T).hash_code() == typeid(CFilter23).hash_code())
+		eType = RES_TYPE::FILTER;
 
 	m_vecCloneRes[(UINT)eType].push_back(_pResource.GetPointer());	
 }

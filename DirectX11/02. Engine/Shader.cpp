@@ -25,6 +25,7 @@ CShader::CShader()
 	, m_pDepthStencilState(nullptr)
 	, CResource(RES_TYPE::SHADER)
 	, m_eRSType(RS_TYPE::CULL_BACK)
+	, m_bDeferred(false)
 {
 }
 
