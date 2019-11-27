@@ -27,7 +27,8 @@ protected:
 public:
 	virtual void update();
 	void finalupdate();
-	void render();
+	void render_deferred();
+	void render_forward();
 
 public:
 	void SetProjType(PROJ_TYPE _eType) { m_eType = _eType; }

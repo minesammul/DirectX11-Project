@@ -31,6 +31,7 @@ class CShader :
 	CDepthStencilState*		m_pDepthStencilState;
 	RS_TYPE					m_eRSType;
 	vector<tPramInfo>		m_vecParam;
+	bool					m_bDeferred;
 
 public:
 	ID3DBlob* GetVSBlob() { return  m_pVSBlob; }
@@ -48,6 +49,8 @@ public:
 	void SetBlendState(CBlendState* _pBlendState) { m_pBlendState = _pBlendState; }
 	void SetDepthStencilState(CDepthStencilState* _pDSState) { m_pDepthStencilState = _pDSState; }
 	void SetRSType(RS_TYPE _eType) { m_eRSType = _eType; }
+	void SetDeferred() { m_bDeferred = true; }
+	bool IsDeferred() { return m_bDeferred; }
 
 public:
 	void CreateVertexShader(const wstring& _strFilePath, const string& _strFuncName, UINT _iHigh, UINT _iLow);

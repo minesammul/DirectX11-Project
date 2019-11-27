@@ -90,10 +90,15 @@ void CRenderMgr::render()
 
 		for (size_t i = 0; i < m_vecCam.size(); ++i)
 		{
-			m_vecCam[i]->render();
+			m_vecCam[i]->render_deferred();
 		}
 
 		render_lights();
+
+		for (size_t i = 0; i < m_vecCam.size(); ++i)
+		{
+			m_vecCam[i]->render_forward();
+		}
 	}
 	
 	// 윈도우에 출력
@@ -127,6 +132,7 @@ void CRenderMgr::render_lights()
 
 	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->OMSet();
 
+	// filter
 	CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"MergeMtrl");
 	CResPtr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh");
 	pMtrl->UpdateData();

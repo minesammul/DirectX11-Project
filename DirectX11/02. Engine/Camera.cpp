@@ -7,6 +7,11 @@
 #include "Layer.h"
 #include "RenderMgr.h"
 
+#include "GameObject.h"
+#include "MeshRender.h"
+#include "Material.h"
+#include "Shader.h"
+
 CCamera::CCamera()
 	: m_eType(PROJ_TYPE::PERSPECTIVE)
 	, m_fScale(1.f)
@@ -67,7 +72,7 @@ void CCamera::finalupdate()
 	CRenderMgr::GetInst()->RegisterCamera(this);
 }
 
-void CCamera::render()
+void CCamera::render_deferred()
 {
 	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
 
@@ -80,10 +85,56 @@ void CCamera::render()
 			continue;
 
 		if (IsValiedLayer(i))
-			pCurScene->GetLayer(i)->render();
+		{
+			const vector<CGameObject*>& vecObj = pCurScene->GetLayer(i)->GetAllObject();
+
+			for (size_t i = 0; i < vecObj.size(); ++i)
+			{
+				if (nullptr == vecObj[i]->MeshRender()
+					|| nullptr == vecObj[i]->MeshRender()->GetSharedMaterial()
+					|| nullptr == vecObj[i]->MeshRender()->GetSharedMaterial()->GetShader())
+					continue;
+
+				if (vecObj[i]->MeshRender()->GetSharedMaterial()->GetShader()->IsDeferred())
+				{
+					vecObj[i]->render();
+				}
+			}
+		}
 	}
 }
 
+void CCamera::render_forward()
+{
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+
+	g_transform.matView = m_matView;
+	g_transform.matProj = m_matProj;
+
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		if (nullptr == pCurScene->GetLayer(i))
+			continue;
+
+		if (IsValiedLayer(i))
+		{
+			const vector<CGameObject*>& vecObj = pCurScene->GetLayer(i)->GetAllObject();
+
+			for (size_t i = 0; i < vecObj.size(); ++i)
+			{
+				if (nullptr == vecObj[i]->MeshRender()
+					|| nullptr == vecObj[i]->MeshRender()->GetSharedMaterial()
+					|| nullptr == vecObj[i]->MeshRender()->GetSharedMaterial()->GetShader())
+					continue;
+
+				if (!vecObj[i]->MeshRender()->GetSharedMaterial()->GetShader()->IsDeferred())
+				{
+					vecObj[i]->render();
+				}
+			}
+		}
+	}
+}
 
 void CCamera::CheckLayer(UINT _iLayerIdx)
 {
