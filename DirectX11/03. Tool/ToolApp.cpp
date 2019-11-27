@@ -225,6 +225,19 @@ void CToolApp::CreateTestScene()
 
 	pCurScene->AddObject(L"Player", pParent);
 
+	// SkyBox 추가하기
+	CGameObject* pSkyBox = new CGameObject;
+	pSkyBox->SetName(L"Skybox");
+	pSkyBox->AddComponent(new CTransform);
+	pSkyBox->AddComponent(new CMeshRender);
+
+	pSkyBox->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	pSkyBox->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"SkyboxMtrl"));
+	CResPtr<CTexture> pSkyBoxTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Skybox\\Sky02.jpg");
+	pSkyBox->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pSkyBoxTex);
+
+	pCurScene->AddObject(L"Default", pSkyBox);
+
 	//CResPtr<CSound> pSound = CResMgr::GetInst()->Load<CSound>(L"test.mp3", L"Sound\\test.mp3");
 	//pSound->Play(1);
 

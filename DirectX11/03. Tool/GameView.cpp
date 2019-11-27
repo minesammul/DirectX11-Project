@@ -221,9 +221,11 @@ void CGameView::update_tool()
 void CGameView::render_tool()
 {
 	// Tool Camera Render	
-	m_pToolCam->Camera()->render(); // deferred MRT 에 출력
+	m_pToolCam->Camera()->render_deferred(); // deferred MRT 에 출력
 
 	CRenderMgr::GetInst()->render_lights();
+
+	m_pToolCam->Camera()->render_forward(); // SwapChain Mrt 에 출력
 
 	// SwapChain MRT 로 복구
 	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->OMSet();
@@ -232,7 +234,7 @@ void CGameView::render_tool()
 	m_pGridObject->render();
 
 	// Tool UI render
-	m_pToolUICam->Camera()->render();
+	m_pToolUICam->Camera()->render_forward();
 
 	// Tool 전용 Object render
 	for (size_t i = 0; i < m_vecToolUI.size(); ++i)
