@@ -38,6 +38,8 @@ struct tTransform
 	Matrix matProj;
 	Matrix matWV;
 	Matrix matWVP;
+	Matrix matWorldInv;
+	Matrix matViewInv;
 };
 
 struct tAnim2D
@@ -60,9 +62,9 @@ struct tShaderParam
 
 struct tGlobalValue
 {
-	UINT iLightCount;
 	float fDeltaTime;
-	double dAccTime;
+	float dAccTime;
+	tResolution tResolution;
 };
 
 struct tLight3DInfo

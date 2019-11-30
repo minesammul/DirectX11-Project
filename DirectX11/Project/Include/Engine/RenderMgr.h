@@ -8,6 +8,9 @@ class CRenderTarget23;
 class CMRT;
 class CCamera;
 
+#include "ResPtr.h"
+#include "Filter23.h"
+
 class CRenderMgr
 {
 	SINGLE(CRenderMgr);
@@ -31,6 +34,8 @@ private:
 
 	vector<CCamera*>		m_vecCam;				// Scene 에 있는 카메라
 
+	CResPtr<CFilter23>      m_pMergeFilter;
+
 public:
 	void init(HWND _hWnd, tResolution _tres, bool _bWindow);
 	void render();
@@ -41,6 +46,7 @@ public:
 	CBlendState* GetBlendState(BLEND_TYPE _eType) { return m_arrBlendState[(UINT)_eType]; }
 	CDepthStencilState* GetDepthStencilState(DEPTH_STENCIL_TYPE _eType) { return m_arrDSState[(UINT)_eType]; }
 	CMRT* GetMRT(MRT_TYPE _eType) { return m_arrMRT[(UINT)_eType]; }
+	void SetMergeFilter(CResPtr<CFilter23> _pFilter) { m_pMergeFilter = _pFilter; }
 
 public:
 	int RegisterLight3D(CLight3D* _pLight3D);

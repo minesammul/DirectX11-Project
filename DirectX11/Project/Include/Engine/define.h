@@ -76,6 +76,7 @@ enum class BLEND_TYPE
 {
 	DEFAULT,
 	ALPHABLEND,
+	ONE_ONE,
 	END,
 };
 

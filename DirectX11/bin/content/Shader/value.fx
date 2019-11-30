@@ -26,6 +26,8 @@ cbuffer MATRIX : register(b0)
     row_major matrix g_matProj;
     row_major matrix g_matWV;
     row_major matrix g_matWVP;
+    row_major matrix g_matWorldInv;
+    row_major matrix g_matViewInv;
 }
 
 cbuffer MATERIAL : register(b1)
@@ -71,10 +73,10 @@ cbuffer ANIM2D : register(b2)
 
 cbuffer GLOBAL_VALUE : register(b3)
 {
-    uint iLightCount; // 광원 개수
     float fDT; // deltatime
     float fAccTime; // 누적시간
-    float fPadding;
+    float fTargetWidth; // 출력 타겟 해상도
+    float fTargetHeight; // 출력 타겟 해상도
 }
 
 cbuffer LIGHT_3D : register(b4)
