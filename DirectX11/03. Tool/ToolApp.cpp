@@ -161,26 +161,25 @@ void CToolApp::CreateTestScene()
 
 	// Light3D 추가하기
 	CGameObject* pLightObj = new CGameObject;
-	pLightObj->SetName(L"Directional Light");
+	pLightObj->SetName(L"PointLight_1");
 	pLightObj->AddComponent(new CTransform);
 	pLightObj->AddComponent(new CLight3D);
 
 	pLightObj->Transform()->SetLocalPos(Vec3(-500.f, 500.f, 500.f));
-	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
+	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::POINT);
 	pLightObj->Light3D()->SetLightDir(Vec3(0.f, -1.f, -1.f));
-	pLightObj->Light3D()->SetLightDiffuse(Vec3(1.f, 1.f, 1.f));
+	pLightObj->Light3D()->SetLightDiffuse(Vec3(1.f, 0.7f, 0.7f));
 	pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));
 	pLightObj->Light3D()->SetLightAmbient(Vec3(0.15f, 0.15f, 0.15f));
-	pLightObj->Light3D()->SetLightRange(2000.f);
+	pLightObj->Light3D()->SetLightRange(1000.f);
 
 	pCurScene->AddObject(L"Default", pLightObj);
 
-	// Light 2
-	//pLightObj = pLightObj->Clone();
-	//pLightObj->SetName(L"Point Light 2");
-	//pLightObj->Light3D()->SetLightDiffuse(Vec3(0.6f, 0.6f, 1.f));
-	//pLightObj->Transform()->SetLocalPos(Vec3(500.f, 500.f, 500.f));
-	//pCurScene->AddObject(L"Default", pLightObj);
+	pLightObj = pLightObj->Clone();
+	pLightObj->SetName(L"PointLight_2");
+	pLightObj->Transform()->SetLocalPos(Vec3(500.f, 500.f, 500.f));
+	pLightObj->Light3D()->SetLightDiffuse(Vec3(0.7f, 0.7f, 1.0f));
+	pCurScene->AddObject(L"Default", pLightObj);
 
 
 	// Camera Object 만들기
@@ -207,9 +206,9 @@ void CToolApp::CreateTestScene()
 	CTransform* pTransform = new CTransform;
 	CMeshRender* pMeshRender = new CMeshRender;
 
-	pTransform->SetLocalPos(Vec3(0.f, 0.f, 500.f));
+	pTransform->SetLocalPos(Vec3(0.f, 100.f, 500.f));
 	pTransform->SetLocalScale(Vec3(1000.f, 1000.f, 1000.f));
-	pTransform->SetLocalRot(Vec3(0.f, 0.f, 0.f));
+	pTransform->SetLocalRot(Vec3(XM_PI / 2.f, 0.f, 0.f));
 
 	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3DMtrl"));

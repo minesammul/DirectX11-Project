@@ -538,12 +538,27 @@ void CResMgr::CreateDefaultShader()
 	pShader->CreateVertexShader(L"Shader\\light.fx", "VS_DirLight", 5, 0);
 	pShader->CreatePixelShader(L"Shader\\light.fx", "PS_DirLight", 5, 0);
 
-	// pShader->AddParam(SHADER_PARAM::TEX_0, L"Diffuse Target Texture");
-	// pShader->AddParam(SHADER_PARAM::TEX_1, L"Normal Target Texture");
-	// pShader->AddParam(SHADER_PARAM::TEX_2, L"Position Target Texture");
+	// pShader->AddParam(SHADER_PARAM::TEX_0, L"Normal Target Texture");
+	// pShader->AddParam(SHADER_PARAM::TEX_1, L"Position Target Texture");
 	// pShader->AddParam(SHADER_PARAM::INT_0, L"Light Index");
 
 	strKey = L"DirLightShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+
+	// ========================
+	// Point Light Shader
+	// ========================
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\light.fx", "VS_PointLight", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\light.fx", "PS_PointLight", 5, 0);
+
+	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ONE_ONE));
+	pShader->SetDepthStencilState(CRenderMgr::GetInst()->GetDepthStencilState(DEPTH_STENCIL_TYPE::NO_DEPTH_TEST_WRITE));
+	pShader->SetRSType(RS_TYPE::CULL_FRONT);
+
+	strKey = L"PointLightShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 
@@ -565,11 +580,13 @@ void CResMgr::CreateDefaultMaterial()
 {
 	CResPtr<CMaterial> pMtrl = nullptr;
 
+
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"VtxColorMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"VtxColorShader"));
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
 
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"Collider2DMtrl");
@@ -577,11 +594,13 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
+
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"Std2DMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"Std2DShader"));
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
 
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"TextureMtrl");
@@ -589,11 +608,13 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
+
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"SkyboxMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"SkyboxShader"));
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
 
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"Std3DMtrl");
@@ -601,12 +622,28 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
+
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"DirLightMtrl");
 	pMtrl->SaveDisable();
 	pMtrl->SetShader(FindRes<CShader>(L"DirLightShader"));
 
 	CResPtr<CTexture> pTex = FindRes<CTexture>(L"NormalTargetTex");
+	pMtrl->SetData(SHADER_PARAM::TEX_0, &pTex);
+
+	pTex = FindRes<CTexture>(L"PositionTargetTex");
+	pMtrl->SetData(SHADER_PARAM::TEX_1, &pTex);
+
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
+
+	// Point Light
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"PointLightMtrl");
+	pMtrl->SaveDisable();
+	pMtrl->SetShader(FindRes<CShader>(L"PointLightShader"));
+
+	pTex = FindRes<CTexture>(L"NormalTargetTex");
 	pMtrl->SetData(SHADER_PARAM::TEX_0, &pTex);
 
 	pTex = FindRes<CTexture>(L"PositionTargetTex");
@@ -637,5 +674,17 @@ void CResMgr::CreateDefaultMaterial()
 
 void CResMgr::CreateDefaultFilter()
 {
+	CResPtr<CMaterial> pMtrl = nullptr;
+	CResPtr<CMesh> pMesh = nullptr;
 
+	CFilter23* pFilter = new CFilter23;
+
+	pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh");
+	pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"MergeMtrl");
+
+	pFilter->Create(pMesh, pMtrl);
+	pFilter->SetName(L"MergeFilter");
+	m_mapRes[(UINT)RES_TYPE::FILTER].insert(make_pair(pFilter->GetName(), pFilter));
+
+	CRenderMgr::GetInst()->SetMergeFilter(pFilter);
 }

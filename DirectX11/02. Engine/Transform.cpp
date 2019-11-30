@@ -76,8 +76,10 @@ void CTransform::finalupdate()
 void CTransform::UpdateData()
 {
 	g_transform.matWorld = m_matWorld;
+	g_transform.matWorldInv = XMMatrixInverse(nullptr, m_matWorld);
 	g_transform.matWV = m_matWorld * g_transform.matView;
 	g_transform.matWVP = g_transform.matWV * g_transform.matProj;
+
 
 	static CConstBuffer* pCB = CDevice::GetInst()->FindConstBuffer(L"Transform");
 	   

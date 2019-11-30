@@ -81,6 +81,8 @@ void CRenderMgr::render()
 
 	{
 		static CConstBuffer* pGlobal = CDevice::GetInst()->FindConstBuffer(L"Global");
+		g_global.tResolution = m_tRes;
+
 		pGlobal->AddData(&g_global, sizeof(tGlobalValue));
 		pGlobal->UpdateData();
 		pGlobal->SetRegisterAll();
@@ -111,6 +113,8 @@ void CRenderMgr::render_tool()
 	Clear();
 
 	static CConstBuffer* pGlobal = CDevice::GetInst()->FindConstBuffer(L"Global");
+	g_global.tResolution = m_tRes;
+
 	pGlobal->AddData(&g_global, sizeof(tGlobalValue));
 	pGlobal->UpdateData();
 	pGlobal->SetRegisterAll();
@@ -133,11 +137,7 @@ void CRenderMgr::render_lights()
 	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->OMSet();
 
 	// filter
-	CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"MergeMtrl");
-	CResPtr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh");
-	pMtrl->UpdateData();
-	pMesh->SetLayout(pMtrl->GetShader());
-	pMesh->render();
+	m_pMergeFilter->render();
 }
 
 int CRenderMgr::RegisterLight3D(CLight3D * _pLight3D)
@@ -213,6 +213,30 @@ void CRenderMgr::CreateBlendState()
 	tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	m_arrBlendState[(UINT)BLEND_TYPE::ALPHABLEND]->Create(&tDesc);
+
+	// =================
+	// One - One Blend
+	// =================
+	m_arrBlendState[(UINT)BLEND_TYPE::ONE_ONE] = new CBlendState;
+
+	tDesc.AlphaToCoverageEnable = false;   // 투명물체 깊의에 의해서 가려지는 현상 제거(x4 멀티샘플이 지원될 경우)
+	tDesc.IndependentBlendEnable = false; // 렌더타켓 별로 독립적인 블렌드 공식 사용
+
+	tDesc.RenderTarget[0].BlendEnable = true;
+
+	// 색상 혼합 공식
+	tDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+	tDesc.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_ONE;
+	tDesc.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_ONE;
+
+	// Alpha 값 끼리 혼합공식
+	tDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+	tDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+	tDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ZERO;
+
+	tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	m_arrBlendState[(UINT)BLEND_TYPE::ONE_ONE]->Create(&tDesc);
 }
 
 void CRenderMgr::CreateDepthStencilState()

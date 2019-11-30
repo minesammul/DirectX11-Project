@@ -33,6 +33,8 @@ void CResMgr::init()
 
 	CreateDefaultMaterial();
 
+	CreateDefaultFilter();
+
 	InitSound();
 }
 

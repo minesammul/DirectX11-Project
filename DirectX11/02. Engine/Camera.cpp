@@ -77,6 +77,7 @@ void CCamera::render_deferred()
 	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
 
 	g_transform.matView = m_matView;
+	g_transform.matViewInv = XMMatrixInverse(nullptr, m_matView);
 	g_transform.matProj = m_matProj;
 
 	for (UINT i = 0; i < MAX_LAYER; ++i)
