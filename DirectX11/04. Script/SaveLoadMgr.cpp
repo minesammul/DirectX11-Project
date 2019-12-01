@@ -11,6 +11,7 @@
 #include <Script.h>
 #include <Camera.h>
 #include <CollisionMgr.h>
+#include <Light3D.h>
 
 CSaveLoadMgr::CSaveLoadMgr(){}
 CSaveLoadMgr::~CSaveLoadMgr(){}
@@ -63,8 +64,12 @@ void CSaveLoadMgr::SaveResource(FILE* _pFile)
 	for (; i < (UINT)RES_TYPE::END; ++i)
 	{
 		// 쉐이더는 설계상 문제로 저장 및 로드하지 않는다.(Engine 코드에서 전부 생성해둠)
-		if (i == (UINT)RES_TYPE::SHADER || i == (UINT)RES_TYPE::PREFAB)
+		if (i == (UINT)RES_TYPE::SHADER ||
+			i == (UINT)RES_TYPE::PREFAB ||
+			i == (UINT)RES_TYPE::FILTER)
+		{
 			continue;
+		}
 
 		const map<wstring, CResource*>& mapRes = CResMgr::GetInst()->GetResources((RES_TYPE)i);
 
@@ -324,6 +329,11 @@ CGameObject * CSaveLoadMgr::LoadGameObject(FILE * _pFile)
 			break;
 		case COMPONENT_TYPE::CAMERA:
 			pCom = new CCamera;
+			break;
+		case COMPONENT_TYPE::LIGHT2D:
+			break;
+		case COMPONENT_TYPE::LIGHT3D:
+			pCom = new CLight3D;
 			break;
 		case COMPONENT_TYPE::COLLIDER2D:
 			pCom = new CCollider2D;
