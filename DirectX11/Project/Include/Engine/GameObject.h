@@ -10,6 +10,7 @@ class CScript;
 class CCollider2D;
 class CAnimator2D;
 class CLight3D;
+class CTerrain;
 
 class CGameObject :
 	public CEntity
@@ -51,6 +52,7 @@ public:
 	CComponent* GetComponent(COMPONENT_TYPE _eType) {return m_arrCom[(UINT)_eType];}
 	vector<CScript*>& GetScripts() { return m_vecScript; }
 	CLight3D* Light3D() { return (CLight3D*)m_arrCom[(UINT)COMPONENT_TYPE::LIGHT3D]; }
+	CTerrain* Terrain() { { return (CTerrain*)m_arrCom[(UINT)COMPONENT_TYPE::TERRAIN]; } }
 
 	int GetLayerIdx() { return m_iLayerIdx; }
 	void SetLayerIdx(UINT _iIdx) { m_iLayerIdx = _iIdx; }

@@ -195,9 +195,14 @@
     <ClInclude Include="MRT.h">
       <Filter>EngineCode\05. Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="resource1.h" />
     <ClInclude Include="Filter23.h">
       <Filter>EngineCode\04. Resource\Filter</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>EngineCode\03. GameObject\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -330,6 +335,12 @@
     <ClCompile Include="ResDefaultCreate.cpp">
       <Filter>EngineCode\02. Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Terrain2.cpp">
+      <Filter>EngineCode\03. GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain1.cpp">
+      <Filter>EngineCode\03. GameObject\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="std.fx">
@@ -358,6 +369,8 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="02. Engine.rc" />
+    <ResourceCompile Include="02. Engine.rc">
+      <Filter>Default</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
