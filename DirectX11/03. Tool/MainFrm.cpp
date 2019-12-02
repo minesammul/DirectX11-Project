@@ -27,6 +27,7 @@
 #include <KeyMgr.h>
 #include <Core.h>
 #include <Script.h>
+#include <Terrain.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -43,6 +44,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_32773, &CMainFrame::OnSaveScene)
 	ON_COMMAND(ID_32774, &CMainFrame::OnLoadScene)
 	ON_COMMAND(ID_GAMEOBJECT_2DRECT, &CMainFrame::OnGameobject2drect)
+	ON_COMMAND(ID_GAMEOBJECT_CREATETERRAIN, &CMainFrame::OnGameObjectCreateTerrain)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -296,6 +298,22 @@ void CMainFrame::OnGameobject2drect()
 	newObject->AddComponent(pCollider2D);
 
 	pCurScene->AddObject(L"Default", newObject);
+
+	((CHierachyView*)GetHierachyView())->init_object();
+}
+
+
+void CMainFrame::OnGameObjectCreateTerrain()
+{
+	CGameObject* pNewObj = new CGameObject;
+	pNewObj->SetName(L"Terrain");
+	pNewObj->AddComponent(new CTransform);
+	pNewObj->AddComponent(new CMeshRender);
+	pNewObj->AddComponent(new CTerrain);
+
+	pNewObj->Terrain()->init(64, 64);
+
+	CSceneMgr::GetInst()->GetCurScene()->AddObject(L"Default", pNewObj);
 
 	((CHierachyView*)GetHierachyView())->init_object();
 }
