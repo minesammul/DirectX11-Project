@@ -45,6 +45,8 @@ enum class COMPONENT_TYPE
 
 	COLLIDER3D, 
 
+	TERRAIN,	// ÁöÇü
+
 	ANIMATOR2D,
 
 	ANIMATOR3D,		

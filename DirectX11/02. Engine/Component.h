@@ -38,6 +38,8 @@ protected:
 	CCollider2D* Collider2D() { return m_pObject->Collider2D(); }
 	CCamera* Camera() { return m_pObject->Camera(); }
 	CAnimator2D* Animator2D() { return m_pObject->Animator2D(); }
+	CTerrain* Terrain() { return m_pObject->Terrain(); }
+	CLight3D* Light() { return m_pObject->Light3D(); }
 
 private:
 
