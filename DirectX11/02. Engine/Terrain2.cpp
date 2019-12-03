@@ -37,13 +37,13 @@ void CTerrain::SetFaceCount(UINT _iXFace, UINT _iZFace)
 	{
 		for (UINT x = 0; x < m_iXFaceCount; ++x)
 		{
-			vecIdx.push_back((x + m_iXFaceCount * z) + m_iXFaceCount);
-			vecIdx.push_back((x + m_iXFaceCount * z) + 1);
-			vecIdx.push_back((x + m_iXFaceCount * z));
+			vecIdx.push_back((x + (m_iXFaceCount + 1)  * z) + (m_iXFaceCount + 1));
+			vecIdx.push_back((x + (m_iXFaceCount + 1) * z) + 1);
+			vecIdx.push_back((x + (m_iXFaceCount + 1) * z));
 
-			vecIdx.push_back((x + m_iXFaceCount * z) + 1);
-			vecIdx.push_back((x + m_iXFaceCount * z) + m_iXFaceCount);
-			vecIdx.push_back((x + m_iXFaceCount * z) + m_iXFaceCount + 1);
+			vecIdx.push_back((x + (m_iXFaceCount + 1) * z) + 1);
+			vecIdx.push_back((x + (m_iXFaceCount + 1) * z) + (m_iXFaceCount + 1));
+			vecIdx.push_back((x + (m_iXFaceCount + 1) * z) + (m_iXFaceCount + 1) + 1);
 		}
 	}
 
