@@ -15,9 +15,9 @@ CTransform::~CTransform()
 {
 }
 
-const Vec3 & CTransform::GetWorldPos()
+Vec3 CTransform::GetWorldPos()
 {
-	static Vec3 vec3zero = Vec3(0.f, 0.f, 0.f);
+	Vec3 vec3zero = Vec3(0.f, 0.f, 0.f);
 	vec3zero = XMVector3TransformCoord(vec3zero, m_matWorld);
 	return vec3zero;
 }

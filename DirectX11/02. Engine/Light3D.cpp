@@ -24,8 +24,13 @@ void CLight3D::finalupdate()
 
 void CLight3D::render()
 {
+
 	m_pMtrl->SetData(SHADER_PARAM::INT_0, &m_iIdx);
+
+	Transform()->UpdateData();
+
 	m_pMtrl->UpdateData();
+
 	m_pMesh->SetLayout(m_pMtrl->GetShader());
 	m_pMesh->render();
 }
@@ -48,4 +53,10 @@ void CLight3D::SetLightType(LIGHT_TYPE _eType)
 	{
 
 	}
+}
+
+void CLight3D::SetLightRange(float _fRange)
+{
+	m_tInfo.fRange = _fRange;
+	Transform()->SetLocalScale(Vec3(_fRange, _fRange, _fRange));
 }
