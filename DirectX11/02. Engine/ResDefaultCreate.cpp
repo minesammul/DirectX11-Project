@@ -574,6 +574,21 @@ void CResMgr::CreateDefaultShader()
 	strKey = L"MergeShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	// ==============
+	// Terrain Shader
+	// ==============
+	pShader = new CShader;
+	pShader->SetDeferred();
+	pShader->CreateVertexShader(L"Shader\\terrain.fx", "VS_Terrain", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\terrain.fx", "PS_Terrain", 5, 0);
+
+	pShader->AddParam(SHADER_PARAM::TEX_0, L"Diffuse Texture");
+	pShader->AddParam(SHADER_PARAM::TEX_1, L"NormalMap Texture");
+
+	strKey = L"TerrainShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 }
 
 void CResMgr::CreateDefaultMaterial()
@@ -666,6 +681,14 @@ void CResMgr::CreateDefaultMaterial()
 	pTex = FindRes<CTexture>(L"SpecularTex");
 	pMtrl->SetData(SHADER_PARAM::TEX_2, &pTex);
 
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
+
+	// terrain
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"TerrainMtrl");
+	pMtrl->SetShader(FindRes<CShader>(L"TerrainShader"));
+	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
 

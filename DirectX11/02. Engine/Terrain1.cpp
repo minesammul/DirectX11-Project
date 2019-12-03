@@ -21,7 +21,7 @@ void CTerrain::init(UINT _iXFace, UINT _iZFace)
 	SetFaceCount(_iXFace, _iZFace);
 
 	// Material
-	MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3DMtrl"));
+	MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TerrainMtrl"));
 
 	// Transform
 	Transform()->SetLocalScale(Vec3(100.f, 100.f, 100.f));
