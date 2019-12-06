@@ -166,7 +166,7 @@ void CToolApp::CreateTestScene()
 	pLightObj->AddComponent(new CLight3D);
 
 	pLightObj->Transform()->SetLocalPos(Vec3(-500.f, 500.f, 500.f));
-	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::POINT);
+	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
 	pLightObj->Light3D()->SetLightDir(Vec3(0.f, -1.f, -1.f));
 	pLightObj->Light3D()->SetLightDiffuse(Vec3(1.f, 0.7f, 0.7f));
 	pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));
@@ -200,7 +200,7 @@ void CToolApp::CreateTestScene()
 	pCurScene->AddObject(L"Default", pCamObj);
 
 	// Player Object 만들기
-	CGameObject* pParent = new CGameObject;
+	/*CGameObject* pParent = new CGameObject;
 	pParent->SetName(L"Player");
 
 	CTransform* pTransform = new CTransform;
@@ -213,16 +213,17 @@ void CToolApp::CreateTestScene()
 	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3DMtrl"));
 
-	CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\TILE_01.tga");
+	CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01.tga");
 	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTex);
-	pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\TILE_01_N.tga");
+	pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01_N.tga");
 	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &pTex);
-
+	pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\HeightMap\\HeightMap_01.jpg");
+	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_2, &pTex);
 
 	pParent->AddComponent(pTransform);
 	pParent->AddComponent(pMeshRender);
 
-	pCurScene->AddObject(L"Player", pParent);
+	pCurScene->AddObject(L"Player", pParent);*/
 
 	// SkyBox 추가하기
 	CGameObject* pSkyBox = new CGameObject;

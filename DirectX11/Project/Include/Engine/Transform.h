@@ -24,7 +24,7 @@ public:
 	const Vec3& GetLocalScale() {	return m_vLocalScale; }
 	const Vec3& GetLocalRot() {		return m_vLocalRot ; }
 
-	const Vec3& GetWorldPos();
+	Vec3 GetWorldPos();
 
 	const Vec3& GetLocalDir(DIR_TYPE _eType) { return m_vLocalDir[(UINT)_eType]; }
 

@@ -4,8 +4,8 @@
 
 struct tResolution
 {
-	float fWidth;
-	float fHeight;
+	float fWidth = 0.f;
+	float fHeight = 0.f;
 };
 
 struct tEvent

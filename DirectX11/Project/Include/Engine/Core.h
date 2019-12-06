@@ -1,7 +1,7 @@
 #pragma once
 
-class CRenderMgr;
-class CSceneMgr;
+#include "RenderMgr.h"
+#include "SceneMgr.h"
 
 enum class SCENE_STATE
 {

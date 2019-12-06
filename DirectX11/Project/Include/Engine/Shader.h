@@ -32,6 +32,7 @@ class CShader :
 	RS_TYPE					m_eRSType;
 	vector<tPramInfo>		m_vecParam;
 	bool					m_bDeferred;
+	D3D11_PRIMITIVE_TOPOLOGY m_eTopology;
 
 public:
 	ID3DBlob* GetVSBlob() { return  m_pVSBlob; }
@@ -51,6 +52,7 @@ public:
 	void SetRSType(RS_TYPE _eType) { m_eRSType = _eType; }
 	void SetDeferred() { m_bDeferred = true; }
 	bool IsDeferred() { return m_bDeferred; }
+	void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _eTopology) { m_eTopology = _eTopology; }
 
 public:
 	void CreateVertexShader(const wstring& _strFilePath, const string& _strFuncName, UINT _iHigh, UINT _iLow);
