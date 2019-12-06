@@ -102,7 +102,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->CreateMesh(sizeof(VTX), vecVtx.size(), D3D11_USAGE_DEFAULT, &vecVtx[0]
-		, sizeof(UINT), vecIdx.size(), &vecIdx[0], D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+		, sizeof(UINT), vecIdx.size(), &vecIdx[0]);
 
 	pMesh->SetName(L"ColliderRectMesh");
 	m_mapRes[(UINT)RES_TYPE::MESH].insert(make_pair(L"ColliderRectMesh", pMesh));
@@ -448,6 +448,7 @@ void CResMgr::CreateDefaultShader()
 	pShader->CreatePixelShader(L"Shader\\std.fx", "PS_Collider2D", 5, 0);
 
 	pShader->AddParam(SHADER_PARAM::INT_0, L"Collision Check", false);
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 	strKey = L"Collider2DShader";
 	pShader->SetName(strKey);
