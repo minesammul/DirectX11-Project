@@ -9,7 +9,11 @@
 #include "SceneMgr.h"
 #include "RenderMgr.h"
 
-CCore::CCore()
+CCore::CCore() 
+	: m_hWnd(nullptr)
+	, m_eState(SCENE_STATE::STOP)
+	, render(nullptr)
+	, scene_progress(nullptr)
 {
 }
 
