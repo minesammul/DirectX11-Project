@@ -23,10 +23,10 @@ CMaterial::~CMaterial()
 void CMaterial::SetShader(CResPtr<CShader> _pShader)
 {
 	m_pShader = _pShader;
-	if (CCore::GetInst()->GetState() == SCENE_STATE::STOP)
-	{
-		Save();
-	}
+	//if (CCore::GetInst()->GetState() == SCENE_STATE::STOP)
+	//{
+	//	Save();
+	//}
 }
 
 void CMaterial::SetData(SHADER_PARAM _eType, void * _pSrc)
@@ -83,10 +83,10 @@ void CMaterial::SetData(SHADER_PARAM _eType, void * _pSrc)
 		break;
 	}
 
-	if (CCore::GetInst()->GetState() == SCENE_STATE::STOP && m_bSave)
-	{
-		Save();
-	}
+	//if (CCore::GetInst()->GetState() == SCENE_STATE::STOP && m_bSave)
+	//{
+	//	Save();
+	//}
 
 	/*if (CCore::GetInst()->GetState() == SCENE_STATE::STOP)
 	{
