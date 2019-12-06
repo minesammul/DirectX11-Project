@@ -16,7 +16,6 @@ CMesh::CMesh()
 	, m_iIdxCount(0)
 	, m_pVtxSysMem(nullptr)
 	, m_pIdxSysMem(nullptr)
-	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	, m_pLayout(nullptr)
 {
 }
@@ -32,7 +31,7 @@ CMesh::~CMesh()
 }
 
 void CMesh::CreateMesh(UINT _iVtxSize, UINT _iVtxCount, D3D11_USAGE _eVtxUsage, void * _pVtxSysMem
-	, UINT _iIdxSize, UINT _iIdxCount, void * _pIdxSysMem, D3D11_PRIMITIVE_TOPOLOGY _eTopology)
+	, UINT _iIdxSize, UINT _iIdxCount, void * _pIdxSysMem)
 {
 
 	D3D11_BUFFER_DESC tBufferDesc = {};
@@ -63,7 +62,6 @@ void CMesh::CreateMesh(UINT _iVtxSize, UINT _iVtxCount, D3D11_USAGE _eVtxUsage, 
 	m_iVtxSize = _iVtxSize;
 	m_iIdxCount = _iIdxCount;
 	m_iIdxSize = _iIdxSize;
-	m_eTopology = _eTopology;
 
 	m_pVtxSysMem = malloc(m_iVtxCount * m_iVtxSize);
 	m_pIdxSysMem = malloc(m_iIdxCount * m_iIdxSize);
@@ -170,7 +168,6 @@ void CMesh::render()
 	UINT iOffset = 0;
 	CONTEXT->IASetVertexBuffers(0, 1, &m_pVB, &iStride, &iOffset);
 	CONTEXT->IASetIndexBuffer(m_pIB, DXGI_FORMAT_R32_UINT, 0);
-	CONTEXT->IASetPrimitiveTopology(m_eTopology);
 	CONTEXT->IASetInputLayout(m_pLayout);
 
 	CONTEXT->DrawIndexed(m_iIdxCount, 0, 0);

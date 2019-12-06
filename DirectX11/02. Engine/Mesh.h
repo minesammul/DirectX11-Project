@@ -23,7 +23,6 @@ private:
 	void*								m_pVtxSysMem;
 	void*								m_pIdxSysMem;
 
-	D3D11_PRIMITIVE_TOPOLOGY			m_eTopology;
 	vector<D3D11_INPUT_ELEMENT_DESC>	m_vecLayout;
 	ID3D11InputLayout*					m_pLayout;
 
@@ -35,7 +34,7 @@ public:
 
 
 	void CreateMesh(UINT _iVtxSize, UINT _iVtxCount, D3D11_USAGE _eVtxUsage, void* _pVtxSysMem
-		, UINT _iIdxSize, UINT _iIdxCount, void* _pIdxSysMem, D3D11_PRIMITIVE_TOPOLOGY _eTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		, UINT _iIdxSize, UINT _iIdxCount, void* _pIdxSysMem);
 
 	void SetLayout(CResPtr<CShader> _pShader);
 	void render();

@@ -26,6 +26,7 @@ CShader::CShader()
 	, CResource(RES_TYPE::SHADER)
 	, m_eRSType(RS_TYPE::CULL_BACK)
 	, m_bDeferred(false)
+	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 {
 }
 
@@ -66,7 +67,7 @@ void CShader::CreateVertexShader(const wstring & _strFilePath, const string& _st
 		, strTarget, iFlag, 0, &m_pVSBlob, &m_pErrBlob)))
 	{
 		char* pErr = (char*)m_pErrBlob->GetBufferPointer();
-		MessageBoxA(nullptr, pErr, "Pixel Shader Error", MB_OK);
+		MessageBoxA(nullptr, pErr, "Vertex Shader Error", MB_OK);
 		assert(nullptr);
 	}
 	
@@ -103,7 +104,10 @@ void CShader::CreatePixelShader(const wstring & _strFilePath, const string & _st
 }
 
 void CShader::UpdateData()
-{
+{	
+	// Topology 
+	CONTEXT->IASetPrimitiveTopology(m_eTopology);
+
 	// ¹°Ã¼ ·»´õ¸µ
 	CONTEXT->VSSetShader(m_pVS, nullptr, 0);
 	CONTEXT->HSSetShader(m_pHS, nullptr, 0);
