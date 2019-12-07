@@ -304,14 +304,16 @@ void CRenderMgr::CreateRSState()
 	DEVICE->CreateRasterizerState(&tRSDesc, &pRSState);
 	m_arrRSState[(UINT)RS_TYPE::CULL_FRONT] = pRSState;
 
+	pRSState = nullptr;
 	tRSDesc.CullMode = D3D11_CULL_NONE;
 	tRSDesc.FillMode = D3D11_FILL_SOLID;
 	DEVICE->CreateRasterizerState(&tRSDesc, &pRSState);
 	m_arrRSState[(UINT)RS_TYPE::CULL_NONE] = pRSState;
 
+	pRSState = nullptr;
 	tRSDesc.CullMode = D3D11_CULL_NONE;
 	tRSDesc.FillMode = D3D11_FILL_WIREFRAME;
-	DEVICE->CreateRasterizerState(&tRSDesc, &pRSState);
+	HRESULT returnValue = DEVICE->CreateRasterizerState(&tRSDesc, &pRSState);
 	m_arrRSState[(UINT)RS_TYPE::WIREFRAME] = pRSState;
 }
 
