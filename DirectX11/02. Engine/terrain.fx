@@ -132,7 +132,7 @@ struct HS_OUT
 // 패치상수함수
 struct TessLv
 {
-    float3 vEdgeFactor : SV_TessFactor;
+    float vEdgeFactor[3] : SV_TessFactor;
     float fInsideFactor : SV_InsideTessFactor;
 };
     
@@ -148,11 +148,12 @@ TessLv PatchConstFunc(InputPatch<VS_TESS_OUT, 3> _patch, uint _patchID : SV_Prim
     return output;
 }
 
+
 [domain("tri")]
-[partitioning("interger")]
+[partitioning("integer")]
+[outputtopology("triangle_cw")]
 [outputcontrolpoints(3)]
-[patchconstfunc("PatchConstFunc")]
-[maxtessfactor(64)]
+[patchconstantfunc("PatchConstFunc")]
 HS_OUT HS_Tess(InputPatch<VS_TESS_OUT, 3> _patch, uint i : SV_OutputControlPointID, uint _patchID : SV_PrimitiveID)
 {
     HS_OUT output = (HS_OUT) 0.f;
@@ -171,17 +172,16 @@ struct DS_OUT
     float2 vUV : TEXCOORD;
 };
 
-DS_OUT DS_Tess(OutputPatch<VS_TESS_OUT, 3> _patch, float3 _vRatio : SV_DomainLocation, TessLv _tess)
+[domain("tri")]
+DS_OUT DS_Tess(OutputPatch<HS_OUT, 3> _patch, float3 _vRatio : SV_DomainLocation, TessLv _tess)
 {
     DS_OUT output = (DS_OUT) 0.f;
     
-    float3 vLocalPos = _patch[0].vPosition * _vRatio[0]
-                        + _patch[1].vPosition * _vRatio[1]
-                        + _patch[2].vPosition * _vRatio[2];
+    float3 vLocalPos;
+    vLocalPos = _patch[0].vPosition * _vRatio.x + _patch[1].vPosition * _vRatio.y + _patch[2].vPosition * _vRatio.z;
     
-    float2 vUV = _patch[0].vUV * _vRatio[0]
-                        + _patch[1].vUV * _vRatio[1]
-                        + _patch[2].vUV * _vRatio[2];
+    float2 vUV;
+    vUV = _patch[0].vUV * _vRatio.x + _patch[1].vUV * _vRatio.y + _patch[2].vUV * _vRatio.z;
     
     output.vPosition = mul(float4(vLocalPos, 1.f), g_matWVP);
     output.vUV = vUV;
@@ -194,10 +194,10 @@ DS_OUT DS_Tess(OutputPatch<VS_TESS_OUT, 3> _patch, float3 _vRatio : SV_DomainLoc
 
 
 
-float4 PS_Tess(VS_TESS_OUT _in) : SV_Target
+float4 PS_Tess(DS_OUT _in) : SV_Target
 {
     float4 vColor = (float4) 0.f;
-
+    vColor.a = 1.f;
     
     return vColor;
 }
