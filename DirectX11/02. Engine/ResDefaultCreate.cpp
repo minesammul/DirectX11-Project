@@ -55,6 +55,12 @@ void CResMgr::CreateDefaultMesh()
 	vecIdx.push_back(0);
 	vecIdx.push_back(1);
 	vecIdx.push_back(3);
+	/*vecIdx.push_back(0);
+	vecIdx.push_back(3);
+	vecIdx.push_back(2);
+	vecIdx.push_back(3);
+	vecIdx.push_back(0);
+	vecIdx.push_back(1);*/
 
 	CMesh* pMesh = new CMesh;
 	pMesh->CreateMesh(sizeof(VTX), vecVtx.size(), D3D11_USAGE_DEFAULT, &vecVtx[0]
@@ -590,6 +596,22 @@ void CResMgr::CreateDefaultShader()
 	strKey = L"TerrainShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	// ==============
+	// Tessellation Test Shader
+	// ==============
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\terrain.fx", "VS_Tess", 5, 0);
+	pShader->CreateHullShader(L"Shader\\terrain.fx", "HS_Tess", 5, 0);
+	pShader->CreateDomainShader(L"Shader\\terrain.fx", "DS_Tess", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\terrain.fx", "PS_Tess", 5, 0);
+
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
+	pShader->SetRSType(RS_TYPE::WIREFRAME);
+
+	strKey = L"TessellationTestShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 }
 
 void CResMgr::CreateDefaultMaterial()
@@ -685,13 +707,19 @@ void CResMgr::CreateDefaultMaterial()
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
 
-	// terrain
+	//TerrainMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"TerrainMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"TerrainShader"));
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
+	//TessellationTestMtrl
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"TessellationTestMtrl");
+	pMtrl->SetShader(FindRes<CShader>(L"TessellationTestShader"));
+	pMtrl->SaveDisable();
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
 	CCollider2D::CreateMaterial();
 }
