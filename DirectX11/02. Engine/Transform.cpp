@@ -85,7 +85,8 @@ void CTransform::UpdateData()
 	   
 	pCB->AddData(&g_transform, sizeof(tTransform));
 	pCB->UpdateData();	
-	pCB->SetRegister((UINT)SHADER_TYPE::VERTEX_SHADER | (UINT)SHADER_TYPE::PIXEL_SHADER);
+	//pCB->SetRegister((UINT)SHADER_TYPE::VERTEX_SHADER | (UINT)SHADER_TYPE::PIXEL_SHADER);
+	pCB->SetRegister((UINT)SHADER_TYPE::ALL_SHADER);
 }
 
 void CTransform::SaveToScene(FILE * _pFile)
