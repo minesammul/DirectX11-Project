@@ -75,6 +75,75 @@ void CShader::CreateVertexShader(const wstring & _strFilePath, const string& _st
 	DEVICE->CreateVertexShader(m_pVSBlob->GetBufferPointer(), m_pVSBlob->GetBufferSize(), nullptr, &m_pVS);
 }
 
+void CShader::CreateHullShader(const wstring & _strFilePath, const string & _strFuncName, UINT _iHigh, UINT _iLow)
+{
+	// Shader 만들기
+	UINT iFlag = 0;
+
+#ifdef _DEBUG
+	iFlag = D3DCOMPILE_DEBUG;
+#endif
+
+	wstring strPath = CPathMgr::GetResPath();
+	strPath += _strFilePath;
+
+	char strTarget[20] = {};
+	sprintf_s(strTarget, "hs_%d_%d", _iHigh, _iLow);
+
+
+	// HS Compile
+	if (FAILED(D3DCompileFromFile(strPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, _strFuncName.c_str()
+		, strTarget, iFlag, 0, &m_pHSBlob, &m_pErrBlob)))
+	{
+		char* pErr = (char*)m_pErrBlob->GetBufferPointer();
+		MessageBoxA(nullptr, pErr, "Hull Shader Error", MB_OK);
+		assert(nullptr);
+	}
+
+	// Create Hull Shader
+	DEVICE->CreateHullShader(m_pHSBlob->GetBufferPointer(), m_pHSBlob->GetBufferSize(), nullptr, &m_pHS);
+}
+
+void CShader::CreateDomainShader(const wstring & _strFilePath, const string & _strFuncName, UINT _iHigh, UINT _iLow)
+{
+	// Shader 만들기
+	UINT iFlag = 0;
+
+#ifdef _DEBUG
+	iFlag = D3DCOMPILE_DEBUG;
+#endif
+
+	wstring strPath = CPathMgr::GetResPath();
+	strPath += _strFilePath;
+
+	char strTarget[20] = {};
+	sprintf_s(strTarget, "ds_%d_%d", _iHigh, _iLow);
+
+
+	// DS Compile
+	if (FAILED(D3DCompileFromFile(	strPath.c_str(), 
+									nullptr, 
+									D3D_COMPILE_STANDARD_FILE_INCLUDE, 
+									_strFuncName.c_str(), 
+									strTarget, 
+									iFlag, 
+									0, 
+									&m_pDSBlob, 
+									&m_pErrBlob)))
+	{
+		char* pErr = (char*)m_pErrBlob->GetBufferPointer();
+		MessageBoxA(nullptr, pErr, "Domain Shader Error", MB_OK);
+		assert(nullptr);
+	}
+
+	// Create Domain Shader
+	DEVICE->CreateDomainShader(m_pDSBlob->GetBufferPointer(), m_pDSBlob->GetBufferSize(), nullptr, &m_pDS);
+}
+
+void CShader::CreateGeometryShader(const wstring & _strFilePath, const string & _strFuncName, UINT _iHigh, UINT _iLow)
+{
+}
+
 void CShader::CreatePixelShader(const wstring & _strFilePath, const string & _strFuncName, UINT _iHigh, UINT _iLow)
 {
 	// Shader 만들기
