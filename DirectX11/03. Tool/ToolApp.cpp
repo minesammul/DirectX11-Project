@@ -199,8 +199,8 @@ void CToolApp::CreateTestScene()
 
 	pCurScene->AddObject(L"Default", pCamObj);
 
-	// Player Object 만들기
-	/*CGameObject* pParent = new CGameObject;
+	//Player Object 만들기
+	CGameObject* pParent = new CGameObject;
 	pParent->SetName(L"Player");
 
 	CTransform* pTransform = new CTransform;
@@ -211,19 +211,19 @@ void CToolApp::CreateTestScene()
 	pTransform->SetLocalRot(Vec3(XM_PI / 2.f, 0.f, 0.f));
 
 	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3DMtrl"));
+	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TessellationTestMtrl"));
 
-	CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01.tga");
-	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTex);
-	pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01_N.tga");
-	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &pTex);
-	pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\HeightMap\\HeightMap_01.jpg");
-	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_2, &pTex);
+	//CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01.tga");
+	//pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTex);
+	//pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01_N.tga");
+	//pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &pTex);
+	//pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\HeightMap\\HeightMap_01.jpg");
+	//pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_2, &pTex);
 
 	pParent->AddComponent(pTransform);
 	pParent->AddComponent(pMeshRender);
 
-	pCurScene->AddObject(L"Player", pParent);*/
+	pCurScene->AddObject(L"Player", pParent);
 
 	// SkyBox 추가하기
 	CGameObject* pSkyBox = new CGameObject;
@@ -233,7 +233,7 @@ void CToolApp::CreateTestScene()
 
 	pSkyBox->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
 	pSkyBox->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"SkyboxMtrl"));
-	CResPtr<CTexture> pSkyBoxTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Skybox\\Sky02.jpg");
+	CResPtr<CTexture> pSkyBoxTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Skybox\\Sky01.png");
 	pSkyBox->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pSkyBoxTex);
 
 	pCurScene->AddObject(L"Default", pSkyBox);
