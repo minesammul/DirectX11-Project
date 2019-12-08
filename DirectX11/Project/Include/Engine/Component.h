@@ -36,6 +36,7 @@ protected:
 	CTransform* Transform() { return m_pObject->Transform(); }
 	CMeshRender* MeshRender() { return m_pObject->MeshRender(); }
 	CCollider2D* Collider2D() { return m_pObject->Collider2D(); }
+	CCollider3D* Collider3D() { return m_pObject->Collider3D(); }
 	CCamera* Camera() { return m_pObject->Camera(); }
 	CAnimator2D* Animator2D() { return m_pObject->Animator2D(); }
 	CTerrain* Terrain() { return m_pObject->Terrain(); }

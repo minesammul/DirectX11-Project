@@ -10,6 +10,7 @@
 #include "Transform.h"
 #include "MeshRender.h"
 #include "Collider2D.h"
+#include "Collider3D.h"
 #include "Animation2D.h"
 #include "Animator2D.h"
 
@@ -47,6 +48,10 @@ protected:
 	virtual void OnCollision(CCollider2D* _pOther) {};
 	virtual void OnCollisionExit(CCollider2D* _pOther) {};
 
+	virtual void OnCollisionEnter(CCollider3D* _pOther) {};
+	virtual void OnCollision(CCollider3D* _pOther) {};
+	virtual void OnCollisionExit(CCollider3D* _pOther) {};
+
 	void AddChild(CGameObject* _pChildObject);
 	void ClearChild(UINT _iChildIdx);
 	void ClearParent();
@@ -60,5 +65,6 @@ public:
 	virtual ~CScript();
 
 	friend class CCollider2D;
+	friend class CCollider3D;
 };
 

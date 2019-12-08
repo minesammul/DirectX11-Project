@@ -186,4 +186,31 @@ PS_STD3D_OUT PS_STD3D(VTX_STD3D_OUT _in)
     return output;
 }
 
+// ==============================
+// Collider3D Shader
+// g_int_0 : Collision Check
+// ==============================
+VTX_STD3D_OUT VS_COLLIDER3D(VTX_STD3D_IN _in)
+{
+    VTX_STD3D_OUT output = (VTX_STD3D_OUT) 0.f;
+  
+    
+    output.vPosition = mul(float4(_in.vPosition, 1.f), g_matWorld);
+    output.vPosition = mul(output.vPosition, g_matView);
+    output.vPosition = mul(output.vPosition, g_matProj);
+    
+    return output;
+}
+
+float4 PS_COLLIDER3D(VTX_STD3D_OUT _in) : SV_Target
+{
+    float4 output = float4(0.f, 1.0f, 0.f, 1.0f);
+    
+    if (g_int_0 == 1)
+    {
+        output = float4(1.f, 0.0f, 0.f, 1.0f);
+    }
+    
+    return output;
+}
 #endif

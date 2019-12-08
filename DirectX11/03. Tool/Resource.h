@@ -24,6 +24,7 @@
 #define IDD_COLLIDER2DDLG               332
 #define IDD_ADDLAYERDLG                 334
 #define IDD_LIGHT3DDLG                  336
+#define IDD_COLLIDER3DDLG               338
 #define IDC_CHECK1                      1000
 #define IDC_CHECK2                      1001
 #define IDC_BUTTON1                     1003
@@ -55,13 +56,14 @@
 #define ID_32774                        32774
 #define ID_GAMEOBJECT_2DRECT            32775
 #define ID_GAMEOBJECT_CREATETERRAIN     32776
+#define ID_GAMEOBJECT_CREATE3DCUBE      32777
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        338
-#define _APS_NEXT_COMMAND_VALUE         32777
+#define _APS_NEXT_RESOURCE_VALUE        340
+#define _APS_NEXT_COMMAND_VALUE         32778
 #define _APS_NEXT_CONTROL_VALUE         1014
 #define _APS_NEXT_SYMED_VALUE           321
 #endif

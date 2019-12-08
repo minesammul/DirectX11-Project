@@ -160,6 +160,9 @@
     <ClInclude Include="MaterialEx.h">
       <Filter>Module</Filter>
     </ClInclude>
+    <ClInclude Include="Collider3DDlg.h">
+      <Filter>04. Dialog\ComDlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -257,6 +260,9 @@
     </ClCompile>
     <ClCompile Include="MaterialEx.cpp">
       <Filter>Module</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider3DDlg.cpp">
+      <Filter>04. Dialog\ComDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

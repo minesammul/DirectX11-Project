@@ -98,6 +98,13 @@ enum class COLLIDER2D_TYPE
 	END,
 };
 
+enum class COLLIDER3D_TYPE
+{
+	CUBE,
+	SPHERE,
+	END,
+};
+
 enum class SHADER_TYPE
 {
 	VERTEX_SHADER	= 0x01,

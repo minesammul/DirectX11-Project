@@ -8,6 +8,7 @@ class CMeshRender;
 class CCamera;
 class CScript;
 class CCollider2D;
+class CCollider3D;
 class CAnimator2D;
 class CLight3D;
 class CTerrain;
@@ -48,6 +49,7 @@ public:
 	CMeshRender* MeshRender() {return (CMeshRender*)m_arrCom[(UINT)COMPONENT_TYPE::MESHRENDER];}
 	CCamera * Camera() {return (CCamera*)m_arrCom[(UINT)COMPONENT_TYPE::CAMERA];}
 	CCollider2D* Collider2D() { return (CCollider2D*)m_arrCom[(UINT)COMPONENT_TYPE::COLLIDER2D]; }
+	CCollider3D* Collider3D() { return (CCollider3D*)m_arrCom[(UINT)COMPONENT_TYPE::COLLIDER3D]; }
 	CAnimator2D* Animator2D() { return (CAnimator2D*)m_arrCom[(UINT)COMPONENT_TYPE::ANIMATOR2D]; }
 	CComponent* GetComponent(COMPONENT_TYPE _eType) {return m_arrCom[(UINT)_eType];}
 	vector<CScript*>& GetScripts() { return m_vecScript; }

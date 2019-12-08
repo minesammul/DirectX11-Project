@@ -204,6 +204,9 @@
     <ClInclude Include="Terrain.h">
       <Filter>EngineCode\03. GameObject\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Collider3D.h">
+      <Filter>EngineCode\03. GameObject\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="func.cpp">
@@ -339,6 +342,9 @@
       <Filter>EngineCode\03. GameObject\Component</Filter>
     </ClCompile>
     <ClCompile Include="Terrain1.cpp">
+      <Filter>EngineCode\03. GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider3D.cpp">
       <Filter>EngineCode\03. GameObject\Component</Filter>
     </ClCompile>
   </ItemGroup>
