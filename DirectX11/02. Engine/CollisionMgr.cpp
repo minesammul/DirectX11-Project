@@ -7,6 +7,7 @@
 
 #include "GameObject.h"
 #include "Collider2D.h"
+#include "Collider3D.h"
 
 #include "ResMgr.h"
 
@@ -81,50 +82,97 @@ void CCollisionMgr::CollisionGroup(int _leftIdx, int _rightIdx)
 	{
 		for (UINT j = 0; j < vecRight.size(); ++j)
 		{
-			// 두 오브젝트 중에서 충돌체가 없는 경우가 있다면
-			/*if (vecLeft[i]->Collider2D() == nullptr || vecLeft[i]->Collider2D() == nullptr)
-				continue;*/
+			// 2D 두 오브젝트 중에서 충돌체가 없는 경우
 			if (vecLeft[i]->Collider2D() == nullptr || vecRight[j]->Collider2D() == nullptr)
+			{
+				//continue;
+			}
+			else
+			{
+				colID.left = vecLeft[i]->Collider2D()->GetID();
+				colID.right = vecRight[j]->Collider2D()->GetID();
+
+				map<unsigned long long, bool>::iterator iter = m_mapID2D.find(colID.ID);
+
+				if (IsCollision(vecLeft[i]->Collider2D(), vecRight[j]->Collider2D()))
+				{
+					// 충돌 했다.
+					if (iter == m_mapID2D.end())
+					{
+						// 충돌 조합 등록된적 없음 ==> 충돌한적 없음					
+						vecLeft[i]->Collider2D()->OnCollisionEnter(vecRight[j]->Collider2D());
+						vecRight[j]->Collider2D()->OnCollisionEnter(vecLeft[i]->Collider2D());
+						m_mapID2D.insert(make_pair(colID.ID, true));
+					}
+					else if (false == iter->second)
+					{
+						// 이전에 충돌하지 않고 있었다.
+						vecLeft[i]->Collider2D()->OnCollisionEnter(vecRight[j]->Collider2D());
+						vecRight[j]->Collider2D()->OnCollisionEnter(vecLeft[i]->Collider2D());
+						iter->second = true;
+					}
+					else {
+						// 충돌 중이다.
+						vecLeft[i]->Collider2D()->OnCollision(vecRight[j]->Collider2D());
+						vecRight[j]->Collider2D()->OnCollision(vecLeft[i]->Collider2D());
+					}
+				}
+				else // 충돌하지 않고 있다.
+				{
+					if (iter != m_mapID2D.end() && true == iter->second)
+					{
+						// 이전에는 충돌 중이었다. ==>이번에 떨어진 상황
+						vecLeft[i]->Collider2D()->OnCollisionExit(vecRight[j]->Collider2D());
+						vecRight[j]->Collider2D()->OnCollisionExit(vecLeft[i]->Collider2D());
+						iter->second = false;
+					}
+				}
+			}
+			
+			// 3D 오브젝트가 충돌하지 않는 경우와 충돌하는 경우
+			if (vecLeft[i]->Collider3D() == nullptr || vecRight[j]->Collider3D() == nullptr)
 			{
 				continue;
 			}
-
-			colID.left = vecLeft[i]->Collider2D()->GetID();
-			colID.right = vecRight[j]->Collider2D()->GetID();
-
-			map<unsigned long long, bool>::iterator iter = m_mapID2D.find(colID.ID);
-
-			if (IsCollision(vecLeft[i]->Collider2D(), vecRight[j]->Collider2D()))
+			else
 			{
-				// 충돌 했다.
-				if (iter == m_mapID2D.end())
+				colID.left = vecLeft[i]->Collider3D()->GetID();
+				colID.right = vecRight[j]->Collider3D()->GetID();
+
+				map<unsigned long long, bool>::iterator iter = m_mapID3D.find(colID.ID);
+
+				if (IsCollision(vecLeft[i]->Collider3D(), vecRight[j]->Collider3D()))
 				{
-					// 충돌 조합 등록된적 없음 ==> 충돌한적 없음					
-					vecLeft[i]->Collider2D()->OnCollisionEnter(vecRight[j]->Collider2D());
-					vecRight[j]->Collider2D()->OnCollisionEnter(vecLeft[i]->Collider2D());
-					m_mapID2D.insert(make_pair(colID.ID, true));
+					// 충돌 했다.
+					if (iter == m_mapID3D.end())
+					{
+						// 충돌 조합 등록된적 없음 ==> 충돌한적 없음					
+						vecLeft[i]->Collider3D()->OnCollisionEnter(vecRight[j]->Collider3D());
+						vecRight[j]->Collider3D()->OnCollisionEnter(vecLeft[i]->Collider3D());
+						m_mapID3D.insert(make_pair(colID.ID, true));
+					}
+					else if (false == iter->second)
+					{
+						// 이전에 충돌하지 않고 있었다.
+						vecLeft[i]->Collider3D()->OnCollisionEnter(vecRight[j]->Collider3D());
+						vecRight[j]->Collider3D()->OnCollisionEnter(vecLeft[i]->Collider3D());
+						iter->second = true;
+					}
+					else {
+						// 충돌 중이다.
+						vecLeft[i]->Collider3D()->OnCollision(vecRight[j]->Collider3D());
+						vecRight[j]->Collider3D()->OnCollision(vecLeft[i]->Collider3D());
+					}
 				}
-				else if (false == iter->second)
+				else // 충돌하지 않고 있다.
 				{
-					// 이전에 충돌하지 않고 있었다.
-					vecLeft[i]->Collider2D()->OnCollisionEnter(vecRight[j]->Collider2D());
-					vecRight[j]->Collider2D()->OnCollisionEnter(vecLeft[i]->Collider2D());
-					iter->second = true;
-				}
-				else {
-					// 충돌 중이다.
-					vecLeft[i]->Collider2D()->OnCollision(vecRight[j]->Collider2D());
-					vecRight[j]->Collider2D()->OnCollision(vecLeft[i]->Collider2D());
-				}
-			}
-			else // 충돌하지 않고 있다.
-			{
-				if (iter != m_mapID2D.end() && true == iter->second)
-				{
-					// 이전에는 충돌 중이었다. ==>이번에 떨어진 상황
-					vecLeft[i]->Collider2D()->OnCollisionExit(vecRight[j]->Collider2D());
-					vecRight[j]->Collider2D()->OnCollisionExit(vecLeft[i]->Collider2D());
-					iter->second = false;
+					if (iter != m_mapID3D.end() && true == iter->second)
+					{
+						// 이전에는 충돌 중이었다. ==>이번에 떨어진 상황
+						vecLeft[i]->Collider3D()->OnCollisionExit(vecRight[j]->Collider3D());
+						vecRight[j]->Collider3D()->OnCollisionExit(vecLeft[i]->Collider3D());
+						iter->second = false;
+					}
 				}
 			}
 		}
@@ -233,13 +281,102 @@ bool CCollisionMgr::CollisionCircle(CCollider2D * _pLeft, CCollider2D * _pRight)
 
 bool CCollisionMgr::IsCollision(CCollider3D * _pLeft, CCollider3D * _pRight)
 {
+	if (_pLeft->GetCollider3DType() == COLLIDER3D_TYPE::CUBE && _pRight->GetCollider3DType() == COLLIDER3D_TYPE::CUBE)
+	{
+		// Rect Rect 충돌
+		return CollisionCube(_pLeft, _pRight);
+	}
+	else if (_pLeft->GetCollider3DType() == COLLIDER3D_TYPE::SPHERE && _pRight->GetCollider3DType() == COLLIDER3D_TYPE::SPHERE)
+	{
+		// Circle Circle
+
+	}
+	else
+	{
+		// Rect, Circle
+	}
+
 	return false;
 }
 
 
 bool CCollisionMgr::CollisionCube(CCollider3D * _pLeft, CCollider3D * _pRight)
 {
-	return false;
+	static CResPtr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh");
+
+	Matrix matLeftWorld = _pLeft->GetWorldMat();
+	Matrix matRightWorld = _pRight->GetWorldMat();
+
+	VTX* pVtx = (VTX*)pMesh->GetVtxSysMem();
+
+	Vec3 vLeftWorldPos[24] = {};
+	Vec3 vRightWorldPos[24] = {};
+
+	for (UINT i = 0; i < 24; ++i)
+	{
+		vLeftWorldPos[i] = XMVector3TransformCoord(pVtx[i].vPos, matLeftWorld);
+	}
+
+	for (UINT i = 0; i < 24; ++i)
+	{
+		vRightWorldPos[i] = XMVector3TransformCoord(pVtx[i].vPos, matRightWorld);
+	}
+
+	Vec3 vLeftCenter = (vLeftWorldPos[0] + vLeftWorldPos[5]) / 2.f;
+	Vec3 vRightCenter = (vRightWorldPos[0] + vRightWorldPos[5]) / 2.f;
+
+	Vec3 vCenter = vLeftCenter - vRightCenter;
+
+	Vec3 vProj[6] = {};
+	Vec3 vAxis[6] = {};
+
+	vProj[0] = vLeftWorldPos[0] - vLeftWorldPos[1];
+	vAxis[0] = vProj[0];
+
+	vProj[1] = vLeftWorldPos[0] - vLeftWorldPos[3];
+	vAxis[1] = vProj[1];
+
+	vProj[2] = vLeftWorldPos[0] - vLeftWorldPos[7];
+	vAxis[2] = vProj[2];
+
+	vProj[3] = vRightWorldPos[0] - vRightWorldPos[1];
+	vAxis[3] = vProj[3];
+
+	vProj[4] = vRightWorldPos[0] - vRightWorldPos[3];
+	vAxis[4] = vProj[4];
+
+	vProj[5] = vRightWorldPos[0] - vRightWorldPos[7];
+	vAxis[5] = vProj[5];
+
+	for (UINT i = 0; i < 6; ++i)
+	{
+		if (vAxis[i] == Vec3::Zero)
+			return false;
+
+		vAxis[i].Normalize();
+	}
+
+	float fSum = 0.f;
+
+	for (UINT i = 0; i < 6; ++i)
+	{
+		fSum = 0.f;
+		for (UINT j = 0; j < 6; ++j)
+		{
+			fSum += abs(vProj[j].Dot(vAxis[i]));
+		}
+
+		// 충돌체 각 변을 투영시킨 거리의 절반
+		fSum /= 2.f;
+
+		// 중심을 이은 벡터를 투영시킨 거리
+		float fDist = abs(vCenter.Dot(vAxis[i]));
+
+		if (fDist > fSum)
+			return false;
+	}
+
+	return true;
 }
 
 bool CCollisionMgr::CollisionSphere(CCollider3D * _pLeft, CCollider3D * _pRight)
