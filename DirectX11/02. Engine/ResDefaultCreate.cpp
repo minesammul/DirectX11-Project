@@ -3,6 +3,7 @@
 #include "RenderMgr.h"
 
 #include "Collider2D.h"
+#include "Collider3D.h"
 
 void CResMgr::CreateDefaultMesh()
 {
@@ -612,55 +613,70 @@ void CResMgr::CreateDefaultShader()
 	strKey = L"TessellationTestShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	// ==============
+	// Collider3D Shader
+	// ==============
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\std3d.fx", "VS_COLLIDER3D", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\std3d.fx", "PS_COLLIDER3D", 5, 0);
+
+	pShader->SetRSType(RS_TYPE::WIREFRAME);
+
+	pShader->AddParam(SHADER_PARAM::INT_0, L"Collision Check");
+
+	strKey = L"Collider3DShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 }
 
 void CResMgr::CreateDefaultMaterial()
 {
 	CResPtr<CMaterial> pMtrl = nullptr;
 
-
+	//VertexMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"VtxColorMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"VtxColorShader"));
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
-
+	//Collider2DMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"Collider2DMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"Collider2DShader"));
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
-
+	//Std2DMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"Std2DMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"Std2DShader"));
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
-
+	//TextureMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"TextureMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"TextureShader"));
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
-
+	//SkyboxMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"SkyboxMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"SkyboxShader"));
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
-
+	//Std3DMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"Std3DMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"Std3DShader"));
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
-
+	//DirectionLightMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"DirLightMtrl");
 	pMtrl->SaveDisable();
@@ -690,6 +706,7 @@ void CResMgr::CreateDefaultMaterial()
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
 
+	//MergerMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"MergeMtrl");
 	pMtrl->SaveDisable();
@@ -706,7 +723,6 @@ void CResMgr::CreateDefaultMaterial()
 
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
-
 	//TerrainMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"TerrainMtrl");
@@ -721,7 +737,15 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
+	//Collider3DMtrl
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"Collider3DMtrl");
+	pMtrl->SetShader(FindRes<CShader>(L"Collider3DShader"));
+	pMtrl->SaveDisable();
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
 	CCollider2D::CreateMaterial();
+	CCollider3D::CreateMaterial();
 }
 
 void CResMgr::CreateDefaultFilter()
