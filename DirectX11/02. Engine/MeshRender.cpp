@@ -4,6 +4,7 @@
 #include "Transform.h"
 
 #include "Collider2D.h"
+#include "Collider3D.h"
 #include "Animator2D.h"
 #include "Animation2D.h"
 #include "ResMgr.h"
@@ -57,9 +58,13 @@ void CMeshRender::render()
 	m_pMesh->SetLayout(m_pMtrl->GetShader());	
 	m_pMesh->render();
 
-	// Collider 가 있으면 그려준다.
+	// Collider2D 가 있으면 그려준다.
 	if (nullptr != Collider2D())
 		Collider2D()->render();
+
+	// Collider2D 가 있으면 그려준다.
+	if (nullptr != Collider3D())
+		Collider3D()->render();
 }	
 
 void CMeshRender::SaveToScene(FILE * _pFile)
