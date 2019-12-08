@@ -22,6 +22,37 @@ CCollider3DDlg::~CCollider3DDlg()
 {
 }
 
+void CCollider3DDlg::InitComboColliderType(CGameObject * target)
+{
+	comboColliderType.ResetContent();
+
+	CCollider3D* targetCollider3D = target->Collider3D();
+
+	vector<wstring> vecName;
+	for (UINT typeIndex = 0; typeIndex < (UINT)COLLIDER3D_TYPE::END; typeIndex++)
+	{
+		wstring typeName;
+		switch ((COLLIDER3D_TYPE)typeIndex)
+		{
+		case COLLIDER3D_TYPE::CUBE:
+			typeName = L"CUBE";
+			vecName.push_back(typeName);
+			break;
+		case COLLIDER3D_TYPE::SPHERE:
+			typeName = L"SPHERE";
+			vecName.push_back(typeName);
+			break;
+		default:
+			break;
+		}
+	}
+
+	for (UINT i = 0; i < vecName.size(); ++i)
+	{
+		comboColliderType.AddString(vecName[i].c_str());
+	}
+}
+
 void CCollider3DDlg::UpdatePosition(CGameObject * target)
 {
 	CCollider3D* targetCollider3D = target->Collider3D();
@@ -54,8 +85,27 @@ void CCollider3DDlg::UpdateRotation(CGameObject * target)
 {
 }
 
+void CCollider3DDlg::UpdateColliderType(CGameObject * target)
+{
+	CCollider3D* targetCollider3D = target->Collider3D();
+	COLLIDER3D_TYPE colliderType = targetCollider3D->GetCollider3DType();
+	switch (colliderType)
+	{
+	case COLLIDER3D_TYPE::CUBE:
+		comboColliderType.SetCurSel((int)COLLIDER3D_TYPE::CUBE);
+		break;
+	case COLLIDER3D_TYPE::SPHERE:
+		comboColliderType.SetCurSel((int)COLLIDER3D_TYPE::SPHERE);
+		break;
+	default:
+		break;
+	}
+}
+
 void CCollider3DDlg::init(CGameObject * _pTarget)
 {
+	SetTarget(_pTarget);
+	InitComboColliderType(_pTarget);
 }
 
 void CCollider3DDlg::update(CGameObject * _pTarget)
@@ -73,6 +123,7 @@ void CCollider3DDlg::update(CGameObject * _pTarget)
 
 	UpdatePosition(_pTarget);
 	UpdateScale(_pTarget);
+	UpdateColliderType(_pTarget);
 }
 
 void CCollider3DDlg::OnOK()
@@ -97,6 +148,7 @@ void CCollider3DDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT7, editRotationX);
 	DDX_Control(pDX, IDC_EDIT8, editRotationY);
 	DDX_Control(pDX, IDC_EDIT9, editRotationZ);
+	DDX_Control(pDX, IDC_COMBO1, comboColliderType);
 }
 
 
@@ -113,6 +165,9 @@ BEGIN_MESSAGE_MAP(CCollider3DDlg, CDialogEx)
 	ON_EN_KILLFOCUS(IDC_EDIT5, &CCollider3DDlg::OnEnKillfocusEditScaleY)
 	ON_EN_SETFOCUS(IDC_EDIT6, &CCollider3DDlg::OnEnSetfocusEditScaleZ)
 	ON_EN_KILLFOCUS(IDC_EDIT6, &CCollider3DDlg::OnEnKillfocusEditScaleZ)
+	ON_CBN_SELCHANGE(IDC_COMBO1, &CCollider3DDlg::OnCbnSelchangeCombo1)
+	ON_CBN_SETFOCUS(IDC_COMBO1, &CCollider3DDlg::OnCbnSetfocusComboColliderType)
+	ON_CBN_KILLFOCUS(IDC_COMBO1, &CCollider3DDlg::OnCbnKillfocusComboColliderType)
 END_MESSAGE_MAP()
 
 
@@ -254,4 +309,30 @@ void CCollider3DDlg::OnEnKillfocusEditScaleZ()
 		inputVec3.z = static_cast<float>(_wtof(inputStr));
 		target->Collider3D()->SetScale(inputVec3);
 	}
+}
+
+
+void CCollider3DDlg::OnCbnSelchangeCombo1()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CGameObject* target = GetTarget();
+	if (target != nullptr)
+	{
+		int curSelect = comboColliderType.GetCurSel();
+		target->Collider3D()->SetColliderType((COLLIDER3D_TYPE)curSelect);
+	}
+}
+
+
+void CCollider3DDlg::OnCbnSetfocusComboColliderType()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	focus = true;
+}
+
+
+void CCollider3DDlg::OnCbnKillfocusComboColliderType()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	focus = false;
 }

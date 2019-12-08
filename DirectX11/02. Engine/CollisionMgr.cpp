@@ -276,6 +276,11 @@ bool CCollisionMgr::CollisionRect(CCollider2D * _pLeft, CCollider2D * _pRight)
 
 bool CCollisionMgr::CollisionCircle(CCollider2D * _pLeft, CCollider2D * _pRight)
 {
+	Matrix matLeftWorld = _pLeft->GetWorldMat();
+	Matrix matRightWorld = _pRight->GetWorldMat();
+
+
+
 	return false;
 }
 
@@ -289,7 +294,7 @@ bool CCollisionMgr::IsCollision(CCollider3D * _pLeft, CCollider3D * _pRight)
 	else if (_pLeft->GetCollider3DType() == COLLIDER3D_TYPE::SPHERE && _pRight->GetCollider3DType() == COLLIDER3D_TYPE::SPHERE)
 	{
 		// Circle Circle
-
+		return CollisionSphere(_pLeft, _pRight);
 	}
 	else
 	{
@@ -381,6 +386,22 @@ bool CCollisionMgr::CollisionCube(CCollider3D * _pLeft, CCollider3D * _pRight)
 
 bool CCollisionMgr::CollisionSphere(CCollider3D * _pLeft, CCollider3D * _pRight)
 {
+	Vec3 leftScale = _pLeft->GetFinalScale();
+	Vec3 rightScale = _pRight->GetFinalScale();
+	float leftRightRadius = leftScale.x + rightScale.x;
+
+
+	Vec3 leftPosition = _pLeft->GetFinalPositon();
+	Vec3 rightPosition = _pRight->GetFinalPositon();
+
+	Vec3 distanceVector = leftPosition - rightPosition;
+	float distance = distanceVector.Length();
+	if (distance <= leftRightRadius)
+	{
+		return true;
+	}
+	
+
 	return false;
 }
 

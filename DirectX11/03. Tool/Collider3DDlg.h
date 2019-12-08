@@ -18,9 +18,12 @@ public:
 	enum { IDD = IDD_COLLIDER3DDLG };
 #endif
 private:
+	void InitComboColliderType(CGameObject* target);
+
 	void UpdatePosition(CGameObject* target);
 	void UpdateScale(CGameObject* target);
 	void UpdateRotation(CGameObject* target);
+	void UpdateColliderType(CGameObject* target);
 
 public:
 	virtual void init(CGameObject* _pTarget);
@@ -54,4 +57,8 @@ public:
 	afx_msg void OnEnKillfocusEditScaleY();
 	afx_msg void OnEnSetfocusEditScaleZ();
 	afx_msg void OnEnKillfocusEditScaleZ();
+	CComboBox comboColliderType;
+	afx_msg void OnCbnSelchangeCombo1();
+	afx_msg void OnCbnSetfocusComboColliderType();
+	afx_msg void OnCbnKillfocusComboColliderType();
 };
