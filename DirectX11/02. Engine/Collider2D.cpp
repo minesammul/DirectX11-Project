@@ -10,42 +10,6 @@
 CResPtr<CMaterial> CCollider2D::g_pOriginMtrl = nullptr;
 vector<CResPtr<CMaterial>> CCollider2D::g_vecColMtrl;
 
-void CCollider2D::CreateMaterial()
-{
-	g_pOriginMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"Collider2DMtrl");	
-		
-	for (UINT i = 0; i < 10; ++i)
-	{
-		CResPtr<CMaterial> pCloneMtrl = g_pOriginMtrl->Clone();
-		CResMgr::GetInst()->AddCloneRes<CMaterial>(pCloneMtrl);
-		g_vecColMtrl.push_back(pCloneMtrl);
-	}	
-}
-
-CResPtr<CMaterial> CCollider2D::GetCloneMtrl()
-{
-	if (g_vecColMtrl.empty())
-	{
-		CResPtr<CMaterial> pNewClone = g_pOriginMtrl->Clone();
-		CResMgr::GetInst()->AddCloneRes<CMaterial>(pNewClone);
-		return pNewClone;
-	}
-
-	CResPtr<CMaterial> pMtrl = g_vecColMtrl.back();
-	g_vecColMtrl.pop_back();
-
-	return pMtrl;
-}
-
-void CCollider2D::ClearMaterial()
-{
-	g_pOriginMtrl = nullptr;
-	for (UINT i = 0; i < g_vecColMtrl.size(); ++i)
-	{
-		g_vecColMtrl[i] = nullptr;
-	}
-}
-
 CCollider2D::CCollider2D()
 	: CComponent(COMPONENT_TYPE::COLLIDER2D)
 	, m_vOffset(Vec3(0.f, 0.f, 0.f))
@@ -87,6 +51,43 @@ void CCollider2D::finalupdate()
 		m_matColWorld *= Object()->GetParent()->Transform()->GetWorldMat();
 }
 
+
+
+void CCollider2D::CreateMaterial()
+{
+	g_pOriginMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"Collider2DMtrl");
+
+	for (UINT i = 0; i < 10; ++i)
+	{
+		CResPtr<CMaterial> pCloneMtrl = g_pOriginMtrl->Clone();
+		CResMgr::GetInst()->AddCloneRes<CMaterial>(pCloneMtrl);
+		g_vecColMtrl.push_back(pCloneMtrl);
+	}
+}
+
+CResPtr<CMaterial> CCollider2D::GetCloneMtrl()
+{
+	if (g_vecColMtrl.empty())
+	{
+		CResPtr<CMaterial> pNewClone = g_pOriginMtrl->Clone();
+		CResMgr::GetInst()->AddCloneRes<CMaterial>(pNewClone);
+		return pNewClone;
+	}
+
+	CResPtr<CMaterial> pMtrl = g_vecColMtrl.back();
+	g_vecColMtrl.pop_back();
+
+	return pMtrl;
+}
+
+void CCollider2D::ClearMaterial()
+{
+	g_pOriginMtrl = nullptr;
+	for (UINT i = 0; i < g_vecColMtrl.size(); ++i)
+	{
+		g_vecColMtrl[i] = nullptr;
+	}
+}
 
 void CCollider2D::SetColliderType(COLLIDER2D_TYPE _eType)
 {

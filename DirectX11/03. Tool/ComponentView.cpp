@@ -16,6 +16,7 @@
 #include "MaterialDlg.h"
 #include "AddComponentDlg.h"
 #include "Collider2DDlg.h"
+#include "Collider3DDlg.h"
 #include "Light3DDlg.h"
 
 #include <TimeMgr.h>
@@ -60,6 +61,10 @@ int CComponentView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_arrComDlg[(UINT)DLG_TYPE::COLLIDER2D] = new Collider2DDlg;
 	m_arrComDlg[(UINT)DLG_TYPE::COLLIDER2D]->Create(IDD_COLLIDER2DDLG, this);
 	m_arrComDlg[(UINT)DLG_TYPE::COLLIDER2D]->ShowWindow(false);
+
+	m_arrComDlg[(UINT)DLG_TYPE::COLLIDER3D] = new CCollider3DDlg;
+	m_arrComDlg[(UINT)DLG_TYPE::COLLIDER3D]->Create(IDD_COLLIDER3DDLG, this);
+	m_arrComDlg[(UINT)DLG_TYPE::COLLIDER3D]->ShowWindow(false);
 
 	m_arrComDlg[(UINT)DLG_TYPE::ANIMATOR2D] = new CAnimator2DDlg;
 	m_arrComDlg[(UINT)DLG_TYPE::ANIMATOR2D]->Create(IDD_ANIMATOR2DDLG, this);

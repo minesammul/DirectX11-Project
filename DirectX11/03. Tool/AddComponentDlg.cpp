@@ -7,6 +7,7 @@
 
 #include <GameObject.h>
 #include <Animator2D.h>
+#include <Collider3D.h>
 #include <Camera.h>
 
 // AddComponentDlg 대화 상자
@@ -60,8 +61,17 @@ void AddComponentDlg::Renew()
 		case COMPONENT_TYPE::CAMERA:
 			comboInputStr = L"CAMERA";
 			break;
+		case COMPONENT_TYPE::LIGHT2D:
+			comboInputStr = L"LIGHT2D";
+			break;
+		case COMPONENT_TYPE::LIGHT3D:
+			comboInputStr = L"LIGHT3D";
+			break;
 		case COMPONENT_TYPE::COLLIDER2D:
 			comboInputStr = L"COLLIDER2D";
+			break;
+		case COMPONENT_TYPE::COLLIDER3D:
+			comboInputStr = L"COLLIDER3D";
 			break;
 		case COMPONENT_TYPE::ANIMATOR2D:
 			comboInputStr = L"ANIMATOR2D";
@@ -121,11 +131,17 @@ void AddComponentDlg::OnBnClickedButtonAddComponent()
 	case COMPONENT_TYPE::CAMERA:
 		targetObject->AddComponent(new CCamera);
 		break;
+	case COMPONENT_TYPE::LIGHT2D:
+		break;
+	case COMPONENT_TYPE::LIGHT3D:
+		break;
 	case COMPONENT_TYPE::COLLIDER2D:
+		break;
+	case COMPONENT_TYPE::COLLIDER3D:
+		targetObject->AddComponent(new CCollider3D);
 		break;
 	case COMPONENT_TYPE::ANIMATOR2D:
 		targetObject->AddComponent(new CAnimator2D);
-
 		break;
 	case COMPONENT_TYPE::SCRIPT:
 		break;

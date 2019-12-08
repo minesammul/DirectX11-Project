@@ -24,6 +24,7 @@
 #include <MeshRender.h>
 #include <Animator2D.h>
 #include <Collider2D.h>
+#include <Collider3D.h>
 #include <KeyMgr.h>
 #include <Core.h>
 #include <Script.h>
@@ -45,6 +46,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_32774, &CMainFrame::OnLoadScene)
 	ON_COMMAND(ID_GAMEOBJECT_2DRECT, &CMainFrame::OnGameobject2drect)
 	ON_COMMAND(ID_GAMEOBJECT_CREATETERRAIN, &CMainFrame::OnGameObjectCreateTerrain)
+	ON_COMMAND(ID_GAMEOBJECT_CREATE3DCUBE, &CMainFrame::OnGameobjectCreate3dcube)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -284,14 +286,10 @@ void CMainFrame::OnGameobject2drect()
 
 	pTransform->SetLocalPos(Vec3(0.f, 0.f, 500.f));
 	pTransform->SetLocalScale(Vec3(100.f, 100.f, 1.f));
-	//pTransform->SetLocalScale(Vec3(100.f, 100.f, 100.f));
 	pTransform->SetLocalRot(Vec3(0.f, 0.f, 0.f));
 
 	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
-	
-	//pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
-	//pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"VtxColorMtrl"));
 
 	newObject->AddComponent(pTransform);
 	newObject->AddComponent(pMeshRender);
@@ -323,6 +321,50 @@ void CMainFrame::OnGameObjectCreateTerrain()
 	pNewObj->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_2, &texture3);
 
 	CSceneMgr::GetInst()->GetCurScene()->AddObject(L"Default", pNewObj);
+
+	((CHierachyView*)GetHierachyView())->init_object();
+}
+
+
+void CMainFrame::OnGameobjectCreate3dcube()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+	CGameObject* newObject = new CGameObject;
+
+	CString newObjectName;
+	int newObjectNumber = 0;
+	while (true)
+	{
+		newObjectName.Format(L"3DCube_%d", newObjectNumber);
+		if (pCurScene->IsExistGameObjectName(newObjectName.GetBuffer()) == true)
+		{
+			newObjectNumber++;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	newObject->SetName(newObjectName.GetBuffer());
+
+	CTransform* pTransform = new CTransform;
+	CMeshRender* pMeshRender = new CMeshRender;
+	CCollider3D* pCollider3D = new CCollider3D;
+
+	pTransform->SetLocalPos(Vec3(0.f, 0.f, 500.f));
+	pTransform->SetLocalScale(Vec3(100.f, 100.f, 100.f));
+	pTransform->SetLocalRot(Vec3(0.f, 0.f, 0.f));
+
+	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
+	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3DMtrl"));
+
+	newObject->AddComponent(pTransform);
+	newObject->AddComponent(pMeshRender);
+	newObject->AddComponent(pCollider3D);
+
+	pCurScene->AddObject(L"Default", newObject);
 
 	((CHierachyView*)GetHierachyView())->init_object();
 }

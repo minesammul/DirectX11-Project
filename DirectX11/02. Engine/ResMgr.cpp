@@ -3,6 +3,7 @@
 
 #include "RenderMgr.h"
 #include "Collider2D.h"
+#include "Collider3D.h"
 
 CResMgr::CResMgr()
 {
@@ -11,7 +12,8 @@ CResMgr::CResMgr()
 CResMgr::~CResMgr()
 {
 	CCollider2D::ClearMaterial();
-	
+	CCollider3D::ClearMaterial();
+
 	// Clone ªË¡¶
 	for (UINT i = 0; i < (UINT)RES_TYPE::END; ++i)
 	{

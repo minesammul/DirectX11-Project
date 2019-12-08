@@ -63,6 +63,7 @@ public:
 	afx_msg void OnLoadScene();
 	afx_msg void OnGameobject2drect();
 	afx_msg void OnGameObjectCreateTerrain();
+	afx_msg void OnGameobjectCreate3dcube();
 };
 
 
