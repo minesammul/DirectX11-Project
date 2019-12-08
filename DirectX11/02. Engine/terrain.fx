@@ -140,10 +140,10 @@ TessLv PatchConstFunc(InputPatch<VS_TESS_OUT, 3> _patch, uint _patchID : SV_Prim
 {
     TessLv output = (TessLv) 0.f;
     
-    output.vEdgeFactor[0] = 4;
-    output.vEdgeFactor[1] = 4;
-    output.vEdgeFactor[2] = 4;
-    output.fInsideFactor = 1.f;
+    output.vEdgeFactor[0] = 16;
+    output.vEdgeFactor[1] = 16;
+    output.vEdgeFactor[2] = 16;
+    output.fInsideFactor = 8.f;
     
     return output;
 }
