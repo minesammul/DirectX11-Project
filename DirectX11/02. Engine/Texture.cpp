@@ -59,9 +59,17 @@ void CTexture::Load(const wstring & _strFilePath)
 
 void CTexture::SetRegister(UINT _iRegister, UINT _iShaderType)
 {
-	if((UINT)SHADER_TYPE::VERTEX_SHADER & _iShaderType)
+	if ((UINT)SHADER_TYPE::VERTEX_SHADER & _iShaderType)
 		CONTEXT->VSSetShaderResources(_iRegister, 1, &m_pSRV);
-	if((UINT)SHADER_TYPE::PIXEL_SHADER & _iShaderType)
+	if ((UINT)SHADER_TYPE::HULL_SHADER & _iShaderType)
+		CONTEXT->HSSetShaderResources(_iRegister, 1, &m_pSRV);
+	if ((UINT)SHADER_TYPE::DOMAIN_SHADER & _iShaderType)
+		CONTEXT->DSSetShaderResources(_iRegister, 1, &m_pSRV);
+	if ((UINT)SHADER_TYPE::GEOMETRY_SHADER & _iShaderType)
+		CONTEXT->GSSetShaderResources(_iRegister, 1, &m_pSRV);
+	if ((UINT)SHADER_TYPE::COMPUTE_SHADER & _iShaderType)
+		CONTEXT->CSSetShaderResources(_iRegister, 1, &m_pSRV);
+	if ((UINT)SHADER_TYPE::PIXEL_SHADER & _iShaderType)
 		CONTEXT->PSSetShaderResources(_iRegister, 1, &m_pSRV);
 }
 
