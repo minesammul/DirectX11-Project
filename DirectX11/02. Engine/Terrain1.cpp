@@ -24,7 +24,7 @@ void CTerrain::init(UINT _iXFace, UINT _iZFace)
 	MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TerrainMtrl"));
 	CResPtr<CTexture> pTexture0 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01.tga");
 	CResPtr<CTexture> pTexture1 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01_N.tga");
-	CResPtr<CTexture> pTexture2 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\HeightMap\\HeightMap_01.jpg");
+	CResPtr<CTexture> pTexture2 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\HeightMap\\HeightMap_01.png");
 
 	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTexture0);
 	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &pTexture1);
