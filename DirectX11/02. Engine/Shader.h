@@ -19,6 +19,7 @@ class CShader :
 	ID3DBlob*				m_pDSBlob;
 	ID3DBlob*				m_pGSBlob;
 	ID3DBlob*				m_pPSBlob;
+	ID3DBlob*			    m_pCSBlob;
 	ID3DBlob*				m_pErrBlob;
 
 	ID3D11VertexShader *	m_pVS;
@@ -26,6 +27,7 @@ class CShader :
 	ID3D11DomainShader *	m_pDS;
 	ID3D11GeometryShader *	m_pGS;
 	ID3D11PixelShader *		m_pPS;
+	ID3D11ComputeShader*    m_pCS;
 
 	CBlendState*			m_pBlendState;
 	CDepthStencilState*		m_pDepthStencilState;
@@ -60,6 +62,7 @@ public:
 	void CreateDomainShader(const wstring& _strFilePath, const string& _strFuncName, UINT _iHigh, UINT _iLow);
 	void CreateGeometryShader(const wstring& _strFilePath, const string& _strFuncName, UINT _iHigh, UINT _iLow);
 	void CreatePixelShader(const wstring& _strFilePath, const string& _strFuncName, UINT _iHigh, UINT _iLow);
+	void CreateComputeShader(const wstring& _strFilePath, const string& _strFuncName, UINT _iHigh, UINT _iLow);
 	void UpdateData();
 
 	void AddParam(SHADER_PARAM _eType, const wstring& _strMean, bool _bAccess = true)
