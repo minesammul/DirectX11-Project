@@ -593,7 +593,6 @@ void CResMgr::CreateDefaultShader()
 	pShader->CreateDomainShader(L"Shader\\terrain.fx", "DS_Terrain", 5, 0);
 	pShader->CreatePixelShader(L"Shader\\terrain.fx", "PS_Terrain", 5, 0);
 
-	pShader->SetRSType(RS_TYPE::WIREFRAME);
 	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
 
 	pShader->AddParam(SHADER_PARAM::TEX_0, L"Diffuse Texture");

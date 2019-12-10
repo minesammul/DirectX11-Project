@@ -165,20 +165,14 @@ void CToolApp::CreateTestScene()
 	pLightObj->AddComponent(new CTransform);
 	pLightObj->AddComponent(new CLight3D);
 
-	pLightObj->Transform()->SetLocalPos(Vec3(-500.f, 500.f, 500.f));
+	pLightObj->Transform()->SetLocalPos(Vec3(0.f, 50.f, 50.f));
 	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
-	pLightObj->Light3D()->SetLightDir(Vec3(0.f, -1.f, -1.f));
-	pLightObj->Light3D()->SetLightDiffuse(Vec3(1.f, 0.7f, 0.7f));
+	pLightObj->Light3D()->SetLightDir(Vec3(1.f, -1.f, 0.f));
+	pLightObj->Light3D()->SetLightDiffuse(Vec3(1.f, 1.f, 1.f));
 	pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));
-	pLightObj->Light3D()->SetLightAmbient(Vec3(0.15f, 0.15f, 0.15f));
-	pLightObj->Light3D()->SetLightRange(1000.f);
+	pLightObj->Light3D()->SetLightAmbient(Vec3(0.1f, 0.1f, 0.1f));
+	pLightObj->Light3D()->SetLightRange(100.f);
 
-	pCurScene->AddObject(L"Default", pLightObj);
-
-	pLightObj = pLightObj->Clone();
-	pLightObj->SetName(L"PointLight_2");
-	pLightObj->Transform()->SetLocalPos(Vec3(500.f, 500.f, 500.f));
-	pLightObj->Light3D()->SetLightDiffuse(Vec3(0.7f, 0.7f, 1.0f));
 	pCurScene->AddObject(L"Default", pLightObj);
 
 

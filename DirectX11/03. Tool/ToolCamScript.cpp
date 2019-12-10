@@ -45,6 +45,8 @@ void CToolCamScript::update()
 
 		Vec3 vRot = Transform()->GetLocalRot();
 		vRot.y += DT * XM_PI * 0.5f * vDragDir.x;
+		vRot.z = 0.f;
+
 		Transform()->SetLocalRot(vRot);
 
 		// 우벡터 회전

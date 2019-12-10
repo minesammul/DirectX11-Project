@@ -13,7 +13,7 @@ struct VS_TERRAIN_IN
 
 struct VS_TERRAIN_OUT
 {
-    float3 vLocalPos : POSITION;
+    float3 vWorldPos : POSITION;
     float2 vUV : TEXCOORD;
     float2 vFullUV : TEXCOORD1;
 };
@@ -34,12 +34,14 @@ struct PS_TERRAIN_OUT
 // g_int_0 : Terrain Face X
 // g_int_1 : Terrain Face Z
 
+// g_vec2_0 : World xy Scale;
+
 // ====================
 VS_TERRAIN_OUT VS_Terrain(VS_TERRAIN_IN _in)
 {
     VS_TERRAIN_OUT output = (VS_TERRAIN_OUT) 0.f;
     
-    output.vLocalPos = _in.vPos;
+    output.vWorldPos = mul(float4(_in.vPos, 1.f), g_matWorld);
     output.vUV = _in.vUV;
     output.vFullUV = float2(_in.vUV.x / (float) g_int_0, _in.vUV.y / (float) g_int_1);
     
@@ -57,6 +59,13 @@ struct TessLv
 TessLv TerrainPatchConstFunc(InputPatch<VS_TERRAIN_OUT, 3> _patch, uint _patchID : SV_PrimitiveID)
 {
     TessLv output = (TessLv) 0.f;
+    
+    // 카메라와의 거리에 따라서 분할 레벨 지정
+    //float3 vCamPos = float3(0.f, 0.f, 0.f);
+    //float fMaxDist = 2000.f;    
+    //float fMaxLv = 4.f;   
+    
+    
     
     output.vEdgeFactor[0] = 16;
     output.vEdgeFactor[1] = 16;
@@ -76,7 +85,7 @@ VS_TERRAIN_OUT HS_Terrain(InputPatch<VS_TERRAIN_OUT, 3> _patch, uint i : SV_Outp
 {
     VS_TERRAIN_OUT output = (VS_TERRAIN_OUT) 0.f;
     
-    output.vLocalPos = _patch[i].vLocalPos;
+    output.vWorldPos = _patch[i].vWorldPos;
     
     output.vUV = _patch[i].vUV;
     output.vFullUV = _patch[i].vFullUV;
@@ -110,50 +119,55 @@ DS_TERRAIN_OUT DS_Terrain(OutputPatch<VS_TERRAIN_OUT, 3> _patch, float3 _vRatio 
                         + _patch[1].vFullUV * _vRatio[1]
                         + _patch[2].vFullUV * _vRatio[2];
     
-    float3 vLocalPos = _patch[0].vLocalPos * _vRatio[0]
-                        + _patch[1].vLocalPos * _vRatio[1]
-                        + _patch[2].vLocalPos * _vRatio[2];
+    float3 vWorldPos = _patch[0].vWorldPos * _vRatio[0]
+                        + _patch[1].vWorldPos * _vRatio[1]
+                        + _patch[2].vWorldPos * _vRatio[2];
     
-    vLocalPos.y = g_tex_2.SampleLevel(g_sam_0, output.vFullUV, 0).x;
+    vWorldPos.y = g_tex_2.SampleLevel(g_sam_0, output.vFullUV, 0).x * 1000.f /*g_vec2_0.y*/;
     
-    output.vPosition = mul(float4(vLocalPos, 1.f), g_matWVP);
-    output.vViewPos = mul(float4(vLocalPos, 1.f), g_matWV).xyz;
+    output.vPosition = mul(mul(float4(vWorldPos, 1.f), g_matView), g_matProj);
+    output.vViewPos = mul(float4(vWorldPos, 1.f), g_matView).xyz;
     
     // Texcell UV Step
-    float2 vUVStep = float2(1.f / (float) g_int_0 * g_fMaxTess, 1.f / (float) g_int_1 * g_fMaxTess);
+    float2 vUVStep = float2(1.f / ((float) g_int_0 * g_fMaxTess), 1.f / ((float) g_int_1 * g_fMaxTess));
     
-    float3 vRightPos = vLocalPos;
-    vRightPos.x += 1.f;
+    float3 vRightPos = vWorldPos;
+    vRightPos.x += (1.f / g_fMaxTess) * 100.f; /*g_vec2_0.x*/
     
-    float3 vLeftPos = vLocalPos;
-    vLeftPos.x -= 1.f;
+    float3 vLeftPos = vWorldPos;
+    vLeftPos.x -= (1.f / g_fMaxTess) * 100.f;
     
-    float3 vUpPos = vLocalPos;
-    vUpPos.z += 1.f;
+    float3 vUpPos = vWorldPos;
+    vUpPos.z += (1.f / g_fMaxTess) * 100.f;
     
-    float3 vDownPos = vLocalPos;
-    vDownPos.z -= 1.f;
+    float3 vDownPos = vWorldPos;
+    vDownPos.z -= (1.f / g_fMaxTess) * 100.f;
     
     float2 vNearUV = output.vFullUV;
     vNearUV.x += vUVStep.x;
-    vRightPos.y = g_tex_2.SampleLevel(g_sam_0, vNearUV, 0).x;
+    vRightPos.y = g_tex_2.SampleLevel(g_sam_0, vNearUV, 0).x * 1000.f; /*g_vec2_0.y*/
     
-    vNearUV.x -= vUVStep.x * 2.f;
-    vLeftPos.y = g_tex_2.SampleLevel(g_sam_0, vNearUV, 0).x;
+    vNearUV = output.vFullUV;
+    vNearUV.x -= vUVStep.x;
+    vLeftPos.y = g_tex_2.SampleLevel(g_sam_0, vNearUV, 0).x * 1000.f; /*g_vec2_0.y*/
    
     vNearUV = float2(output.vFullUV.x, output.vFullUV.y - vUVStep.y);
-    vUpPos.y = g_tex_2.SampleLevel(g_sam_0, vNearUV, 0).x;
+    vUpPos.y = g_tex_2.SampleLevel(g_sam_0, vNearUV, 0).x * 1000.f; /*g_vec2_0.y*/
     
     vNearUV = float2(output.vFullUV.x, output.vFullUV.y + vUVStep.y);
-    vDownPos.y = g_tex_2.SampleLevel(g_sam_0, vNearUV, 0).x;
+    vDownPos.y = g_tex_2.SampleLevel(g_sam_0, vNearUV, 0).x * 1000.f; /*g_vec2_0.y*/
     
     float3 vTangent = normalize(vRightPos - vLeftPos);
     float3 vBinormal = normalize(vUpPos - vDownPos);
-    float3 vNormal = cross(vBinormal, vTangent);
+    //float3 vNormal = normalize(cross(vBinormal, vTangent));
     
-    output.vViewTangent = mul(float4(vTangent, 0.f), g_matWV);
-    output.vViewBinormal = mul(float4(vBinormal, 0.f), g_matWV);
-    output.vViewNormal = mul(float4(vNormal, 0.f), g_matWV);
+    //output.vViewTangent = vTangent;
+    //output.vViewBinormal = vBinormal;
+    //output.vViewNormal = vNormal; 
+    
+    output.vViewTangent = normalize(mul(float4(vTangent, 0.f), g_matView));
+    output.vViewBinormal = normalize(mul(float4(vBinormal, 0.f), g_matView));
+    output.vViewNormal = normalize(cross(output.vViewBinormal, output.vViewTangent));
         
     return output;
 }
@@ -180,7 +194,8 @@ PS_TERRAIN_OUT PS_Terrain(DS_TERRAIN_OUT _in)
     //}
     //else    
     
-    output.vNormal.xyz = _in.vViewNormal;
+    
+    output.vNormal.xyz = _in.vViewNormal.xyz;
     output.vPosition.xyz = _in.vViewPos;
     
     return output;

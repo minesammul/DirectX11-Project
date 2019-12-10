@@ -138,9 +138,9 @@ VTX_STD3D_OUT VS_STD3D(VTX_STD3D_IN _in)
     output.vPosition = mul(float4(_in.vPosition, 1.f), g_matWVP);
 
     output.vViewPos = mul(float4(_in.vPosition, 1.f), g_matWV);
-    output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), g_matWV));
     output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), g_matWV));
     output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV));
+    output.vViewNormal = normalize(cross(output.vViewBinormal, output.vViewTangent));
 
     output.vUV = _in.vUV;
 
