@@ -34,8 +34,12 @@ struct PS_TERRAIN_OUT
 // g_int_0 : Terrain Face X
 // g_int_1 : Terrain Face Z
 
-// g_vec2_0 : World xy Scale;
+// g_float_0 : Tess MinDist
+// g_float_1 : Tess MaxDist
+// g_float_2 : Tess Max Level
 
+// g_vec4_0 : World Scale;
+// g_vec4_1 : World MainCamera Pos
 // ====================
 VS_TERRAIN_OUT VS_Terrain(VS_TERRAIN_IN _in)
 {
@@ -61,16 +65,31 @@ TessLv TerrainPatchConstFunc(InputPatch<VS_TERRAIN_OUT, 3> _patch, uint _patchID
     TessLv output = (TessLv) 0.f;
     
     // Ä«¸Þ¶ó¿ÍÀÇ °Å¸®¿¡ µû¶ó¼­ ºÐÇÒ ·¹º§ ÁöÁ¤
-    //float3 vCamPos = float3(0.f, 0.f, 0.f);
-    //float fMaxDist = 2000.f;    
-    //float fMaxLv = 4.f;   
+    float3 vCamPos = float3(0.f, 0.f, 0.f);
+    float fMaxDist = 6400.f;
+    float fMinDist = 1000.f;
+    float fMaxLv = 5.f;
+    float3 vCenterPos = (_patch[0].vWorldPos + _patch[1].vWorldPos) / 2.f;
     
+    float3 vSidePos = float3(vCenterPos.x - (vCenterPos.x - _patch[0].vWorldPos.x) * 2.f, vCenterPos.y, vCenterPos.z);
+    float3 vFBPos = float3(vCenterPos.x, vCenterPos.y, vCenterPos.z - (vCenterPos.z - _patch[1].vWorldPos.z) * 2.f);
     
+    float fLevel = CalTessLevel(vCamPos, vCenterPos, fMinDist, fMaxDist, fMaxLv);
+    float fSideLevel = CalTessLevel(vCamPos, vSidePos, fMinDist, fMaxDist, fMaxLv);
+    float fFBLevel = CalTessLevel(vCamPos, vFBPos, fMinDist, fMaxDist, fMaxLv);
     
-    output.vEdgeFactor[0] = 16;
-    output.vEdgeFactor[1] = 16;
-    output.vEdgeFactor[2] = 16;
-    output.fInsideFactor = 16.f;
+    if (fFBLevel > fLevel)
+        output.vEdgeFactor[0] = fFBLevel; // ¹Ø, À­
+    else
+        output.vEdgeFactor[0] = fLevel; // ¹Ø, À­       
+    
+    if (fSideLevel > fLevel)
+        output.vEdgeFactor[1] = fSideLevel; // ÁÂ, ¿ì
+    else
+        output.vEdgeFactor[1] = fLevel; // ÁÂ, ¿ì
+            
+    output.vEdgeFactor[2] = fLevel; // ºøº¯
+    output.fInsideFactor = fLevel;
     
     return output;
 }
@@ -157,8 +176,8 @@ DS_TERRAIN_OUT DS_Terrain(OutputPatch<VS_TERRAIN_OUT, 3> _patch, float3 _vRatio 
     vNearUV = float2(output.vFullUV.x, output.vFullUV.y + vUVStep.y);
     vDownPos.y = g_tex_2.SampleLevel(g_sam_0, vNearUV, 0).x * 1000.f; /*g_vec2_0.y*/
     
-    float3 vTangent = normalize(vRightPos - vLeftPos);
-    float3 vBinormal = normalize(vUpPos - vDownPos);
+    float3 vTangent = normalize(vRightPos - vLeftPos); // float3(1.f, 0.f, 0.f);
+    float3 vBinormal = normalize(vUpPos - vDownPos); //float3(0.f, 0.f, 1.f); 
     //float3 vNormal = normalize(cross(vBinormal, vTangent));
     
     //output.vViewTangent = vTangent;
@@ -200,7 +219,6 @@ PS_TERRAIN_OUT PS_Terrain(DS_TERRAIN_OUT _in)
     
     return output;
 }
-
 
 
 // ================

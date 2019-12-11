@@ -40,4 +40,6 @@ void CTerrain::init(UINT _iXFace, UINT _iZFace)
 
 void CTerrain::finalupdate()
 {
+	Vec4 vScale = Vec4(Transform()->GetLocalScale());
+	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::VEC4_0, &vScale);
 }
