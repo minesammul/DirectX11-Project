@@ -91,4 +91,20 @@ void CaculateLight(float3 _vViewPos, float3 _vViewNormal, int _iLightIdx, inout 
     _color.vLightAmb += g_arrLight3D[_iLightIdx].tColor.vLightAmb;
 }
 
+float CalTessLevel(in float3 _vWorldCamPos, float3 _vPatchPos, float _fMin, float _fMax, float _fMaxLv)
+{
+    float fLen = length(_vPatchPos - _vWorldCamPos);
+            
+    float fLevel = (_fMaxLv - 1.f) * ((1.f - saturate((fLen - _fMin) / (_fMax - _fMin))));
+    if (fLevel == _fMaxLv - 1.f)
+    {
+        fLevel += 1.f;
+    }
+        
+    fLevel = ceil(fLevel);
+    fLevel = pow(2, fLevel);
+    
+    return fLevel;
+}
+
 #endif
