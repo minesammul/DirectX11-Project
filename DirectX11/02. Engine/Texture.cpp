@@ -8,6 +8,7 @@ CTexture::CTexture()
 	: m_pSRV(nullptr)
 	, m_pTex2D(nullptr)
 	, m_pRTV(nullptr)
+	, m_pUAV(nullptr)
 	, m_pDSV(nullptr)
 	, CResource(RES_TYPE::TEXTURE)
 {
@@ -18,6 +19,7 @@ CTexture::~CTexture()
 	SAFE_RELEASE(m_pSRV);
 	SAFE_RELEASE(m_pRTV);
 	SAFE_RELEASE(m_pDSV);
+	SAFE_RELEASE(m_pUAV);
 	SAFE_RELEASE(m_pTex2D);
 }
 
@@ -125,6 +127,19 @@ void CTexture::ClearAllRegister()
 	CONTEXT->PSSetShaderResources(0, iRegisterCount, arrView);
 }
 
+void CTexture::SetRWRegister(UINT _iRegister)
+{
+	UINT i = -1;
+	CONTEXT->CSSetUnorderedAccessViews(_iRegister, 1, &m_pUAV, &i);
+}
+
+void CTexture::ClearRWRegister(UINT _iRegister)
+{
+	ID3D11UnorderedAccessView* pUAV = nullptr;
+	UINT i = -1;
+	CONTEXT->CSSetUnorderedAccessViews(_iRegister, 1, &pUAV, &i);
+}
+
 void CTexture::Create(UINT _iWidth, UINT _iHeight, UINT _iBindFlag, D3D11_USAGE _eUsage, DXGI_FORMAT _eFormat)
 {
 	// DepthStencil Texture
@@ -157,6 +172,11 @@ void CTexture::Create(UINT _iWidth, UINT _iHeight, UINT _iBindFlag, D3D11_USAGE 
 		{
 			DEVICE->CreateShaderResourceView(m_pTex2D, nullptr, &m_pSRV);
 		}
+
+		if (m_tDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS)
+		{
+			DEVICE->CreateUnorderedAccessView(m_pTex2D, nullptr, &m_pUAV);
+		}
 	}
 }
 
@@ -181,6 +201,11 @@ void CTexture::Create(ID3D11Texture2D * _pTex2D)
 		if (m_tDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
 		{
 			DEVICE->CreateShaderResourceView(m_pTex2D, nullptr, &m_pSRV);
+		}
+
+		if (m_tDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS)
+		{
+			DEVICE->CreateUnorderedAccessView(m_pTex2D, nullptr, &m_pUAV);
 		}
 	}
 }

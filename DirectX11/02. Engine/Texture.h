@@ -16,6 +16,7 @@ class CTexture :
 {
 private:
 	ID3D11ShaderResourceView*	m_pSRV;
+	ID3D11UnorderedAccessView*  m_pUAV;
 	ID3D11RenderTargetView*		m_pRTV;
 	ID3D11DepthStencilView*		m_pDSV;
 
@@ -36,16 +37,19 @@ public:
 	ID3D11ShaderResourceView* GetSRV() { return m_pSRV; }
 	ID3D11RenderTargetView* GetRTV() { return m_pRTV; }
 	ID3D11DepthStencilView* GetDSV() { return m_pDSV; }
+	ID3D11UnorderedAccessView* GetUAV() { return m_pUAV; }
 
 public:
 	void SetRegister(UINT _iRegister, UINT _iShaderType);
 	void SetRegisterAll(UINT _iRegister);
 
-	virtual bool LoadFromScene(FILE* _pFile);
-
 	static void ClearRegister(UINT _iRegister, UINT _iShaderType);
-
 	static void ClearAllRegister();
+
+	void SetRWRegister(UINT _iRegister);
+	static void ClearRWRegister(UINT _iRegister);
+
+	virtual bool LoadFromScene(FILE* _pFile);
 
 public:
 	CTexture();

@@ -78,6 +78,14 @@ void CMaterial::SetData(SHADER_PARAM _eType, void * _pSrc)
 		iIdx = (UINT)_eType - (UINT)SHADER_PARAM::TEX_0;
 		m_arrTex[iIdx] = *((CResPtr<CTexture>*)_pSrc);
 		break;
+	case SHADER_PARAM::RWTEX_0:
+	case SHADER_PARAM::RWTEX_1:
+	case SHADER_PARAM::RWTEX_2:
+	case SHADER_PARAM::RWTEX_3:
+		iIdx = (UINT)_eType - (UINT)SHADER_PARAM::RWTEX_0;
+		m_arrRWTex[iIdx] = *((CResPtr<CTexture>*)_pSrc);
+		assert(nullptr != m_arrRWTex[iIdx]->GetUAV());
+		break;
 	default:
 		assert(nullptr);
 		break;
@@ -120,11 +128,32 @@ void CMaterial::UpdateData()
 		}
 	}
 
+	// RWTexture Update го╠Б
+	iCount = (UINT)SHADER_PARAM::RWTEX_END - (UINT)SHADER_PARAM::RWTEX_0;
+	for (UINT i = 0; i < iCount; ++i)
+	{
+		if (nullptr == m_arrRWTex[i])
+		{
+			CTexture::ClearRWRegister(i);
+			m_param.arrRWTexCheck[i] = 0;
+		}
+		else
+		{
+			m_arrRWTex[i]->SetRWRegister(i);
+			m_param.arrRWTexCheck[i] = 1;
+		}
+	}
+
 	static CConstBuffer* pConstBuffer = CDevice::GetInst()->FindConstBuffer(L"ShaderParam");
 
 	pConstBuffer->AddData(&m_param, sizeof(tShaderParam));
 	pConstBuffer->UpdateData();
 	pConstBuffer->SetRegisterAll();
+}
+
+void CMaterial::ExcuteComputeShader(UINT _x, UINT _y, UINT _z)
+{
+	CONTEXT->Dispatch(_x, _y, _z);
 }
 
 void CMaterial::Load(const wstring & _strFilePath)

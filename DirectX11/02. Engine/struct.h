@@ -58,6 +58,7 @@ struct tShaderParam
 	Vec4 arrVec4[4];
 	Matrix arrMat[4];
 	UINT arrTexCheck[(UINT)SHADER_PARAM::TEX_END - (UINT)SHADER_PARAM::TEX_0];
+	UINT arrRWTexCheck[(UINT)SHADER_PARAM::RWTEX_END - (UINT)SHADER_PARAM::RWTEX_0];
 };
 
 struct tGlobalValue
