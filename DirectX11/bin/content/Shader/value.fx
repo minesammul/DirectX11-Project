@@ -61,6 +61,11 @@ cbuffer MATERIAL : register(b1)
     uint g_tcheck_1;
     uint g_tcheck_2;
     uint g_tcheck_3;
+    
+    uint g_ucheck_0;
+    uint g_ucheck_1;
+    uint g_ucheck_2;
+    uint g_ucheck_3;
 }
 
 cbuffer ANIM2D : register(b2)
@@ -93,14 +98,14 @@ Texture2D g_tex_3 : register(t3);
 
 Texture2D g_tex_anim : register(t17);
 
+RWTexture2D<float4> g_rwtex_0 : register(u0);
+RWTexture2D<float4> g_rwtex_1 : register(u1);
+RWTexture2D<float4> g_rwtex_2 : register(u2);
+RWTexture2D<float4> g_rwtex_3 : register(u3);
+
 SamplerState g_sam_0 : register(s0);
 SamplerState g_sam_1 : register(s1);
 SamplerState g_sam_2 : register(s2);
 SamplerState g_sam_3 : register(s3);
-
-
-
-
-
 
 #endif

@@ -12,6 +12,7 @@ protected:
 	CResPtr<CShader>	m_pShader;
 	tShaderParam		m_param;
 	CResPtr<CTexture>   m_arrTex[(UINT)SHADER_PARAM::TEX_END - (UINT)SHADER_PARAM::TEX_0];
+	CResPtr<CTexture>   m_arrRWTex[(UINT)SHADER_PARAM::RWTEX_END - (UINT)SHADER_PARAM::RWTEX_0];
 	bool				m_bSave;
 
 public:
@@ -24,6 +25,7 @@ public:
 
 public:
 	void UpdateData();
+	void ExcuteComputeShader(UINT _x, UINT _y, UINT _z);
 
 public:
 	virtual void Load(const wstring& _strFilePath);
