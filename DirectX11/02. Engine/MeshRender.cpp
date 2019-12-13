@@ -57,6 +57,7 @@ void CMeshRender::render()
 	m_pMtrl->UpdateData();
 	m_pMesh->SetLayout(m_pMtrl->GetShader());	
 	m_pMesh->render();
+	CTexture::ClearAllRegister();
 
 	// Collider2D 가 있으면 그려준다.
 	if (nullptr != Collider2D())

@@ -1,19 +1,25 @@
 #pragma once
 #include "Component.h"
 
+#include "ResPtr.h"
+#include "Texture.h"
+#include "Material.h"
+
 class CTerrain :
 	public CComponent
 {
 private:
-	UINT		m_iXFaceCount;
-	UINT		m_iZFaceCount;
+	UINT				m_iXFaceCount;
+	UINT				m_iZFaceCount;
+	CResPtr<CTexture>	m_pHeightMap;
+	CResPtr<CMaterial>  m_pHeightMapMtrl;
 
 public:
 	void init(UINT _iXFace, UINT _iZFace);
 
 private:
 	void SetFaceCount(UINT _iXFace, UINT _iZFace);
-
+	void CreateComputeShader();
 
 public:
 	virtual void update() {};

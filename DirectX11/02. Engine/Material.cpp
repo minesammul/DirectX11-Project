@@ -153,7 +153,9 @@ void CMaterial::UpdateData()
 
 void CMaterial::ExcuteComputeShader(UINT _x, UINT _y, UINT _z)
 {
+	UpdateData();
 	CONTEXT->Dispatch(_x, _y, _z);
+	CTexture::ClearAllRegister();
 }
 
 void CMaterial::Load(const wstring & _strFilePath)

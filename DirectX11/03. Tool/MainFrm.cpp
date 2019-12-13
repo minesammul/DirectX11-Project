@@ -311,14 +311,14 @@ void CMainFrame::OnGameObjectCreateTerrain()
 
 	pNewObj->Terrain()->init(64, 64);
 
-	CResPtr<CTexture> texture1 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01.tga");
-	pNewObj->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &texture1);
+	//CResPtr<CTexture> texture1 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01.tga");
+	//pNewObj->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &texture1);
 
-	CResPtr<CTexture> texture2 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01_N.tga");
-	pNewObj->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &texture2);
+	//CResPtr<CTexture> texture2 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01_N.tga");
+	//pNewObj->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &texture2);
 
-	CResPtr<CTexture> texture3 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\HeightMap\\HeightMap_01.jpg");
-	pNewObj->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_2, &texture3);
+	//CResPtr<CTexture> texture3 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\HeightMap\\HeightMap_01.jpg");
+	//pNewObj->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_2, &texture3);
 
 	CSceneMgr::GetInst()->GetCurScene()->AddObject(L"Default", pNewObj);
 

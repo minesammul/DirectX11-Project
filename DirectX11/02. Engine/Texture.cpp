@@ -125,6 +125,10 @@ void CTexture::ClearAllRegister()
 	CONTEXT->GSSetShaderResources(0, iRegisterCount, arrView);
 	CONTEXT->CSSetShaderResources(0, iRegisterCount, arrView);
 	CONTEXT->PSSetShaderResources(0, iRegisterCount, arrView);
+
+	const UINT iRWRegisterCount = (UINT)SHADER_PARAM::RWTEX_END - (UINT)SHADER_PARAM::RWTEX_0;
+	ID3D11UnorderedAccessView* arrUAV[iRWRegisterCount] = {};
+	CONTEXT->CSSetUnorderedAccessViews(0, iRWRegisterCount, arrUAV, nullptr);
 }
 
 void CTexture::SetRWRegister(UINT _iRegister)
