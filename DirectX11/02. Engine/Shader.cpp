@@ -208,6 +208,7 @@ void CShader::UpdateData()
 	CONTEXT->HSSetShader(m_pHS, nullptr, 0);
 	CONTEXT->DSSetShader(m_pDS, nullptr, 0);
 	CONTEXT->GSSetShader(m_pGS, nullptr, 0);
+	CONTEXT->CSSetShader(m_pCS, nullptr, 0);
 	CONTEXT->PSSetShader(m_pPS, nullptr, 0);
 
 
