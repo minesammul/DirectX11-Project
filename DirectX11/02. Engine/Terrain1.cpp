@@ -19,10 +19,12 @@ CTerrain::~CTerrain()
 void CTerrain::init(UINT _iXFace, UINT _iZFace)
 {	
 	// HeightMap ¸¸µé±â
-	m_pHeightMap = CResMgr::GetInst()->CreateTexture(L"TerrainHeightMap"
-		, 1024, 1024
-		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
-		, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_pHeightMap = CResMgr::GetInst()->CreateTexture(	L"TerrainHeightMap", 
+														1024, 
+														1024, 
+														D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS, 
+														D3D11_USAGE_DEFAULT, 
+														DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	CreateComputeShader();
 
@@ -48,8 +50,8 @@ void CTerrain::init(UINT _iXFace, UINT _iZFace)
 
 void CTerrain::finalupdate()
 {
-	Vec4 vScale = Vec4(Transform()->GetLocalScale());
-	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::VEC4_0, &vScale);
+	//Vec4 vScale = Vec4(Transform()->GetLocalScale());
+	//MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::VEC4_0, &vScale);
 
 	if (KEYTAB(KEY_TYPE::KEY_UP))
 	{

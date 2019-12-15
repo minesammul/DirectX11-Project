@@ -73,7 +73,7 @@ void CTerrain::CreateComputeShader()
 	m_pHeightMapMtrl->SaveDisable();
 	m_pHeightMapMtrl->SetShader(pShader);
 
-	m_pHeightMap = CResMgr::GetInst()->FindRes<CTexture>(L"HeightMap");
+	m_pHeightMap = CResMgr::GetInst()->FindRes<CTexture>(L"TerrainHeightMap");
 
 	m_pHeightMapMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pHeightMap);
 	CResMgr::GetInst()->AddRes<CMaterial>(L"HeightMapMtrl", m_pHeightMapMtrl);
