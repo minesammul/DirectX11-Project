@@ -69,14 +69,53 @@ void CTerrain::CreateComputeShader()
 	pShader->CreateComputeShader(L"Shader\\compute.fx", "CS_Test", 5, 0);
 	CResMgr::GetInst()->AddRes<CShader>(L"CS_Test", pShader);
 
+
 	m_pHeightMapMtrl = new CMaterial;
 	m_pHeightMapMtrl->SaveDisable();
 	m_pHeightMapMtrl->SetShader(pShader);
-
-	m_pHeightMap = CResMgr::GetInst()->FindRes<CTexture>(L"TerrainHeightMap");
+	CResMgr::GetInst()->AddRes<CMaterial>(L"HeightMapMtrl", m_pHeightMapMtrl);
 
 	m_pHeightMapMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pHeightMap);
-	CResMgr::GetInst()->AddRes<CMaterial>(L"HeightMapMtrl", m_pHeightMapMtrl);
+	m_pHeightMapMtrl->SetData(SHADER_PARAM::TEX_0, &m_vecBrush[0]);
+	m_pHeightMapMtrl->SetData(SHADER_PARAM::TEX_1, &m_vecBrush[1]);
+
+	int width = m_pHeightMap->GetWidth();
+	int height = m_pHeightMap->GetHeight();
+
+	m_pHeightMapMtrl->SetData(SHADER_PARAM::INT_0, &width);
+	m_pHeightMapMtrl->SetData(SHADER_PARAM::INT_1, &height);
+}
+
+void CTerrain::LoadResource()
+{
+	// HeightMap ¸¸µé±â
+	m_pHeightMap = CResMgr::GetInst()->CreateTexture(L"TerrainHeightMap"
+		, 1024, 1024
+		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
+		, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	// Brush Texture
+	m_vecBrush.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Brush\\Brush_01.png"));
+	m_vecBrush.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Brush\\Brush_02.png"));
+
+	CreateComputeShader();
+
+	// Mesh
+	SetFaceCount(m_iXFaceCount, m_iZFaceCount);
+
+	// Material
+	MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TerrainMtrl"));
+	CResPtr<CTexture> pTexture0 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01.tga");
+	CResPtr<CTexture> pTexture1 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01_N.tga");
+
+
+	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTexture0);
+	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &pTexture1);
+	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_2, &m_pHeightMap);
+
+	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_0, &m_iXFaceCount);
+	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_1, &m_iZFaceCount);
+
 }
 
 void CTerrain::SaveToScene(FILE * _pFile)

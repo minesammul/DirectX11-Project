@@ -13,6 +13,7 @@ private:
 	UINT				m_iZFaceCount;
 	CResPtr<CTexture>	m_pHeightMap;
 	CResPtr<CMaterial>  m_pHeightMapMtrl;
+	vector<CResPtr<CTexture>> m_vecBrush;
 
 public:
 	void init(UINT _iXFace, UINT _iZFace);
@@ -20,6 +21,7 @@ public:
 private:
 	void SetFaceCount(UINT _iXFace, UINT _iZFace);
 	void CreateComputeShader();
+	void LoadResource();
 
 public:
 	virtual void update() {};

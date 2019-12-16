@@ -7,7 +7,17 @@
 // =======================
 // CS_Test
 // g_rwtex_0 : 출력 텍스쳐
+// g_tex_0 : brush 1
+// g_tex_1 : brush 2
+
+// g_int_0 : 높이맵 width
+// g_int_1 : 높이맵 height
+
 // g_vec4_0 : 출력 색상
+// g_vec2_0 : 브러쉬 중심 위치(높이맵 좌상단 기준)
+// g_vec2_1 : 브러쉬 크기
+
+
 // =======================
 
 // SV_GroupID           : 그룹 인덱스
@@ -18,17 +28,22 @@
 [numthreads(1024, 1, 1)] // 1024
 void CS_Test(int3 _iThreadID : SV_DispatchThreadID)
 {
-    float fDist = distance((float2) _iThreadID, float2(512.f, 512.f));
-    float fTheta = (fDist / 512.f) * (3.141592 / 2.f);
+    float2 vLTPos = g_vec2_0 - (g_vec2_1 / 2.f); // Brush 좌상단 위치    
+    float2 vThreadPos = float2((float) _iThreadID.x / (float) g_int_0, (float) _iThreadID.y / (float) g_int_1); // 스레드의 위치값
     
-    float fHeight = cos(fTheta);
-    if (fHeight < 0.f)
-        fHeight = 0.f;
+    float2 vBrushUV = (vThreadPos - vLTPos) / g_vec2_1; // 브러쉬 추출 UV 값
     
-    g_rwtex_0[_iThreadID.xy] += fHeight / 10.f;
-    //g_rwtex_0[_iThreadID.xy] = float4(1.f, 0.f, 0.f, 1.f);
-
+    if (0.f <= vBrushUV.x && vBrushUV.x <= 1.f
+        && 0.f <= vBrushUV.y && vBrushUV.y <= 1.f)
+    {
+        float fRatio = saturate(cos((distance(g_vec2_0, vThreadPos) / g_vec2_1) * (3.141592 / 0.5f)));
+        
+        float alpha = g_tex_0.SampleLevel(g_sam_0, vBrushUV, 0).a;
+        if (alpha != 0.f)
+        {
+            g_rwtex_0[_iThreadID.xy] += fDT * fRatio;
+        }
+    }
 }
-
 
 #endif
