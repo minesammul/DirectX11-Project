@@ -142,7 +142,7 @@ DS_TERRAIN_OUT DS_Terrain(OutputPatch<VS_TERRAIN_OUT, 3> _patch, float3 _vRatio 
                         + _patch[1].vWorldPos * _vRatio[1]
                         + _patch[2].vWorldPos * _vRatio[2];
     
-    vWorldPos.y = g_tex_2.SampleLevel(g_sam_0, output.vFullUV, 0).x * 1000.f /*g_vec2_0.y*/;
+    vWorldPos.y = g_tex_2.SampleLevel(g_sam_1, output.vFullUV, 0).x * 1000.f /*g_vec2_0.y*/;
     
     output.vPosition = mul(mul(float4(vWorldPos, 1.f), g_matView), g_matProj);
     output.vViewPos = mul(float4(vWorldPos, 1.f), g_matView).xyz;
@@ -164,17 +164,17 @@ DS_TERRAIN_OUT DS_Terrain(OutputPatch<VS_TERRAIN_OUT, 3> _patch, float3 _vRatio 
     
     float2 vNearUV = output.vFullUV;
     vNearUV.x += vUVStep.x;
-    vRightPos.y = g_tex_2.SampleLevel(g_sam_0, vNearUV, 0).x * 1000.f; /*g_vec2_0.y*/
+    vRightPos.y = g_tex_2.SampleLevel(g_sam_1, vNearUV, 0).x * 1000.f; /*g_vec2_0.y*/
     
     vNearUV = output.vFullUV;
     vNearUV.x -= vUVStep.x;
-    vLeftPos.y = g_tex_2.SampleLevel(g_sam_0, vNearUV, 0).x * 1000.f; /*g_vec2_0.y*/
+    vLeftPos.y = g_tex_2.SampleLevel(g_sam_1, vNearUV, 0).x * 1000.f; /*g_vec2_0.y*/
    
     vNearUV = float2(output.vFullUV.x, output.vFullUV.y - vUVStep.y);
-    vUpPos.y = g_tex_2.SampleLevel(g_sam_0, vNearUV, 0).x * 1000.f; /*g_vec2_0.y*/
+    vUpPos.y = g_tex_2.SampleLevel(g_sam_1, vNearUV, 0).x * 1000.f; /*g_vec2_0.y*/
     
     vNearUV = float2(output.vFullUV.x, output.vFullUV.y + vUVStep.y);
-    vDownPos.y = g_tex_2.SampleLevel(g_sam_0, vNearUV, 0).x * 1000.f; /*g_vec2_0.y*/
+    vDownPos.y = g_tex_2.SampleLevel(g_sam_1, vNearUV, 0).x * 1000.f; /*g_vec2_0.y*/
     
     float3 vTangent = normalize(vRightPos - vLeftPos); // float3(1.f, 0.f, 0.f);
     float3 vBinormal = normalize(vUpPos - vDownPos); //float3(0.f, 0.f, 1.f); 

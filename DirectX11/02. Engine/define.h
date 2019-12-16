@@ -71,6 +71,7 @@ enum class RES_TYPE
 enum class SAMPLER_TYPE
 {
 	DEFAULT,
+	LINEAR,
 	END
 };
 

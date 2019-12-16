@@ -179,6 +179,17 @@ void CRenderMgr::CreateSamplerState()
 
 	m_arrSampler[(UINT)SAMPLER_TYPE::DEFAULT]->Create(&tDesc, 0);
 	m_arrSampler[(UINT)SAMPLER_TYPE::DEFAULT]->UpdateData();
+
+
+	m_arrSampler[(UINT)SAMPLER_TYPE::LINEAR] = new CSamplerState;
+
+	tDesc.Filter = D3D11_FILTER::D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
+	tDesc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+	tDesc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+	tDesc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+
+	m_arrSampler[(UINT)SAMPLER_TYPE::LINEAR]->Create(&tDesc, 1);
+	m_arrSampler[(UINT)SAMPLER_TYPE::LINEAR]->UpdateData();
 }
 
 void CRenderMgr::CreateBlendState()
