@@ -11,6 +11,8 @@
 #include "MeshRender.h"
 #include "Material.h"
 #include "Shader.h"
+#include "KeyMgr.h"
+#include "Device.h"
 
 CCamera::CCamera()
 	: m_eType(PROJ_TYPE::PERSPECTIVE)
@@ -58,7 +60,7 @@ void CCamera::finalupdate()
 
 
 	m_matView *= matViewRot;
-
+	m_matViewInv = XMMatrixInverse(nullptr, m_matView); // View 역행렬
 
 	// Projection 행렬 만들기	
 	//tResolution tRes = CDevice::GetInst()->GetResolution();
@@ -68,6 +70,8 @@ void CCamera::finalupdate()
 		m_matProj = XMMatrixPerspectiveFovLH(m_fFOV, tRes.fWidth / tRes.fHeight, m_fNear, m_fFar);
 	else
 		m_matProj = XMMatrixOrthographicLH(tRes.fWidth * m_fScale, tRes.fHeight * m_fScale, m_fNear, m_fFar);
+
+	CalRay();
 
 	CRenderMgr::GetInst()->RegisterCamera(this);
 }
@@ -137,6 +141,13 @@ void CCamera::render_forward()
 	}
 }
 
+const tRay & CCamera::GetRay()
+{
+	CalRay();
+
+	return m_tRay;
+}
+
 void CCamera::CheckLayer(UINT _iLayerIdx)
 {
 	UINT iCheck = 1 << _iLayerIdx;
@@ -144,6 +155,34 @@ void CCamera::CheckLayer(UINT _iLayerIdx)
 		m_iLayerCheck &= ~iCheck;
 	else
 		m_iLayerCheck |= iCheck;
+}
+
+void CCamera::CalRay()
+{
+	POINT ptMousePos = CKeyMgr::GetInst()->GetMousePos();
+
+	D3D11_VIEWPORT tVP = {};
+	UINT iSize = 1;
+	CONTEXT->RSGetViewports(&iSize, &tVP);
+
+	if (iSize == 0)
+	{
+		tResolution res = CRenderMgr::GetInst()->GetResolution();
+		tVP.Width = res.fWidth;
+		tVP.Height = res.fHeight;
+		tVP.MinDepth = 1.f;
+		tVP.MaxDepth = 1.f;
+		tVP.TopLeftX = 0.f;
+		tVP.TopLeftY = 0.f;
+	}
+
+	m_tRay.vStart = Transform()->GetWorldPos();
+	m_tRay.vDir.x = ((((ptMousePos.x - tVP.TopLeftX) * 2.f / tVP.Width) - 1.f) - m_matProj._31) / m_matProj._11;
+	m_tRay.vDir.y = (-(((ptMousePos.y - tVP.TopLeftY) * 2.f / tVP.Height) - 1.f) - m_matProj._32) / m_matProj._22;
+	m_tRay.vDir.z = 1.f;
+
+	m_tRay.vDir = XMVector3TransformNormal(m_tRay.vDir, m_matViewInv);
+	m_tRay.vDir.Normalize();
 }
 
 void CCamera::SaveToScene(FILE * _pFile)

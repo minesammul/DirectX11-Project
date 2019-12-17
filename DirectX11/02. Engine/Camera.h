@@ -12,6 +12,7 @@ class CCamera :
 {
 protected:
 	Matrix		m_matView;
+	Matrix		m_matViewInv;
 	Matrix		m_matProj;
 
 	PROJ_TYPE	m_eType;
@@ -23,6 +24,8 @@ protected:
 
 	UINT		m_iLayerCheck;
 	UINT		m_iCamOrder;
+
+	tRay		m_tRay;
 
 public:
 	virtual void update();
@@ -56,6 +59,7 @@ public:
 	float GetFar() { return m_fFar; }
 	float GetFOV() { return m_fFOV; }
 	UINT GetCamOrder() { return m_iCamOrder; }
+	const tRay & GetRay();
 
 	const Matrix& GetViewMat() { return m_matView; }
 	const Matrix& GetProjMat() { return m_matProj; }
@@ -66,6 +70,10 @@ public:
 	virtual void SaveToScene(FILE* _pFile);
 	virtual void LoadFromScene(FILE* _pFile);
 
+protected:
+	void CalRay();
+
+public:
 	CLONE(CCamera);
 
 public:

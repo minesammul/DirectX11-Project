@@ -38,6 +38,7 @@ void CCameraEx::finalupdate()
 	matViewRot._31 = vRight.z; matViewRot._32 = vUp.z; matViewRot._33 = vFront.z;
 
 	m_matView *= matViewRot;
+	m_matViewInv = XMMatrixInverse(nullptr, m_matView); // View 역행렬
 
 	// Projection 행렬 만들기	
 	//tResolution tRes = CDevice::GetInst()->GetResolution();
@@ -47,4 +48,6 @@ void CCameraEx::finalupdate()
 		m_matProj = XMMatrixPerspectiveFovLH(m_fFOV, tRes.fWidth / tRes.fHeight, m_fNear, m_fFar);
 	else
 		m_matProj = XMMatrixOrthographicLH(tRes.fWidth * m_fScale, tRes.fHeight * m_fScale, m_fNear, m_fFar);
+
+	CalRay();
 }
