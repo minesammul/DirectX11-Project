@@ -26,7 +26,7 @@
 // SV_DispatchThreadID  : 그룹 전체기준 스레드 인덱스
 
 [numthreads(1024, 1, 1)] // 1024
-void CS_Test(int3 _iThreadID : SV_DispatchThreadID)
+void CS_HeightMap(int3 _iThreadID : SV_DispatchThreadID)
 {
     float2 vLTPos = g_vec2_0 - (g_vec2_1 / 2.f); // Brush 좌상단 위치    
     float2 vThreadPos = float2((float) _iThreadID.x / (float) g_int_0, (float) _iThreadID.y / (float) g_int_1); // 스레드의 위치값
@@ -38,12 +38,52 @@ void CS_Test(int3 _iThreadID : SV_DispatchThreadID)
     {
         float fRatio = saturate(cos((distance(g_vec2_0, vThreadPos) / g_vec2_1) * (3.141592 / 0.5f)));
         
-        float alpha = g_tex_0.SampleLevel(g_sam_0, vBrushUV, 0).a;
-        if (alpha != 0.f)
+        float4 vColor = g_tex_1.SampleLevel(g_sam_0, vBrushUV, 0).a;
+        if (vColor.a != 0.f)
         {
-            g_rwtex_0[_iThreadID.xy] += fDT * fRatio;
+            //g_rwtex_0[_iThreadID.xy] += fDT * fRatio * (1.f - (vColor.x * vColor.y * vColor.z)) * vColor.a;
+            
+            g_rwtex_0[_iThreadID.xy] += fDT * fRatio * (vColor.x * vColor.y * vColor.z);
         }
     }
 }
 
+// =======================
+// Picking Shader
+// g_int_0 : Face X
+// g_int_1 : Face Z
+
+// g_vec4_0 : Ray Start
+// g_vec4_1 : Ray Dir
+
+// =======================
+[numthreads(1024, 1, 1)]
+void CS_Picking(int3 _iThreadID : SV_DispatchThreadID)
+{
+    int iXFace = _iThreadID.x / 2;
+    int iYFace = _iThreadID.y;
+
+    float3 vLocalPos[3];
+    
+    // 아래 삼각형
+    if (_iThreadID.x % 2 == 0)
+    {
+        vLocalPos[0] = float3(iXFace, 0.f, g_int_1 - _iThreadID.y);
+        vLocalPos[1] = float3(iXFace + 1.f, 0.f, g_int_1 - _iThreadID.y - 1.f);
+        vLocalPos[2] = float3(iXFace, 0.f, g_int_1 - _iThreadID.y - 1.f);
+    }
+    else // 위쪽 삼각형
+    {
+        vLocalPos[0] = float3(iXFace + 1.f, 0.f, g_int_1 - _iThreadID.y - 1.f);
+        vLocalPos[1] = float3(iXFace, 0.f, g_int_1 - _iThreadID.y);
+        vLocalPos[2] = float3(iXFace + 1.f, 0.f, g_int_1 - _iThreadID.y);
+    }
+    
+    // 평면 구성
+    
+    
+    // 직선과 평면 충돌 여부
+    
+    
+}
 #endif

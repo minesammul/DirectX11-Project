@@ -60,14 +60,14 @@ void CTerrain::SetFaceCount(UINT _iXFace, UINT _iZFace)
 
 void CTerrain::CreateComputeShader()
 {
-	// ===================
-	// Compute Shader
-	// ===================
+	// =========================
+	// HeightMap Compute Shader
+	// =========================
 	CShader* pShader = nullptr;
 
 	pShader = new CShader;
-	pShader->CreateComputeShader(L"Shader\\compute.fx", "CS_Test", 5, 0);
-	CResMgr::GetInst()->AddRes<CShader>(L"CS_Test", pShader);
+	pShader->CreateComputeShader(L"Shader\\compute.fx", "CS_HeightMap", 5, 0);
+	CResMgr::GetInst()->AddRes<CShader>(L"CS_HeightMap", pShader);
 
 
 	m_pHeightMapMtrl = new CMaterial;
@@ -84,6 +84,17 @@ void CTerrain::CreateComputeShader()
 
 	m_pHeightMapMtrl->SetData(SHADER_PARAM::INT_0, &width);
 	m_pHeightMapMtrl->SetData(SHADER_PARAM::INT_1, &height);
+
+	// ======================
+	// Picking Compute Shader
+	// ======================
+	pShader = new CShader;
+	pShader->CreateComputeShader(L"Shader\\compute.fx", "CS_Picking", 5, 0);
+	CResMgr::GetInst()->AddRes<CShader>(L"CS_Picking", pShader);
+
+	m_pHeightMapMtrl = new CMaterial;
+	m_pHeightMapMtrl->SaveDisable();
+	m_pHeightMapMtrl->SetShader(pShader);
 }
 
 void CTerrain::LoadResource()
