@@ -14,6 +14,9 @@ private:
 	CResPtr<CTexture>	m_pHeightMap;
 	CResPtr<CMaterial>  m_pHeightMapMtrl;
 	vector<CResPtr<CTexture>> m_vecBrush;
+	CResPtr<CTexture>	m_pOutput;
+	CResPtr<CMaterial>  m_pPickMtrl;
+	CCamera*			m_pToolCam;
 
 public:
 	void init(UINT _iXFace, UINT _iZFace);
@@ -26,6 +29,9 @@ private:
 public:
 	virtual void update() {};
 	virtual void finalupdate();
+
+public:
+	void SetCamera(CCamera* _pCam) { m_pToolCam = _pCam; }
 
 public:
 	CLONE(CTerrain);
