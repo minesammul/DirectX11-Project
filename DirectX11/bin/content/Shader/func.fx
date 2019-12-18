@@ -107,4 +107,63 @@ float CalTessLevel(in float3 _vWorldCamPos, float3 _vPatchPos, float _fMin, floa
     return fLevel;
 }
 
+int IntersectsLay(float3 _vertices[3], float3 _vStart, float3 _vDir, out float _fResult)
+{
+    float3 edge[2];
+    edge[0] = _vertices[1].xyz - _vertices[0].xyz;
+    edge[1] = _vertices[2].xyz - _vertices[0].xyz;
+
+    float3 normal = normalize(cross(edge[0], edge[1]));
+    float b = dot(normal, _vDir);
+
+    float3 w0 = _vStart - _vertices[0].xyz;
+    float a = -dot(normal, w0);
+    float t = a / b;
+
+    _fResult = t;
+
+    float3 p = _vStart + t * _vDir;
+    float uu, uv, vv, wu, wv, inverseD;
+    uu = dot(edge[0], edge[0]);
+    uv = dot(edge[0], edge[1]);
+    vv = dot(edge[1], edge[1]);
+
+    float3 w = p - _vertices[0].xyz;
+    wu = dot(w, edge[0]);
+    wv = dot(w, edge[1]);
+    inverseD = uv * uv - uu * vv;
+    inverseD = 1.0f / inverseD;
+
+    float u = (uv * wv - vv * wu) * inverseD;
+    if (u < 0.0f || u > 1.0f)
+    {
+        return 0;
+    }
+
+    float v = (uv * wu - uu * wv) * inverseD;
+    if (v < 0.0f || (u + v) > 1.0f)
+    {
+        return 0;
+    }
+        
+    return 1;
+}
+
+float3 GetIntercestsPos(float3 _vertices[3], float3 _vStart, float3 _vDir)
+{
+    // 평면의 방정식
+    float3 vFlow1 = _vertices[1] - _vertices[0];
+    float3 vFlow2 = _vertices[2] - _vertices[0];
+
+    // 평면의 법선벡터
+    float3 vNormal = normalize(cross(vFlow1, vFlow2));
+    float fD = -dot(_vertices[0], vNormal);
+
+    // 직선의 방정식
+    float fT = (-dot(vNormal, _vStart) - fD) / dot(_vDir, vNormal);
+    
+    // 교점
+    return float3(_vDir.x * fT + _vStart.x, _vDir.y * fT + _vStart.y, _vDir.z * fT + _vStart.z);
+}
+
 #endif
