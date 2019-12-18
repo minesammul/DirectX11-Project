@@ -36,9 +36,9 @@ void CS_HeightMap(int3 _iThreadID : SV_DispatchThreadID)
     if (0.f <= vBrushUV.x && vBrushUV.x <= 1.f
         && 0.f <= vBrushUV.y && vBrushUV.y <= 1.f)
     {
-        float fRatio = saturate(cos((distance(g_vec2_0, vThreadPos) / g_vec2_1) * (3.141592 / 0.5f)));
+        float fRatio = saturate(cos((distance(g_vec2_0, vThreadPos) / g_vec2_1.x) * (3.141592 / 0.5f)));
         
-        float4 vColor = g_tex_1.SampleLevel(g_sam_0, vBrushUV, 0).a;
+        float4 vColor = g_tex_0.SampleLevel(g_sam_0, vBrushUV, 0).a;
         if (vColor.a != 0.f)
         {
             //g_rwtex_0[_iThreadID.xy] += fDT * fRatio * (1.f - (vColor.x * vColor.y * vColor.z)) * vColor.a;
@@ -56,12 +56,18 @@ void CS_HeightMap(int3 _iThreadID : SV_DispatchThreadID)
 // g_vec4_0 : Ray Start
 // g_vec4_1 : Ray Dir
 
+// g_tex_0 : Height Map
+// g_rwtex_0 : output texture
 // =======================
-[numthreads(1024, 1, 1)]
-void CS_Picking(int3 _iThreadID : SV_DispatchThreadID)
+[numthreads(32, 32, 1)]
+void CS_Picking(uint3 _iThreadID : SV_DispatchThreadID)
 {
-    int iXFace = _iThreadID.x / 2;
-    int iYFace = _iThreadID.y;
+    // 배정된 면을 넘어서는 스레드의 경우 예외러리
+    if (_iThreadID.x >= (uint) g_int_0 * 2 || _iThreadID.y >= (uint) g_int_1)
+        return;
+    
+    uint iXFace = _iThreadID.x / 2;
+    uint iYFace = _iThreadID.y;
 
     float3 vLocalPos[3];
     
@@ -78,12 +84,15 @@ void CS_Picking(int3 _iThreadID : SV_DispatchThreadID)
         vLocalPos[1] = float3(iXFace, 0.f, g_int_1 - _iThreadID.y);
         vLocalPos[2] = float3(iXFace + 1.f, 0.f, g_int_1 - _iThreadID.y);
     }
-    
-    // 평면 구성
-    
-    
+   
     // 직선과 평면 충돌 여부
-    
-    
+    float fResult = 0.f;
+    if (IntersectsLay(vLocalPos, g_vec4_0.xyz, g_vec4_1.xyz, fResult))
+    {
+        float4 vPosition = (float4) 0.f;
+        vPosition.xyz = GetIntercestsPos(vLocalPos, g_vec4_0.xyz, g_vec4_1.xyz);
+        g_rwtex_0[int2(0, 0)] = vPosition;
+    }
 }
+
 #endif

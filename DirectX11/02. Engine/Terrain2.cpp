@@ -92,9 +92,12 @@ void CTerrain::CreateComputeShader()
 	pShader->CreateComputeShader(L"Shader\\compute.fx", "CS_Picking", 5, 0);
 	CResMgr::GetInst()->AddRes<CShader>(L"CS_Picking", pShader);
 
-	m_pHeightMapMtrl = new CMaterial;
-	m_pHeightMapMtrl->SaveDisable();
-	m_pHeightMapMtrl->SetShader(pShader);
+	m_pPickMtrl = new CMaterial;
+	m_pPickMtrl->SaveDisable();
+	m_pPickMtrl->SetShader(pShader);
+
+	m_pPickMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pOutput);
+
 }
 
 void CTerrain::LoadResource()
@@ -102,6 +105,12 @@ void CTerrain::LoadResource()
 	// HeightMap 만들기
 	m_pHeightMap = CResMgr::GetInst()->CreateTexture(L"TerrainHeightMap"
 		, 1024, 1024
+		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
+		, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	// Picking Output Texture 만들기
+	m_pOutput = CResMgr::GetInst()->CreateTexture(L"PickingOutput"
+		, 1, 1
 		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
 		, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
 

@@ -59,6 +59,12 @@ void CTexture::Load(const wstring & _strFilePath)
 	m_pTex2D->GetDesc(&m_tDesc);
 }
 
+void * CTexture::GetSysMem()
+{
+	CaptureTexture(DEVICE, CONTEXT, m_pTex2D, m_Image);
+	return m_Image.GetPixels();
+}
+
 void CTexture::SetRegister(UINT _iRegister, UINT _iShaderType)
 {
 	if ((UINT)SHADER_TYPE::VERTEX_SHADER & _iShaderType)

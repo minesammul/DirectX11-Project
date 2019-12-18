@@ -39,6 +39,8 @@ public:
 	ID3D11DepthStencilView* GetDSV() { return m_pDSV; }
 	ID3D11UnorderedAccessView* GetUAV() { return m_pUAV; }
 
+	void* GetSysMem();
+
 public:
 	void SetRegister(UINT _iRegister, UINT _iShaderType);
 	void SetRegisterAll(UINT _iRegister);
