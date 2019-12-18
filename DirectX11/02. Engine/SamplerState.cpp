@@ -18,6 +18,7 @@ CSamplerState::~CSamplerState()
 void CSamplerState::Create(D3D11_SAMPLER_DESC* _pDesc, UINT _iRegister)
 {
 	DEVICE->CreateSamplerState(_pDesc, &m_pState);
+	m_iRegister = _iRegister;
 }
 
 void CSamplerState::UpdateData()
