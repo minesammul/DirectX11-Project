@@ -5,12 +5,22 @@
 #include "Texture.h"
 #include "Material.h"
 
+enum class TERRAIN_MOD
+{
+	HEIGHTMAP,
+	SPLATTING,
+	END,
+};
+
 class CTerrain :
 	public CComponent
 {
 private:
 	UINT				m_iXFaceCount;
 	UINT				m_iZFaceCount;
+	TERRAIN_MOD			m_eMod;
+	Vec2				m_vBrushScale;
+
 	CResPtr<CTexture>	m_pHeightMap;
 	CResPtr<CMaterial>  m_pHeightMapMtrl;
 	vector<CResPtr<CTexture>> m_vecBrush;
@@ -22,6 +32,10 @@ public:
 	void init(UINT _iXFace, UINT _iZFace);
 
 private:
+	void ModCheck();
+	void KeyCheck();
+	int Picking(Vec2& _vPos);
+
 	void SetFaceCount(UINT _iXFace, UINT _iZFace);
 	void CreateComputeShader();
 	void LoadResource();
