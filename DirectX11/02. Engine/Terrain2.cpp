@@ -8,6 +8,101 @@
 
 #include "Shader.h"
 #include "Material.h"
+#include "KeyMgr.h"
+#include "Camera.h"
+#include "Transform.h"
+
+void CTerrain::ModCheck()
+{
+	if (KEYTAB(KEY_TYPE::KEY_NUM1))
+	{
+		m_eMod = TERRAIN_MOD::HEIGHTMAP;
+	}
+	else if (KEYTAB(KEY_TYPE::KEY_NUM2))
+	{
+		m_eMod = TERRAIN_MOD::SPLATTING;
+	}
+	else if (KEYTAB(KEY_TYPE::KEY_NUM3))
+	{
+		m_eMod = TERRAIN_MOD::END;
+	}
+}
+
+void CTerrain::KeyCheck()
+{
+	Vec2 vPos = Vec2(0.f, 0.f);
+	int iPicking = 0;
+
+	if (KEYHOLD(KEY_TYPE::KEY_LBTN))
+	{
+		if (m_eMod != TERRAIN_MOD::END)
+		{
+			iPicking = Picking(vPos);
+
+			if (!iPicking)
+				return;
+
+			// 지형 수정모드(height, splatting)
+			// 피킹 성공
+			CResPtr<CMaterial> pMtrl = MeshRender()->GetSharedMaterial();
+			pMtrl->SetData(SHADER_PARAM::VEC2_0, &vPos);
+			pMtrl->SetData(SHADER_PARAM::VEC2_1, &m_vBrushScale);
+		}
+
+		if (m_eMod == TERRAIN_MOD::HEIGHTMAP)
+		{
+			m_pHeightMapMtrl->SetData(SHADER_PARAM::VEC2_0, &vPos);
+			m_pHeightMapMtrl->SetData(SHADER_PARAM::VEC2_1, &m_vBrushScale);
+			m_pHeightMapMtrl->ExcuteComputeShader(1, 1024, 1);
+		}
+		else if (m_eMod == TERRAIN_MOD::SPLATTING)
+		{
+
+		}
+	}
+}
+
+int CTerrain::Picking(Vec2 & _vPos)
+{
+	tRay ray = m_pToolCam->GetRay();
+
+	Matrix matWorldInv = Transform()->GetWorldMat();
+	matWorldInv = XMMatrixInverse(nullptr, matWorldInv);
+
+	Vec4 vStart = XMVector3TransformCoord(ray.vStart, matWorldInv);
+	Vec4 vDir = XMVector3TransformNormal(ray.vDir, matWorldInv);
+	vDir.Normalize();
+
+	m_pPickMtrl->SetData(SHADER_PARAM::INT_0, &m_iXFaceCount);
+	m_pPickMtrl->SetData(SHADER_PARAM::INT_1, &m_iZFaceCount);
+	m_pPickMtrl->SetData(SHADER_PARAM::VEC4_0, &vStart);
+	m_pPickMtrl->SetData(SHADER_PARAM::VEC4_1, &vDir);
+
+	int iXGroup = (m_iXFaceCount * 2) / 32;
+	int iYGroup = m_iZFaceCount / 32;
+
+	if ((m_iXFaceCount * 2) % 32 != 0)
+		iXGroup += 1;
+	if (m_iZFaceCount % 32)
+		iYGroup += 1;
+
+	// Picking coputeshader 계산
+	m_pOutput->RWClear(Vec4(0.f, 0.f, 0.f, 0.f));
+
+	m_pPickMtrl->ExcuteComputeShader(iXGroup, iYGroup, 1);
+
+	m_pOutput->Capture();
+	Vec4* pData = (Vec4*)m_pOutput->GetSysMem();
+
+	// 피킹 실패
+	if (pData->w == 0.f)
+		return 0;
+
+	// 픽킹 위치를 비율로 전환
+	_vPos = Vec2(pData->x / (float)m_iXFaceCount, 1.f - (pData->z / (float)m_iZFaceCount));
+
+	return 1;
+}
 
 void CTerrain::SetFaceCount(UINT _iXFace, UINT _iZFace)
 {
@@ -95,6 +190,7 @@ void CTerrain::CreateComputeShader()
 	m_pPickMtrl = new CMaterial;
 	m_pPickMtrl->SaveDisable();
 	m_pPickMtrl->SetShader(pShader);
+	CResMgr::GetInst()->AddRes<CMaterial>(L"PickingMtrl", m_pPickMtrl);
 
 	m_pPickMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pOutput);
 
