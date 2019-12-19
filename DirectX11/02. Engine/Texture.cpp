@@ -3,6 +3,9 @@
 
 #include "Device.h"
 #include "ResMgr.h"
+#include "Material.h"
+
+CResPtr<CMaterial> CTexture::g_pClearMtrl = nullptr;
 
 CTexture::CTexture()
 	: m_pSRV(nullptr)
@@ -61,7 +64,6 @@ void CTexture::Load(const wstring & _strFilePath)
 
 void * CTexture::GetSysMem()
 {
-	CaptureTexture(DEVICE, CONTEXT, m_pTex2D, m_Image);
 	return m_Image.GetPixels();
 }
 
@@ -164,6 +166,9 @@ void CTexture::Create(UINT _iWidth, UINT _iHeight, UINT _iBindFlag, D3D11_USAGE 
 	m_tDesc.Usage = _eUsage;			// 메모리 사용 용도(읽기, 쓰기 관련)
 	m_tDesc.BindFlags = _iBindFlag;  // Texture  가 DepthStencil 용도로 사용될 것을 알림
 
+	if (D3D11_USAGE_DYNAMIC == m_tDesc.Usage)
+		m_tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
 	DEVICE->CreateTexture2D(&m_tDesc, nullptr, &m_pTex2D);
 
 	// DepthStencil View
@@ -218,4 +223,48 @@ void CTexture::Create(ID3D11Texture2D * _pTex2D)
 			DEVICE->CreateUnorderedAccessView(m_pTex2D, nullptr, &m_pUAV);
 		}
 	}
+}
+
+void CTexture::Capture()
+{
+	CaptureTexture(DEVICE, CONTEXT, m_pTex2D, m_Image);
+}
+
+void CTexture::Clear()
+{
+	D3D11_MAPPED_SUBRESOURCE tSub = {};
+
+	CONTEXT->Map(m_pTex2D, 0, D3D11_MAP_WRITE, 0, &tSub);
+
+	tSub.pData = m_Image.GetPixels();
+	tSub.DepthPitch = (UINT)m_Image.GetImages()->slicePitch;
+	tSub.RowPitch = (UINT)m_Image.GetImages()->rowPitch;
+
+	CONTEXT->Unmap(m_pTex2D, 0);
+}
+
+void CTexture::RWClear(Vec4 _vClearColor)
+{
+	// unordered access 로 만들어진 텍스쳐만 사용하는 함수
+	if (!(m_tDesc.BindFlags & D3D11_BIND_UNORDERED_ACCESS))
+		assert(nullptr);
+
+	int iWidth = GetWidth();
+	int iHeight = GetHeight();
+
+	g_pClearMtrl->SetData(SHADER_PARAM::INT_0, &iWidth);
+	g_pClearMtrl->SetData(SHADER_PARAM::INT_1, &iHeight);
+	g_pClearMtrl->SetData(SHADER_PARAM::VEC4_0, &_vClearColor);
+
+	CTexture* pTexture = this;
+	g_pClearMtrl->SetData(SHADER_PARAM::RWTEX_0, &pTexture);
+
+	int iGrounpX = iWidth / 32;
+	if (iWidth % 32)
+		iGrounpX += 1;
+	int iGrounpY = iHeight / 32;
+	if (iHeight % 32)
+		iGrounpY += 1;
+
+	g_pClearMtrl->ExcuteComputeShader(iGrounpX, iGrounpY, 1);
 }

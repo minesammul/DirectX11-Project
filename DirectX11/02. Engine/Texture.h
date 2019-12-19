@@ -10,10 +10,16 @@
 #endif
 
 #include "Resource.h"
+#include "ResPtr.h"
+
+class CMaterial;
 
 class CTexture :
 	public CResource
 {
+public:
+	static CResPtr<CMaterial>	g_pClearMtrl;
+
 private:
 	ID3D11ShaderResourceView*	m_pSRV;
 	ID3D11UnorderedAccessView*  m_pUAV;
@@ -40,6 +46,9 @@ public:
 	ID3D11UnorderedAccessView* GetUAV() { return m_pUAV; }
 
 	void* GetSysMem();
+	void Clear(); // Dynammic flag, cpuaccesswrite, bindflag shaderresource only
+	void RWClear(Vec4 _vClearColor); // unorderedaccessview only
+	void Capture();
 
 public:
 	void SetRegister(UINT _iRegister, UINT _iShaderType);

@@ -4,6 +4,22 @@
 #include "value.fx"
 #include "func.fx"
 
+// ==============
+// Texture Clear
+// g_int_0 : width
+// g_int_1 : height
+// g_vec4_0 : clear color
+// g_rwtex_0 : clear texture
+// ==============
+[numthreads(32, 32, 1)] // 1024
+void CS_Clear(int3 _iThreadID : SV_DispatchThreadID)
+{
+    if (g_int_0 <= _iThreadID.x || g_int_1 <= _iThreadID.y)
+        return;
+    
+    g_rwtex_0[_iThreadID.xy] = g_vec4_0;
+}
+
 // =======================
 // CS_Test
 // g_rwtex_0 : 출력 텍스쳐
@@ -91,6 +107,7 @@ void CS_Picking(uint3 _iThreadID : SV_DispatchThreadID)
     {
         float4 vPosition = (float4) 0.f;
         vPosition.xyz = GetIntercestsPos(vLocalPos, g_vec4_0.xyz, g_vec4_1.xyz);
+        vPosition.w = distance(g_vec4_0.xyz, vPosition.xyz);
         g_rwtex_0[int2(0, 0)] = vPosition;
     }
 }

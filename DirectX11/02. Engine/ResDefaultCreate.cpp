@@ -633,6 +633,18 @@ void CResMgr::CreateDefaultShader()
 	strKey = L"Collider3DShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	// ====================
+	// Clear Texture Shader
+	// ====================
+	pShader = nullptr;
+
+	pShader = new CShader;
+	pShader->CreateComputeShader(L"Shader\\compute.fx", "CS_Clear", 5, 0);
+
+	strKey = L"ClearTextureShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 }
 
 void CResMgr::CreateDefaultMaterial()
@@ -748,6 +760,17 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SetShader(FindRes<CShader>(L"Collider3DShader"));
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
+
+	// Clear Texture Material
+	pMtrl = new CMaterial;
+	pMtrl->SaveDisable();
+	pMtrl->SetName(L"Material\\ClearTextureMtrl.mtrl");
+	pMtrl->SetShader(FindRes<CShader>(L"ClearTextureShader"));
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
+	CTexture::g_pClearMtrl = pMtrl;
+
 
 	CCollider2D::CreateMaterial();
 	CCollider3D::CreateMaterial();
