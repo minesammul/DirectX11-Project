@@ -10,6 +10,9 @@ private:
 	RES_TYPE	m_eType;
 
 public:
+	UINT		iMemCheck;
+
+public:
 	void SetPath(const wstring& _strPath) { m_strPath = _strPath; }
 	const wstring& GetPath() { return m_strPath; }
 	RES_TYPE GetType() { return m_eType; }

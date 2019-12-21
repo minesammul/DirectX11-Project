@@ -18,7 +18,7 @@ class CTexture :
 	public CResource
 {
 public:
-	static CResPtr<CMaterial>	g_pClearMtrl;
+	static CMaterial*		g_pClearMtrl;
 
 private:
 	ID3D11ShaderResourceView*	m_pSRV;

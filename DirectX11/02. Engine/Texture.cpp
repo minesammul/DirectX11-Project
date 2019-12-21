@@ -5,7 +5,7 @@
 #include "ResMgr.h"
 #include "Material.h"
 
-CResPtr<CMaterial> CTexture::g_pClearMtrl = nullptr;
+CMaterial* CTexture::g_pClearMtrl = nullptr;
 
 CTexture::CTexture()
 	: m_pSRV(nullptr)
