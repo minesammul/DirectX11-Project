@@ -23,8 +23,7 @@ void CS_Clear(int3 _iThreadID : SV_DispatchThreadID)
 // =======================
 // CS_Test
 // g_rwtex_0 : 출력 텍스쳐
-// g_tex_0 : brush 1
-// g_tex_1 : brush 2
+// g_tex_0 : brush
 
 // g_int_0 : 높이맵 width
 // g_int_1 : 높이맵 height
@@ -52,7 +51,7 @@ void CS_HeightMap(int3 _iThreadID : SV_DispatchThreadID)
     if (0.f <= vBrushUV.x && vBrushUV.x <= 1.f
         && 0.f <= vBrushUV.y && vBrushUV.y <= 1.f)
     {
-        float fRatio = saturate(cos((distance(g_vec2_0, vThreadPos) / g_vec2_1.x) * (3.141592 / 0.5f)));
+        float fRatio = saturate(cos((distance(g_vec2_0, vThreadPos) / (g_vec2_1.x / 2.f)) * (3.141592 / 2.f)));
         
         float4 vColor = g_tex_0.SampleLevel(g_sam_0, vBrushUV, 0).a;
         if (vColor.a != 0.f)
