@@ -23,7 +23,10 @@ private:
 
 	CResPtr<CTexture>	m_pHeightMap;
 	CResPtr<CMaterial>  m_pHeightMapMtrl;
+
 	vector<CResPtr<CTexture>> m_vecBrush;
+	UINT						m_iBrushIdx;
+
 	CResPtr<CTexture>	m_pOutput;
 	CResPtr<CMaterial>  m_pPickMtrl;
 	CCamera*			m_pToolCam;

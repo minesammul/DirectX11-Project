@@ -33,24 +33,26 @@ void CTerrain::KeyCheck()
 	Vec2 vPos = Vec2(0.f, 0.f);
 	int iPicking = 0;
 
+	if (m_eMod == TERRAIN_MOD::END || !Picking(vPos))
+	{
+		// Brush Texture 를 셋팅하지 않아서,  Terrain 에서 Brush 자국이 보이지 않게 한다.
+		CResPtr<CTexture> pTex = nullptr;
+		MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_3, &pTex);
+		return;
+	}
+
+	// 피킹 성공
+	CResPtr<CMaterial> pMtrl = MeshRender()->GetSharedMaterial();
+	pMtrl->SetData(SHADER_PARAM::TEX_3, &m_vecBrush[m_iBrushIdx]);
+	pMtrl->SetData(SHADER_PARAM::VEC2_0, &vPos);
+	pMtrl->SetData(SHADER_PARAM::VEC2_1, &m_vBrushScale);
+
 	if (KEYHOLD(KEY_TYPE::KEY_LBTN))
 	{
-		if (m_eMod != TERRAIN_MOD::END)
-		{
-			iPicking = Picking(vPos);
-
-			if (!iPicking)
-				return;
-
-			// 지형 수정모드(height, splatting)
-			// 피킹 성공
-			CResPtr<CMaterial> pMtrl = MeshRender()->GetSharedMaterial();
-			pMtrl->SetData(SHADER_PARAM::VEC2_0, &vPos);
-			pMtrl->SetData(SHADER_PARAM::VEC2_1, &m_vBrushScale);
-		}
-
+		// 지형 수정모드(height, splatting)
 		if (m_eMod == TERRAIN_MOD::HEIGHTMAP)
 		{
+			m_pHeightMapMtrl->SetData(SHADER_PARAM::TEX_0, &m_vecBrush[m_iBrushIdx]);
 			m_pHeightMapMtrl->SetData(SHADER_PARAM::VEC2_0, &vPos);
 			m_pHeightMapMtrl->SetData(SHADER_PARAM::VEC2_1, &m_vBrushScale);
 			m_pHeightMapMtrl->ExcuteComputeShader(1, 1024, 1);

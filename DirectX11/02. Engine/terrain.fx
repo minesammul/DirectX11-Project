@@ -217,6 +217,18 @@ PS_TERRAIN_OUT PS_Terrain(DS_TERRAIN_OUT _in)
     //}
     //else    
     
+    if (g_tcheck_3)
+    {
+        float2 vBrushLTUV = g_vec2_0 - (g_vec2_1 / 2.f);
+        float2 vDiffUV = _in.vFullUV - vBrushLTUV;
+        float2 vBrushUV = vDiffUV / g_vec2_1;
+    
+        if (0 <= vBrushUV.x && vBrushUV.x <= 1.f
+        && 0 <= vBrushUV.y && vBrushUV.y <= 1.f)
+        {
+            output.vPosition.w = g_tex_3.Sample(g_sam_0, vBrushUV).a;
+        }
+    }
     
     output.vNormal.xyz = _in.vViewNormal.xyz;
     output.vPosition.xyz = _in.vViewPos;

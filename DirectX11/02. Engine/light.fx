@@ -127,6 +127,7 @@ PS_OUT PS_PointLight(VTX_OUT _in)
 // g_tex_0 : Diffuse Target
 // g_tex_1 : Light Target
 // g_tex_2 : Specular Target
+// g_tex_3 : Position target
 // =======================================
 
 VTX_OUT VS_Merge(VTX_IN _in)
@@ -148,7 +149,9 @@ float4 PS_Merge(VTX_OUT _in) : SV_Target
     float3 vLight = g_tex_1.Sample(g_sam_0, _in.vUV).xyz;
     float3 vSpecular = g_tex_2.Sample(g_sam_0, _in.vUV).xyz;
     
-    vColor.rgb = vDiffuseColor * vLight + vSpecular;
+    float vBrushAlpha = g_tex_3.Sample(g_sam_0, _in.vUV).a;
+    
+    vColor.rgb = vDiffuseColor * vLight + vSpecular + (float3(0.2f, 0.2f, 1.f) * vBrushAlpha);
     
     return vColor;
 }

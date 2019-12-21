@@ -598,6 +598,7 @@ void CResMgr::CreateDefaultShader()
 
 	pShader->AddParam(SHADER_PARAM::TEX_0, L"Diffuse Texture");
 	pShader->AddParam(SHADER_PARAM::TEX_1, L"NormalMap Texture");
+	pShader->AddParam(SHADER_PARAM::TEX_2, L"Height Map");
 
 	strKey = L"TerrainShader";
 	pShader->SetName(strKey);
@@ -735,8 +736,11 @@ void CResMgr::CreateDefaultMaterial()
 	pTex = FindRes<CTexture>(L"LightTargetTex");
 	pMtrl->SetData(SHADER_PARAM::TEX_1, &pTex);
 
-	pTex = FindRes<CTexture>(L"SpecularTex");
+	pTex = FindRes<CTexture>(L"SpecularTargetTex");
 	pMtrl->SetData(SHADER_PARAM::TEX_2, &pTex);
+
+	pTex = FindRes<CTexture>(L"PositionTargetTex");
+	pMtrl->SetData(SHADER_PARAM::TEX_3, &pTex);
 
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
@@ -769,7 +773,7 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SetShader(FindRes<CShader>(L"ClearTextureShader"));
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
-	CTexture::g_pClearMtrl = pMtrl;
+	CTexture::g_pClearMtrl = (CMaterial*)pMtrl.GetPointer();
 
 
 	CCollider2D::CreateMaterial();

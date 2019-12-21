@@ -13,6 +13,7 @@ CTerrain::CTerrain()
 	: CComponent(COMPONENT_TYPE::TERRAIN)
 	, m_eMod(TERRAIN_MOD::END)
 	, m_vBrushScale(Vec2(0.1f, 0.1f))
+	, m_iBrushIdx(0)
 {
 }
 
