@@ -205,17 +205,21 @@ PS_TERRAIN_OUT PS_Terrain(DS_TERRAIN_OUT _in)
     else
         output.vDiffuse = float4(1.f, 0.f, 1.f, 1.f);
         
-    output.vDiffuse = float4(1.f, 1.f, 1.f, 1.f);
+   // 지형 색상(타일에서 추출)
+    output.vDiffuse = g_texarr_0.Sample(g_sam_0, float3(_in.vUV, 1.f));
     
-    //if(g_tcheck_1)
-    //{
-    //    float3x3 matTBN = { _in.vViewTangent, _in.vViewBinormal, _in.vViewNormal };
-    //    float3 vViewNormal = g_tex_1.Sample(g_sam_0, _in.vUV).xyz;
-    //    vViewNormal = (vViewNormal - 0.5f) * 2.f;
-    //    vViewNormal = mul(vViewNormal.xyz, matTBN);
-    //    output.vNormal.xyz = vViewNormal;
-    //}
-    //else    
+    if (g_tarrcheck_1)
+    {
+        float3x3 matTBN = { _in.vViewTangent, _in.vViewBinormal, _in.vViewNormal };
+        float3 vViewNormal = g_texarr_1.Sample(g_sam_0, float3(_in.vUV, 1.f)).xyz;
+        vViewNormal = (vViewNormal - 0.5f) * 2.f;
+        vViewNormal = mul(vViewNormal.xyz, matTBN);
+        output.vNormal.xyz = vViewNormal;
+    }
+    else
+    {
+        output.vNormal.xyz = _in.vViewNormal.xyz;
+    }
     
     if (g_tcheck_3)
     {
@@ -230,7 +234,6 @@ PS_TERRAIN_OUT PS_Terrain(DS_TERRAIN_OUT _in)
         }
     }
     
-    output.vNormal.xyz = _in.vViewNormal.xyz;
     output.vPosition.xyz = _in.vViewPos;
     
     return output;
