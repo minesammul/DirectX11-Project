@@ -202,7 +202,12 @@ void CTerrain::LoadResource()
 {
 	// HeightMap ¸¸µé±â
 	m_pHeightMap = CResMgr::GetInst()->CreateTexture(L"TerrainHeightMap"
-		, 1024, 1024
+		, m_iXFaceCount * 16, m_iZFaceCount * 16
+		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
+		, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	m_pWeightTex = CResMgr::GetInst()->CreateTexture(L"TerrainWeightTex"
+		, m_iXFaceCount * 16, m_iZFaceCount * 16
 		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
 		, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
@@ -222,13 +227,28 @@ void CTerrain::LoadResource()
 	SetFaceCount(m_iXFaceCount, m_iZFaceCount);
 
 	// Material
+	// Tile Texture
+	//vector<CResPtr<CTexture>> vecTex;
+	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01.tga"));
+	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_02.tga"));
+	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_03.tga"));
+	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_04.png"));
+	//pTileArrTex->Save(pTileArrTex->GetName());
+
+	//vecTex.clear();
+	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01_N.tga"));
+	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_02_N.tga"));
+	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_03_N.tga"));
+	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_04_N.png"));
+	//CResPtr<CTexture> pTileArrNomalTex = CResMgr::GetInst()->CreateArrayTexture(L"Texture\\Tile\\TILE_ARR_N.dds", vecTex);
+	//pTileArrNomalTex->Save(pTileArrNomalTex->GetName());
+
+	CResPtr<CTexture> pTileArrTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_ARR.dds");
+	CResPtr<CTexture> pTileArrNormalTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_ARR_N.dds");
+
 	MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TerrainMtrl"));
-	CResPtr<CTexture> pTexture0 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01.tga");
-	CResPtr<CTexture> pTexture1 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01_N.tga");
-
-
-	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTexture0);
-	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &pTexture1);
+	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_ARR_0, &pTileArrTex);
+	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_ARR_1, &pTileArrNormalTex);
 	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_2, &m_pHeightMap);
 
 	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_0, &m_iXFaceCount);

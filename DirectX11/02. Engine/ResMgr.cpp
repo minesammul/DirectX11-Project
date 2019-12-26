@@ -91,3 +91,14 @@ CResPtr<CTexture> CResMgr::CreateTexture(const wstring & _strKey, ID3D11Texture2
 
 	return pTex;
 }
+
+CResPtr<CTexture> CResMgr::CreateArrayTexture(const wstring & _strKey, vector<CResPtr<CTexture>>& _vecTex)
+{
+	CResPtr<CTexture> pNewTex = new CTexture;
+	pNewTex->CreateArrayTexture(_vecTex);
+	pNewTex->SetName(_strKey);
+
+	m_mapRes[(UINT)RES_TYPE::TEXTURE].insert(make_pair(_strKey, pNewTex.GetPointer()));
+
+	return pNewTex;
+}

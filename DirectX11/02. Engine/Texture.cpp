@@ -4,6 +4,7 @@
 #include "Device.h"
 #include "ResMgr.h"
 #include "Material.h"
+#include "PathMgr.h"
 
 CMaterial* CTexture::g_pClearMtrl = nullptr;
 
@@ -201,6 +202,7 @@ void CTexture::Create(ID3D11Texture2D * _pTex2D)
 
 	m_pTex2D->GetDesc(&m_tDesc);
 
+
 	// DepthStencil View
 	if (m_tDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
 	{
@@ -267,4 +269,66 @@ void CTexture::RWClear(Vec4 _vClearColor)
 		iGrounpY += 1;
 
 	g_pClearMtrl->ExcuteComputeShader(iGrounpX, iGrounpY, 1);
+}
+
+void CTexture::Save(const wstring & _strPath)
+{
+	wstring strPath = CPathMgr::GetResPath();
+	strPath += _strPath;
+
+	const wchar_t* pExt = CPathMgr::GetExt(_strPath.c_str());
+
+	if (!wcscmp(pExt, L".dds"))
+	{
+		const Image* pImage = m_Image.GetImages();
+		SaveToDDSFile(m_Image.GetImages(), m_Image.GetMetadata().arraySize, m_Image.GetMetadata(), DDS_FLAGS::DDS_FLAGS_NONE, strPath.c_str());
+	}
+}
+
+void CTexture::CreateArrayTexture(vector<CResPtr<CTexture>>& _vecTex)
+{
+	if (_vecTex.empty())
+		assert(nullptr);
+
+	m_tDesc = _vecTex[0]->GetDesc();
+	m_tDesc.ArraySize = _vecTex.size();
+
+	vector<D3D11_SUBRESOURCE_DATA> vecSub;
+
+	for (size_t i = 0; i < _vecTex.size(); ++i)
+	{
+		D3D11_SUBRESOURCE_DATA tSub = {};
+		tSub.pSysMem = _vecTex[i]->GetSysMem();
+		tSub.SysMemPitch = _vecTex[i]->GetRowPitch();
+		tSub.SysMemSlicePitch = _vecTex[i]->GetSlicePitch();
+
+		vecSub.push_back(tSub);
+	}
+
+	DEVICE->CreateTexture2D(&m_tDesc, &vecSub[0], &m_pTex2D);
+	m_pTex2D->GetDesc(&m_tDesc);
+	Capture();
+
+	// DepthStencil View
+	if (m_tDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
+	{
+		DEVICE->CreateDepthStencilView(m_pTex2D, nullptr, &m_pDSV);
+	}
+	else
+	{
+		if (m_tDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
+		{
+			DEVICE->CreateRenderTargetView(m_pTex2D, nullptr, &m_pRTV);
+		}
+
+		if (m_tDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
+		{
+			DEVICE->CreateShaderResourceView(m_pTex2D, nullptr, &m_pSRV);
+		}
+
+		if (m_tDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS)
+		{
+			DEVICE->CreateUnorderedAccessView(m_pTex2D, nullptr, &m_pUAV);
+		}
+	}
 }

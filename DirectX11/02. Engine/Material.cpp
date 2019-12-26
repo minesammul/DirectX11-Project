@@ -75,6 +75,10 @@ void CMaterial::SetData(SHADER_PARAM _eType, void * _pSrc)
 	case SHADER_PARAM::TEX_1:		
 	case SHADER_PARAM::TEX_2:	
 	case SHADER_PARAM::TEX_3:
+	case SHADER_PARAM::TEX_ARR_0:
+	case SHADER_PARAM::TEX_ARR_1:
+	case SHADER_PARAM::TEX_ARR_2:
+	case SHADER_PARAM::TEX_ARR_3:
 		iIdx = (UINT)_eType - (UINT)SHADER_PARAM::TEX_0;
 		m_arrTex[iIdx] = *((CResPtr<CTexture>*)_pSrc);
 		break;
