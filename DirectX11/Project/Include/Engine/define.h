@@ -154,6 +154,10 @@ enum class SHADER_PARAM
 	TEX_1,
 	TEX_2,
 	TEX_3,
+	TEX_ARR_0,
+	TEX_ARR_1,
+	TEX_ARR_2,
+	TEX_ARR_3,
 	TEX_END,
 
 	RWTEX_0,

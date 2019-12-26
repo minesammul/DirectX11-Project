@@ -32,18 +32,25 @@ private:
 
 public:
 	virtual void Load(const wstring& _strFilePath);
-	virtual void Create(UINT _iWidth, UINT _iHeight, UINT _iBindFlag, D3D11_USAGE _eUsage, DXGI_FORMAT _eFormat);
-	virtual void Save() {};
-	virtual void Create(ID3D11Texture2D* _pTex2D);
+	void Save(const wstring& _strPath);
+	void Create(UINT _iWidth, UINT _iHeight, UINT _iBindFlag, D3D11_USAGE _eUsage, DXGI_FORMAT _eFormat);
+	void Create(ID3D11Texture2D* _pTex2D);
+	void CreateArrayTexture(vector <CResPtr<CTexture>>& _vecTex);
+
 
 public:
 	UINT GetWidth() { return m_tDesc.Width; }
 	UINT GetHeight() { return m_tDesc.Height; }
 
+	size_t GetRowPitch() { return m_Image.GetImages()->rowPitch; }
+	size_t GetSlicePitch() { return m_Image.GetImages()->slicePitch; }
+
 	ID3D11ShaderResourceView* GetSRV() { return m_pSRV; }
 	ID3D11RenderTargetView* GetRTV() { return m_pRTV; }
 	ID3D11DepthStencilView* GetDSV() { return m_pDSV; }
 	ID3D11UnorderedAccessView* GetUAV() { return m_pUAV; }
+
+	const D3D11_TEXTURE2D_DESC& GetDesc() { return m_tDesc; }
 
 	void* GetSysMem();
 	void Clear(); // Dynammic flag, cpuaccesswrite, bindflag shaderresource only
