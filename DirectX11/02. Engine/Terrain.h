@@ -24,6 +24,9 @@ private:
 	CResPtr<CTexture>	m_pHeightMap;
 	CResPtr<CMaterial>  m_pHeightMapMtrl;
 
+	CResPtr<CTexture>	m_pWeightTex;
+	CResPtr<CMaterial>  m_pWeightMtrl;
+
 	vector<CResPtr<CTexture>> m_vecBrush;
 	UINT						m_iBrushIdx;
 
