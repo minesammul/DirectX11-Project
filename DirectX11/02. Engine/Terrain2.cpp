@@ -26,6 +26,12 @@ void CTerrain::ModCheck()
 	{
 		m_eMod = TERRAIN_MOD::END;
 	}
+	else if (KEYTAB(KEY_TYPE::KEY_NUM4))
+	{
+		m_iTileIdx += 1;
+		if (m_iTileIdx > 3)
+			m_iTileIdx = 0;
+	}
 }
 
 void CTerrain::KeyCheck()
@@ -59,7 +65,11 @@ void CTerrain::KeyCheck()
 		}
 		else if (m_eMod == TERRAIN_MOD::SPLATTING)
 		{
-
+			m_pWeightMtrl->SetData(SHADER_PARAM::TEX_0, &m_vecBrush[m_iBrushIdx]);
+			m_pWeightMtrl->SetData(SHADER_PARAM::VEC2_0, &vPos);
+			m_pWeightMtrl->SetData(SHADER_PARAM::VEC2_1, &m_vBrushScale);
+			m_pWeightMtrl->SetData(SHADER_PARAM::INT_2, &m_iTileIdx);
+			m_pWeightMtrl->ExcuteComputeShader(1, 1024, 1);
 		}
 	}
 }
@@ -182,6 +192,31 @@ void CTerrain::CreateComputeShader()
 	m_pHeightMapMtrl->SetData(SHADER_PARAM::INT_0, &width);
 	m_pHeightMapMtrl->SetData(SHADER_PARAM::INT_1, &height);
 
+	// =========================
+	// Weight Compute Shader
+	// =========================
+	pShader = nullptr;
+
+	pShader = new CShader;
+	pShader->CreateComputeShader(L"Shader\\compute.fx", "CS_Weight", 5, 0);
+	CResMgr::GetInst()->AddRes<CShader>(L"CS_Weight", pShader);
+
+	m_pWeightMtrl = new CMaterial;
+	m_pWeightMtrl->SaveDisable();
+	m_pWeightMtrl->SetShader(pShader);
+	CResMgr::GetInst()->AddRes<CMaterial>(L"WeightMtrl", m_pWeightMtrl);
+
+	m_pWeightMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pWeightTex);
+	m_pWeightMtrl->SetData(SHADER_PARAM::TEX_0, &m_vecBrush[0]);
+	m_pWeightMtrl->SetData(SHADER_PARAM::TEX_1, &m_vecBrush[1]);
+
+	width = m_pWeightTex->GetWidth();
+	height = m_pWeightTex->GetHeight();
+
+	m_pWeightMtrl->SetData(SHADER_PARAM::INT_0, &width);
+	m_pWeightMtrl->SetData(SHADER_PARAM::INT_1, &height);
+	m_pWeightMtrl->SetData(SHADER_PARAM::INT_2, &m_iTileIdx);
+
 	// ======================
 	// Picking Compute Shader
 	// ======================
@@ -227,28 +262,14 @@ void CTerrain::LoadResource()
 	SetFaceCount(m_iXFaceCount, m_iZFaceCount);
 
 	// Material
-	// Tile Texture
-	//vector<CResPtr<CTexture>> vecTex;
-	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01.tga"));
-	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_02.tga"));
-	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_03.tga"));
-	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_04.png"));
-	//pTileArrTex->Save(pTileArrTex->GetName());
-
-	//vecTex.clear();
-	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01_N.tga"));
-	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_02_N.tga"));
-	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_03_N.tga"));
-	//vecTex.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_04_N.png"));
-	//CResPtr<CTexture> pTileArrNomalTex = CResMgr::GetInst()->CreateArrayTexture(L"Texture\\Tile\\TILE_ARR_N.dds", vecTex);
-	//pTileArrNomalTex->Save(pTileArrNomalTex->GetName());
-
 	CResPtr<CTexture> pTileArrTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_ARR.dds");
 	CResPtr<CTexture> pTileArrNormalTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_ARR_N.dds");
 
 	MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TerrainMtrl"));
 	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_ARR_0, &pTileArrTex);
 	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_ARR_1, &pTileArrNormalTex);
+
+	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &m_pWeightTex);
 	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_2, &m_pHeightMap);
 
 	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_0, &m_iXFaceCount);

@@ -26,6 +26,7 @@ private:
 
 	CResPtr<CTexture>	m_pWeightTex;
 	CResPtr<CMaterial>  m_pWeightMtrl;
+	int					m_iTileIdx;
 
 	vector<CResPtr<CTexture>> m_vecBrush;
 	UINT						m_iBrushIdx;

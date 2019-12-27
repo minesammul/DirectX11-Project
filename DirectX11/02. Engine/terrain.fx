@@ -27,8 +27,8 @@ struct PS_TERRAIN_OUT
 
 // ====================
 // Terrain Shader
-// g_tex_0 : tile texture
-// g_tex_1 : normalmap texture
+// g_tex_0 : weight Texture
+// g_tex_1 : 
 // g_tex_2 : Height Map
 // g_tex_3 : Brush Texture
 
@@ -199,19 +199,24 @@ DS_TERRAIN_OUT DS_Terrain(OutputPatch<VS_TERRAIN_OUT, 3> _patch, float3 _vRatio 
 PS_TERRAIN_OUT PS_Terrain(DS_TERRAIN_OUT _in)
 {
     PS_TERRAIN_OUT output = (PS_TERRAIN_OUT) 0.f;
-    
-    if (g_tcheck_0) 
-        output.vDiffuse = g_tex_0.Sample(g_sam_0, _in.vUV);
-    else
-        output.vDiffuse = float4(1.f, 0.f, 1.f, 1.f);
         
-   // 지형 색상(타일에서 추출)
-    output.vDiffuse = g_texarr_0.Sample(g_sam_0, float3(_in.vUV, 1.f));
+    // 지형 색상(타일에서 추출)    
+    float4 vWeight = g_tex_0.Sample(g_sam_0, _in.vFullUV);
+    for (int i = 0; i < 4; ++i)
+    {
+        output.vDiffuse += g_texarr_0.Sample(g_sam_0, float3(_in.vUV, (float) i)) * vWeight[i];
+    }
     
     if (g_tarrcheck_1)
     {
+        float3 vViewNormal = (float3) 0.f;
+        for (int i = 0; i < 4; ++i)
+        {
+            vViewNormal += g_texarr_1.Sample(g_sam_0, float3(_in.vUV, (float) i)).xyz * vWeight[i];
+        }
+        
         float3x3 matTBN = { _in.vViewTangent, _in.vViewBinormal, _in.vViewNormal };
-        float3 vViewNormal = g_texarr_1.Sample(g_sam_0, float3(_in.vUV, 1.f)).xyz;
+        
         vViewNormal = (vViewNormal - 0.5f) * 2.f;
         vViewNormal = mul(vViewNormal.xyz, matTBN);
         output.vNormal.xyz = vViewNormal;
@@ -234,6 +239,7 @@ PS_TERRAIN_OUT PS_Terrain(DS_TERRAIN_OUT _in)
         }
     }
     
+   
     output.vPosition.xyz = _in.vViewPos;
     
     return output;
