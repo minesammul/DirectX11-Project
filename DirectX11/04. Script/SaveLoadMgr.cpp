@@ -12,6 +12,7 @@
 #include <Camera.h>
 #include <CollisionMgr.h>
 #include <Light3D.h>
+#include <Terrain.h>
 
 CSaveLoadMgr::CSaveLoadMgr(){}
 CSaveLoadMgr::~CSaveLoadMgr(){}
@@ -339,6 +340,9 @@ CGameObject * CSaveLoadMgr::LoadGameObject(FILE * _pFile)
 			pCom = new CCollider2D;
 			break;
 		case COMPONENT_TYPE::COLLIDER3D:
+			break;
+		case COMPONENT_TYPE::TERRAIN:
+			pCom = new CTerrain;
 			break;
 		case COMPONENT_TYPE::ANIMATOR2D:
 			pCom = new CAnimator2D;
