@@ -32,8 +32,8 @@ public:
 		m_tInfo.fAngle = fRadian;
 	}
 
-	virtual void SaveToScene(FILE* _pFile) {};
-	virtual void LoadFromScene(FILE* _pFile) {};
+	virtual void SaveToScene(FILE* _pFile);
+	virtual void LoadFromScene(FILE* _pFile);
 
 	const tLight3DInfo& GetLight3DInfo() { return m_tInfo; }
 
