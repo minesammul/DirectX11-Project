@@ -253,6 +253,8 @@ void CMainFrame::OnLoadScene()
 	ResourceDlg* pResDlg = ((CHierachyView*)GetHierachyView())->GetResDlg();
 	pResDlg->Renew();
 
+	((CComponentView*)GetComView())->SetTarget(nullptr);
+
 	CCore::GetInst()->SetState(SCENE_STATE::STOP);
 }
 
