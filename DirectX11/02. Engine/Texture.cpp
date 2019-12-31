@@ -94,7 +94,9 @@ bool CTexture::LoadFromScene(FILE * _pFile)
 {
 	CResource::LoadFromScene(_pFile);
 
-	CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(GetName().c_str());
+	wstring findTextureName = GetName();
+
+	CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(findTextureName.c_str());
 	if (nullptr != pTex)
 		return false;
 
