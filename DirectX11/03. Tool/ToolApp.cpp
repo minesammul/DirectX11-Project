@@ -206,13 +206,13 @@ void CToolApp::CreateTestScene()
 
 	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TextureMtrl"));
-	CResPtr<CTexture> pHeightMap = CResMgr::GetInst()->CreateTexture(	L"HeightMap", 
-																		100, 
-																		100,
-																		D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS, 
-																		D3D11_USAGE_DEFAULT, 
-																		DXGI_FORMAT_R32G32B32A32_FLOAT);
-	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pHeightMap);
+	//CResPtr<CTexture> pHeightMap = CResMgr::GetInst()->CreateTexture(	L"HeightMap", 
+	//																	100, 
+	//																	100,
+	//																	D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS, 
+	//																	D3D11_USAGE_DEFAULT, 
+	//																	DXGI_FORMAT_R32G32B32A32_FLOAT);
+	//pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pHeightMap);
 
 
 	//CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01.tga");
