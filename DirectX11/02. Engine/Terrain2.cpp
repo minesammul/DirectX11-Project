@@ -11,6 +11,8 @@
 #include "KeyMgr.h"
 #include "Camera.h"
 #include "Transform.h"
+#include "SceneMgr.h"
+#include "Scene.h"
 
 void CTerrain::ModCheck()
 {
@@ -76,6 +78,13 @@ void CTerrain::KeyCheck()
 
 int CTerrain::Picking(Vec2 & _vPos)
 {
+	if (m_pToolCam == nullptr)
+	{
+		assert(false && "Terrain ToolCamera is Null");
+	}
+
+	SetMaterialParameter();
+
 	tRay ray = m_pToolCam->GetRay();
 
 	Matrix matWorldInv = Transform()->GetWorldMat();
@@ -116,150 +125,106 @@ int CTerrain::Picking(Vec2 & _vPos)
 	return 1;
 }
 
-void CTerrain::SetFaceCount(UINT _iXFace, UINT _iZFace)
+void CTerrain::SetMaterialParameter()
 {
-	m_iXFaceCount = _iXFace;
-	m_iZFaceCount = _iZFace;
-
-	vector<VTX> vecVtx;	VTX v;
-	vector<UINT> vecIdx;
-
-	for (UINT z = 0; z < m_iZFaceCount + 1; ++z)
 	{
-		for (UINT x = 0; x < m_iXFaceCount + 1; ++x)
-		{
-			v.vPos = Vec3(x, 0.f, z);
-			v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-			v.vNormal = Vec3(0.f, 1.f, 0.f);
-			v.vTangent = Vec3(1.f, 0.f, 0.f);
-			v.vBinormal = Vec3(0.f, 0.f, 1.f);
+		m_pHeightMapMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pHeightMap);
+		m_pHeightMapMtrl->SetData(SHADER_PARAM::TEX_0, &m_vecBrush[0]);
+		m_pHeightMapMtrl->SetData(SHADER_PARAM::TEX_1, &m_vecBrush[1]);
+		int width = m_pHeightMap->GetWidth();
+		int height = m_pHeightMap->GetHeight();
 
-			v.vUV = Vec2(x, m_iZFaceCount - z);
-			vecVtx.push_back(v);
-		}
+		m_pHeightMapMtrl->SetData(SHADER_PARAM::INT_0, &width);
+		m_pHeightMapMtrl->SetData(SHADER_PARAM::INT_1, &height);
 	}
 
-	// 0	 1---2
-	// | \	  \  |
-	// 2---1    0
-	for (UINT z = 0; z < m_iZFaceCount; ++z)
 	{
-		for (UINT x = 0; x < m_iXFaceCount; ++x)
-		{
-			vecIdx.push_back((x + (m_iXFaceCount + 1)  * z) + (m_iXFaceCount + 1));
-			vecIdx.push_back((x + (m_iXFaceCount + 1) * z) + 1);
-			vecIdx.push_back((x + (m_iXFaceCount + 1) * z));
+		m_pWeightMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pWeightTex);
+		m_pWeightMtrl->SetData(SHADER_PARAM::TEX_0, &m_vecBrush[0]);
+		m_pWeightMtrl->SetData(SHADER_PARAM::TEX_1, &m_vecBrush[1]);
 
-			vecIdx.push_back((x + (m_iXFaceCount + 1) * z) + 1);
-			vecIdx.push_back((x + (m_iXFaceCount + 1) * z) + (m_iXFaceCount + 1));
-			vecIdx.push_back((x + (m_iXFaceCount + 1) * z) + (m_iXFaceCount + 1) + 1);
-		}
+		int width = m_pWeightTex->GetWidth();
+		int height = m_pWeightTex->GetHeight();
+
+		m_pWeightMtrl->SetData(SHADER_PARAM::INT_0, &width);
+		m_pWeightMtrl->SetData(SHADER_PARAM::INT_1, &height);
+		m_pWeightMtrl->SetData(SHADER_PARAM::INT_2, &m_iTileIdx);
 	}
 
-	CResPtr<CMesh> pMesh = new CMesh;
-	pMesh->CreateMesh(sizeof(VTX), vecVtx.size(), D3D11_USAGE_DEFAULT, &vecVtx[0]
-		, sizeof(UINT), vecIdx.size(), &vecIdx[0]);
-
-	CResMgr::GetInst()->AddRes(L"TerrainRect", pMesh);
-
-	MeshRender()->SetMesh(pMesh);
-}
-
-void CTerrain::CreateComputeShader()
-{
-	// =========================
-	// HeightMap Compute Shader
-	// =========================
-	CShader* pShader = nullptr;
-
-	pShader = new CShader;
-	pShader->CreateComputeShader(L"Shader\\compute.fx", "CS_HeightMap", 5, 0);
-	CResMgr::GetInst()->AddRes<CShader>(L"CS_HeightMap", pShader);
+	{
+		m_pPickMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pOutput);
+	}
 
 
-	m_pHeightMapMtrl = new CMaterial;
-	m_pHeightMapMtrl->SaveDisable();
-	m_pHeightMapMtrl->SetShader(pShader);
-	CResMgr::GetInst()->AddRes<CMaterial>(L"HeightMapMtrl", m_pHeightMapMtrl);
+	// Material
+	CResPtr<CTexture> pTileArrTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_ARR.dds");
+	CResPtr<CTexture> pTileArrNormalTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_ARR_N.dds");
 
-	m_pHeightMapMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pHeightMap);
-	m_pHeightMapMtrl->SetData(SHADER_PARAM::TEX_0, &m_vecBrush[0]);
-	m_pHeightMapMtrl->SetData(SHADER_PARAM::TEX_1, &m_vecBrush[1]);
+	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_ARR_0, &pTileArrTex);
+	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_ARR_1, &pTileArrNormalTex);
 
-	int width = m_pHeightMap->GetWidth();
-	int height = m_pHeightMap->GetHeight();
+	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &m_pWeightTex);
+	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_2, &m_pHeightMap);
 
-	m_pHeightMapMtrl->SetData(SHADER_PARAM::INT_0, &width);
-	m_pHeightMapMtrl->SetData(SHADER_PARAM::INT_1, &height);
-
-	// =========================
-	// Weight Compute Shader
-	// =========================
-	pShader = nullptr;
-
-	pShader = new CShader;
-	pShader->CreateComputeShader(L"Shader\\compute.fx", "CS_Weight", 5, 0);
-	CResMgr::GetInst()->AddRes<CShader>(L"CS_Weight", pShader);
-
-	m_pWeightMtrl = new CMaterial;
-	m_pWeightMtrl->SaveDisable();
-	m_pWeightMtrl->SetShader(pShader);
-	CResMgr::GetInst()->AddRes<CMaterial>(L"WeightMtrl", m_pWeightMtrl);
-
-	m_pWeightMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pWeightTex);
-	m_pWeightMtrl->SetData(SHADER_PARAM::TEX_0, &m_vecBrush[0]);
-	m_pWeightMtrl->SetData(SHADER_PARAM::TEX_1, &m_vecBrush[1]);
-
-	width = m_pWeightTex->GetWidth();
-	height = m_pWeightTex->GetHeight();
-
-	m_pWeightMtrl->SetData(SHADER_PARAM::INT_0, &width);
-	m_pWeightMtrl->SetData(SHADER_PARAM::INT_1, &height);
-	m_pWeightMtrl->SetData(SHADER_PARAM::INT_2, &m_iTileIdx);
-
-	// ======================
-	// Picking Compute Shader
-	// ======================
-	pShader = new CShader;
-	pShader->CreateComputeShader(L"Shader\\compute.fx", "CS_Picking", 5, 0);
-	CResMgr::GetInst()->AddRes<CShader>(L"CS_Picking", pShader);
-
-	m_pPickMtrl = new CMaterial;
-	m_pPickMtrl->SaveDisable();
-	m_pPickMtrl->SetShader(pShader);
-	CResMgr::GetInst()->AddRes<CMaterial>(L"PickingMtrl", m_pPickMtrl);
-
-	m_pPickMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pOutput);
+	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_0, &m_iXFaceCount);
+	MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::INT_1, &m_iZFaceCount);
 
 }
 
 void CTerrain::LoadResource()
 {
-	// HeightMap 만들기
-	m_pHeightMap = CResMgr::GetInst()->CreateTexture(L"TerrainHeightMap"
-		, m_iXFaceCount * 16, m_iZFaceCount * 16
-		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
-		, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	m_pWeightTex = CResMgr::GetInst()->CreateTexture(L"TerrainWeightTex"
-		, m_iXFaceCount * 16, m_iZFaceCount * 16
-		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
-		, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_pHeightMap = CResMgr::GetInst()->FindRes<CTexture>(L"TerrainHeightMap");
 
-	// Picking Output Texture 만들기
-	m_pOutput = CResMgr::GetInst()->CreateTexture(L"PickingOutput"
-		, 1, 1
-		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
-		, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_pWeightTex = CResMgr::GetInst()->FindRes<CTexture>(L"TerrainWeightTex");
+
+	m_pOutput = CResMgr::GetInst()->FindRes<CTexture>(L"PickingOutput");
+
 
 	// Brush Texture
 	m_vecBrush.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Brush\\Brush_01.png"));
 	m_vecBrush.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Brush\\Brush_02.png"));
 
-	CreateComputeShader();
 
-	// Mesh
-	SetFaceCount(m_iXFaceCount, m_iZFaceCount);
+	{
+		m_pHeightMapMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"CS_HeightMapMtrl");
+
+		m_pHeightMapMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pHeightMap);
+		m_pHeightMapMtrl->SetData(SHADER_PARAM::TEX_0, &m_vecBrush[0]);
+		m_pHeightMapMtrl->SetData(SHADER_PARAM::TEX_1, &m_vecBrush[1]);
+		int width = m_pHeightMap->GetWidth();
+		int height = m_pHeightMap->GetHeight();
+
+		m_pHeightMapMtrl->SetData(SHADER_PARAM::INT_0, &width);
+		m_pHeightMapMtrl->SetData(SHADER_PARAM::INT_1, &height);
+	}
+
+	{
+		m_pWeightMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"CS_WeightMapMtrl");
+
+		m_pWeightMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pWeightTex);
+		m_pWeightMtrl->SetData(SHADER_PARAM::TEX_0, &m_vecBrush[0]);
+		m_pWeightMtrl->SetData(SHADER_PARAM::TEX_1, &m_vecBrush[1]);
+
+		int width = m_pWeightTex->GetWidth();
+		int height = m_pWeightTex->GetHeight();
+
+		m_pWeightMtrl->SetData(SHADER_PARAM::INT_0, &width);
+		m_pWeightMtrl->SetData(SHADER_PARAM::INT_1, &height);
+		m_pWeightMtrl->SetData(SHADER_PARAM::INT_2, &m_iTileIdx);
+	}
+
+	{
+		m_pPickMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"CS_PickingMtrl");
+
+		m_pPickMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pOutput);
+	}
+
+	{
+		CResPtr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"TerrainRect");
+		MeshRender()->SetMesh(pMesh);
+	}
+
 
 	// Material
 	CResPtr<CTexture> pTileArrTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_ARR.dds");
@@ -279,11 +244,226 @@ void CTerrain::LoadResource()
 
 void CTerrain::SaveToScene(FILE * _pFile)
 {
+	fwrite(&m_iXFaceCount, sizeof(UINT), 1, _pFile);
+	fwrite(&m_iZFaceCount, sizeof(UINT), 1, _pFile);
+	
+	{
+		bool bHeightTexture = true;
+		bool bHeightMtrl = true;
 
+		if (nullptr == m_pHeightMap)
+			bHeightTexture = false;
+		if (nullptr == m_pHeightMapMtrl)
+			bHeightMtrl = false;
+
+		fwrite(&bHeightTexture, 1, 1, _pFile);
+		if (bHeightTexture)
+		{
+			SaveWString(m_pHeightMap->GetName().c_str(), _pFile);
+			SaveWString(m_pHeightMap->GetPath().c_str(), _pFile);
+		}
+
+		fwrite(&bHeightMtrl, 1, 1, _pFile);
+		if (bHeightMtrl)
+		{
+			SaveWString(m_pHeightMapMtrl->GetName().c_str(), _pFile);
+			SaveWString(m_pHeightMapMtrl->GetPath().c_str(), _pFile);
+		}
+	}
+
+	{
+		bool bWeightTexture = true;
+		bool bWeightMtrl = true;
+
+		if (nullptr == m_pWeightTex)
+			bWeightTexture = false;
+		if (nullptr == m_pWeightMtrl)
+			bWeightMtrl = false;
+
+		fwrite(&bWeightTexture, 1, 1, _pFile);
+		if (bWeightTexture)
+		{
+			SaveWString(m_pWeightTex->GetName().c_str(), _pFile);
+			SaveWString(m_pWeightTex->GetPath().c_str(), _pFile);
+		}
+
+		fwrite(&bWeightMtrl, 1, 1, _pFile);
+		if (bWeightMtrl)
+		{
+			SaveWString(m_pWeightMtrl->GetName().c_str(), _pFile);
+			SaveWString(m_pWeightMtrl->GetPath().c_str(), _pFile);
+		}
+	}
+
+	{
+		UINT brushCount = m_vecBrush.size();
+		fwrite(&brushCount, sizeof(UINT), 1, _pFile);
+
+		for (UINT index = 0; index < brushCount; index++)
+		{
+			SaveWString(m_vecBrush[index]->GetName().c_str(), _pFile);
+			SaveWString(m_vecBrush[index]->GetPath().c_str(), _pFile);
+		}
+	}
+
+	{
+		bool bOutputTexture = true;
+
+		if (nullptr == m_pOutput)
+			bOutputTexture = false;
+
+		fwrite(&bOutputTexture, 1, 1, _pFile);
+		if (bOutputTexture)
+		{
+			SaveWString(m_pOutput->GetName().c_str(), _pFile);
+			SaveWString(m_pOutput->GetPath().c_str(), _pFile);
+		}
+	}
+
+	{
+		bool bPickMtrl = true;
+
+		if (nullptr == m_pPickMtrl)
+			bPickMtrl = false;
+
+		fwrite(&bPickMtrl, 1, 1, _pFile);
+		if (bPickMtrl)
+		{
+			SaveWString(m_pPickMtrl->GetName().c_str(), _pFile);
+			SaveWString(m_pPickMtrl->GetPath().c_str(), _pFile);
+		}
+	}
 }
 
 void CTerrain::LoadFromScene(FILE * _pFile)
 {
+	fread(&m_iXFaceCount, sizeof(UINT), 1, _pFile);
+	fread(&m_iZFaceCount, sizeof(UINT), 1, _pFile);
+
+	m_eMod = TERRAIN_MOD::HEIGHTMAP;
+	m_vBrushScale = Vec2(0.1f, 0.1f);
+
+	{
+		bool bTexture = true;
+		bool bMtrl = true;
+
+		wstring strKey, strPath;
+
+		fread(&bTexture, 1, 1, _pFile);
+		if (bTexture)
+		{
+			strKey = LoadWString(_pFile);
+			strPath = LoadWString(_pFile);
+
+			m_pHeightMap = CResMgr::GetInst()->FindRes<CTexture>(strKey);
+			if (nullptr == m_pHeightMap)
+			{
+				CResMgr::GetInst()->Load<CTexture>(strKey, strPath);
+			}
+		}
+
+		fread(&bMtrl, 1, 1, _pFile);
+		if (bMtrl)
+		{
+			strKey = LoadWString(_pFile);
+			strPath = LoadWString(_pFile);
+
+			m_pHeightMapMtrl = CResMgr::GetInst()->FindRes<CMaterial>(strKey);
+			if (nullptr == m_pHeightMapMtrl)
+			{
+				CResMgr::GetInst()->Load<CMaterial>(strKey, strPath);
+			}
+		}
+	}
+
+	{
+		bool bTexture = true;
+		bool bMtrl = true;
+
+		wstring strKey, strPath;
+
+		fread(&bTexture, 1, 1, _pFile);
+		if (bTexture)
+		{
+			strKey = LoadWString(_pFile);
+			strPath = LoadWString(_pFile);
+
+			m_pWeightTex = CResMgr::GetInst()->FindRes<CTexture>(strKey);
+			if (nullptr == m_pWeightTex)
+			{
+				CResMgr::GetInst()->Load<CTexture>(strKey, strPath);
+			}
+		}
+
+		fread(&bMtrl, 1, 1, _pFile);
+		if (bMtrl)
+		{
+			strKey = LoadWString(_pFile);
+			strPath = LoadWString(_pFile);
+
+			m_pWeightMtrl = CResMgr::GetInst()->FindRes<CMaterial>(strKey);
+			if (nullptr == m_pWeightMtrl)
+			{
+				CResMgr::GetInst()->Load<CMaterial>(strKey, strPath);
+			}
+		}
+	}
+
+	m_iTileIdx = 0;
+
+	{
+		UINT brushCount = m_vecBrush.size();
+		fread(&brushCount, sizeof(UINT), 1, _pFile);
+
+		for (UINT index = 0; index < brushCount; index++)
+		{
+			wstring strKey = LoadWString(_pFile);
+			wstring strPath = LoadWString(_pFile);
+
+
+			m_vecBrush.push_back(CResMgr::GetInst()->FindRes<CTexture>(strKey));
+		}
+	}
+
+	m_iBrushIdx = 0;
+
+	{
+		bool bTexture = true;
+
+		wstring strKey, strPath;
+
+		fread(&bTexture, 1, 1, _pFile);
+		if (bTexture)
+		{
+			strKey = LoadWString(_pFile);
+			strPath = LoadWString(_pFile);
+
+			m_pOutput = CResMgr::GetInst()->FindRes<CTexture>(strKey);
+			if (nullptr == m_pOutput)
+			{
+				CResMgr::GetInst()->Load<CTexture>(strKey, strPath);
+			}
+		}
+	}
+
+	{
+		bool bMtrl = true;
+
+		wstring strKey, strPath;
+
+		fread(&bMtrl, 1, 1, _pFile);
+		if (bMtrl)
+		{
+			strKey = LoadWString(_pFile);
+			strPath = LoadWString(_pFile);
+
+			m_pPickMtrl = CResMgr::GetInst()->FindRes<CMaterial>(strKey);
+			if (nullptr == m_pPickMtrl)
+			{
+				CResMgr::GetInst()->Load<CMaterial>(strKey, strPath);
+			}
+		}
+	}
 
 }
 

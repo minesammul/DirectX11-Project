@@ -43,8 +43,8 @@ private:
 	void KeyCheck();
 	int Picking(Vec2& _vPos);
 
-	void SetFaceCount(UINT _iXFace, UINT _iZFace);
-	void CreateComputeShader();
+	void SetMaterialParameter();
+	
 	void LoadResource();
 
 public:
