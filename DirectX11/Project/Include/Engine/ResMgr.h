@@ -28,6 +28,7 @@ private:
 	void CreateDefaultShader();
 	void CreateDefaultMaterial();
 	void CreateDefaultFilter();
+	void CreateDefaultTexture();
 	void InitSound();
 
 public:

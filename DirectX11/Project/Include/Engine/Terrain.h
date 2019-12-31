@@ -12,6 +12,14 @@ enum class TERRAIN_MOD
 	END,
 };
 
+enum class TERRAIN_TEXTURE
+{
+	HEIGHT,
+	WEIGHT,
+	OUTPUT,
+	END
+};
+
 class CTerrain :
 	public CComponent
 {
@@ -43,8 +51,8 @@ private:
 	void KeyCheck();
 	int Picking(Vec2& _vPos);
 
-	void SetFaceCount(UINT _iXFace, UINT _iZFace);
-	void CreateComputeShader();
+	void SetMaterialParameter();
+	
 	void LoadResource();
 
 public:
