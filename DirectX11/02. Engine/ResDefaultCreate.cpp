@@ -428,6 +428,52 @@ void CResMgr::CreateDefaultMesh()
 
 	vecVtx.clear();
 	vecIdx.clear();
+
+	// Terrain
+	int m_iXFaceCount = 64;
+	int m_iZFaceCount = 64;
+
+	for (UINT z = 0; z < m_iZFaceCount + 1; ++z)
+	{
+		for (UINT x = 0; x < m_iXFaceCount + 1; ++x)
+		{
+			v.vPos = Vec3(x, 0.f, z);
+			v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+			v.vNormal = Vec3(0.f, 1.f, 0.f);
+			v.vTangent = Vec3(1.f, 0.f, 0.f);
+			v.vBinormal = Vec3(0.f, 0.f, 1.f);
+
+			v.vUV = Vec2(x, m_iZFaceCount - z);
+			vecVtx.push_back(v);
+		}
+	}
+
+	// 0	 1---2
+	// | \	  \  |
+	// 2---1    0
+	for (UINT z = 0; z < m_iZFaceCount; ++z)
+	{
+		for (UINT x = 0; x < m_iXFaceCount; ++x)
+		{
+			vecIdx.push_back((x + (m_iXFaceCount + 1)  * z) + (m_iXFaceCount + 1));
+			vecIdx.push_back((x + (m_iXFaceCount + 1) * z) + 1);
+			vecIdx.push_back((x + (m_iXFaceCount + 1) * z));
+
+			vecIdx.push_back((x + (m_iXFaceCount + 1) * z) + 1);
+			vecIdx.push_back((x + (m_iXFaceCount + 1) * z) + (m_iXFaceCount + 1));
+			vecIdx.push_back((x + (m_iXFaceCount + 1) * z) + (m_iXFaceCount + 1) + 1);
+		}
+	}
+
+	pMesh = new CMesh;
+	pMesh->CreateMesh(sizeof(VTX), vecVtx.size(), D3D11_USAGE_DEFAULT, &vecVtx[0]
+		, sizeof(UINT), vecIdx.size(), &vecIdx[0]);
+
+	pMesh->SetName(L"TerrainRect");
+	m_mapRes[(UINT)RES_TYPE::MESH].insert(make_pair(L"TerrainRect", pMesh));
+
+	vecVtx.clear();
+	vecIdx.clear();
 }
 
 void CResMgr::CreateDefaultShader()
@@ -646,6 +692,33 @@ void CResMgr::CreateDefaultShader()
 	strKey = L"ClearTextureShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	//
+	// HeightMap Shader
+	//
+	pShader = new CShader;
+	pShader->CreateComputeShader(L"Shader\\compute.fx", "CS_HeightMap", 5, 0);
+	strKey = L"CS_HeightMapShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	//
+	// WeightMap Shader
+	//
+	pShader = new CShader;
+	pShader->CreateComputeShader(L"Shader\\compute.fx", "CS_Weight", 5, 0);
+	strKey = L"CS_WeightMapShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	//
+	// Picking Shader
+	//
+	pShader = new CShader;
+	pShader->CreateComputeShader(L"Shader\\compute.fx", "CS_Picking", 5, 0);
+	strKey = L"CS_PickingShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 }
 
 void CResMgr::CreateDefaultMaterial()
@@ -765,6 +838,26 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
+	//HeightMap Material
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"CS_HeightMapMtrl");
+	pMtrl->SetShader(FindRes<CShader>(L"CS_HeightMapShader"));
+	pMtrl->SaveDisable();
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
+	//WeightMap Material
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"CS_WeightMapMtrl");
+	pMtrl->SetShader(FindRes<CShader>(L"CS_WeightMapShader"));
+	pMtrl->SaveDisable();
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
+	//Picking Material
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"CS_PickingMtrl");
+	pMtrl->SetShader(FindRes<CShader>(L"CS_PickingShader"));
+	pMtrl->SaveDisable();
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
 	// Clear Texture Material
 	pMtrl = new CMaterial;
@@ -795,4 +888,27 @@ void CResMgr::CreateDefaultFilter()
 	m_mapRes[(UINT)RES_TYPE::FILTER].insert(make_pair(pFilter->GetName(), pFilter));
 
 	CRenderMgr::GetInst()->SetMergeFilter(pFilter);
+}
+
+void CResMgr::CreateDefaultTexture()
+{
+	
+	CResMgr::GetInst()->CreateTexture(L"TerrainHeightMap"
+		, 64 * 16, 64 * 16
+		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
+		, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+
+	CResMgr::GetInst()->CreateTexture(L"TerrainWeightTex"
+		, 64 * 16, 64 * 16
+		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
+		, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+
+	CResMgr::GetInst()->CreateTexture(L"PickingOutput"
+		, 1, 1
+		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
+		, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+
 }

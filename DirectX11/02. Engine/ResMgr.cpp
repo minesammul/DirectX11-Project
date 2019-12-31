@@ -31,6 +31,8 @@ void CResMgr::init()
 {
 	CreateDefaultMesh();
 
+	CreateDefaultTexture();
+
 	CreateDefaultShader();
 
 	CreateDefaultMaterial();
