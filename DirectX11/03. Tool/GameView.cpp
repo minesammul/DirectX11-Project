@@ -195,6 +195,19 @@ void CGameView::update()
 	render_tool();
 }
 
+void CGameView::DeleteResource()
+{
+	SAFE_DELETE(m_pToolCam);
+	SAFE_DELETE(m_pToolUICam);
+	SAFE_DELETE(m_pGridObject);
+	
+	Safe_Delete_Vec(m_vecToolUI);
+	m_vecToolUI.clear();
+
+	SAFE_DELETE(m_pGridMtrl);
+	SAFE_DELETE(m_pGridShader);
+}
+
 void CGameView::update_tool()
 {
 	m_pToolCam->update();

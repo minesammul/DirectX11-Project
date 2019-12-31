@@ -21,6 +21,8 @@ public:
 	void init();
 	void update();
 
+	void DeleteResource();
+
 private:
 	void update_tool();
 	void render_tool();
