@@ -340,6 +340,7 @@ CGameObject * CSaveLoadMgr::LoadGameObject(FILE * _pFile)
 			pCom = new CCollider2D;
 			break;
 		case COMPONENT_TYPE::COLLIDER3D:
+			pCom = new CCollider3D;
 			break;
 		case COMPONENT_TYPE::TERRAIN:
 			pCom = new CTerrain;

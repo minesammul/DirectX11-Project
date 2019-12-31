@@ -46,8 +46,8 @@ void CLight3D::SetLightType(LIGHT_TYPE _eType)
 	}
 	else if ((UINT)LIGHT_TYPE::POINT == m_tInfo.iType)
 	{
-		m_pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh");
 		m_pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"PointLightMtrl");
+		m_pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh");
 	}
 	else
 	{

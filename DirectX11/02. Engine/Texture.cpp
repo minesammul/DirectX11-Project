@@ -281,7 +281,7 @@ void CTexture::Save(const wstring & _strPath)
 	if (!wcscmp(pExt, L".dds"))
 	{
 		const Image* pImage = m_Image.GetImages();
-		SaveToDDSFile(m_Image.GetImages(), m_Image.GetMetadata().arraySize, m_Image.GetMetadata(), DDS_FLAGS::DDS_FLAGS_NONE, strPath.c_str());
+		HRESULT createResult = SaveToDDSFile(m_Image.GetImages(), m_Image.GetMetadata().arraySize, m_Image.GetMetadata(), DDS_FLAGS::DDS_FLAGS_NONE, strPath.c_str());
 	}
 }
 
