@@ -12,14 +12,6 @@ enum class TERRAIN_MOD
 	END,
 };
 
-enum class TERRAIN_TEXTURE
-{
-	HEIGHT,
-	WEIGHT,
-	OUTPUT,
-	END
-};
-
 class CTerrain :
 	public CComponent
 {

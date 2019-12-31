@@ -39,6 +39,9 @@ public:
 
 
 public:
+	ID3D11Texture2D* GetTexture2D(){ return m_pTex2D; }
+	void SetTexture2D(ID3D11Texture2D* data) { m_pTex2D = data; }
+
 	UINT GetWidth() { return m_tDesc.Width; }
 	UINT GetHeight() { return m_tDesc.Height; }
 
