@@ -13,6 +13,7 @@
 #include "Transform.h"
 #include "SceneMgr.h"
 #include "Scene.h"
+#include "Device.h"
 
 void CTerrain::ModCheck()
 {
@@ -333,6 +334,35 @@ void CTerrain::SaveToScene(FILE * _pFile)
 			SaveWString(m_pPickMtrl->GetPath().c_str(), _pFile);
 		}
 	}
+
+
+	{
+		wstring name = m_pHeightMap->GetName();
+		name += L".dds";
+
+		wstring path = L"Texture\\Terrain\\";
+
+		wstring savePathWithFile = path + name;
+		m_pHeightMap->Capture();
+		m_pHeightMap->Save(savePathWithFile);
+
+		path += name;
+		SaveWString(path.c_str(), _pFile);
+	}
+
+	{
+		wstring name = m_pWeightTex->GetName();
+		name += L".dds";
+
+		wstring path = L"Texture\\Terrain\\";
+
+		wstring savePathWithFile = path + name;
+		m_pWeightTex->Capture();
+		m_pWeightTex->Save(savePathWithFile);
+
+		path += name;
+		SaveWString(path.c_str(), _pFile);
+	}
 }
 
 void CTerrain::LoadFromScene(FILE * _pFile)
@@ -465,5 +495,16 @@ void CTerrain::LoadFromScene(FILE * _pFile)
 		}
 	}
 
+	{
+		wstring filePath = LoadWString(_pFile);
+		CResPtr<CTexture> saveHeightMap = CResMgr::GetInst()->FindRes<CTexture>(filePath);
+		CONTEXT->CopyResource(m_pHeightMap->GetTexture2D(), saveHeightMap->GetTexture2D());
+	}
+
+	{
+		wstring filePath = LoadWString(_pFile);
+		CResPtr<CTexture> saveWeightMap = CResMgr::GetInst()->FindRes<CTexture>(filePath);
+		CONTEXT->CopyResource(m_pWeightTex->GetTexture2D(), saveWeightMap->GetTexture2D());
+	}
 }
 
