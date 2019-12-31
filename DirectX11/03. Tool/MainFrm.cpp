@@ -245,6 +245,9 @@ void CMainFrame::OnLoadScene()
 
 	CSaveLoadMgr::LoadScene(pathName.GetBuffer());
 
+	((CGameView*)GetGameView())->DeleteResource();
+	((CGameView*)GetGameView())->init();
+
 	// GameObject 트리컨트롤 목록 갱신
 	CGameObjectDlg* ObjectDlg = ((CHierachyView*)GetHierachyView())->GetObjectDlg();
 	ObjectDlg->init();
@@ -254,6 +257,26 @@ void CMainFrame::OnLoadScene()
 	pResDlg->Renew();
 
 	((CComponentView*)GetComView())->SetTarget(nullptr);
+
+	for (int index = 0; index < MAX_LAYER; index++)
+	{
+		CLayer* curLayer = CSceneMgr::GetInst()->GetCurScene()->GetLayer(index);
+		if (curLayer == nullptr)
+		{
+			continue;
+		}
+
+		vector<CGameObject*> layerAllObject = CSceneMgr::GetInst()->GetCurScene()->GetLayer(index)->GetParentObject();
+		for (int objectIndex = 0; objectIndex < layerAllObject.size(); objectIndex++)
+		{
+			CGameObject* object = layerAllObject[objectIndex];
+			if (object->Terrain() != nullptr)
+			{
+				CGameObject* pToolCamObj = ((CGameView*)GetGameView())->GetToolCamera();
+				object->Terrain()->SetCamera(pToolCamObj->Camera());
+			}
+		}
+	}
 
 	CCore::GetInst()->SetState(SCENE_STATE::STOP);
 }
