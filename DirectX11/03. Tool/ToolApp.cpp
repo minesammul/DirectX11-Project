@@ -150,6 +150,7 @@ int CToolApp::ExitInstance()
 #include <Collider2D.h>
 #include <Light3D.h>
 #include <Layer.h>
+#include <MeshData.h>
 
 void CToolApp::CreateTestScene()
 {
@@ -158,6 +159,18 @@ void CToolApp::CreateTestScene()
 	pCurScene->AddLayer(L"Player", 1);
 	pCurScene->AddLayer(L"Bullet", 2);
 	pCurScene->AddLayer(L"Monster", 3);
+
+	// FBX Loading
+	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Warehouse01.fbx");
+	//pMeshData->Save();
+	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"Warehouse01", L"MeshData\\Warehouse01.mdat");
+
+	CGameObject* pMeshObject = pMeshData->Instantiate();
+
+	pMeshObject->SetName(pMeshData->GetName());
+	pMeshObject->Transform()->SetLocalScale(Vec3(0.1f, 0.1f, 0.1f));
+
+	pCurScene->AddObject(L"Player", pMeshObject);
 
 	// Light3D 추가하기
 	CGameObject* pLightObj = new CGameObject;
@@ -205,7 +218,11 @@ void CToolApp::CreateTestScene()
 	pTransform->SetLocalRot(Vec3(XM_PI / 2.f, 0.f, 0.f));
 
 	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TextureMtrl"));
+	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3DMtrl"));
+	CResPtr<CTexture> diffuse = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01.tga");
+	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &diffuse);
+	CResPtr<CTexture> noraml = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01_N.tga");
+	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &noraml);
 	//CResPtr<CTexture> pHeightMap = CResMgr::GetInst()->CreateTexture(	L"HeightMap", 
 	//																	100, 
 	//																	100,
