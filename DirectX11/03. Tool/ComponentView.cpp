@@ -220,6 +220,8 @@ void CComponentView::SetResoure(CResource * _pResource)
 			m_arrComDlg[i]->ShowWindow(false);
 	}
 
+	addComponentDlg->ShowWindow(false);
+
 	RES_TYPE eType = _pResource->GetType();
 	m_pCurResInfoDlg = m_arrResInfoDlg[(UINT)eType];
 
