@@ -87,6 +87,8 @@ void CRenderMgr::render()
 		pGlobal->UpdateData();
 		pGlobal->SetRegisterAll();
 
+		m_arrMRT[(UINT)MRT_TYPE::DEFERRED]->OMSet();
+
 		// 광원 정보 상수버퍼에 업데이트
 		UpdateLight3D();
 
@@ -101,6 +103,8 @@ void CRenderMgr::render()
 		{
 			m_vecCam[i]->render_forward();
 		}
+
+		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->OMSet();
 	}
 	
 	// 윈도우에 출력
