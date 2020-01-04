@@ -46,3 +46,5 @@ wchar_t* LoadWString(FILE* _pFile);
 
 bool closeEnough(const float& a, const float& b, const float& epsilon = std::numeric_limits<float>::epsilon());
 Vec3 DecomposeRotMat(const Matrix & _matRot);
+
+int GetSizeofFormat(DXGI_FORMAT _eFormat);

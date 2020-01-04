@@ -13,15 +13,16 @@ class CMeshRender :
 {
 private:
 	CResPtr<CMesh>		m_pMesh;
-	CResPtr<CMaterial>	m_pMtrl;
+	vector<CResPtr<CMaterial>>  m_vecMtrl;
 
 public:
-	void SetMesh(CResPtr<CMesh>	_pMesh) { m_pMesh = _pMesh; }
-	void SetMaterial(CResPtr<CMaterial> _pMtrl) { m_pMtrl = _pMtrl; }
+	void SetMesh(CResPtr<CMesh>	_pMesh);
+	void SetMaterial(CResPtr<CMaterial> _pMtrl, UINT _iSubset = 0) { m_vecMtrl[_iSubset] = _pMtrl; }
 
 	CResPtr<CMesh> GetMesh() { return m_pMesh; }
-	CResPtr<CMaterial> GetCloneMaterial();
-	CResPtr<CMaterial> GetSharedMaterial() { return m_pMtrl; }
+	CResPtr<CMaterial> GetCloneMaterial(UINT _iSubset = 0); // 20200102 변경
+	CResPtr<CMaterial> GetSharedMaterial(UINT _iSubset = 0) { return m_vecMtrl[_iSubset]; } // 20200102 변경
+	UINT GetMaterialCount() { return m_vecMtrl.size(); }
 
 public:
 	virtual void update();

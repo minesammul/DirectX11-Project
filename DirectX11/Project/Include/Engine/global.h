@@ -15,6 +15,28 @@ using namespace DirectX::PackedVector;
 #pragma comment(lib, "d3dcompiler")
 #pragma comment(lib, "dxguid")
 
+// Fbx Loader
+#include "FBXLoader/fbxsdk.h"
+#ifdef _DEBUG
+
+#ifdef _WIN32
+#pragma comment(lib, "FBXLoader/x86/debug/libfbxsdk-md.lib")
+#else
+#pragma comment(lib, "FBXLoader/x64/debug/libfbxsdk-md.lib")
+#endif
+
+#else
+
+#ifdef _WIN32
+#pragma comment(lib, "FBXLoader/x86/release/libfbxsdk-md.lib")
+#else
+#pragma comment(lib, "FBXLoader/x64/release/libfbxsdk-md.lib")
+#endif
+
+#endif
+
+
+
 #include <vector>
 #include <list>
 #include <map>

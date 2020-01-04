@@ -67,6 +67,10 @@ public:
 	static void ClearRegister(UINT _iRegister, UINT _iShaderType);
 	static void ClearAllRegister();
 
+	void SetData(void * _pSrc, size_t _size); // 20200102 추가	
+	void Resize(UINT _iWidth, UINT _iHeight); // 20200102 추가
+
+
 	void SetRWRegister(UINT _iRegister);
 	static void ClearRWRegister(UINT _iRegister);
 

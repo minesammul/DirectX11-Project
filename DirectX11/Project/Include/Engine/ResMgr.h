@@ -11,6 +11,7 @@
 #include "Filter23.h"
 #include "ResPtr.h"
 #include "PathMgr.h"
+#include "MeshData.h"
 
 class CResMgr
 {
@@ -50,7 +51,8 @@ public:
 	template<typename T>
 	CResPtr<T> Load(const wstring& _strKey, const wstring& _strPath);
 
-	
+	CResPtr<CMeshData> LoadFBX(const wstring & _strPath);
+
 	const map<wstring, CResource*>& GetResources(RES_TYPE _eType) { return m_mapRes[(UINT)_eType]; }
 };
 
@@ -75,6 +77,8 @@ inline CResPtr<T> CResMgr::FindRes(const wstring & _strKey)
 		eType = RES_TYPE::PREFAB;
 	else if (typeid(T).hash_code() == typeid(CFilter23).hash_code())
 		eType = RES_TYPE::FILTER;
+	else if (typeid(T).hash_code() == typeid(CMeshData).hash_code())
+		eType = RES_TYPE::MESHDATA;
 
 	iter = m_mapRes[(UINT)eType].find(_strKey);
 	if (iter == m_mapRes[(UINT)eType].end())
@@ -104,6 +108,8 @@ inline void CResMgr::AddRes(const wstring & _strKey, CResPtr<T> _pResource)
 		eType = RES_TYPE::PREFAB;
 	else if (typeid(T).hash_code() == typeid(CFilter23).hash_code())
 		eType = RES_TYPE::FILTER;
+	else if (typeid(T).hash_code() == typeid(CMeshData).hash_code())
+		eType = RES_TYPE::MESHDATA;
 
 	iter = m_mapRes[(UINT)eType].find(_strKey);
 	assert(iter == m_mapRes[(UINT)eType].end());	
@@ -132,6 +138,8 @@ inline void CResMgr::AddCloneRes(CResPtr<T> _pResource)
 		eType = RES_TYPE::PREFAB;		
 	else if (typeid(T).hash_code() == typeid(CFilter23).hash_code())
 		eType = RES_TYPE::FILTER;
+	else if (typeid(T).hash_code() == typeid(CMeshData).hash_code())
+		eType = RES_TYPE::MESHDATA;
 
 	m_vecCloneRes[(UINT)eType].push_back(_pResource.GetPointer());	
 }
@@ -156,7 +164,8 @@ inline CResPtr<T> CResMgr::Load(const wstring & _strKey, const wstring & _strPat
 		eType = RES_TYPE::MATERIAL;
 	else if (typeid(T).hash_code() == typeid(CPrefab).hash_code())
 		eType = RES_TYPE::PREFAB;
-	
+	else if (typeid(T).hash_code() == typeid(CMeshData).hash_code())
+		eType = RES_TYPE::MESHDATA;
 
 	// 중복키 검사
 	CResPtr<T> pRes = FindRes<T>(_strKey);
