@@ -538,7 +538,12 @@ void CMaterialDlg::OnNMClickList3(NMHDR *pNMHDR, LRESULT *pResult)
 	{
 		CString inputStr;
 		CResPtr<CTexture>* m_arrTexParam = ((CMaterial*)CResInfoDlg::GetRes())->GetTexData();
-		inputStr = m_arrTexParam[hitItem.iItem]->GetName().c_str();
+
+		if (m_arrTexParam[hitItem.iItem] != nullptr)
+		{
+			inputStr = m_arrTexParam[hitItem.iItem]->GetName().c_str();
+		}
+
 		editShaderTextureValue.SetWindowTextW(inputStr);
 	}
 
