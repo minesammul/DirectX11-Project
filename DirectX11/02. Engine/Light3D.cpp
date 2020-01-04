@@ -32,7 +32,7 @@ void CLight3D::render()
 	m_pMtrl->UpdateData();
 
 	m_pMesh->SetLayout(m_pMtrl->GetShader());
-	m_pMesh->render();
+	m_pMesh->render(0);
 }
 
 void CLight3D::SetLightType(LIGHT_TYPE _eType)

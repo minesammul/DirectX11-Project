@@ -15,6 +15,7 @@ class CShader :
 	public CResource
 {
 	ID3DBlob*				m_pVSBlob;
+	ID3DBlob*				m_pVSInstBlob;
 	ID3DBlob*				m_pHSBlob;
 	ID3DBlob*				m_pDSBlob;
 	ID3DBlob*				m_pGSBlob;
@@ -23,6 +24,7 @@ class CShader :
 	ID3DBlob*				m_pErrBlob;
 
 	ID3D11VertexShader *	m_pVS;
+	ID3D11VertexShader *	m_pVSInst;
 	ID3D11HullShader *		m_pHS;
 	ID3D11DomainShader *	m_pDS;
 	ID3D11GeometryShader *	m_pGS;
@@ -38,6 +40,7 @@ class CShader :
 
 public:
 	ID3DBlob* GetVSBlob() { return  m_pVSBlob; }
+	ID3DBlob* GetVSInstBlob() { return  m_pVSInstBlob; }
 	ID3DBlob* GetHSBlob() { return m_pHSBlob; }
 	ID3DBlob* GetDSBlob() { return m_pDSBlob; }
 	ID3DBlob* GetGSBlob() { return m_pGSBlob; }

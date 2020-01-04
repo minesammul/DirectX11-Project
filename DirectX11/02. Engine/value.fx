@@ -61,6 +61,10 @@ cbuffer MATERIAL : register(b1)
     uint g_tcheck_1;
     uint g_tcheck_2;
     uint g_tcheck_3;
+    uint g_tcheck_4;
+    uint g_tcheck_5;
+    uint g_tcheck_6;
+    uint g_tcheck_7;
     
     uint g_tarrcheck_0;
     uint g_tarrcheck_1;
@@ -100,11 +104,15 @@ Texture2D g_tex_0 : register(t0);
 Texture2D g_tex_1 : register(t1);
 Texture2D g_tex_2 : register(t2);
 Texture2D g_tex_3 : register(t3);
+Texture2D g_tex_4 : register(t4); // 20200102 Texture Param 4°³ ´Ã¸²
+Texture2D g_tex_5 : register(t5);
+Texture2D g_tex_6 : register(t6);
+Texture2D g_tex_7 : register(t7);
 
-Texture2DArray g_texarr_0 : register(t4);
-Texture2DArray g_texarr_1 : register(t5);
-Texture2DArray g_texarr_2 : register(t6);
-Texture2DArray g_texarr_3 : register(t7);
+Texture2DArray g_texarr_0 : register(t8);
+Texture2DArray g_texarr_1 : register(t9);
+Texture2DArray g_texarr_2 : register(t10);
+Texture2DArray g_texarr_3 : register(t11);
 
 Texture2D g_tex_anim : register(t17);
 

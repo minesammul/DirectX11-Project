@@ -32,6 +32,9 @@ struct PS_TERRAIN_OUT
 // g_tex_2 : Height Map
 // g_tex_3 : Brush Texture
 
+// g_texarr_0 : Tile Array Texture
+// g_texarr_1 : Tile Normal Array Texture
+
 // g_int_0 : Terrain Face X
 // g_int_1 : Terrain Face Z
 

@@ -60,6 +60,7 @@ enum class RES_TYPE
 {
 	PREFAB,
 	FILTER,
+	MESHDATA,
 	MATERIAL,
 	MESH,
 	SHADER,
@@ -154,6 +155,10 @@ enum class SHADER_PARAM
 	TEX_1,
 	TEX_2,
 	TEX_3,
+	TEX_4, // 20200102 Texture Param 4°³ ´õ ´Ã¸²
+	TEX_5,
+	TEX_6,
+	TEX_7,
 	TEX_ARR_0,
 	TEX_ARR_1,
 	TEX_ARR_2,

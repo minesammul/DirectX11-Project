@@ -122,7 +122,7 @@ void CCollider2D::render()
 
 	m_pMesh->SetLayout(m_pCurMtrl->GetShader());
 	m_pCurMtrl->UpdateData();
-	m_pMesh->render();
+	m_pMesh->render(0);
 }
 
 void CCollider2D::OnCollisionEnter(CCollider2D * _pOther)

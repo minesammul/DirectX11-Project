@@ -65,7 +65,7 @@ void CResMgr::CreateDefaultMesh()
 
 	CMesh* pMesh = new CMesh;
 	pMesh->CreateMesh(sizeof(VTX), vecVtx.size(), D3D11_USAGE_DEFAULT, &vecVtx[0]
-		, sizeof(UINT), vecIdx.size(), &vecIdx[0]);
+		, vecIdx.size(), D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32_UINT, &vecIdx[0]);
 
 	pMesh->SetName(L"RectMesh");
 	m_mapRes[(UINT)RES_TYPE::MESH].insert(make_pair(L"RectMesh", pMesh));
@@ -109,7 +109,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->CreateMesh(sizeof(VTX), vecVtx.size(), D3D11_USAGE_DEFAULT, &vecVtx[0]
-		, sizeof(UINT), vecIdx.size(), &vecIdx[0]);
+		, vecIdx.size(), D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32_UINT, &vecIdx[0]);
 
 	pMesh->SetName(L"ColliderRectMesh");
 	m_mapRes[(UINT)RES_TYPE::MESH].insert(make_pair(L"ColliderRectMesh", pMesh));
@@ -153,7 +153,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->CreateMesh(sizeof(VTX), vecVtx.size(), D3D11_USAGE_DEFAULT, &vecVtx[0]
-		, sizeof(UINT), vecIdx.size(), &vecIdx[0]);
+		, vecIdx.size(), D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32_UINT, &vecIdx[0]);
 
 	pMesh->SetName(L"CircleMesh");
 	m_mapRes[(UINT)RES_TYPE::MESH].insert(make_pair(L"CircleMesh", pMesh));
@@ -307,7 +307,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->CreateMesh(sizeof(VTX), 24, D3D11_USAGE_DEFAULT, arrCube
-		, sizeof(UINT), vecIdx.size(), &vecIdx[0]);
+		, vecIdx.size(), D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32_UINT, &vecIdx[0]);
 
 	pMesh->SetName(L"CubeMesh");
 	m_mapRes[(UINT)RES_TYPE::MESH].insert(make_pair(L"CubeMesh", pMesh));
@@ -421,7 +421,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->CreateMesh(sizeof(VTX), vecVtx.size(), D3D11_USAGE_DEFAULT, &vecVtx[0]
-		, sizeof(UINT), vecIdx.size(), &vecIdx[0]);
+		, vecIdx.size(), D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32_UINT, &vecIdx[0]);
 
 	pMesh->SetName(L"SphereMesh");
 	m_mapRes[(UINT)RES_TYPE::MESH].insert(make_pair(L"SphereMesh", pMesh));
@@ -467,7 +467,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->CreateMesh(sizeof(VTX), vecVtx.size(), D3D11_USAGE_DEFAULT, &vecVtx[0]
-		, sizeof(UINT), vecIdx.size(), &vecIdx[0]);
+		, vecIdx.size(), D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32_UINT, &vecIdx[0]);
 
 	pMesh->SetName(L"TerrainRect");
 	m_mapRes[(UINT)RES_TYPE::MESH].insert(make_pair(L"TerrainRect", pMesh));

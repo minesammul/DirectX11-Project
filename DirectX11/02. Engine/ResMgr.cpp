@@ -104,3 +104,23 @@ CResPtr<CTexture> CResMgr::CreateArrayTexture(const wstring & _strKey, vector<CR
 
 	return pNewTex;
 }
+
+CResPtr<CMeshData> CResMgr::LoadFBX(const wstring & _strPath)
+{
+	wstring strFileName = CPathMgr::GetFileName(_strPath.c_str());
+
+	wstring strName = L"MeshData\\";
+	strName += strFileName + L".mdat";
+
+	CResPtr<CMeshData> pMeshData = FindRes<CMeshData>(strName);
+
+	if (nullptr != pMeshData)
+		return pMeshData;
+
+	pMeshData = CMeshData::LoadFromFBX(_strPath);
+	pMeshData->SetName(strName);
+	pMeshData->SetPath(strName);
+	m_mapRes[(UINT)RES_TYPE::MESHDATA].insert(make_pair(strName, pMeshData.GetPointer()));
+
+	return pMeshData;
+}

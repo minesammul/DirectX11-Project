@@ -334,3 +334,34 @@ void CTexture::CreateArrayTexture(vector<CResPtr<CTexture>>& _vecTex)
 		}
 	}
 }
+
+// 20200102 추가	
+void CTexture::SetData(void * _pSrc, size_t _size)
+{
+	D3D11_MAPPED_SUBRESOURCE tData = {};
+
+	CONTEXT->Map(m_pTex2D, 0, D3D11_MAP_WRITE_DISCARD, 0, &tData);
+
+	memcpy(tData.pData, _pSrc, _size);
+
+	CONTEXT->Unmap(m_pTex2D, 0);
+}
+
+// 20200102 추가	
+void CTexture::Resize(UINT _iWidth, UINT _iHeight)
+{
+	SAFE_RELEASE(m_pSRV);
+	SAFE_RELEASE(m_pRTV);
+	SAFE_RELEASE(m_pDSV);
+	SAFE_RELEASE(m_pUAV);
+	SAFE_RELEASE(m_pTex2D);
+
+	ID3D11Texture2D* pTex2D = NULL;
+
+	m_tDesc.Width = _iWidth;
+	m_tDesc.Height = _iHeight;
+
+	DEVICE->CreateTexture2D(&m_tDesc, NULL, &pTex2D);
+
+	Create(pTex2D);
+}

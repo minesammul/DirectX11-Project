@@ -58,6 +58,9 @@
     <Filter Include="EngineCode\04. Resource\Filter">
       <UniqueIdentifier>{1fb1bd1f-aaa3-4570-a1f2-6645b0cf2a53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EngineCode\04. Resource\MeshData">
+      <UniqueIdentifier>{a7666fa1-d1e7-4fb1-9444-ff3724c3d3e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="func.h">
@@ -207,6 +210,15 @@
     <ClInclude Include="Collider3D.h">
       <Filter>EngineCode\03. GameObject\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Animator3D.h">
+      <Filter>EngineCode\03. GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshData.h">
+      <Filter>EngineCode\04. Resource\MeshData</Filter>
+    </ClInclude>
+    <ClInclude Include="FBXLoader.h">
+      <Filter>EngineCode\06. Module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="func.cpp">
@@ -346,6 +358,15 @@
     </ClCompile>
     <ClCompile Include="Collider3D.cpp">
       <Filter>EngineCode\03. GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator3D.cpp">
+      <Filter>EngineCode\03. GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshData.cpp">
+      <Filter>EngineCode\04. Resource\MeshData</Filter>
+    </ClCompile>
+    <ClCompile Include="FBXLoader.cpp">
+      <Filter>EngineCode\06. Module</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

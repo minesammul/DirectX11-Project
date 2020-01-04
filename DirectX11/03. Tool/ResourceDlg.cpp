@@ -41,6 +41,7 @@ void ResourceDlg::Renew()
 	HTREEITEM arrItem[(UINT)RES_TYPE::END] = {
 		AddItem(L"Prefab", nullptr, 0, TVI_LAST)
 		, AddItem(L"Filter", nullptr, 0, TVI_LAST)
+		, AddItem(L"MeshData", nullptr, 0, TVI_LAST)
 		, AddItem(L"Material", nullptr, 0, TVI_LAST)
 		, AddItem(L"Mesh", nullptr, 0, TVI_LAST)
 		, AddItem(L"Shader", nullptr, 0, TVI_LAST)

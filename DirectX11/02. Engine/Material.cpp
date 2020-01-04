@@ -75,6 +75,10 @@ void CMaterial::SetData(SHADER_PARAM _eType, void * _pSrc)
 	case SHADER_PARAM::TEX_1:		
 	case SHADER_PARAM::TEX_2:	
 	case SHADER_PARAM::TEX_3:
+	case SHADER_PARAM::TEX_4:
+	case SHADER_PARAM::TEX_5:
+	case SHADER_PARAM::TEX_6:
+	case SHADER_PARAM::TEX_7:
 	case SHADER_PARAM::TEX_ARR_0:
 	case SHADER_PARAM::TEX_ARR_1:
 	case SHADER_PARAM::TEX_ARR_2:
@@ -199,6 +203,10 @@ void CMaterial::Load(const wstring & _strFilePath)
 
 void CMaterial::Save()
 {
+	if (GetPath().empty())
+		return;
+
+
 	wstring strFileName = CPathMgr::GetResPath();
 	strFileName += L"Material\\";
 	strFileName += GetName();

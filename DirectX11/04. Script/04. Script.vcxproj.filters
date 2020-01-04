@@ -36,6 +36,9 @@
     <ClInclude Include="TestScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="SSN001CameraScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptMgr.cpp">
@@ -51,6 +54,9 @@
       <Filter>Defalut</Filter>
     </ClCompile>
     <ClCompile Include="TestScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN001CameraScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>

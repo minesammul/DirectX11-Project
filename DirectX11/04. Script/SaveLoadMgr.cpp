@@ -13,6 +13,7 @@
 #include <CollisionMgr.h>
 #include <Light3D.h>
 #include <Terrain.h>
+#include <MeshData.h>
 
 CSaveLoadMgr::CSaveLoadMgr(){}
 CSaveLoadMgr::~CSaveLoadMgr(){}
@@ -256,7 +257,10 @@ void CSaveLoadMgr::LoadResource(FILE * _pFile)
 				break;
 			case RES_TYPE::SOUND:
 				pResource = new CSound;
-				break;			
+				break;	
+			case RES_TYPE::MESHDATA:
+				pResource = new CMeshData;
+				break;
 			}
 
 			bRet = pResource->LoadFromScene(_pFile);

@@ -74,7 +74,8 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Project\Library\Script\x86\</OutDir>
     <TargetName>Script_Debug</TargetName>
-    <IncludePath>$(SolutionDir)Project\Include\Engine\;$(SolutionDir)Project\Include\DirectXTex\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Project\Include\Engine\;$(SolutionDir)Project\Include\FBXLoader\;$(SolutionDir)Project\Include\DirectXTex\;$(SolutionDir)Project\Include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Project\Library\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -86,7 +87,8 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Project\Library\Script\x86\</OutDir>
     <TargetName>Script</TargetName>
-    <IncludePath>$(SolutionDir)Project\Include\Engine\;$(SolutionDir)Project\Include\DirectXTex\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Project\Include\FBXLoader\;$(SolutionDir)Project\Include\Engine\;$(SolutionDir)Project\Include\DirectXTex\;$(SolutionDir)Project\Include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Project\Library\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -195,6 +197,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="resource.h" />
     <ClInclude Include="SaveLoadMgr.h" />
     <ClInclude Include="ScriptMgr.h" />
+    <ClInclude Include="SSN001CameraScript.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TestScript.h" />
@@ -203,6 +206,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="HilightScript.cpp" />
     <ClCompile Include="SaveLoadMgr.cpp" />
     <ClCompile Include="ScriptMgr.cpp" />
+    <ClCompile Include="SSN001CameraScript.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

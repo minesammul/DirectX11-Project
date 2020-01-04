@@ -74,8 +74,8 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Project\Library\Engine\x86\</OutDir>
     <TargetName>Uryty_debug</TargetName>
-    <LibraryPath>$(SolutionDir)Project\Library\FMOD\x86\;$(SolutionDir)Project\Library\DirectXTex\x86\;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)Project\Include\FMOD\;$(SolutionDir)Project\Include\DirectXTex\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Project\Library\FMOD\x86\;$(SolutionDir)Project\Library\FBXLoader\x86\debug\;$(SolutionDir)Project\Library\DirectXTex\x86\;$(SolutionDir)Project\Library\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Project\Include\FMOD\;$(SolutionDir)Project\Include\FBXLoader\;$(SolutionDir)Project\Include\DirectXTex\;$(SolutionDir)Project\Include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -88,8 +88,8 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Project\Library\Engine\x86\</OutDir>
     <TargetName>Uryty</TargetName>
-    <LibraryPath>$(SolutionDir)Project\Library\FMOD\x86\;$(SolutionDir)Project\Library\DirectXTex\x86\;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)Project\Include\FMOD\;$(SolutionDir)Project\Include\DirectXTex\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Project\Library\FMOD\x86\;$(SolutionDir)Project\Library\FBXLoader\x86\debug\;$(SolutionDir)Project\Library\DirectXTex\x86\;$(SolutionDir)Project\Library\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Project\Include\FMOD\;$(SolutionDir)Project\Include\FBXLoader\;$(SolutionDir)Project\Include\DirectXTex\;$(SolutionDir)Project\Include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -197,6 +197,7 @@ call EngineCopy.bat</Command>
   <ItemGroup>
     <ClInclude Include="Animation2D.h" />
     <ClInclude Include="Animator2D.h" />
+    <ClInclude Include="Animator3D.h" />
     <ClInclude Include="BlendState.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider2D.h" />
@@ -207,8 +208,10 @@ call EngineCopy.bat</Command>
     <ClInclude Include="Core.h" />
     <ClInclude Include="DepthStencilState.h" />
     <ClInclude Include="EventMgr.h" />
+    <ClInclude Include="FBXLoader.h" />
     <ClInclude Include="Filter23.h" />
     <ClInclude Include="Light3D.h" />
+    <ClInclude Include="MeshData.h" />
     <ClInclude Include="MRT.h" />
     <ClInclude Include="Prefab.h" />
     <ClInclude Include="define.h" />
@@ -248,6 +251,7 @@ call EngineCopy.bat</Command>
   <ItemGroup>
     <ClCompile Include="Animation2D.cpp" />
     <ClCompile Include="Animator2D.cpp" />
+    <ClCompile Include="Animator3D.cpp" />
     <ClCompile Include="BlendState.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider2D.cpp" />
@@ -258,8 +262,10 @@ call EngineCopy.bat</Command>
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="DepthStencilState.cpp" />
     <ClCompile Include="EventMgr.cpp" />
+    <ClCompile Include="FBXLoader.cpp" />
     <ClCompile Include="Filter23.cpp" />
     <ClCompile Include="Light3D.cpp" />
+    <ClCompile Include="MeshData.cpp" />
     <ClCompile Include="MRT.cpp" />
     <ClCompile Include="Prefab.cpp" />
     <ClCompile Include="Device.cpp" />

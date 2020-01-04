@@ -95,14 +95,20 @@ void CCamera::render_deferred()
 
 			for (size_t i = 0; i < vecObj.size(); ++i)
 			{
-				if (nullptr == vecObj[i]->MeshRender()
-					|| nullptr == vecObj[i]->MeshRender()->GetSharedMaterial()
-					|| nullptr == vecObj[i]->MeshRender()->GetSharedMaterial()->GetShader())
+				if (nullptr == vecObj[i]->MeshRender())
 					continue;
 
-				if (vecObj[i]->MeshRender()->GetSharedMaterial()->GetShader()->IsDeferred())
+				UINT iMtrlCount = vecObj[i]->MeshRender()->GetMaterialCount();
+				for (UINT j = 0; j < iMtrlCount; ++j)
 				{
-					vecObj[i]->render();
+					if (nullptr == vecObj[i]->MeshRender()->GetSharedMaterial(j)
+						|| nullptr == vecObj[i]->MeshRender()->GetSharedMaterial(j)->GetShader())
+						continue;
+
+					if (vecObj[i]->MeshRender()->GetSharedMaterial(j)->GetShader()->IsDeferred())
+					{
+						vecObj[i]->render();
+					}
 				}
 			}
 		}
@@ -127,14 +133,20 @@ void CCamera::render_forward()
 
 			for (size_t i = 0; i < vecObj.size(); ++i)
 			{
-				if (nullptr == vecObj[i]->MeshRender()
-					|| nullptr == vecObj[i]->MeshRender()->GetSharedMaterial()
-					|| nullptr == vecObj[i]->MeshRender()->GetSharedMaterial()->GetShader())
+				if (nullptr == vecObj[i]->MeshRender())
 					continue;
 
-				if (!vecObj[i]->MeshRender()->GetSharedMaterial()->GetShader()->IsDeferred())
+				UINT iMtrlCount = vecObj[i]->MeshRender()->GetMaterialCount();
+				for (UINT j = 0; j < iMtrlCount; ++j)
 				{
-					vecObj[i]->render();
+					if (nullptr == vecObj[i]->MeshRender()->GetSharedMaterial(j)
+						|| nullptr == vecObj[i]->MeshRender()->GetSharedMaterial(j)->GetShader())
+						continue;
+
+					if (!vecObj[i]->MeshRender()->GetSharedMaterial(j)->GetShader()->IsDeferred())
+					{
+						vecObj[i]->render();
+					}
 				}
 			}
 		}

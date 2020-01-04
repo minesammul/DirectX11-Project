@@ -11,25 +11,24 @@
 
 CMeshRender::CMeshRender()
 	: m_pMesh(nullptr)
-	, m_pMtrl(nullptr)
 	, CComponent(COMPONENT_TYPE::MESHRENDER)
-{	
+{
 }
 
 CMeshRender::~CMeshRender()
 {
 }
 
-CResPtr<CMaterial> CMeshRender::GetCloneMaterial()
+CResPtr<CMaterial> CMeshRender::GetCloneMaterial(UINT _iSubset)
 {
-	if (nullptr == m_pMtrl)
-		return nullptr;	
-	   
-	m_pMtrl = m_pMtrl->Clone();
+	if (nullptr == m_vecMtrl[_iSubset])
+		return nullptr;
 
-	CResMgr::GetInst()->AddCloneRes(m_pMtrl);
+	m_vecMtrl[_iSubset] = m_vecMtrl[_iSubset]->Clone();
 
-	return m_pMtrl;
+	CResMgr::GetInst()->AddCloneRes(m_vecMtrl[_iSubset]);
+
+	return m_vecMtrl[_iSubset];
 }
 
 void CMeshRender::update()
@@ -49,24 +48,43 @@ void CMeshRender::render()
 		CAnimation2D::ClearRegister();
 	}
 
-	if (m_pMtrl->GetShader() == nullptr)
+	for (UINT i = 0; i < m_vecMtrl.size(); ++i)
 	{
-		return;
-	}
+		if (nullptr == m_vecMtrl[i] || nullptr == m_vecMtrl[i]->GetShader())
+			continue;
 
-	m_pMtrl->UpdateData();
-	m_pMesh->SetLayout(m_pMtrl->GetShader());	
-	m_pMesh->render();
-	CTexture::ClearAllRegister();
+		// Graphics Pipeline 단계에서 사용할 정점의 Layout 정보 전달	
+		m_pMesh->SetLayout(m_vecMtrl[i]->GetShader());
+		m_vecMtrl[i]->UpdateData();
+		m_pMesh->render(i);
+		CTexture::ClearAllRegister();
+	}
 
 	// Collider2D 가 있으면 그려준다.
 	if (nullptr != Collider2D())
 		Collider2D()->render();
 
-	// Collider2D 가 있으면 그려준다.
+	// Collider3D 가 있으면 그려준다.
 	if (nullptr != Collider3D())
 		Collider3D()->render();
 }	
+
+void CMeshRender::SetMesh(CResPtr<CMesh> _pMesh)
+{
+	m_pMesh = _pMesh;
+	UINT iSubsetCount = m_pMesh->GetSubsetCount();
+
+	if (m_vecMtrl.size() < iSubsetCount)
+	{
+		m_vecMtrl.resize(iSubsetCount);
+	}
+	else if (m_vecMtrl.size() > iSubsetCount)
+	{
+		vector<CResPtr<CMaterial>> vecTemp;
+		vecTemp.resize(iSubsetCount);
+		m_vecMtrl.swap(vecTemp);
+	}
+}
 
 void CMeshRender::SaveToScene(FILE * _pFile)
 {
@@ -74,7 +92,7 @@ void CMeshRender::SaveToScene(FILE * _pFile)
 
 	if (nullptr == m_pMesh)
 		bMesh = false;
-	if (nullptr == m_pMtrl)
+	if (m_vecMtrl.empty())
 		bMtrl = false;
 
 	fwrite(&bMesh, 1, 1, _pFile);
@@ -87,8 +105,22 @@ void CMeshRender::SaveToScene(FILE * _pFile)
 	fwrite(&bMtrl, 1, 1, _pFile);
 	if (bMtrl)
 	{
-		SaveWString(m_pMtrl->GetName().c_str(), _pFile);
-		SaveWString(m_pMtrl->GetPath().c_str(), _pFile);
+		UINT iSize = m_vecMtrl.size();
+		fwrite(&iSize, sizeof(UINT), 1, _pFile);
+
+		UINT i = 0;
+		for (; i < m_vecMtrl.size(); ++i)
+		{
+			if (nullptr == m_vecMtrl[i])
+				continue;
+
+			fwrite(&i, sizeof(UINT), 1, _pFile);
+			SaveWString(m_vecMtrl[i]->GetName().c_str(), _pFile);
+			SaveWString(m_vecMtrl[i]->GetPath().c_str(), _pFile);
+		}
+
+		i = -1; // 마감 용도
+		fwrite(&i, sizeof(UINT), 1, _pFile);
 	}
 }
 
@@ -114,13 +146,20 @@ void CMeshRender::LoadFromScene(FILE * _pFile)
 	fread(&bMtrl, 1, 1, _pFile);
 	if (bMtrl)
 	{
-		strKey = LoadWString(_pFile);
-		strPath = LoadWString(_pFile);
+		UINT iSize = 0;
+		fread(&iSize, sizeof(UINT), 1, _pFile);
+		m_vecMtrl.resize(iSize);
 
-		m_pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(strKey);
-		if (nullptr == m_pMtrl)
+		UINT iIdx = 0;
+		fread(&iIdx, sizeof(UINT), 1, _pFile);
+
+		while (iIdx != -1)
 		{
-			CResMgr::GetInst()->Load<CMaterial>(strKey, strPath);
+			strKey = LoadWString(_pFile);
+			strPath = LoadWString(_pFile);
+			SetMaterial(CResMgr::GetInst()->Load<CMaterial>(strKey, strPath), iIdx);
+
+			fread(&iIdx, sizeof(UINT), 1, _pFile);
 		}
 	}
 }

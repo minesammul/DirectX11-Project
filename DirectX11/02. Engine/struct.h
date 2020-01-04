@@ -21,9 +21,13 @@ struct VTX
 	Vec3 vPos;
 	Vec4 vColor;
 	Vec2 vUV;
+
 	Vec3 vNormal;  // 법선 벡터
 	Vec3 vTangent; // 접선 벡터
-	Vec3 vBinormal;// 종법선 벡터
+	Vec3 vBinormal;// 종법선 벡터	
+
+	Vec4 vWeights; // Bone 가중치
+	Vec4 vIndices; // Bone 인덱스
 };
 
 struct tRay
@@ -84,4 +88,105 @@ struct tLight3DInfo
 	float		fRange; // 점광원, Spot
 	float		fAngle; // Spot
 	UINT		iPadding;
+};
+
+//================
+// Struct of FBX 
+//=================
+typedef struct _tagMtrlInfo
+{
+	Vec4	vMtrlDiff;
+	Vec4	vMtrlSpec;
+	Vec4	vMtrlAmb;
+	Vec4	vMtrlEmiv;
+	_tagMtrlInfo()
+		: vMtrlDiff(1.f, 1.f, 1.f, 1.f)
+		, vMtrlSpec(1.f, 1.f, 1.f, 1.f)
+		, vMtrlAmb(1.f, 1.f, 1.f, 1.f)
+		, vMtrlEmiv(1.f, 1.f, 1.f, 1.f)
+	{}
+
+}tMtrlInfo;
+
+typedef struct _tagFbxMat
+{
+	tMtrlInfo	tMtrl;
+	wstring     strMtrlName;
+	wstring     strDiff;
+	wstring		strNormal;
+	wstring		strSpec;
+}tFbxMaterial;
+
+typedef struct _tagWeightsAndIndices
+{
+	int		iBoneIdx;
+	double	dWeight;
+}tWeightsAndIndices;
+
+typedef struct _tagContainer
+{
+	wstring								strName;
+	vector<Vec3>						vecPos;
+	vector<Vec3>						vecTangent;
+	vector<Vec3>						vecBinormal;
+	vector<Vec3>						vecNormal;
+	vector<Vec2>						vecUV;
+
+	vector<Vec4>						vecIndices;
+	vector<Vec4>						vecWeights;
+
+	vector<vector<UINT>>				vecIdx;
+	vector<tFbxMaterial>				vecMtrl;
+
+	// Animation 관련 정보
+	bool								bAnimation;
+	vector<vector<tWeightsAndIndices>>	vecWI;
+
+	void Resize(UINT _iSize)
+	{
+		vecPos.resize(_iSize);
+		vecTangent.resize(_iSize);
+		vecBinormal.resize(_iSize);
+		vecNormal.resize(_iSize);
+		vecUV.resize(_iSize);
+		vecIndices.resize(_iSize);
+		vecWeights.resize(_iSize);
+		vecWI.resize(_iSize);
+	}
+
+}tContainer;
+
+// Animation
+struct tMTKeyFrame
+{
+	float	fTime;
+	int		iFrame;
+	Vec3	vTranslate;
+	Vec3	vScale;
+	Vec4	qRot;
+};
+
+struct tMTBone
+{
+	wstring				strBoneName;
+	int					iDepth;
+	int					iParentIndx;
+	Matrix				matOffset;	// Offset 행렬(뼈 -> 루트 까지의 행렬)
+	Matrix				matBone;   // 이거 안씀
+	vector<tMTKeyFrame>	vecKeyFrame;
+};
+
+struct tMTAnimClip
+{
+	wstring		strAnimName;
+	int			iStartFrame;
+	int			iEndFrame;
+	int			iFrameLength;
+
+	double		dStartTime;
+	double		dEndTime;
+	double		dTimeLength;
+	float		fUpdateTime; // 이거 안씀
+
+	FbxTime::EMode eMode;
 };
