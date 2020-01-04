@@ -79,12 +79,13 @@ void CTerrain::KeyCheck()
 
 int CTerrain::Picking(Vec2 & _vPos)
 {
+	SetMaterialParameter();
+
 	if (m_pToolCam == nullptr)
 	{
+		return 0;
 		assert(false && "Terrain ToolCamera is Null");
 	}
-
-	SetMaterialParameter();
 
 	tRay ray = m_pToolCam->GetRay();
 
