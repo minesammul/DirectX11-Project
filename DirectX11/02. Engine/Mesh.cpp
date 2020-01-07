@@ -290,7 +290,7 @@ CMesh * CMesh::CreateFromContainer(CFBXLoader & _loader)
 	pMesh->AddInputLayout("ROWINDEX", 0, DXGI_FORMAT_R32_SINT, 1, 1, D3D11_INPUT_PER_INSTANCE_DATA);
 
 	// Animation3D
-	/*if (!container->bAnimation)
+	if (!container->bAnimation)
 		return pMesh;
 
 	vector<tBone*>& vecBone = _loader.GetBones();
@@ -345,7 +345,7 @@ CMesh * CMesh::CreateFromContainer(CFBXLoader & _loader)
 		tClip.eMode = vecAnimClip[i]->eMode;
 
 		pMesh->m_vecAnimClip.push_back(tClip);
-	}*/
+	}
 
 	return pMesh;
 }
@@ -473,11 +473,11 @@ void CMesh::Save()
 	}
 
 	// Animation3D 정보 
-	/*UINT iCount = m_vecAnimClip.size();
+	UINT iCount = m_vecAnimClip.size();
 	fwrite(&iCount, sizeof(int), 1, pFile);
 	for (int i = 0; i < iCount; ++i)
 	{
-		SaveWString(m_vecAnimClip[i].strAnimName, pFile);
+		SaveWString(m_vecAnimClip[i].strAnimName.c_str(), pFile);
 		fwrite(&m_vecAnimClip[i].dStartTime, sizeof(double), 1, pFile);
 		fwrite(&m_vecAnimClip[i].dEndTime, sizeof(double), 1, pFile);
 		fwrite(&m_vecAnimClip[i].dTimeLength, sizeof(double), 1, pFile);
@@ -493,7 +493,7 @@ void CMesh::Save()
 
 	for (int i = 0; i < iCount; ++i)
 	{
-		SaveWString(m_vecBones[i].strBoneName, pFile);
+		SaveWString(m_vecBones[i].strBoneName.c_str(), pFile);
 		fwrite(&m_vecBones[i].iDepth, sizeof(int), 1, pFile);
 		fwrite(&m_vecBones[i].iParentIndx, sizeof(int), 1, pFile);
 		fwrite(&m_vecBones[i].matBone, sizeof(Matrix), 1, pFile);
@@ -506,7 +506,7 @@ void CMesh::Save()
 		{
 			fwrite(&m_vecBones[i].vecKeyFrame[j], sizeof(tMTKeyFrame), 1, pFile);
 		}
-	}*/
+	}
 
 	fclose(pFile);
 }
@@ -597,7 +597,6 @@ void CMesh::Load(const wstring& _strFilePath)
 	AddInputLayout("ROWINDEX", 0, DXGI_FORMAT_R32_SINT, 1, 1, D3D11_INPUT_PER_INSTANCE_DATA);
 
 	// Animation3D 정보 읽기
-	/*
 	int iCount = 0;
 	fread(&iCount, sizeof(int), 1, pFile);
 	for (int i = 0; i < iCount; ++i)
@@ -614,28 +613,28 @@ void CMesh::Load(const wstring& _strFilePath)
 		fread(&tClip.iEndFrame, sizeof(int), 1, pFile);
 		fread(&tClip.iFrameLength, sizeof(int), 1, pFile);
 
-		vecAnimClip.push_back(tClip);
+		m_vecAnimClip.push_back(tClip);
 	}
 
 
 	iCount = 0;
 	fread(&iCount, sizeof(int), 1, pFile);
-	vecBones.resize(iCount);
+	m_vecBones.resize(iCount);
 
 	for (int i = 0; i < iCount; ++i)
 	{
-		vecBones[i].strBoneName = LoadWString(pFile);
-		fread(&vecBones[i].iDepth, sizeof(int), 1, pFile);
-		fread(&vecBones[i].iParentIndx, sizeof(int), 1, pFile);
-		fread(&vecBones[i].matBone, sizeof(Matrix), 1, pFile);
-		fread(&vecBones[i].matOffset, sizeof(Matrix), 1, pFile);
+		m_vecBones[i].strBoneName = LoadWString(pFile);
+		fread(&m_vecBones[i].iDepth, sizeof(int), 1, pFile);
+		fread(&m_vecBones[i].iParentIndx, sizeof(int), 1, pFile);
+		fread(&m_vecBones[i].matBone, sizeof(Matrix), 1, pFile);
+		fread(&m_vecBones[i].matOffset, sizeof(Matrix), 1, pFile);
 
 		int iFrameCount = 0;
 		fread(&iFrameCount, sizeof(int), 1, pFile);
-		vecBones[i].vecKeyFrame.resize(iFrameCount);
+		m_vecBones[i].vecKeyFrame.resize(iFrameCount);
 		for (int j = 0; j < iFrameCount; ++j)
 		{
-			fread(&vecBones[i].vecKeyFrame[j], sizeof(tMTKeyFrame), 1, pFile);
+			fread(&m_vecBones[i].vecKeyFrame[j], sizeof(tMTKeyFrame), 1, pFile);
 		}
 	}
 
@@ -645,18 +644,15 @@ void CMesh::Load(const wstring& _strFilePath)
 		wstring strBoneTex = GetName();
 		strBoneTex += L"BoneTex";
 
-		CResPtr<CTexture> pBoneTex =
+		m_pBoneTex =
 			CResMgr::GetInst()->CreateTexture(strBoneTex
 				, GetBones()->size() * 4, 1
 				, D3D11_BIND_SHADER_RESOURCE
-				, DXGI_FORMAT_R32G32B32A32_FLOAT
-				, D3D11_USAGE_DYNAMIC);
+				, D3D11_USAGE_DYNAMIC
+				, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	}
 
-		SetBoneTex(pBoneTex);
-	}*/
-
-
-
+	fclose(pFile);
 }
 
 

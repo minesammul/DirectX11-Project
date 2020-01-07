@@ -108,7 +108,7 @@ void ResourceDlg::LoadResource(CString _strFolderPath)
 			}
 			else if (!wcscmp(pExt, L".mdat"))
 			{
-				//CResMgr::GetInst()->Load<CMeshData>(strKey, strPath);
+				CResMgr::GetInst()->Load<CMeshData>(strKey, strKey);
 			}
 			/*else if (!wcscmp(pExt, L".pref"))
 			{

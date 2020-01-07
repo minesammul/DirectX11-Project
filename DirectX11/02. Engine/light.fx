@@ -104,7 +104,7 @@ PS_OUT PS_PointLight(VTX_OUT _in)
     
     if (distance(float3(0.f, 0.f, 0.f), vLocalPos.xyz) <= 1.f)
     {
-        float3 vViewNormal = g_tex_0.Sample(g_sam_0, vScreenUV);
+        float3 vViewNormal = g_tex_0.Sample(g_sam_0, vScreenUV).xyz;
         
         tLightColor color = (tLightColor) 0.f;
         CaculateLight(vViewPos.xyz, vViewNormal.xyz, g_int_0, color);

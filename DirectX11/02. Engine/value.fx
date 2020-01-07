@@ -19,6 +19,14 @@ struct tLight3D
     uint iPadding;
 };
 
+struct tSkinningInfo
+{
+    float3 vPos;
+    float3 vTangent;
+    float3 vBinormal;
+    float3 vNormal;
+};
+
 cbuffer MATRIX : register(b0)
 {
     row_major matrix g_matWorld;

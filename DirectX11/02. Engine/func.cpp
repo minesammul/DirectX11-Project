@@ -205,3 +205,16 @@ int GetSizeofFormat(DXGI_FORMAT _eFormat)
 
 	return iRetByte / 8;
 }
+
+Matrix GetMatrix(FbxAMatrix & _mat)
+{
+	Matrix mat;
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
+			mat.m[i][j] = _mat.Get(i, j);
+		}
+	}
+	return mat;
+}

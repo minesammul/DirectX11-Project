@@ -163,7 +163,7 @@ void CToolApp::CreateTestScene()
 	// FBX Loading
 	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Warehouse01.fbx");
 	//pMeshData->Save();
-	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"Warehouse01", L"MeshData\\Warehouse01.mdat");
+	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Monster3.mdat", L"MeshData\\Monster3.mdat");
 
 	CGameObject* pMeshObject = pMeshData->Instantiate();
 

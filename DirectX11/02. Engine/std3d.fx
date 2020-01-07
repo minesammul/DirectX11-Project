@@ -48,10 +48,10 @@ VTX_OUT_PHONG VS_Phong(VTX_IN _in)
     VTX_OUT_PHONG output = (VTX_OUT_PHONG) 0.f;
 
     output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
-    output.vViewPos = mul(float4(_in.vPos, 1.f), g_matWV);
-    output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), g_matWV));
-    output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), g_matWV));
-    output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV));
+    output.vViewPos = mul(float4(_in.vPos, 1.f), g_matWV).xyz;
+    output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), g_matWV)).xyz;
+    output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), g_matWV)).xyz;
+    output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV)).xyz;
 
     output.vUV = _in.vUV;
 
@@ -62,7 +62,7 @@ PS_OUT_PHONG PS_Phong(VTX_OUT_PHONG _in)
 {
     PS_OUT_PHONG output = (PS_OUT_PHONG) 0.f;
 
-    output.vDiffuse.xyz = g_tex_0.Sample(g_sam_0, _in.vUV);
+    output.vDiffuse.xyz = g_tex_0.Sample(g_sam_0, _in.vUV).xyz;
 
     float3x3 matTBN =
     {
@@ -109,8 +109,8 @@ struct VTX_STD3D_IN
     float3 vBinormal : BINORMAL;
     float2 vUV : TEXCOORD;
 
-    // float4 vIndices : INDICES;
-    // float4 vWeights : WEIGHT
+    float4 vWeights : WEIGHTS;
+    float4 vIndices : BLENDINDICES;
 };
 
 struct VTX_STD3D_OUT
@@ -135,12 +135,20 @@ VTX_STD3D_OUT VS_STD3D(VTX_STD3D_IN _in)
 {
     VTX_STD3D_OUT output = (VTX_STD3D_OUT) 0.f;
 
+     // 8 번째 텍스쳐는 Bone Matrix Tex(VTF - vertex texture fetch) 예약자리
+    if (g_tcheck_7)
+    {
+        Skinning(_in.vPosition, _in.vTangent
+        , _in.vBinormal, _in.vNormal
+        , _in.vWeights, _in.vIndices, 0);
+    }
+    
     output.vPosition = mul(float4(_in.vPosition, 1.f), g_matWVP);
 
-    output.vViewPos = mul(float4(_in.vPosition, 1.f), g_matWV);
-    output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), g_matWV));
-    output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV));
-    output.vViewNormal = normalize(cross(output.vViewBinormal, output.vViewTangent));
+    output.vViewPos = mul(float4(_in.vPosition, 1.f), g_matWV).xyz;
+    output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), g_matWV)).xyz;
+    output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV)).xyz;
+    output.vViewNormal = normalize(cross(output.vViewBinormal, output.vViewTangent)).xyz;
 
     output.vUV = _in.vUV;
 
@@ -153,7 +161,7 @@ PS_STD3D_OUT PS_STD3D(VTX_STD3D_OUT _in)
 
     if (g_tcheck_0)
     {
-        output.vDiffuse.xyz = g_tex_0.Sample(g_sam_0, _in.vUV);
+        output.vDiffuse.xyz = g_tex_0.Sample(g_sam_0, _in.vUV).xyz;
     }
     else
     {

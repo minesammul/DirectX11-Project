@@ -52,7 +52,7 @@ VS_TERRAIN_OUT VS_Terrain(VS_TERRAIN_IN _in)
 {
     VS_TERRAIN_OUT output = (VS_TERRAIN_OUT) 0.f;
     
-    output.vWorldPos = mul(float4(_in.vPos, 1.f), g_matWorld);
+    output.vWorldPos = mul(float4(_in.vPos, 1.f), g_matWorld).xyz;
     output.vUV = _in.vUV;
     output.vFullUV = float2(_in.vUV.x / (float) g_int_0, _in.vUV.y / (float) g_int_1);
     
@@ -191,9 +191,9 @@ DS_TERRAIN_OUT DS_Terrain(OutputPatch<VS_TERRAIN_OUT, 3> _patch, float3 _vRatio 
     //output.vViewBinormal = vBinormal;
     //output.vViewNormal = vNormal; 
     
-    output.vViewTangent = normalize(mul(float4(vTangent, 0.f), g_matView));
-    output.vViewBinormal = normalize(mul(float4(vBinormal, 0.f), g_matView));
-    output.vViewNormal = normalize(cross(output.vViewBinormal, output.vViewTangent));
+    output.vViewTangent = normalize(mul(float4(vTangent, 0.f), g_matView)).xyz;
+    output.vViewBinormal = normalize(mul(float4(vBinormal, 0.f), g_matView)).xyz;
+    output.vViewNormal = normalize(cross(output.vViewBinormal, output.vViewTangent)).xyz;
         
     return output;
 }

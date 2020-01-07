@@ -48,3 +48,5 @@ bool closeEnough(const float& a, const float& b, const float& epsilon = std::num
 Vec3 DecomposeRotMat(const Matrix & _matRot);
 
 int GetSizeofFormat(DXGI_FORMAT _eFormat);
+
+Matrix GetMatrix(FbxAMatrix & _mat);

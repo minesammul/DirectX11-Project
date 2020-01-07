@@ -191,7 +191,7 @@ void CMaterial::Load(const wstring & _strFilePath)
 		wstring strPath = LoadWString(pFile);
 
 		m_arrTex[index] = CResMgr::GetInst()->FindRes<CTexture>(strKey);
-		if (nullptr == m_arrTex[index])
+		if (nullptr == m_arrTex[index] && 7 != index) // 7번 자리는 BoneTexture 용도 이므로 넘긴다.
 		{
 			m_arrTex[index] = CResMgr::GetInst()->Load<CTexture>(strKey, strPath);
 		}
