@@ -63,14 +63,11 @@ public:
 	void* GetVtxSysMem() { return m_pVtxMem; }
 
 public:
-	// =========
-	// 0919 Ãß°¡
 	const vector<tMTBone>* GetBones() { return &m_vecBones; }
 	void SetBoneTex(CResPtr<CTexture> _pTex) { m_pBoneTex = _pTex; }
 	const vector<tMTAnimClip>* GetAnimClip() { return &m_vecAnimClip; }
 	CResPtr<CTexture> GetBoneTex() { return m_pBoneTex; }
 	bool IsAnimMesh() { return !m_vecAnimClip.empty(); }
-	// ==========
 
 	void SetLayout(CResPtr<CShader> _pShader, bool _bInstancing = false);
 
