@@ -32,20 +32,20 @@ CMeshData * CMeshData::LoadFromFBX(const wstring& _strPath)
 	CMesh* pMesh = CMesh::CreateFromContainer(loader);
 
 	// Animation 이 있는 Mesh 경우 BoneTexture 만들어두기
-	//if (pMesh->IsAnimMesh())
-	//{
-	//	wstring strBoneTex = _strPath;
-	//	strBoneTex += L"BoneTex";
-	//
-	//	CResPtr<CTexture> pBoneTex =
-	//		CResMgr::GetInst()->CreateTexture(strBoneTex
-	//			, pMesh->GetBones()->size() * 4, 1
-	//			, D3D11_BIND_SHADER_RESOURCE
-	//			, DXGI_FORMAT_R32G32B32A32_FLOAT
-	//			, D3D11_USAGE_DYNAMIC);
-	//
-	//	pMesh->SetBoneTex(pBoneTex);
-	//}	
+	if (pMesh->IsAnimMesh())
+	{
+		wstring strBoneTex = _strPath;
+		strBoneTex += L"BoneTex";
+
+		CResPtr<CTexture> pBoneTex =
+			CResMgr::GetInst()->CreateTexture(strBoneTex
+				, pMesh->GetBones()->size() * 4, 1
+				, D3D11_BIND_SHADER_RESOURCE
+				, D3D11_USAGE_DYNAMIC
+				, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+		pMesh->SetBoneTex(pBoneTex);
+	}
 
 	// ResMgr 에 메쉬 등록
 
@@ -103,7 +103,7 @@ void CMeshData::Load(const wstring & _strFilePath)
 		wstring strKey = LoadWString(pFile);
 		wstring strPath = LoadWString(pFile);
 
-		CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->Load<CMaterial>(strKey, strPath);
+		CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->Load<CMaterial>(strPath, strPath);
 		m_vecMtrl[i] = pMtrl;
 	}
 
@@ -152,6 +152,16 @@ void CMeshData::Save()
 	fclose(pFile);
 }
 
+bool CMeshData::LoadFromScene(FILE * _pFile)
+{
+	SetName(LoadWString(_pFile));
+
+	// 경로
+	wstring strPath = LoadWString(_pFile);
+
+	return false;
+}
+
 CGameObject * CMeshData::Instantiate()
 {
 	// Mesh
@@ -168,15 +178,15 @@ CGameObject * CMeshData::Instantiate()
 		pNewObj->MeshRender()->SetMaterial(m_vecMtrl[i], i);
 	}
 
-	//if (false == m_pMesh->IsAnimMesh())
-	//	return pNewObj;	
-	//
-	//CAnimator3D* pAnimator = new CAnimator3D;
-	//pNewObj->AddComponent(pAnimator);
-	//
-	//pAnimator->SetBones(m_pMesh->GetBones());
-	//pAnimator->SetAnimClip(m_pMesh->GetAnimClip());
-	//pAnimator->SetBoneTex(m_pMesh->GetBoneTex());
+	if (false == m_pMesh->IsAnimMesh())
+		return pNewObj;
+
+	CAnimator3D* pAnimator = new CAnimator3D;
+	pNewObj->AddComponent(pAnimator);
+
+	pAnimator->SetBones(m_pMesh->GetBones());
+	pAnimator->SetAnimClip(m_pMesh->GetAnimClip());
+	pAnimator->SetBoneTex(m_pMesh->GetBoneTex());
 
 	return pNewObj;
 }

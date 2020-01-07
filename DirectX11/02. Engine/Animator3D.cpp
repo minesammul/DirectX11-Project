@@ -4,6 +4,8 @@
 #include "TimeMgr.h"
 #include "MeshRender.h"
 #include "Material.h"
+#include "ResMgr.h"
+#include "ResPtr.h"
 
 CAnimator3D::CAnimator3D()
 	: m_iCurClip(0)
@@ -92,10 +94,20 @@ void CAnimator3D::finalupdate()
 
 void CAnimator3D::SaveToScene(FILE * _pFile)
 {
+	wstring meshName = Object()->MeshRender()->GetMesh()->GetName();
+	SaveWString(meshName.c_str(), _pFile);
 }
 
 void CAnimator3D::LoadFromScene(FILE * _pFile)
 {
+	//현재 추가되는 오브젝트의 다른 component를 참조할 수 없다.
+	//오로지 여기서 저장했던 정보만을 가져와서 다시 로드시켜야한다.
+	//다만, 리소스는 이미 싱글톤에 존재하며, 이것을 이용할 순 있을 것이다.
+	wstring meshName = LoadWString(_pFile);
+	CResPtr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(meshName);
+	SetBones(pMesh->GetBones());
+	SetAnimClip(pMesh->GetAnimClip());
+	SetBoneTex(pMesh->GetBoneTex());
 }
 
 void CAnimator3D::SetAnimClip(const vector<tMTAnimClip>* _vecAnimClip)

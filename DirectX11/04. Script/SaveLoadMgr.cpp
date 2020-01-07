@@ -14,6 +14,7 @@
 #include <Light3D.h>
 #include <Terrain.h>
 #include <MeshData.h>
+#include <Animator3D.h>
 
 CSaveLoadMgr::CSaveLoadMgr(){}
 CSaveLoadMgr::~CSaveLoadMgr(){}
@@ -353,6 +354,7 @@ CGameObject * CSaveLoadMgr::LoadGameObject(FILE * _pFile)
 			pCom = new CAnimator2D;
 			break;
 		case COMPONENT_TYPE::ANIMATOR3D:
+			pCom = new CAnimator3D;
 			break;
 		}
 

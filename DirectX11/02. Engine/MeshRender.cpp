@@ -7,6 +7,7 @@
 #include "Collider3D.h"
 #include "Animator2D.h"
 #include "Animation2D.h"
+#include "Animator3D.h"
 #include "ResMgr.h"
 
 CMeshRender::CMeshRender()
@@ -46,6 +47,11 @@ void CMeshRender::render()
 	else
 	{
 		CAnimation2D::ClearRegister();
+	}
+
+	if (Animator3D())
+	{
+		Animator3D()->UpdateData();
 	}
 
 	for (UINT i = 0; i < m_vecMtrl.size(); ++i)
@@ -157,7 +163,15 @@ void CMeshRender::LoadFromScene(FILE * _pFile)
 		{
 			strKey = LoadWString(_pFile);
 			strPath = LoadWString(_pFile);
-			SetMaterial(CResMgr::GetInst()->Load<CMaterial>(strKey, strPath), iIdx);
+
+			if (strPath.empty() == false)
+			{
+				SetMaterial(CResMgr::GetInst()->Load<CMaterial>(strPath, strPath), iIdx);
+			}
+			else
+			{
+				SetMaterial(CResMgr::GetInst()->Load<CMaterial>(strKey, strPath), iIdx);
+			}
 
 			fread(&iIdx, sizeof(UINT), 1, _pFile);
 		}
