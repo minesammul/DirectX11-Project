@@ -111,11 +111,22 @@ inline void CResMgr::AddRes(const wstring & _strKey, CResPtr<T> _pResource)
 	else if (typeid(T).hash_code() == typeid(CMeshData).hash_code())
 		eType = RES_TYPE::MESHDATA;
 
-	iter = m_mapRes[(UINT)eType].find(_strKey);
-	assert(iter == m_mapRes[(UINT)eType].end());	
-		
-	m_mapRes[(UINT)eType].insert(make_pair(_strKey, _pResource.GetPointer()));
-	_pResource->SetName(_strKey);
+	//iter = m_mapRes[(UINT)eType].find(_strKey);
+	//assert(iter == m_mapRes[(UINT)eType].end());	
+
+	//m_mapRes[(UINT)eType].insert(make_pair(_strKey, _pResource.GetPointer()));
+	//_pResource->SetName(_strKey);
+
+	if (m_mapRes[(UINT)eType].find(_strKey) == m_mapRes[(UINT)eType].end())
+	{
+		m_mapRes[(UINT)eType].insert(make_pair(_strKey, _pResource.GetPointer()));
+		_pResource->SetName(_strKey);
+	}
+	else
+	{
+		assert(true);
+	}
+
 }
 
 
