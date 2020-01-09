@@ -161,15 +161,15 @@ void CToolApp::CreateTestScene()
 	pCurScene->AddLayer(L"Monster", 3);
 
 	// FBX Loading
-	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Warehouse01.fbx");
+	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Iron_Golem3.fbx");
 	//pMeshData->Save();
-	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Monster3.mdat", L"MeshData\\Monster3.mdat");
+	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
 
 	CGameObject* pMeshObject = pMeshData->Instantiate();
 
-	pMeshObject->SetName(pMeshData->GetName());
+	pMeshObject->SetName(L"Artorias");
 	pMeshObject->Transform()->SetLocalScale(Vec3(0.1f, 0.1f, 0.1f));
-
+	
 	pCurScene->AddObject(L"Player", pMeshObject);
 
 	// Light3D 추가하기
