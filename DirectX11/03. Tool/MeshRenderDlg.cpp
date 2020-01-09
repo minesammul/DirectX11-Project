@@ -40,11 +40,16 @@ void CMeshRenderDlg::update(CGameObject * _pTarget)
 
 	CMeshRender* pMeshRender = GetTarget()->MeshRender();
 	
-	CString strName = pMeshRender->GetMesh()->GetName().c_str();
-	m_editMesh.SetWindowTextW(strName);
+	CString strMeshName = _T("None");
+	CString strMaterialName = _T("None");
+	if (pMeshRender->GetMesh() != nullptr)
+	{
+		strMeshName = pMeshRender->GetMesh()->GetName().c_str();
+		strMaterialName = pMeshRender->GetSharedMaterial()->GetName().c_str();
+	}
 
-	strName = pMeshRender->GetSharedMaterial()->GetName().c_str();
-	m_editMtrl.SetWindowTextW(strName);
+	m_editMesh.SetWindowTextW(strMeshName);
+	m_editMtrl.SetWindowTextW(strMaterialName);
 }
 
 
