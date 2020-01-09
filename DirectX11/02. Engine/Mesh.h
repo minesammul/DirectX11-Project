@@ -54,7 +54,7 @@ public:
 	void CreateMesh(UINT _iVtxCount, UINT _iVtxSize, D3D11_USAGE _eVtxUsage, void* _pVtxSysMem
 		, vector<tIndexInfo>& _IdxInfo);
 
-	static CMesh* CreateFromContainer(CFBXLoader & _loader);
+	static CMesh* CreateFromContainer(CFBXLoader & _loader, int index);
 
 	void AddInputLayout(const char* _pSemanticName, UINT _iSemanticIdx, DXGI_FORMAT _eFormat
 		, UINT _iInputSlot, UINT _iInstancing, D3D11_INPUT_CLASSIFICATION _eClass = D3D11_INPUT_PER_VERTEX_DATA);

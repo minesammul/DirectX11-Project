@@ -186,9 +186,9 @@ void CMesh::CreateMesh(UINT _iVtxCount, UINT _iVtxSize, D3D11_USAGE _eVtxUsage, 
 }
 
 
-CMesh * CMesh::CreateFromContainer(CFBXLoader & _loader)
+CMesh * CMesh::CreateFromContainer(CFBXLoader & _loader, int index)
 {
-	const tContainer* container = &_loader.GetContainer(0);
+	const tContainer* container = &_loader.GetContainer(index);
 
 	UINT iVtxCount = container->vecPos.size();
 

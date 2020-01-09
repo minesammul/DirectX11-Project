@@ -16,8 +16,8 @@ class CMeshData :
 	public CResource
 {
 private:
-	CResPtr<CMesh>				m_pMesh;
-	vector<CResPtr<CMaterial>>	m_vecMtrl;
+	vector<CResPtr<CMesh>>				m_vecMesh;
+	vector<vector<CResPtr<CMaterial>>>	m_vecMtrl;
 
 	// Animation3D
 public:
