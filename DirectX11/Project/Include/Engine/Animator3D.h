@@ -22,10 +22,12 @@ public:
 	void SetAnimClip(const vector<tMTAnimClip>* _vecAnimClip);
 	void SetBoneTex(CResPtr<CTexture> _pBoneTex) { m_pBoneTex = _pBoneTex; }
 	void UpdateData();
-
+	
 	void SetClipTime(int _iClipIdx, float _fTime) { m_vecClipUpdateTime[_iClipIdx] = _fTime; }
 
 	vector<Matrix>& GetFinalBoneMat() { return m_vecFinalBoneMat; }
+
+	void SetCurAnimClip(int index) { m_iCurClip = index; }
 
 public:
 	virtual void awake() {};

@@ -66,6 +66,13 @@ public:
 	const vector<tMTBone>* GetBones() { return &m_vecBones; }
 	void SetBoneTex(CResPtr<CTexture> _pTex) { m_pBoneTex = _pTex; }
 	const vector<tMTAnimClip>* GetAnimClip() { return &m_vecAnimClip; }
+	tMTAnimClip GetAnimClip(int index) { return m_vecAnimClip[index]; }
+	void SetAnimClip(vector<tMTAnimClip> animClip)
+	{
+		m_vecAnimClip.clear();
+		m_vecAnimClip = animClip;
+	}
+
 	CResPtr<CTexture> GetBoneTex() { return m_pBoneTex; }
 	bool IsAnimMesh() { return !m_vecAnimClip.empty(); }
 
