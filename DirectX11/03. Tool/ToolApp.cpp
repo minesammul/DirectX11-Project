@@ -147,6 +147,7 @@ int CToolApp::ExitInstance()
 #include <MeshRender.h>
 #include <Camera.h>
 #include <Animator2D.h>
+#include <Animator3D.h>
 #include <Collider2D.h>
 #include <Light3D.h>
 #include <Layer.h>
@@ -161,11 +162,44 @@ void CToolApp::CreateTestScene()
 	pCurScene->AddLayer(L"Monster", 3);
 
 	// FBX Loading
-	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Iron_Golem3.fbx");
+	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Iron_Golem3.fbx");
+	pMeshData->Save();
+	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
+
+	////Animation Clip 분리 테스트 코드.
+	//vector<CResPtr<CMesh>> tempMesh = pMeshData->GetVectorMesh();
+
+	//for (int index = 0; index < tempMesh.size(); index++)
+	//{
+	//	tMTAnimClip tempAniData = tempMesh[index]->GetAnimClip(0);
+	//	vector<tMTAnimClip> tempAniVector;
+	//	tempAniVector.push_back(tempAniData);
+
+	//	tempAniData.iStartFrame = 498;
+	//	tempAniData.iEndFrame = 620;
+	//	tempAniData.iFrameLength = tempAniData.iEndFrame - tempAniData.iStartFrame + 1;
+	//	tempAniData.dStartTime = (*tempMesh[index]->GetBones())[0].vecKeyFrame[tempAniData.iStartFrame].fTime;
+	//	tempAniData.dEndTime = (*tempMesh[index]->GetBones())[0].vecKeyFrame[tempAniData.iEndFrame].fTime;
+	//	tempAniData.dTimeLength = tempAniData.dEndTime - tempAniData.dStartTime;
+	//	tempAniVector.push_back(tempAniData);
+
+	//	tempMesh[index]->SetAnimClip(tempAniVector);
+
+	//	pMeshData->SetVectorMesh(tempMesh[index], index);
+	//}
 	//pMeshData->Save();
-	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
+	////
+
 
 	CGameObject* pMeshObject = pMeshData->Instantiate();
+
+	//// Animation Clip Index 지정 테스트
+
+	//for (int index = 0; index < pMeshObject->GetChild().size(); index++)
+	//{
+	//	pMeshObject->GetChild()[index]->Animator3D()->SetCurAnimClip(0);
+	//}
+	////
 
 	pMeshObject->SetName(L"Artorias");
 	pMeshObject->Transform()->SetLocalScale(Vec3(0.1f, 0.1f, 0.1f));

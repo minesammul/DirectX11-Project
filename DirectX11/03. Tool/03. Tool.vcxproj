@@ -218,6 +218,7 @@
     <ClInclude Include="ListDlg.h" />
     <ClInclude Include="MaterialDlg.h" />
     <ClInclude Include="MaterialEx.h" />
+    <ClInclude Include="MeshDataDlg.h" />
     <ClInclude Include="MeshRenderDlg.h" />
     <ClInclude Include="ResInfoDlg.h" />
     <ClInclude Include="ResourceDlg.h" />
@@ -255,6 +256,7 @@
     <ClCompile Include="ListDlg.cpp" />
     <ClCompile Include="MaterialDlg.cpp" />
     <ClCompile Include="MaterialEx.cpp" />
+    <ClCompile Include="MeshDataDlg.cpp" />
     <ClCompile Include="MeshRenderDlg.cpp" />
     <ClCompile Include="MySplitterWnd.cpp" />
     <ClCompile Include="ResInfoDlg.cpp" />

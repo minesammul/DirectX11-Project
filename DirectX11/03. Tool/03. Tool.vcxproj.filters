@@ -163,6 +163,9 @@
     <ClInclude Include="Collider3DDlg.h">
       <Filter>04. Dialog\ComDlg</Filter>
     </ClInclude>
+    <ClInclude Include="MeshDataDlg.h">
+      <Filter>04. Dialog\ResInfoDlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -263,6 +266,9 @@
     </ClCompile>
     <ClCompile Include="Collider3DDlg.cpp">
       <Filter>04. Dialog\ComDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshDataDlg.cpp">
+      <Filter>04. Dialog\ResInfoDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

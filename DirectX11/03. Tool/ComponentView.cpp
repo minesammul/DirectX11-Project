@@ -14,6 +14,7 @@
 #include "Animator2DDlg.h"
 #include "ScriptDlg.h"
 #include "MaterialDlg.h"
+#include "MeshDataDlg.h"
 #include "AddComponentDlg.h"
 #include "Collider2DDlg.h"
 #include "Collider3DDlg.h"
@@ -77,6 +78,10 @@ int CComponentView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_arrResInfoDlg[(UINT)RES_TYPE::MATERIAL] = new CMaterialDlg;
 	m_arrResInfoDlg[(UINT)RES_TYPE::MATERIAL]->Create(IDD_MTRLDLG, this);
 	m_arrResInfoDlg[(UINT)RES_TYPE::MATERIAL]->ShowWindow(false);
+
+	m_arrResInfoDlg[(UINT)RES_TYPE::MESHDATA] = new CMeshDataDlg;
+	m_arrResInfoDlg[(UINT)RES_TYPE::MESHDATA]->Create(IDD_MESHDATADLG, this);
+	m_arrResInfoDlg[(UINT)RES_TYPE::MESHDATA]->ShowWindow(false);
 
 	addComponentDlg = new AddComponentDlg;
 	addComponentDlg->Create(IDD_ADDCOMPONENT, this);
@@ -214,6 +219,8 @@ void CComponentView::SetTarget(CGameObject * _pTarget)
 
 void CComponentView::SetResoure(CResource * _pResource)
 {
+	SetTarget(nullptr);
+
 	for (UINT i = 0; i < (UINT)DLG_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrComDlg[i])
@@ -226,7 +233,16 @@ void CComponentView::SetResoure(CResource * _pResource)
 	m_pCurResInfoDlg = m_arrResInfoDlg[(UINT)eType];
 
 	if (nullptr == m_pCurResInfoDlg)
+	{
+		for (int index = 0; index < (int)RES_TYPE::END; index++)
+		{
+			if (m_arrResInfoDlg[index] != nullptr)
+			{
+				m_arrResInfoDlg[index]->ShowWindow(false);
+			}
+		}
 		return;
+	}
 
 	m_pTarget = nullptr;
 	m_pCurResInfoDlg->ShowWindow(true);

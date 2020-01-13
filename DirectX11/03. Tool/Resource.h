@@ -25,6 +25,7 @@
 #define IDD_ADDLAYERDLG                 334
 #define IDD_LIGHT3DDLG                  336
 #define IDD_COLLIDER3DDLG               338
+#define IDD_MESHDATADLG                 340
 #define IDC_CHECK1                      1000
 #define IDC_CHECK2                      1001
 #define IDC_BUTTON1                     1003
@@ -62,7 +63,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        340
+#define _APS_NEXT_RESOURCE_VALUE        342
 #define _APS_NEXT_COMMAND_VALUE         32778
 #define _APS_NEXT_CONTROL_VALUE         1014
 #define _APS_NEXT_SYMED_VALUE           321
