@@ -35,7 +35,7 @@ void CAnimator3D::finalupdate()
 
 	if (m_vecClipUpdateTime[m_iCurClip] >= m_pVecClip->at(m_iCurClip).dTimeLength)
 	{
-		m_vecClipUpdateTime[m_iCurClip] = 0.f;
+		//m_vecClipUpdateTime[m_iCurClip] = 0.f;
 	}
 
 	m_fCurTime = m_pVecClip->at(m_iCurClip).dStartTime + m_vecClipUpdateTime[m_iCurClip];
@@ -54,9 +54,10 @@ void CAnimator3D::finalupdate()
 		int	iFrameIndex = (int)(m_fCurTime * m_iFrameCount);
 		int	iFrameNextIndex = 0.f;
 
-		if (iFrameIndex >= m_pVecClip->at(0).iFrameLength - 1)
+		if (iFrameIndex >= m_pVecClip->at(m_iCurClip).iEndFrame - 1)
 		{
-			iFrameNextIndex = iFrameIndex;
+			iFrameIndex = m_pVecClip->at(m_iCurClip).iEndFrame - 1;
+			iFrameNextIndex = m_pVecClip->at(m_iCurClip).iEndFrame - 1;
 		}
 		else
 		{

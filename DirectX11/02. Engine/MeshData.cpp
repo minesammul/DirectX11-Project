@@ -19,6 +19,16 @@ CMeshData::~CMeshData()
 {
 }
 
+vector<CResPtr<CMesh>> CMeshData::GetVectorMesh()
+{
+	return m_vecMesh;
+}
+
+void CMeshData::SetVectorMesh(CResPtr<CMesh> mesh, int index)
+{
+	m_vecMesh[index] = mesh;
+}
+
 CMeshData * CMeshData::LoadFromFBX(const wstring& _strPath)
 {
 	wstring strFullPath = CPathMgr::GetResPath();
