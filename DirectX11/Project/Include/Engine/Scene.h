@@ -35,7 +35,15 @@ public:
 	}
 
 	CLayer* FindLayer(const wstring& _strLayer);
-	CLayer* GetLayer(int _iLayerIdx) { return m_arrLayer[_iLayerIdx]; }
+	CLayer* GetLayer(int _iLayerIdx) 
+	{ 
+		if (_iLayerIdx == -1)
+		{
+			return nullptr;
+		}
+
+		return m_arrLayer[_iLayerIdx];
+	}
 	CGameObject* FindGameObject(const wstring& _strName, vector<CGameObject*>& _vecOut);
 	bool IsExistGameObjectName(const wstring& _strName);
 

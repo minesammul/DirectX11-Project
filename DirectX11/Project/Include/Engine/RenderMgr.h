@@ -36,11 +36,14 @@ private:
 
 	CResPtr<CFilter23>      m_pMergeFilter;
 
+	CCamera*				m_pToolCam;				// Tool 이 가지고 있는 Camera
+
 public:
 	void init(HWND _hWnd, tResolution _tres, bool _bWindow);
 	void render();
 	void render_tool();
 	void render_lights();
+	void render_shadowmap();
 
 public:
 	CBlendState* GetBlendState(BLEND_TYPE _eType) { return m_arrBlendState[(UINT)_eType]; }
@@ -58,9 +61,11 @@ public:
 		m_iLight3DCount = 0;
 	}
 	void SetRSState(RS_TYPE _eType);
+	void SetToolCam(CCamera* _pCam) { m_pToolCam = _pCam; }
 	void Present() { m_pSwapChain->Present(0, 0); }
 	void Clear();
 	tResolution GetResolution() { return m_tRes; }
+	CCamera* GetMainCam();
 
 private:
 	void CreateSamplerState();

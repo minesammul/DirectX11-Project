@@ -13,15 +13,17 @@ private:
 	CResPtr<CMaterial>	m_pMtrl;
 	CResPtr<CMesh>		m_pMesh;
 	int					m_iIdx;  //RenderMgr 에 등록시킬때 추가된 배열의 인덱스
+	CGameObject*		m_pCamObj; // 광원 시점으로 카메라 관리
 
 public:
 	virtual void update() {}
 	virtual void finalupdate();
 	void render();
+	void render_shadowmap();
 
 public:
 	void SetLightType(LIGHT_TYPE _eType);
-	void SetLightDir(const Vec3& _vLightDir) { m_tInfo.vDir = _vLightDir;}
+	void SetLightDir(const Vec3& _vLightDir);
 	void SetLightDiffuse(const Vec3& _vLightColor) { m_tInfo.vDiff = _vLightColor; }
 	void SetLightSpecular(const Vec3& _vLightSpec) { m_tInfo.vSpec = _vLightSpec; }
 	void SetLightAmbient(const Vec3& _vLightAmb) { m_tInfo.vAmb = _vLightAmb; }
@@ -43,6 +45,7 @@ public:
 
 public:
 	CLight3D();
+	CLight3D(const CLight3D& _light); // 광원 복사 시, 별도의 카메라를 가져야 하므로, 깊은복사
 	virtual ~CLight3D();
 };
 

@@ -13,6 +13,7 @@ private:
 	CRenderTarget23*	m_arrRT[8];
 	CResPtr<CTexture>	m_pDepthTex;
 	int					m_iRTCount;
+	D3D11_VIEWPORT		m_tViewPortDesc; // 렌더타켓 사이즈와 뷰포트 사이즈를 맞추어 준다.
 
 public:
 	void Create(CRenderTarget23* (&_arrRT)[8], CResPtr<CTexture> _pDepthTex);

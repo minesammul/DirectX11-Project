@@ -27,11 +27,21 @@ protected:
 
 	tRay		m_tRay;
 
+	float		m_fWidth;
+	float		m_fHeight;
+
+	bool		m_bRegister; // 카메라 렌더매니저 등록 여부
+
+	vector<CGameObject*> m_vecShadowObj;
+
 public:
 	virtual void update();
 	void finalupdate();
 	void render_deferred();
 	void render_forward();
+	void render_shadowmap();
+
+	void SortShadowGameObject();
 
 public:
 	void SetProjType(PROJ_TYPE _eType) { m_eType = _eType; }
@@ -69,6 +79,12 @@ public:
 
 	virtual void SaveToScene(FILE* _pFile);
 	virtual void LoadFromScene(FILE* _pFile);
+
+	void SetWidth(float _fWidth) { m_fWidth = _fWidth; }
+	void SetHeight(float _fHeight) { m_fHeight = _fHeight; }
+	void SetRegisterOnOff(bool _bTrue) { m_bRegister = _bTrue; }
+	const Matrix& GetViewInvMat() { return m_matViewInv; }
+	void CheckLayerAll() { m_iLayerCheck = 0xffffffff; };
 
 protected:
 	void CalRay();

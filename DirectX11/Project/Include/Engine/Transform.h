@@ -10,6 +10,7 @@ private:
 	Vec3		m_vLocalRot;
 
 	Vec3		m_vLocalDir[(UINT)DIR_TYPE::END];
+	Vec3		m_vWorldDir[(UINT)DIR_TYPE::END];
 
 	Matrix		m_matWorld;
 
@@ -31,6 +32,8 @@ public:
 	const Matrix& GetWorldMat() { return m_matWorld; }
 
 	void AddLocalRot(const Matrix& _matRot);
+
+	void SetLookAt(const Vec3& _vDir);
 
 public:
 	virtual void update();
