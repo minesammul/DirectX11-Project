@@ -156,4 +156,27 @@ float4 PS_Merge(VTX_OUT _in) : SV_Target
     return vColor;
 }
 
+// =================
+// Shadow Map Shader
+// =================
+struct VS_ShadowOut
+{
+    float4 vPos : SV_Position;
+    float4 vProj : POSITION;
+};
+
+VS_ShadowOut VS_ShadowMap(float3 _vLocalPos : POSITION)
+{
+    VS_ShadowOut output = (VS_ShadowOut) 0.f;
+    output.vPos = mul(float4(_vLocalPos, 1.f), g_matWVP);
+    output.vProj = output.vPos;
+
+    return output;
+}
+
+float4 PS_ShadowMap(VS_ShadowOut _input) : SV_Target
+{
+    return float4(_input.vProj.z / _input.vProj.w, 0.f, 0.f, 0.f);
+}
+
 #endif

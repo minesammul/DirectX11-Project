@@ -4,6 +4,8 @@
 #include "Device.h"
 #include "ConstBuffer.h"
 
+Vec3 vAsis[3] = { Vec3::Right , Vec3::Up , Vec3::Front };
+
 tTransform g_transform;
 
 CTransform::CTransform()
@@ -68,6 +70,12 @@ void CTransform::finalupdate()
 	{
 		const Matrix& matParentWorld = pParentObj->Transform()->GetWorldMat();
 		m_matWorld *= matParentWorld;
+
+		for (UINT i = 0; i < (UINT)DIR_TYPE::END; ++i)
+		{
+			m_vWorldDir[i] = XMVector3TransformNormal(vAsis[i], m_matWorld);
+			m_vWorldDir[i].Normalize();
+		}
 	}
 
 	m_matAddRot = Matrix::Identity;
@@ -100,4 +108,36 @@ void CTransform::LoadFromScene(FILE * _pFile)
 	fread(&m_vLocalPos, sizeof(Vec3), 1, _pFile);
 	fread(&m_vLocalScale, sizeof(Vec3), 1, _pFile);
 	fread(&m_vLocalRot, sizeof(Vec3), 1, _pFile);
+}
+
+void CTransform::SetLookAt(const Vec3 & _vDir)
+{
+	Vec3 vFront = _vDir;
+	vFront.Normalize();
+
+	Vec3 vRight = Vec3::Up.Cross(_vDir);
+	vRight.Normalize();
+
+	Vec3 vUp = vFront.Cross(vRight);
+	vUp.Normalize();
+
+	Matrix matRot = XMMatrixIdentity();
+
+	matRot.Right(vRight);
+	matRot.Up(vUp);
+	matRot.Front(vFront);
+
+	m_vLocalRot = DecomposeRotMat(matRot);
+
+	// 방향벡터(우, 상, 전) 갱신하기	
+	Matrix matRotate = XMMatrixRotationX(m_vLocalRot.x);
+	matRotate *= XMMatrixRotationY(m_vLocalRot.y);
+	matRotate *= XMMatrixRotationZ(m_vLocalRot.z);
+
+	for (UINT i = 0; i < (UINT)DIR_TYPE::END; ++i)
+	{
+		m_vLocalDir[i] = XMVector3TransformNormal(vAsis[i], matRotate);
+		m_vLocalDir[i].Normalize();
+		m_vWorldDir[i] = m_vLocalDir[i];
+	}
 }

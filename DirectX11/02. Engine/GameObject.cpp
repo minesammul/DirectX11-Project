@@ -143,7 +143,12 @@ void CGameObject::finalupdate()
 	if (!m_bDead)
 	{
 		CLayer* pCurLayer = CSceneMgr::GetInst()->GetCurScene()->GetLayer(m_iLayerIdx);
-		pCurLayer->RegisterObj(this);
+
+		if (nullptr != pCurLayer)
+		{
+			pCurLayer->RegisterObj(this);
+		}
+
 	}
 }
 

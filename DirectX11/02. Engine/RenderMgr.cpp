@@ -87,10 +87,10 @@ void CRenderMgr::render()
 		pGlobal->UpdateData();
 		pGlobal->SetRegisterAll();
 
-		m_arrMRT[(UINT)MRT_TYPE::DEFERRED]->OMSet();
-
 		// 광원 정보 상수버퍼에 업데이트
 		UpdateLight3D();
+
+		m_arrMRT[(UINT)MRT_TYPE::DEFERRED]->OMSet();
 
 		for (size_t i = 0; i < m_vecCam.size(); ++i)
 		{
@@ -144,6 +144,17 @@ void CRenderMgr::render_lights()
 	m_pMergeFilter->render();
 }
 
+void CRenderMgr::render_shadowmap()
+{
+	// 광원 시점으로 깊이를 그림
+	for (UINT i = 0; i < m_vecLight3D.size(); ++i)
+	{
+		m_vecLight3D[i]->render_shadowmap();
+	}
+
+	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->OMSet(); // 메인카메라 깊이로 되돌리기 위해서
+}
+
 int CRenderMgr::RegisterLight3D(CLight3D * _pLight3D)
 {
 	int iIdx = m_iLight3DCount;
@@ -167,6 +178,18 @@ void CRenderMgr::Clear()
 
 	// 리소스 클리어
 	CTexture::ClearAllRegister();
+}
+
+#include "Core.h"
+CCamera * CRenderMgr::GetMainCam()
+{
+	if (CCore::GetInst()->GetState() != SCENE_STATE::PLAY)
+		return m_pToolCam;
+
+	if (m_vecCam.empty())
+		return nullptr;
+
+	return m_vecCam[0];
 }
 
 void CRenderMgr::CreateSamplerState()
@@ -423,6 +446,16 @@ void CRenderMgr::CreateRenderTarget()
 	m_arrRT[(UINT)RT_TYPE::SPECULAR] = new CRenderTarget23;
 	m_arrRT[(UINT)RT_TYPE::SPECULAR]->Create(L"SpecularTarget", pTargetTex, Vec4(0.f, 0.f, 0.f, 0.f));
 
+	// Shadow RenderTarget	
+	pTargetTex = CResMgr::GetInst()->CreateTexture(L"ShadowmapTargetTex"
+		, 4096, 4096
+		, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE
+		, D3D11_USAGE_DEFAULT
+		, DXGI_FORMAT_R32_FLOAT);
+
+	m_arrRT[(UINT)RT_TYPE::SHADOWMAP] = new CRenderTarget23;
+	m_arrRT[(UINT)RT_TYPE::SHADOWMAP]->Create(L"ShadowmapTarget", pTargetTex, Vec4(0.f, 0.f, 0.f, 0.f));
+
 
 	// =============
 	// Swapchain MRT
@@ -441,6 +474,19 @@ void CRenderMgr::CreateRenderTarget()
 
 	m_arrMRT[(UINT)MRT_TYPE::DEFERRED] = new CMRT;
 	m_arrMRT[(UINT)MRT_TYPE::DEFERRED]->Create(rt, nullptr);
+
+	// =============
+	// Shadowmap MRT
+	// =============
+	memset(rt, 0, sizeof(void*) * 8);
+	rt[0] = m_arrRT[(UINT)RT_TYPE::SHADOWMAP];
+
+	// Shadowmap Depth Texture
+	CResPtr<CTexture> pShadowmapDepthTex = CResMgr::GetInst()->CreateTexture(L"ShadowmapDepthTex", 4096, 4096
+		, D3D11_BIND_DEPTH_STENCIL, D3D11_USAGE_DEFAULT, DXGI_FORMAT_D32_FLOAT);
+
+	m_arrMRT[(UINT)MRT_TYPE::SHADOWMAP] = new CMRT;
+	m_arrMRT[(UINT)MRT_TYPE::SHADOWMAP]->Create(rt, pShadowmapDepthTex);
 
 
 	// ============

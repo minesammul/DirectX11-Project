@@ -13,6 +13,10 @@
 #include "Shader.h"
 #include "KeyMgr.h"
 #include "Device.h"
+#include "Collider2D.h"
+#include "Animator2D.h"
+#include "Animator3D.h"
+#include "Animation2D.h"
 
 CCamera::CCamera()
 	: m_eType(PROJ_TYPE::PERSPECTIVE)
@@ -23,7 +27,13 @@ CCamera::CCamera()
 	, m_iLayerCheck(0)
 	, m_iCamOrder(0)
 	, CComponent(COMPONENT_TYPE::CAMERA)
+	, m_fWidth(0.f)
+	, m_fHeight(0.f)
+	, m_bRegister(true)
 {	
+	tResolution tRes = CRenderMgr::GetInst()->GetResolution();
+	m_fWidth = tRes.fWidth;
+	m_fHeight = tRes.fHeight;
 }
 
 CCamera::~CCamera()
@@ -63,17 +73,16 @@ void CCamera::finalupdate()
 	m_matViewInv = XMMatrixInverse(nullptr, m_matView); // View 역행렬
 
 	// Projection 행렬 만들기	
-	//tResolution tRes = CDevice::GetInst()->GetResolution();
-	tResolution tRes = CRenderMgr::GetInst()->GetResolution();
-
-	if( m_eType == PROJ_TYPE::PERSPECTIVE)
-		m_matProj = XMMatrixPerspectiveFovLH(m_fFOV, tRes.fWidth / tRes.fHeight, m_fNear, m_fFar);
+	if (m_eType == PROJ_TYPE::PERSPECTIVE)
+		m_matProj = XMMatrixPerspectiveFovLH(m_fFOV, m_fWidth / m_fHeight, m_fNear, m_fFar);
 	else
-		m_matProj = XMMatrixOrthographicLH(tRes.fWidth * m_fScale, tRes.fHeight * m_fScale, m_fNear, m_fFar);
+		m_matProj = XMMatrixOrthographicLH(m_fWidth * m_fScale, m_fHeight * m_fScale, m_fNear, m_fFar);
 
 	CalRay();
 
-	CRenderMgr::GetInst()->RegisterCamera(this);
+	// 카메라를 현재 Scene 에 등록
+	if (m_bRegister)
+		CRenderMgr::GetInst()->RegisterCamera(this);
 }
 
 void CCamera::render_deferred()
@@ -96,8 +105,22 @@ void CCamera::render_deferred()
 			for (size_t i = 0; i < vecObj.size(); ++i)
 			{
 				if (nullptr == vecObj[i]->MeshRender())
+				{
 					continue;
+				}
 
+				// Animation 관련 정보 업데이트
+				if (vecObj[i]->Animator2D())
+					vecObj[i]->Animator2D()->UpdateData();
+				else
+					CAnimation2D::ClearRegister();
+
+				if (vecObj[i]->Animator3D())
+					vecObj[i]->Animator3D()->UpdateData();
+
+				vecObj[i]->Transform()->UpdateData();
+
+				// 재질 수 만큼 반복돌면서 렌더링
 				UINT iMtrlCount = vecObj[i]->MeshRender()->GetMaterialCount();
 				for (UINT j = 0; j < iMtrlCount; ++j)
 				{
@@ -107,9 +130,15 @@ void CCamera::render_deferred()
 
 					if (vecObj[i]->MeshRender()->GetSharedMaterial(j)->GetShader()->IsDeferred())
 					{
-						vecObj[i]->render();
+						vecObj[i]->MeshRender()->render(j);
 					}
 				}
+
+				if (vecObj[i]->Collider2D())
+				{
+					vecObj[i]->Collider2D()->render();
+				}
+
 			}
 		}
 	}
@@ -217,4 +246,57 @@ void CCamera::LoadFromScene(FILE * _pFile)
 	fread(&m_fFar, sizeof(float), 1, _pFile);
 	fread(&m_iLayerCheck, sizeof(UINT), 1, _pFile);
 	fread(&m_iCamOrder, sizeof(UINT), 1, _pFile);
+}
+
+void CCamera::render_shadowmap()
+{
+	// 뷰행렬과 투영행렬을 광원시점 카메라의 것으로 대체해둠
+	g_transform.matView = m_matView;
+	g_transform.matProj = m_matProj;
+	g_transform.matViewInv = m_matViewInv;
+
+	for (UINT i = 0; i < m_vecShadowObj.size(); ++i)
+	{
+		m_vecShadowObj[i]->MeshRender()->render_shadowmap();
+	}
+}
+
+
+void CCamera::SortShadowGameObject()
+{
+	m_vecShadowObj.clear();
+
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+	CLayer* pLayer = nullptr;
+
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		pLayer = pCurScene->GetLayer(i);
+		if (nullptr == pLayer || !(m_iLayerCheck & (1 << i)))
+			continue;
+
+		const vector<CGameObject*>& vecObj = pLayer->GetAllObject();
+
+		for (size_t j = 0; j < vecObj.size(); ++j)
+		{
+			// MeshRender 가 없거나, Material 을 참조하지 않는 경우
+			if (vecObj[j]->MeshRender() == nullptr
+				|| vecObj[j]->MeshRender()->GetSharedMaterial() == nullptr
+				|| vecObj[j]->MeshRender()->GetSharedMaterial()->GetShader() == nullptr)
+			{
+				continue;
+			}
+
+			// Frustum Check
+			//if (!m_frustum.CheckShpere(vecObj[j]))
+			//{
+			//	continue;
+			//}
+
+			if (vecObj[j]->MeshRender()->IsShadowObj())
+			{
+				m_vecShadowObj.push_back(vecObj[j]);
+			}
+		}
+	}
 }

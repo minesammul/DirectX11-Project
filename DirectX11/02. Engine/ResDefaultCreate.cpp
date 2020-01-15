@@ -719,6 +719,19 @@ void CResMgr::CreateDefaultShader()
 	strKey = L"CS_PickingShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	// =================
+	// ShadowMap Shader
+	// =================
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\light.fx", "VS_ShadowMap", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\light.fx", "PS_ShadowMap", 5, 0);
+	pShader->SetDepthStencilState(CRenderMgr::GetInst()->GetDepthStencilState(DEPTH_STENCIL_TYPE::DEFAULT));
+
+	strKey = L"ShadowMapShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
 }
 
 void CResMgr::CreateDefaultMaterial()
@@ -857,6 +870,14 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SetName(L"CS_PickingMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"CS_PickingShader"));
 	pMtrl->SaveDisable();
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
+	// ShadowMapShader
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"ShadowMapMtrl");
+	pMtrl->SaveDisable();
+	pMtrl->SetShader(FindRes<CShader>(L"ShadowMapShader"));
+
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
 	// Clear Texture Material

@@ -114,6 +114,8 @@ void CGameView::CreateToolCamera()
 
 	m_pToolUICam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 	m_pToolUICam->Transform()->SetLocalPos(Vec3(0.f, 0.f, 0.f));
+
+	CRenderMgr::GetInst()->SetToolCam(m_pToolCam->Camera());
 }
 
 void CGameView::CreateToolObject()
@@ -236,12 +238,11 @@ void CGameView::render_tool()
 	// Tool Camera Render	
 	m_pToolCam->Camera()->render_deferred(); // deferred MRT 에 출력
 
+	CRenderMgr::GetInst()->render_shadowmap(); // 그림자 정보
+
 	CRenderMgr::GetInst()->render_lights();
 
 	m_pToolCam->Camera()->render_forward(); // SwapChain Mrt 에 출력
-
-	// SwapChain MRT 로 복구
-	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->OMSet();
 
 	// Grid render
 	m_pGridObject->render();

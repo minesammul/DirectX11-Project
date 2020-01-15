@@ -204,7 +204,7 @@ CGameObject * CMeshData::Instantiate()
 
 	CGameObject* pRootObj = new CGameObject;
 	pRootObj->AddComponent(new CTransform);
-	pRootObj->AddComponent(new CMeshRender);
+	//pRootObj->AddComponent(new CMeshRender);
 
 	int meshCount = m_vecMesh.size();
 

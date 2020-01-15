@@ -12,6 +12,7 @@
 
 CMeshRender::CMeshRender()
 	: m_pMesh(nullptr)
+	, m_bShadow(true)
 	, CComponent(COMPONENT_TYPE::MESHRENDER)
 {
 }
@@ -74,6 +75,28 @@ void CMeshRender::render()
 	if (nullptr != Collider3D())
 		Collider3D()->render();
 }	
+
+void CMeshRender::render(UINT _iMtrl)
+{
+	m_pMesh->SetLayout(m_vecMtrl[_iMtrl]->GetShader());
+	m_vecMtrl[_iMtrl]->UpdateData();
+	m_pMesh->render(_iMtrl);
+	CTexture::ClearAllRegister();
+}
+
+void CMeshRender::render_shadowmap()
+{
+	CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"ShadowMapMtrl");
+
+	Transform()->UpdateData();
+
+	for (UINT i = 0; i < m_vecMtrl.size(); ++i)
+	{
+		pMtrl->UpdateData();
+		m_pMesh->SetLayout(pMtrl->GetShader());
+		m_pMesh->render(i);
+	}
+}
 
 void CMeshRender::SetMesh(CResPtr<CMesh> _pMesh)
 {

@@ -4,28 +4,64 @@
 #include "ResMgr.h"
 #include "RenderMgr.h"
 #include "Transform.h"
+#include "MRT.h"
+#include "Camera.h"
 
 CLight3D::CLight3D()
 	: CComponent(COMPONENT_TYPE::LIGHT3D)
 	, m_pMtrl(nullptr)
 	, m_iIdx(-1)
 {
+	// 광원 시점으로 카메라 관리
+	m_pCamObj = new CGameObject;
+	m_pCamObj->AddComponent(new CTransform);
+	m_pCamObj->AddComponent(new CCamera);
+
+	// 광원이 관리하는 카메라는 렌더매니저에 등록되면 안된다.
+	m_pCamObj->Camera()->SetRegisterOnOff(false);
+	m_pCamObj->Camera()->CheckLayerAll(); // 모든 레이어를 찍는다(shadow map)
+}
+
+CLight3D::CLight3D(const CLight3D & _light)
+	: CComponent(_light)
+	, m_tInfo(_light.m_tInfo)
+	, m_pMtrl(_light.m_pMtrl)
+	, m_pMesh(_light.m_pMesh)
+	, m_iIdx(-1)
+	, m_pCamObj(nullptr)
+{
+	m_pCamObj = _light.m_pCamObj->Clone();
 }
 
 CLight3D::~CLight3D()
 {
+	SAFE_DELETE(m_pCamObj);
 }
 
 void CLight3D::finalupdate()
 {
 	m_tInfo.vPos = Transform()->GetWorldPos();
 	m_iIdx = CRenderMgr::GetInst()->RegisterLight3D(this);
+
+	// 광원 관리 카메라도 광원과 같은 Transform 정보를 가지게 한다.
+	*m_pCamObj->Transform() = *Transform();
+	m_pCamObj->finalupdate(); // 렌더매니저에 등록하지 않게 해두었다.
+
 }
 
 void CLight3D::render()
 {
-
 	m_pMtrl->SetData(SHADER_PARAM::INT_0, &m_iIdx);
+
+	CCamera* pMainCam = CRenderMgr::GetInst()->GetMainCam();
+	if (nullptr == pMainCam)
+	{
+		return;
+	}
+
+	g_transform.matView = pMainCam->GetViewMat();
+	g_transform.matProj = pMainCam->GetProjMat();
+	g_transform.matViewInv = pMainCam->GetViewInvMat();
 
 	Transform()->UpdateData();
 
@@ -33,6 +69,17 @@ void CLight3D::render()
 
 	m_pMesh->SetLayout(m_pMtrl->GetShader());
 	m_pMesh->render(0);
+}
+
+void CLight3D::render_shadowmap()
+{
+	if (m_tInfo.iType != (UINT)LIGHT_TYPE::DIRECTIONAL)
+		return;
+
+	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SHADOWMAP)->OMSet();
+
+	m_pCamObj->Camera()->SortShadowGameObject();
+	m_pCamObj->Camera()->render_shadowmap();
 }
 
 void CLight3D::SetLightType(LIGHT_TYPE _eType)
@@ -43,6 +90,11 @@ void CLight3D::SetLightType(LIGHT_TYPE _eType)
 	{
 		m_pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"DirLightMtrl");
 		m_pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh");
+
+		m_pCamObj->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+		m_pCamObj->Camera()->SetWidth(7680.f);
+		m_pCamObj->Camera()->SetHeight(7680.f);
+
 	}
 	else if ((UINT)LIGHT_TYPE::POINT == m_tInfo.iType)
 	{
@@ -53,6 +105,14 @@ void CLight3D::SetLightType(LIGHT_TYPE _eType)
 	{
 
 	}
+}
+
+void CLight3D::SetLightDir(const Vec3 & _vLightDir)
+{
+	m_tInfo.vDir = _vLightDir;
+	m_tInfo.vDir.Normalize();
+
+	Transform()->SetLookAt(Vec3(m_tInfo.vDir.x, m_tInfo.vDir.y, m_tInfo.vDir.z));
 }
 
 void CLight3D::SetLightRange(float _fRange)
