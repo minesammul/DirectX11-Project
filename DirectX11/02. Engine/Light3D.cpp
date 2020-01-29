@@ -65,6 +65,22 @@ void CLight3D::render()
 
 	Transform()->UpdateData();
 
+	// Directional Light 인 경우
+	if (m_tInfo.iType == (UINT)LIGHT_TYPE::DIRECTIONAL)
+	{
+		// 광원 시점 ShadowMap 깊이정보 텍스쳐
+		CResPtr<CTexture> pShadowMapTex = CResMgr::GetInst()->FindRes<CTexture>(L"ShadowmapTargetTex");
+		m_pMtrl->SetData(SHADER_PARAM::TEX_2, &pShadowMapTex);
+
+		// 광원으로 투영시키기 위한 광원 View, Proj 행렬
+		Matrix matVP = m_pCamObj->Camera()->GetViewMat() * m_pCamObj->Camera()->GetProjMat();
+		m_pMtrl->SetData(SHADER_PARAM::MAT_0, &matVP);
+
+		// MainCamera InvViewMatrix
+		Matrix matInvView = CRenderMgr::GetInst()->GetMainCam()->GetViewInvMat();
+		m_pMtrl->SetData(SHADER_PARAM::MAT_1, &matInvView);
+	}
+
 	m_pMtrl->UpdateData();
 
 	m_pMesh->SetLayout(m_pMtrl->GetShader());

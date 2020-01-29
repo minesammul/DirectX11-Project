@@ -17,6 +17,7 @@
 #include "Animator2D.h"
 #include "Animator3D.h"
 #include "Animation2D.h"
+#include "ResMgr.h"
 
 CCamera::CCamera()
 	: m_eType(PROJ_TYPE::PERSPECTIVE)
@@ -257,6 +258,19 @@ void CCamera::render_shadowmap()
 
 	for (UINT i = 0; i < m_vecShadowObj.size(); ++i)
 	{
+		CResPtr<CTexture> pBoneTex = nullptr;
+		CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"ShadowMapMtrl");
+		if (m_vecShadowObj[i]->Animator3D())
+		{
+			m_vecShadowObj[i]->Animator3D()->UpdateData();
+			CResPtr<CTexture> pBoneTex = m_vecShadowObj[i]->Animator3D()->GetBornTex();
+			pMtrl->SetData(SHADER_PARAM::TEX_7, &pBoneTex);
+		}
+		else
+		{
+			pMtrl->SetData(SHADER_PARAM::TEX_7, &pBoneTex);
+		}
+
 		m_vecShadowObj[i]->MeshRender()->render_shadowmap();
 	}
 }
