@@ -114,8 +114,18 @@ void CMeshDataDlg::OnBnClickedButtonNewAniInsert()
 		newAniData.iStartFrame = startFrame;
 		newAniData.iEndFrame = endFrame;
 		newAniData.iFrameLength = newAniData.iEndFrame - newAniData.iStartFrame + 1;
-		newAniData.dStartTime = (*selectMeshs[index]->GetBones())[0].vecKeyFrame[newAniData.iStartFrame].fTime;
-		newAniData.dEndTime = (*selectMeshs[index]->GetBones())[0].vecKeyFrame[newAniData.iEndFrame].fTime;
+
+		int boneIndex = 0;
+		while (true)
+		{
+			if ((*selectMeshs[index]->GetBones())[boneIndex].vecKeyFrame.empty() == false)
+			{
+				newAniData.dStartTime = (*selectMeshs[index]->GetBones())[boneIndex].vecKeyFrame[newAniData.iStartFrame].fTime;
+				newAniData.dEndTime = (*selectMeshs[index]->GetBones())[boneIndex].vecKeyFrame[newAniData.iEndFrame].fTime;
+				break;
+			}
+			boneIndex++;
+		}
 		newAniData.dTimeLength = newAniData.dEndTime - newAniData.dStartTime;
 		newAniData.strAnimName = aniNameStr;
 

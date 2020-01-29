@@ -162,7 +162,11 @@ void CToolApp::CreateTestScene()
 	pCurScene->AddLayer(L"Monster", 3);
 
 	// FBX Loading
-	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Iron_Golem3.fbx");
+	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Monster3.fbx");
+	//pMeshData->Save();
+	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"Monster03", L"MeshData\\Monster3.mdat");
+
+	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Painting Guardian.fbx");
 	pMeshData->Save();
 	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
 
@@ -202,8 +206,8 @@ void CToolApp::CreateTestScene()
 	////
 
 	pMeshObject->SetName(L"Artorias");
-	pMeshObject->Transform()->SetLocalScale(Vec3(0.1f, 0.1f, 0.1f));
-	
+	pMeshObject->Transform()->SetLocalScale(Vec3(10.f, 10.f, 10.f));
+
 	pCurScene->AddObject(L"Player", pMeshObject);
 
 	// Light3D 추가하기
@@ -212,9 +216,9 @@ void CToolApp::CreateTestScene()
 	pLightObj->AddComponent(new CTransform);
 	pLightObj->AddComponent(new CLight3D);
 
-	pLightObj->Transform()->SetLocalPos(Vec3(0.f, 50.f, 50.f));
+	pLightObj->Transform()->SetLocalPos(Vec3(-500.f, 5000.f, -500.f));
 	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
-	pLightObj->Light3D()->SetLightDir(Vec3(1.f, -1.f, 0.f));
+	pLightObj->Light3D()->SetLightDir(Vec3(1.f, -1.f, 1.f));
 	pLightObj->Light3D()->SetLightDiffuse(Vec3(1.f, 1.f, 1.f));
 	pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));
 	pLightObj->Light3D()->SetLightAmbient(Vec3(0.1f, 0.1f, 0.1f));
@@ -241,7 +245,7 @@ void CToolApp::CreateTestScene()
 	pCurScene->AddObject(L"Default", pCamObj);
 
 	//Player Object 만들기
-	CGameObject* pParent = new CGameObject;
+	/*CGameObject* pParent = new CGameObject;
 	pParent->SetName(L"Player");
 
 	CTransform* pTransform = new CTransform;
@@ -256,7 +260,7 @@ void CToolApp::CreateTestScene()
 	CResPtr<CTexture> diffuse = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01.tga");
 	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &diffuse);
 	CResPtr<CTexture> noraml = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01_N.tga");
-	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &noraml);
+	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &noraml);*/
 	//CResPtr<CTexture> pHeightMap = CResMgr::GetInst()->CreateTexture(	L"HeightMap", 
 	//																	100, 
 	//																	100,
@@ -273,10 +277,10 @@ void CToolApp::CreateTestScene()
 	//pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\HeightMap\\HeightMap_01.jpg");
 	//pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_2, &pTex);
 
-	pParent->AddComponent(pTransform);
-	pParent->AddComponent(pMeshRender);
+	//pParent->AddComponent(pTransform);
+	//pParent->AddComponent(pMeshRender);
 
-	pCurScene->AddObject(L"Player", pParent);
+	//pCurScene->AddObject(L"Player", pParent);
 
 	// SkyBox 추가하기
 	CGameObject* pSkyBox = new CGameObject;
