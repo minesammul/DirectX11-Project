@@ -11,6 +11,13 @@ struct tPramInfo
 	bool		 m_bAccess;
 };
 
+enum class SHADER_EVENT_TIME
+{
+	DEFERRED,
+	FORWARD,
+	POSTEFFECT,
+};
+
 class CShader :
 	public CResource
 {
@@ -35,8 +42,8 @@ class CShader :
 	CDepthStencilState*		m_pDepthStencilState;
 	RS_TYPE					m_eRSType;
 	vector<tPramInfo>		m_vecParam;
-	bool					m_bDeferred;
 	D3D11_PRIMITIVE_TOPOLOGY m_eTopology;
+	SHADER_EVENT_TIME		m_eEventTime;
 
 public:
 	ID3DBlob* GetVSBlob() { return  m_pVSBlob; }
@@ -55,18 +62,21 @@ public:
 	void SetBlendState(CBlendState* _pBlendState) { m_pBlendState = _pBlendState; }
 	void SetDepthStencilState(CDepthStencilState* _pDSState) { m_pDepthStencilState = _pDSState; }
 	void SetRSType(RS_TYPE _eType) { m_eRSType = _eType; }
-	void SetDeferred() { m_bDeferred = true; }
-	bool IsDeferred() { return m_bDeferred; }
+	void SetEventTime(SHADER_EVENT_TIME _eTime) { m_eEventTime = _eTime; }
+	SHADER_EVENT_TIME GetEventTime() { return m_eEventTime; }
 	void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _eTopology) { m_eTopology = _eTopology; }
 
 public:
 	void CreateVertexShader(const wstring& _strFilePath, const string& _strFuncName, UINT _iHigh, UINT _iLow);
+	void CreateVertexInstShader(const wstring& _strFilePath, const string& _strFuncName, UINT _iHigh, UINT _iLow);
 	void CreateHullShader(const wstring& _strFilePath, const string& _strFuncName, UINT _iHigh, UINT _iLow);
 	void CreateDomainShader(const wstring& _strFilePath, const string& _strFuncName, UINT _iHigh, UINT _iLow);
 	void CreateGeometryShader(const wstring& _strFilePath, const string& _strFuncName, UINT _iHigh, UINT _iLow);
 	void CreatePixelShader(const wstring& _strFilePath, const string& _strFuncName, UINT _iHigh, UINT _iLow);
 	void CreateComputeShader(const wstring& _strFilePath, const string& _strFuncName, UINT _iHigh, UINT _iLow);
+	
 	void UpdateData();
+	void UpdateDataInstancing();
 
 	void AddParam(SHADER_PARAM _eType, const wstring& _strMean, bool _bAccess = true)
 	{

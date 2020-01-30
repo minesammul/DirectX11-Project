@@ -18,6 +18,7 @@
 #include "Animator3D.h"
 #include "Animation2D.h"
 #include "ResMgr.h"
+#include "InstancingBuffer.h"
 
 CCamera::CCamera()
 	: m_eType(PROJ_TYPE::PERSPECTIVE)
@@ -86,6 +87,80 @@ void CCamera::finalupdate()
 		CRenderMgr::GetInst()->RegisterCamera(this);
 }
 
+void CCamera::SortGameObject()
+{
+	for (auto& pair : m_mapInstGroup_F)
+		pair.second.clear();
+	for (auto& pair : m_mapInstGroup_D)
+		pair.second.clear();
+	for (auto& pair : m_mapInstGroup_P)
+		pair.second.clear();
+	uInstID uID = {};
+
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		// i 번째 Layer 에 대해서
+		CLayer* pLayer = pCurScene->GetLayer(i);
+
+		// Layer 가 없거나, 카메라가 찍고있지 않는 layer 의 경우는 continue		
+		if (NULL == pLayer || !(m_iLayerCheck & (1 << i)))
+			continue;
+
+		// 부모 오브젝트가 아닌, 해당 레이어에 속한 전체 오브젝트 벡터를 가져온다.
+		const vector<CGameObject*>& listObj = pLayer->GetAllObject();
+
+		for (auto & pObj : listObj)
+		{
+			// MeshRender 가 없으면 continue;
+			if (pObj->MeshRender() == nullptr)
+			{
+				continue;
+			}
+
+			// 해당 오브젝트가 절두체 컬링을 하는 오브젝트이고,
+			// 절두체 테스트를 실패했다면(시야에 안들어온다면) continue
+			//if (pObj->MeshRender()->GetFrustumCull() && !m_frustum.CheckShpere(pObj))
+			//{
+			//	continue;
+			//}
+
+			// GameObject 가 참조하는 Material 을 확인한다.
+			UINT iMtrlCount = pObj->MeshRender()->GetMaterialCount();
+			for (UINT iMtrl = 0; iMtrl < iMtrlCount; ++iMtrl)
+			{
+				CResPtr<CMaterial> pMtrl = pObj->MeshRender()->GetSharedMaterial(iMtrl);
+
+				// Material 을 참조하고 있지 않거나, Material 에 아직 Shader 를 연결하지 않은 상태라면 Continue
+				if (NULL == pMtrl || pMtrl->GetShader() == NULL)
+					continue;
+
+				// Shader 가 Deferred 인지 Forward 인지에 따라서
+				// 인스턴싱 그룹을 분류한다.
+				map<ULONG64, vector<tInstObj>>* pMap = NULL;
+				if (pMtrl->GetShader()->GetEventTime() == SHADER_EVENT_TIME::DEFERRED)
+					pMap = &m_mapInstGroup_D;
+				else if (pMtrl->GetShader()->GetEventTime() == SHADER_EVENT_TIME::FORWARD)
+					pMap = &m_mapInstGroup_F;
+				else
+					pMap = &m_mapInstGroup_P;
+
+				uID.llID = pObj->MeshRender()->GetInstID(iMtrl);
+				map<ULONG64, vector<tInstObj>>::iterator iter = pMap->find(uID.llID);
+				if (iter == pMap->end())
+				{
+					pMap->insert(make_pair(uID.llID, vector<tInstObj>{tInstObj{ pObj, iMtrl }}));
+				}
+				else
+				{
+					iter->second.push_back(tInstObj{ pObj, iMtrl });
+				}
+			}
+		}
+	}
+}
+
 void CCamera::render_deferred()
 {
 	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
@@ -94,53 +169,100 @@ void CCamera::render_deferred()
 	g_transform.matViewInv = XMMatrixInverse(nullptr, m_matView);
 	g_transform.matProj = m_matProj;
 
-	for (UINT i = 0; i < MAX_LAYER; ++i)
+	for (auto& pair : m_mapSingleObj)
 	{
-		if (nullptr == pCurScene->GetLayer(i))
+		pair.second.clear();
+	}
+
+	tInstancingData tInstData = {};
+
+	for (auto& pair : m_mapInstGroup_D)
+	{
+		// 그룹 오브젝트가 없거나, 쉐이더가 없는 경우
+		if (pair.second.empty())
+			continue;
+		else if (pair.second.size() <= 1) // instancint 개수 조건
+		{
+			for (UINT i = 0; i < pair.second.size(); ++i)
+			{
+				map<INT_PTR, vector<tInstObj>>::iterator iter
+					= m_mapSingleObj.find((INT_PTR)pair.second[i].pObj);
+
+				if (iter != m_mapSingleObj.end())
+					iter->second.push_back(pair.second[i]);
+				else
+				{
+					m_mapSingleObj.insert(make_pair((INT_PTR)pair.second[i].pObj, vector<tInstObj>{pair.second[i]}));
+				}
+			}
+			continue;
+		}
+
+		CGameObject* pObj = pair.second[0].pObj;
+		CResPtr<CMesh> pMesh = pObj->MeshRender()->GetMesh();
+		CResPtr<CMaterial> pMtrl = pObj->MeshRender()->GetSharedMaterial(pair.second[0].iMtrlIdx);
+
+		if (NULL == pMtrl->GetShader())
 			continue;
 
-		if (IsValiedLayer(i))
+		CInstancingBuffer::GetInst()->Clear();
+		int iRowIdx = 0;
+		for (UINT i = 0; i < pair.second.size(); ++i)
 		{
-			const vector<CGameObject*>& vecObj = pCurScene->GetLayer(i)->GetAllObject();
-
-			for (size_t i = 0; i < vecObj.size(); ++i)
+			if (pair.second[i].pObj->Animator2D())
 			{
-				if (nullptr == vecObj[i]->MeshRender())
-				{
-					continue;
-				}
+				map<INT_PTR, vector<tInstObj>>::iterator iter
+					= m_mapSingleObj.find((INT_PTR)pair.second.at(0).pObj);
 
-				// Animation 관련 정보 업데이트
-				if (vecObj[i]->Animator2D())
-					vecObj[i]->Animator2D()->UpdateData();
+				if (iter != m_mapSingleObj.end())
+					iter->second.push_back(pair.second[i]);
 				else
-					CAnimation2D::ClearRegister();
-
-				if (vecObj[i]->Animator3D())
-					vecObj[i]->Animator3D()->UpdateData();
-
-				vecObj[i]->Transform()->UpdateData();
-
-				// 재질 수 만큼 반복돌면서 렌더링
-				UINT iMtrlCount = vecObj[i]->MeshRender()->GetMaterialCount();
-				for (UINT j = 0; j < iMtrlCount; ++j)
 				{
-					if (nullptr == vecObj[i]->MeshRender()->GetSharedMaterial(j)
-						|| nullptr == vecObj[i]->MeshRender()->GetSharedMaterial(j)->GetShader())
-						continue;
-
-					if (vecObj[i]->MeshRender()->GetSharedMaterial(j)->GetShader()->IsDeferred())
-					{
-						vecObj[i]->MeshRender()->render(j);
-					}
+					m_mapSingleObj.insert(make_pair((INT_PTR)pair.second[0].pObj, vector<tInstObj>{pair.second[i]}));
 				}
-
-				if (vecObj[i]->Collider2D())
-				{
-					vecObj[i]->Collider2D()->render();
-				}
-
+				continue;
 			}
+
+			tInstData.matWorld = pair.second[i].pObj->Transform()->GetWorldMat();
+			tInstData.matWV = tInstData.matWorld * m_matView;
+			tInstData.matWVP = tInstData.matWV * m_matProj;
+
+			if (pair.second[i].pObj->Animator3D())
+			{
+				tInstData.iRowIdx = iRowIdx++;
+				CInstancingBuffer::GetInst()->AddInstancingBoneMat(pair.second[i].pObj->Animator3D()->GetFinalBoneMat());
+			}
+			else
+				tInstData.iRowIdx = -1;
+
+			CInstancingBuffer::GetInst()->AddInstancingData(tInstData);
+		}
+
+		CAnimation2D::ClearRegister();
+
+		CInstancingBuffer::GetInst()->SetData(pObj->MeshRender()->GetMesh()->GetBoneTex());
+		CResPtr<CTexture> pBoneTex = pObj->MeshRender()->GetMesh()->GetBoneTex();
+		pMtrl->SetData(SHADER_PARAM::TEX_7, &pBoneTex);
+
+		pMtrl->UpdateDataInstancing();
+		pMesh->SetLayout(pMtrl->GetShader(), true);
+		pMesh->render_instancing(pair.second[0].iMtrlIdx);
+	}
+
+	// 개별 랜더링
+	for (auto& pair : m_mapSingleObj)
+	{
+		if (pair.second.empty())
+			continue;
+
+		if (pair.second[0].pObj->Animator3D())
+			pair.second[0].pObj->Animator3D()->UpdateData();
+
+		// 하나의 오브젝트 더라도 여러개의 서브셋(메테리얼) 로 구성되어있을 수 있다.
+		for (UINT i = 0; i < pair.second.size(); ++i)
+		{
+			pair.second[i].pObj->Transform()->UpdateData();
+			pair.second[i].pObj->MeshRender()->render(pair.second[i].iMtrlIdx);
 		}
 	}
 }
@@ -151,34 +273,95 @@ void CCamera::render_forward()
 
 	g_transform.matView = m_matView;
 	g_transform.matProj = m_matProj;
+	g_transform.matViewInv = m_matViewInv;
 
-	for (UINT i = 0; i < MAX_LAYER; ++i)
+	for (auto& pair : m_mapSingleObj)
 	{
-		if (nullptr == pCurScene->GetLayer(i))
+		pair.second.clear();
+	}
+
+	tInstancingData tInstData = {};
+
+	for (auto& pair : m_mapInstGroup_F)
+	{
+		// 그룹 오브젝트가 없거나, 쉐이더가 없는 경우
+		if (pair.second.empty())
+			continue;
+		else if (pair.second.size() == 1)
+		{
+			map<INT_PTR, vector<tInstObj>>::iterator iter
+				= m_mapSingleObj.find((INT_PTR)pair.second[0].pObj);
+
+			if (iter != m_mapSingleObj.end())
+				iter->second.push_back(pair.second[0]);
+			else
+			{
+				m_mapSingleObj.insert(make_pair((INT_PTR)pair.second[0].pObj, vector<tInstObj>{pair.second[0]}));
+			}
+			continue;
+		}
+
+		CGameObject* pObj = pair.second[0].pObj;
+		CResPtr<CMesh> pMesh = pObj->MeshRender()->GetMesh();
+		CResPtr<CMaterial> pMtrl = pObj->MeshRender()->GetSharedMaterial(pair.second[0].iMtrlIdx);
+
+		if (NULL == pMtrl->GetShader())
 			continue;
 
-		if (IsValiedLayer(i))
+		CInstancingBuffer::GetInst()->Clear();
+		int iRowIdx = 0;
+
+		for (UINT i = 0; i < pair.second.size(); ++i)
 		{
-			const vector<CGameObject*>& vecObj = pCurScene->GetLayer(i)->GetAllObject();
-
-			for (size_t i = 0; i < vecObj.size(); ++i)
+			if (pair.second[i].pObj->Animator2D())
 			{
-				if (nullptr == vecObj[i]->MeshRender())
-					continue;
+				map<INT_PTR, vector<tInstObj>>::iterator iter
+					= m_mapSingleObj.find((INT_PTR)pair.second[0].pObj);
 
-				UINT iMtrlCount = vecObj[i]->MeshRender()->GetMaterialCount();
-				for (UINT j = 0; j < iMtrlCount; ++j)
+				if (iter != m_mapSingleObj.end())
+					iter->second.push_back(pair.second[i]);
+				else
 				{
-					if (nullptr == vecObj[i]->MeshRender()->GetSharedMaterial(j)
-						|| nullptr == vecObj[i]->MeshRender()->GetSharedMaterial(j)->GetShader())
-						continue;
-
-					if (!vecObj[i]->MeshRender()->GetSharedMaterial(j)->GetShader()->IsDeferred())
-					{
-						vecObj[i]->render();
-					}
+					m_mapSingleObj.insert(make_pair((INT_PTR)pair.second[0].pObj, vector<tInstObj>{pair.second[i]}));
 				}
+				continue;
 			}
+
+			tInstData.matWorld = pair.second[i].pObj->Transform()->GetWorldMat();
+			tInstData.matWV = tInstData.matWorld * m_matView;
+			tInstData.matWVP = tInstData.matWV * m_matProj;
+
+			if (pair.second[i].pObj->Animator3D())
+			{
+				tInstData.iRowIdx = iRowIdx++;
+				CInstancingBuffer::GetInst()->AddInstancingBoneMat(pair.second[i].pObj->Animator3D()->GetFinalBoneMat());
+			}
+			else
+			{
+				tInstData.iRowIdx = -1;
+			}
+
+			CInstancingBuffer::GetInst()->AddInstancingData(tInstData);
+		}
+
+		CInstancingBuffer::GetInst()->SetData(pObj->MeshRender()->GetMesh()->GetBoneTex());
+		CAnimation2D::ClearRegister();
+
+		pMtrl->UpdateDataInstancing();
+		pMesh->SetLayout(pMtrl->GetShader(), true);
+		pMesh->render_instancing(pair.second[0].iMtrlIdx);
+	}
+
+	// 개별 랜더링
+	for (auto& pair : m_mapSingleObj)
+	{
+		if (pair.second.empty())
+			continue;
+
+		for (UINT i = 0; i < pair.second.size(); ++i)
+		{
+			pair.second[i].pObj->Transform()->UpdateData();
+			pair.second[i].pObj->MeshRender()->render(pair.second[i].iMtrlIdx);
 		}
 	}
 }

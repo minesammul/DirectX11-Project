@@ -25,6 +25,7 @@ public:
 
 public:
 	void UpdateData();
+	void UpdateDataInstancing();
 	void ExcuteComputeShader(UINT _x, UINT _y, UINT _z);
 
 public:

@@ -219,6 +219,9 @@
     <ClInclude Include="FBXLoader.h">
       <Filter>EngineCode\06. Module</Filter>
     </ClInclude>
+    <ClInclude Include="InstancingBuffer.h">
+      <Filter>EngineCode\02. Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="func.cpp">
@@ -367,6 +370,9 @@
     </ClCompile>
     <ClCompile Include="FBXLoader.cpp">
       <Filter>EngineCode\06. Module</Filter>
+    </ClCompile>
+    <ClCompile Include="InstancingBuffer.cpp">
+      <Filter>EngineCode\02. Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -45,7 +45,7 @@ private:
 
 public:
 	void render(UINT _iSubset = 0);
-	//void render_instancing(UINT _iSubset = 0);
+	void render_instancing(UINT _iSubset = 0);
 
 public:
 	void CreateMesh(UINT _iVtxSize, UINT _iVtxCount, D3D11_USAGE _eVtxUsage, void* _pVtx,

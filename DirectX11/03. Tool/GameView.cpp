@@ -236,6 +236,7 @@ void CGameView::update_tool()
 void CGameView::render_tool()
 {
 	// Tool Camera Render	
+	m_pToolCam->Camera()->SortGameObject(); // 물체 분류작업(인스턴싱 조건)
 	m_pToolCam->Camera()->render_deferred(); // deferred MRT 에 출력
 
 	CRenderMgr::GetInst()->render_shadowmap(); // 그림자 정보

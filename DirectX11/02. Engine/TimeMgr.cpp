@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TimeMgr.h"
 
+#include "Core.h"
 
 CTimeMgr::CTimeMgr()
 	: m_llCurCount{}
@@ -35,6 +36,13 @@ void CTimeMgr::update()
 	{
 		m_bFreeze = false;
 		m_fDeltaTime = 1.f / 60.f;
+	}
+
+	if (m_dAccTime > 1.)
+	{
+		QueryPerformanceFrequency(&m_llFrequency);
+		m_dAccTime = 0.;
+		m_fFPS = 1 / (float)m_fDeltaTime;
 	}
 
 	g_global.fDeltaTime = DT;

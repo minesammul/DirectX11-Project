@@ -570,8 +570,9 @@ void CResMgr::CreateDefaultShader()
 	// STD3D Shader
 	// ==============
 	pShader = new CShader;
-	pShader->SetDeferred();
+	pShader->SetEventTime(SHADER_EVENT_TIME::DEFERRED);
 	pShader->CreateVertexShader(L"Shader\\std3d.fx", "VS_STD3D", 5, 0);
+	pShader->CreateVertexInstShader(L"Shader\\std3d.fx", "VS_STD3D_Inst", 5, 0);
 	pShader->CreatePixelShader(L"Shader\\std3d.fx", "PS_STD3D", 5, 0);
 
 	pShader->AddParam(SHADER_PARAM::TEX_0, L"Diffuse Texture");
@@ -633,7 +634,7 @@ void CResMgr::CreateDefaultShader()
 	// Terrain Shader
 	// ==============
 	pShader = new CShader;
-	pShader->SetDeferred();
+	pShader->SetEventTime(SHADER_EVENT_TIME::DEFERRED);
 	pShader->CreateVertexShader(L"Shader\\terrain.fx", "VS_Terrain", 5, 0);
 	pShader->CreateHullShader(L"Shader\\terrain.fx", "HS_Terrain", 5, 0);
 	pShader->CreateDomainShader(L"Shader\\terrain.fx", "DS_Terrain", 5, 0);

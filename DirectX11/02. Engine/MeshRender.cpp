@@ -9,6 +9,7 @@
 #include "Animation2D.h"
 #include "Animator3D.h"
 #include "ResMgr.h"
+#include "Camera.h"
 
 CMeshRender::CMeshRender()
 	: m_pMesh(nullptr)
@@ -113,6 +114,15 @@ void CMeshRender::SetMesh(CResPtr<CMesh> _pMesh)
 		vecTemp.resize(iSubsetCount);
 		m_vecMtrl.swap(vecTemp);
 	}
+}
+
+ULONG64 CMeshRender::GetInstID(UINT _iMtrlIdx)
+{
+	if (m_pMesh == NULL || m_vecMtrl[_iMtrlIdx] == NULL)
+		return 0;
+
+	uInstID id{ m_pMesh->GetID(), (WORD)m_vecMtrl[_iMtrlIdx]->GetID(), (WORD)_iMtrlIdx };
+	return id.llID;
 }
 
 void CMeshRender::SaveToScene(FILE * _pFile)

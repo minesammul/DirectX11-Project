@@ -8,6 +8,7 @@
 #include "ResMgr.h"
 #include "SceneMgr.h"
 #include "RenderMgr.h"
+#include "InstancingBuffer.h"
 
 CCore::CCore() 
 	: m_hWnd(nullptr)
@@ -42,7 +43,8 @@ int CCore::init(HWND _hWnd, bool _bWindowed)
 	CTimeMgr::GetInst()->init();
 	CResMgr::GetInst()->init();
 	CSceneMgr::GetInst()->init();	
-	
+	CInstancingBuffer::GetInst()->init();
+
 	// 상수버퍼 등록
 	CDevice::GetInst()->CreateConstBuffer(L"Transform", sizeof(tTransform), 0);
 	CDevice::GetInst()->CreateConstBuffer(L"ShaderParam", sizeof(tShaderParam), 1);

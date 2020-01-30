@@ -166,8 +166,8 @@ void CToolApp::CreateTestScene()
 	//pMeshData->Save();
 	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"Monster03", L"MeshData\\Monster3.mdat");
 
-	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Painting Guardian.fbx");
-	pMeshData->Save();
+	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Painting Guardian.fbx");
+	//pMeshData->Save();
 	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
 
 	////Animation Clip 분리 테스트 코드.
@@ -195,7 +195,7 @@ void CToolApp::CreateTestScene()
 	////
 
 
-	CGameObject* pMeshObject = pMeshData->Instantiate();
+	//CGameObject* pMeshObject = pMeshData->Instantiate();
 
 	//// Animation Clip Index 지정 테스트
 
@@ -205,10 +205,47 @@ void CToolApp::CreateTestScene()
 	//}
 	////
 
-	pMeshObject->SetName(L"Artorias");
+	//pMeshObject->SetName(L"Artorias");
+	//pMeshObject->Transform()->SetLocalScale(Vec3(10.f, 10.f, 10.f));
+
+	//pCurScene->AddObject(L"Player", pMeshObject);
+
+
+	// 인스턴싱 테스트
+	// Monster Animation Mesh -> GameObject
+	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Monster3.fbx");
+	pMeshData->Save();
+	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"Monster03", L"MeshData\\Monster3.mdat");
+	CGameObject* pMeshObject = pMeshData->Instantiate();
+	pMeshObject->SetName(pMeshData->GetName());
 	pMeshObject->Transform()->SetLocalScale(Vec3(10.f, 10.f, 10.f));
 
+	for (int index = 0; index < pMeshObject->GetChild().size(); index++)
+	{
+		pMeshObject->GetChild()[index]->Animator3D()->SetClipTime(0, 0.f);
+	}
+
+	//pMeshObject->Animator3D()->SetClipTime(0, 0.f);
+
 	pCurScene->AddObject(L"Player", pMeshObject);
+
+	for (int i = 0; i < 5; ++i)
+	{
+		pMeshObject = pMeshObject->Clone();
+		pMeshObject->SetName(pMeshObject->GetName() + L"_C");
+		pMeshObject->Transform()->SetLocalPos(Vec3(300.f * i, 0.f, 0.f));
+
+		for (int index = 0; index < pMeshObject->GetChild().size(); index++)
+		{
+			pMeshObject->GetChild()[index]->Animator3D()->SetClipTime(0, 10.f + index + 1);
+		}
+
+		//pMeshObject->Animator3D()->SetClipTime(0, 10.f);
+
+		pCurScene->AddObject(L"Player", pMeshObject);
+	}
+	//
+
 
 	// Light3D 추가하기
 	CGameObject* pLightObj = new CGameObject;

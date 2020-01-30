@@ -5,6 +5,8 @@
 #include "Shader.h"
 #include "ResMgr.h"
 #include "FBXLoader.h"
+#include "InstancingBuffer.h"
+
 CMesh::CMesh()
 	: m_pVB(NULL)
 	, m_pLayout(NULL)
@@ -367,23 +369,23 @@ void CMesh::render(UINT _iSubSet)
 	CONTEXT->DrawIndexed(m_vecIdxInfo[_iSubSet].iIdxCount, 0, 0);
 }
 
-//void CMesh::render_instancing(UINT _iSubset)
-//{
-//	if (_iSubset >= m_vecIdxInfo.size())
-//		assert(nullptr);
-//
-//	CONTEXT->IASetInputLayout(m_pLayout);
-//
-//	ID3D11Buffer* arrBuffer[2] = { m_pVB	, CInstancingBuffer::GetInst()->GetBuffer() };
-//	UINT		  iStride[2] = { m_iVtxSize	, sizeof(tInstancingData) };
-//	UINT		  iOffset[2] = { 0, 0 };
-//
-//	CONTEXT->IASetVertexBuffers(0, 2, arrBuffer, iStride, iOffset);
-//
-//	CONTEXT->IASetIndexBuffer(m_vecIdxInfo[_iSubset].pIB, m_vecIdxInfo[_iSubset].eFormat, 0);
-//	CONTEXT->DrawIndexedInstanced(m_vecIdxInfo[_iSubset].iIdxCount
-//		, CInstancingBuffer::GetInst()->GetInstanceCount(), 0, 0, 0);
-//}
+void CMesh::render_instancing(UINT _iSubset)
+{
+	if (_iSubset >= m_vecIdxInfo.size())
+		assert(nullptr);
+
+	CONTEXT->IASetInputLayout(m_pLayout);
+
+	ID3D11Buffer* arrBuffer[2] = { m_pVB	, CInstancingBuffer::GetInst()->GetBuffer() };
+	UINT		  iStride[2] = { m_iVtxSize	, sizeof(tInstancingData) };
+	UINT		  iOffset[2] = { 0, 0 };
+
+	CONTEXT->IASetVertexBuffers(0, 2, arrBuffer, iStride, iOffset);
+
+	CONTEXT->IASetIndexBuffer(m_vecIdxInfo[_iSubset].pIB, m_vecIdxInfo[_iSubset].eFormat, 0);
+	CONTEXT->DrawIndexedInstanced(m_vecIdxInfo[_iSubset].iIdxCount
+		, CInstancingBuffer::GetInst()->GetInstanceCount(), 0, 0, 0);
+}
 
 
 void CMesh::SetLayout(CResPtr<CShader> _pShader, bool _bInstancing)

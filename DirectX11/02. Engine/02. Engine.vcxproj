@@ -210,6 +210,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="EventMgr.h" />
     <ClInclude Include="FBXLoader.h" />
     <ClInclude Include="Filter23.h" />
+    <ClInclude Include="InstancingBuffer.h" />
     <ClInclude Include="Light3D.h" />
     <ClInclude Include="MeshData.h" />
     <ClInclude Include="MRT.h" />
@@ -264,6 +265,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="EventMgr.cpp" />
     <ClCompile Include="FBXLoader.cpp" />
     <ClCompile Include="Filter23.cpp" />
+    <ClCompile Include="InstancingBuffer.cpp" />
     <ClCompile Include="Light3D.cpp" />
     <ClCompile Include="MeshData.cpp" />
     <ClCompile Include="MRT.cpp" />

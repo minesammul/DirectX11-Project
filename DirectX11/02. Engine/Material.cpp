@@ -159,6 +159,52 @@ void CMaterial::UpdateData()
 	pConstBuffer->SetRegisterAll();
 }
 
+void CMaterial::UpdateDataInstancing()
+{
+	if (nullptr == m_pShader)
+		return;
+
+	m_pShader->UpdateDataInstancing();
+
+	// Texture Update 하기
+	UINT iCount = (UINT)SHADER_PARAM::TEX_END - (UINT)SHADER_PARAM::TEX_0;
+	for (UINT i = 0; i < iCount; ++i)
+	{
+		if (nullptr == m_arrTex[i])
+		{
+			CTexture::ClearRegister(i, (UINT)SHADER_TYPE::ALL_SHADER);
+			m_param.arrTexCheck[i] = 0;
+		}
+		else
+		{
+			m_arrTex[i]->SetRegister(i, (UINT)SHADER_TYPE::ALL_SHADER);
+			m_param.arrTexCheck[i] = 1;
+		}
+	}
+
+	// RWTexture Update 하기
+	iCount = (UINT)SHADER_PARAM::RWTEX_END - (UINT)SHADER_PARAM::RWTEX_0;
+	for (UINT i = 0; i < iCount; ++i)
+	{
+		if (nullptr == m_arrRWTex[i])
+		{
+			CTexture::ClearRWRegister(i);
+			m_param.arrRWTexCheck[i] = 0;
+		}
+		else
+		{
+			m_arrRWTex[i]->SetRWRegister(i);
+			m_param.arrRWTexCheck[i] = 1;
+		}
+	}
+
+	static CConstBuffer* pConstBuffer = CDevice::GetInst()->FindConstBuffer(L"ShaderParam");
+
+	pConstBuffer->AddData(&m_param, sizeof(tShaderParam));
+	pConstBuffer->UpdateData();
+	pConstBuffer->SetRegisterAll();
+}
+
 void CMaterial::ExcuteComputeShader(UINT _x, UINT _y, UINT _z)
 {
 	UpdateData();

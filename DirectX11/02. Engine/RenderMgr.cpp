@@ -90,13 +90,16 @@ void CRenderMgr::render()
 		// 광원 정보 상수버퍼에 업데이트
 		UpdateLight3D();
 
+		// MRT 를 Deferred 로 변경
 		m_arrMRT[(UINT)MRT_TYPE::DEFERRED]->OMSet();
 
 		for (size_t i = 0; i < m_vecCam.size(); ++i)
 		{
+			m_vecCam[i]->SortGameObject();
 			m_vecCam[i]->render_deferred();
 		}
 
+		render_shadowmap();
 		render_lights();
 
 		for (size_t i = 0; i < m_vecCam.size(); ++i)
@@ -123,10 +126,10 @@ void CRenderMgr::render_tool()
 	pGlobal->UpdateData();
 	pGlobal->SetRegisterAll();
 
-	m_arrMRT[(UINT)MRT_TYPE::DEFERRED]->OMSet();
-
 	// 광원 정보 상수버퍼에 업데이트
 	UpdateLight3D();
+
+	m_arrMRT[(UINT)MRT_TYPE::DEFERRED]->OMSet();
 }
 
 void CRenderMgr::render_lights()

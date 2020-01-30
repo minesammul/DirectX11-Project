@@ -25,7 +25,7 @@ CShader::CShader()
 	, m_pDepthStencilState(nullptr)
 	, CResource(RES_TYPE::SHADER)
 	, m_eRSType(RS_TYPE::CULL_BACK)
-	, m_bDeferred(false)
+	, m_eEventTime(SHADER_EVENT_TIME::FORWARD)
 	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 {
 }
@@ -33,6 +33,7 @@ CShader::CShader()
 CShader::~CShader()
 {
 	SAFE_RELEASE(m_pVSBlob);
+	SAFE_RELEASE(m_pVSInstBlob);
 	SAFE_RELEASE(m_pHSBlob);
 	SAFE_RELEASE(m_pDSBlob);
 	SAFE_RELEASE(m_pGSBlob);
@@ -40,6 +41,7 @@ CShader::~CShader()
 	SAFE_RELEASE(m_pErrBlob);
 
 	SAFE_RELEASE(m_pVS);
+	SAFE_RELEASE(m_pVSInst);
 	SAFE_RELEASE(m_pHS);
 	SAFE_RELEASE(m_pDS);
 	SAFE_RELEASE(m_pGS);
@@ -73,6 +75,34 @@ void CShader::CreateVertexShader(const wstring & _strFilePath, const string& _st
 	
 	// Create Vertex Shader
 	DEVICE->CreateVertexShader(m_pVSBlob->GetBufferPointer(), m_pVSBlob->GetBufferSize(), nullptr, &m_pVS);
+}
+
+void CShader::CreateVertexInstShader(const wstring & _strFilePath, const string & _strFuncName, UINT _iHigh, UINT _iLow)
+{
+	// Shader 만들기
+	UINT iFlag = 0;
+
+#ifdef _DEBUG
+	iFlag = D3DCOMPILE_DEBUG;
+#endif
+
+	wstring strPath = CPathMgr::GetResPath();
+	strPath += _strFilePath;
+
+	char strTarget[20] = {};
+	sprintf_s(strTarget, "vs_%d_%d", _iHigh, _iLow);
+
+	// VtxShader Compile
+	if (FAILED(D3DCompileFromFile(strPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, _strFuncName.c_str()
+		, strTarget, iFlag, 0, &m_pVSInstBlob, &m_pErrBlob)))
+	{
+		char* pErr = (char*)m_pErrBlob->GetBufferPointer();
+		MessageBoxA(nullptr, pErr, "Vertex Shader Error", MB_OK);
+		assert(nullptr);
+	}
+
+	// Create Vertex Shader
+	DEVICE->CreateVertexShader(m_pVSInstBlob->GetBufferPointer(), m_pVSInstBlob->GetBufferSize(), nullptr, &m_pVSInst);
 }
 
 void CShader::CreateHullShader(const wstring & _strFilePath, const string & _strFuncName, UINT _iHigh, UINT _iLow)
@@ -223,6 +253,32 @@ void CShader::UpdateData()
 	else
 		CDepthStencilState::UpdateDefaultData();
 
+
+	CRenderMgr::GetInst()->SetRSState(m_eRSType);
+}
+
+void CShader::UpdateDataInstancing()
+{
+	// Topology 
+	CONTEXT->IASetPrimitiveTopology(m_eTopology);
+
+	// 물체 렌더링
+	CONTEXT->VSSetShader(m_pVSInst, nullptr, 0);
+	CONTEXT->HSSetShader(m_pHS, nullptr, 0);
+	CONTEXT->DSSetShader(m_pDS, nullptr, 0);
+	CONTEXT->GSSetShader(m_pGS, nullptr, 0);
+	CONTEXT->CSSetShader(m_pCS, nullptr, 0);
+	CONTEXT->PSSetShader(m_pPS, nullptr, 0);
+
+	if (m_pBlendState)
+		m_pBlendState->UpdateData();
+	else
+		CBlendState::UpdateDefaultData();
+
+	if (m_pDepthStencilState)
+		m_pDepthStencilState->UpdateData();
+	else
+		CDepthStencilState::UpdateDefaultData();
 
 	CRenderMgr::GetInst()->SetRSState(m_eRSType);
 }
