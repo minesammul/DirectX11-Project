@@ -24,6 +24,7 @@ public:
 	CResPtr<CMaterial> GetSharedMaterial(UINT _iSubset = 0) { return m_vecMtrl[_iSubset]; } // 20200102 º¯°æ
 	UINT GetMaterialCount() { return m_vecMtrl.size(); }
 	bool IsShadowObj() { return m_bShadow; }
+	ULONG64 GetInstID(UINT _iMtrlIdx);
 
 public:
 	virtual void update();

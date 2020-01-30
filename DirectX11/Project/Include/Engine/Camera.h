@@ -1,6 +1,22 @@
 #pragma once
 #include "Component.h"
 
+union uInstID
+{
+	struct {
+		UINT iMesh;
+		WORD iMtrl;
+		WORD iMtrlIdx;
+	};
+	ULONG64 llID;
+};
+
+struct tInstObj
+{
+	CGameObject*	pObj;
+	UINT			iMtrlIdx;
+};
+
 enum class PROJ_TYPE
 {
 	ORTHOGRAPHIC,
@@ -34,6 +50,16 @@ protected:
 
 	vector<CGameObject*> m_vecShadowObj;
 
+	// 인스턴싱 수업 추가
+	// Instancing Group
+	map<ULONG64, vector<tInstObj>>		m_mapInstGroup_F; // Foward
+	map<ULONG64, vector<tInstObj>>		m_mapInstGroup_D; // Deferred
+	map<ULONG64, vector<tInstObj>>		m_mapInstGroup_P; // Post
+	map<ULONG64, vector<CGameObject*>*> m_mapInstGroup_S; // Shadow
+
+	// Single Object
+	map<INT_PTR, vector<tInstObj>>		m_mapSingleObj;
+
 public:
 	virtual void update();
 	void finalupdate();
@@ -41,6 +67,7 @@ public:
 	void render_forward();
 	void render_shadowmap();
 
+	void SortGameObject();
 	void SortShadowGameObject();
 
 public:

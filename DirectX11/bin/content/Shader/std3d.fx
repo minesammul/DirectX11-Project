@@ -111,6 +111,14 @@ struct VTX_STD3D_IN
 
     float4 vWeights : WEIGHTS;
     float4 vIndices : BLENDINDICES;
+    
+    // Instancing
+    row_major matrix matWorld : WORLD;
+    row_major matrix matWV : WV;
+    row_major matrix matWVP : WVP;
+    int iRowIdx : ROWINDEX; // Animaion 행렬 행
+
+    uint iInstanceID : SV_InstanceID;
 };
 
 struct VTX_STD3D_OUT
@@ -148,6 +156,30 @@ VTX_STD3D_OUT VS_STD3D(VTX_STD3D_IN _in)
     output.vViewPos = mul(float4(_in.vPosition, 1.f), g_matWV).xyz;
     output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), g_matWV)).xyz;
     output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV)).xyz;
+    output.vViewNormal = normalize(cross(output.vViewBinormal, output.vViewTangent)).xyz;
+
+    output.vUV = _in.vUV;
+
+    return output;
+}
+
+VTX_STD3D_OUT VS_STD3D_Inst(VTX_STD3D_IN _in)
+{
+    VTX_STD3D_OUT output = (VTX_STD3D_OUT) 0.f;
+
+     // 8 번째 텍스쳐는 Bone Matrix Tex(VTF - vertex texture fetch) 예약자리
+    if (g_tcheck_7)
+    {
+        Skinning(_in.vPosition, _in.vTangent
+        , _in.vBinormal, _in.vNormal
+        , _in.vWeights, _in.vIndices, _in.iRowIdx); // <-- 변경점
+    }
+    
+    output.vPosition = mul(float4(_in.vPosition, 1.f), _in.matWVP);
+
+    output.vViewPos = mul(float4(_in.vPosition, 1.f), _in.matWV).xyz;
+    output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), _in.matWV)).xyz;
+    output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), _in.matWV)).xyz;
     output.vViewNormal = normalize(cross(output.vViewBinormal, output.vViewTangent)).xyz;
 
     output.vUV = _in.vUV;
