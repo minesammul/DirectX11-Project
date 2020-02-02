@@ -183,7 +183,8 @@ float4 PS_Merge(VTX_OUT _in) : SV_Target
     
     float vBrushAlpha = g_tex_3.Sample(g_sam_0, _in.vUV).a;
     
-    vColor.rgb = vDiffuseColor * vLight + vSpecular + (float3(0.2f, 0.2f, 1.f) * vBrushAlpha);
+    //vColor.rgb = vDiffuseColor * vLight + vSpecular + (float3(0.2f, 0.2f, 1.f) * vBrushAlpha);
+    vColor.rgb = (vDiffuseColor * vLight) + (vSpecular * vLight) + (float3(0.2f, 0.2f, 0.2f));
     
     return vColor;
 }
