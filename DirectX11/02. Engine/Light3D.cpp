@@ -212,4 +212,8 @@ void CLight3D::LoadFromScene(FILE * _pFile)
 			CResMgr::GetInst()->Load<CMaterial>(strKey, strPath);
 		}
 	}
+
+	m_pCamObj->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	m_pCamObj->Camera()->SetWidth(7680.f);
+	m_pCamObj->Camera()->SetHeight(7680.f);
 }
