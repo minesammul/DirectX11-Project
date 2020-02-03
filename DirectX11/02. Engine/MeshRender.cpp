@@ -82,6 +82,11 @@ void CMeshRender::render(UINT _iMtrl)
 	m_pMesh->SetLayout(m_vecMtrl[_iMtrl]->GetShader());
 	m_vecMtrl[_iMtrl]->UpdateData();
 	m_pMesh->render(_iMtrl);
+
+	// Collider3D 가 있으면 그려준다.
+	if (nullptr != Collider3D())
+		Collider3D()->render();
+
 	CTexture::ClearAllRegister();
 }
 
