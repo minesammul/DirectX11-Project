@@ -194,19 +194,51 @@ call CodeGen.exe</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="HilightScript.h" />
+    <ClInclude Include="PlayerAttackState.h" />
+    <ClInclude Include="PlayerDeadState.h" />
+    <ClInclude Include="PlayerHealState.h" />
+    <ClInclude Include="PlayerHitedState.h" />
+    <ClInclude Include="PlayerIdleState.h" />
+    <ClInclude Include="PlayerParryingState.h" />
+    <ClInclude Include="PlayerRollBackState.h" />
+    <ClInclude Include="PlayerRollFrontState.h" />
+    <ClInclude Include="PlayerRollLeftState.h" />
+    <ClInclude Include="PlayerRollRightState.h" />
+    <ClInclude Include="PlayerState.h" />
+    <ClInclude Include="PlayerWalkBackState.h" />
+    <ClInclude Include="PlayerWalkFrontState.h" />
+    <ClInclude Include="PlayerWalkLeftState.h" />
+    <ClInclude Include="PlayerWalkRightState.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SaveLoadMgr.h" />
     <ClInclude Include="ScriptMgr.h" />
     <ClInclude Include="SSN001CameraScript.h" />
+    <ClInclude Include="SSN002PlayerScript.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TestScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HilightScript.cpp" />
+    <ClCompile Include="PlayerAttackState.cpp" />
+    <ClCompile Include="PlayerDeadState.cpp" />
+    <ClCompile Include="PlayerHealState.cpp" />
+    <ClCompile Include="PlayerHitedState.cpp" />
+    <ClCompile Include="PlayerIdleState.cpp" />
+    <ClCompile Include="PlayerParryingState.cpp" />
+    <ClCompile Include="PlayerRollBackState.cpp" />
+    <ClCompile Include="PlayerRollFrontState.cpp" />
+    <ClCompile Include="PlayerRollLeftState.cpp" />
+    <ClCompile Include="PlayerRollRightState.cpp" />
+    <ClCompile Include="PlayerState.cpp" />
+    <ClCompile Include="PlayerWalkBackState.cpp" />
+    <ClCompile Include="PlayerWalkFrontState.cpp" />
+    <ClCompile Include="PlayerWalkLeftState.cpp" />
+    <ClCompile Include="PlayerWalkRightState.cpp" />
     <ClCompile Include="SaveLoadMgr.cpp" />
     <ClCompile Include="ScriptMgr.cpp" />
     <ClCompile Include="SSN001CameraScript.cpp" />
+    <ClCompile Include="SSN002PlayerScript.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

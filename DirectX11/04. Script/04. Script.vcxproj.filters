@@ -13,6 +13,15 @@
     <Filter Include="Defalut">
       <UniqueIdentifier>{1a9be6af-0890-48c1-918c-23666061dcd3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Player">
+      <UniqueIdentifier>{15fd900d-c8d7-4f0d-927d-745bedef7dbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Player\State">
+      <UniqueIdentifier>{97d779c0-4ced-4376-b9dc-b019bbcab8ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Player\State\Component">
+      <UniqueIdentifier>{ade14e38-5670-46c7-85e6-7106f8200f82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptMgr.h">
@@ -39,6 +48,54 @@
     <ClInclude Include="SSN001CameraScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="SSN002PlayerScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>Scripts\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerIdleState.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWalkFrontState.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWalkBackState.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWalkLeftState.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWalkRightState.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRollFrontState.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHealState.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHitedState.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDeadState.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackState.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerParryingState.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRollBackState.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRollLeftState.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRollRightState.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptMgr.cpp">
@@ -58,6 +115,54 @@
     </ClCompile>
     <ClCompile Include="SSN001CameraScript.cpp">
       <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN002PlayerScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Scripts\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerIdleState.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWalkFrontState.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWalkBackState.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWalkLeftState.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWalkRightState.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRollFrontState.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHealState.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHitedState.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerDeadState.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackState.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerParryingState.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRollBackState.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRollLeftState.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRollRightState.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
