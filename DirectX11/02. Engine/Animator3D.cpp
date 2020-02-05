@@ -11,12 +11,28 @@ CAnimator3D::CAnimator3D()
 	: m_iCurClip(0)
 	, m_fCurTime(0.f)
 	, m_iFrameCount(30)
+	, m_curRatioAnimTime(0.f)
 	, CComponent(COMPONENT_TYPE::ANIMATOR3D)
 {	
 }
 
 CAnimator3D::~CAnimator3D()
 {
+}
+
+bool CAnimator3D::IsDoneAnimation()
+{
+	if (m_vecClipUpdateTime[m_iCurClip] >= m_pVecClip->at(m_iCurClip).dTimeLength)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+float CAnimator3D::GetCurRatioAnimTime()
+{
+	return m_curRatioAnimTime;
 }
 
 void CAnimator3D::update()
@@ -39,6 +55,8 @@ void CAnimator3D::finalupdate()
 	}
 
 	m_fCurTime = m_pVecClip->at(m_iCurClip).dStartTime + m_vecClipUpdateTime[m_iCurClip];
+
+	m_curRatioAnimTime = m_vecClipUpdateTime[m_iCurClip] / m_pVecClip->at(m_iCurClip).dTimeLength;
 
 	// 본 개수만큼 반복하며 현재 시간에 맞게 모든 본 행렬을 모두 보간해준다.
 	for (size_t i = 0; i < m_pVecBones->size(); ++i)
@@ -115,6 +133,20 @@ void CAnimator3D::SetAnimClip(const vector<tMTAnimClip>* _vecAnimClip)
 {
 	m_pVecClip = _vecAnimClip;
 	m_vecClipUpdateTime.resize(m_pVecClip->size());
+}
+
+bool CAnimator3D::FindAnimClipIndex(wstring animName, int& findAnimIndex)
+{
+	for (int index = 0; index < m_pVecClip->size(); index++)
+	{
+		if (animName.compare((*m_pVecClip)[index].strAnimName) == 0)
+		{
+			findAnimIndex = index;
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void CAnimator3D::UpdateData()
