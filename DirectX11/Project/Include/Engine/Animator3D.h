@@ -17,9 +17,12 @@ private:
 	int							m_iCurClip; // ≈¨∏≥ ¿Œµ¶Ω∫
 	CResPtr<CTexture>			m_pBoneTex;
 
+	float m_curRatioAnimTime;
+
 public:
 	void SetBones(const vector<tMTBone>* _vecBones) { m_pVecBones = _vecBones; m_vecFinalBoneMat.resize(m_pVecBones->size()); }
 	void SetAnimClip(const vector<tMTAnimClip>* _vecAnimClip);
+	bool FindAnimClipIndex(wstring animName, int& findAnimIndex);
 	void SetBoneTex(CResPtr<CTexture> _pBoneTex) { m_pBoneTex = _pBoneTex; }
 	CResPtr<CTexture> GetBornTex() { return m_pBoneTex; }
 	void UpdateData();
@@ -29,6 +32,10 @@ public:
 	vector<Matrix>& GetFinalBoneMat() { return m_vecFinalBoneMat; }
 
 	void SetCurAnimClip(int index) { m_iCurClip = index; }
+
+	bool IsDoneAnimation();
+
+	float GetCurRatioAnimTime();
 
 public:
 	virtual void awake() {};

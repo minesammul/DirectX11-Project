@@ -1,3 +1,4 @@
 HilightScript
 SSN001CameraScript
+SSN002PlayerScript
 TestScript

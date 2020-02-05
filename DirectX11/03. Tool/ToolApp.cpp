@@ -161,16 +161,12 @@ void CToolApp::CreateTestScene()
 	pCurScene->AddLayer(L"Bullet", 2);
 	pCurScene->AddLayer(L"Monster", 3);
 
-	// FBX Loading
-	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Monster3.fbx");
-	//pMeshData->Save();
-	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"Monster03", L"MeshData\\Monster3.mdat");
-
-	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Painting Guardian.fbx");
-	//pMeshData->Save();
+	/// FBX Loading
+	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Painting Guardian.fbx");
+	pMeshData->Save();
 	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
 
-	////Animation Clip 분리 테스트 코드.
+	//Animation Clip 분리 테스트 코드.
 	//vector<CResPtr<CMesh>> tempMesh = pMeshData->GetVectorMesh();
 
 	//for (int index = 0; index < tempMesh.size(); index++)
@@ -192,59 +188,59 @@ void CToolApp::CreateTestScene()
 	//	pMeshData->SetVectorMesh(tempMesh[index], index);
 	//}
 	//pMeshData->Save();
-	////
+	//
 
 
-	//CGameObject* pMeshObject = pMeshData->Instantiate();
+	CGameObject* pMeshObject = pMeshData->Instantiate();
 
 	//// Animation Clip Index 지정 테스트
 
+	for (int index = 0; index < pMeshObject->GetChild().size(); index++)
+	{
+		pMeshObject->GetChild()[index]->Animator3D()->SetCurAnimClip(0);
+	}
+	//
+
+	pMeshObject->SetName(L"Artorias");
+	pMeshObject->Transform()->SetLocalScale(Vec3(10.f, 10.f, 10.f));
+
+	pCurScene->AddObject(L"Player", pMeshObject);
+	///
+
+	/// 인스턴싱 테스트
+	////Monster Animation Mesh -> GameObject
+	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Monster3.fbx");
+	//pMeshData->Save();
+	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"Monster03", L"MeshData\\Monster3.mdat");
+	//CGameObject* pMeshObject = pMeshData->Instantiate();
+	//pMeshObject->SetName(pMeshData->GetName());
+	//pMeshObject->Transform()->SetLocalScale(Vec3(10.f, 10.f, 10.f));
+
 	//for (int index = 0; index < pMeshObject->GetChild().size(); index++)
 	//{
-	//	pMeshObject->GetChild()[index]->Animator3D()->SetCurAnimClip(0);
+	//	pMeshObject->GetChild()[index]->Animator3D()->SetClipTime(0, 0.f);
 	//}
-	////
 
-	//pMeshObject->SetName(L"Artorias");
-	//pMeshObject->Transform()->SetLocalScale(Vec3(10.f, 10.f, 10.f));
+	////pMeshObject->Animator3D()->SetClipTime(0, 0.f);
 
 	//pCurScene->AddObject(L"Player", pMeshObject);
 
+	//for (int i = 0; i < 5; ++i)
+	//{
+	//	pMeshObject = pMeshObject->Clone();
+	//	pMeshObject->SetName(pMeshObject->GetName() + L"_C");
+	//	pMeshObject->Transform()->SetLocalPos(Vec3(300.f * i, 0.f, 0.f));
 
-	// 인스턴싱 테스트
-	// Monster Animation Mesh -> GameObject
-	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Monster3.fbx");
-	pMeshData->Save();
-	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"Monster03", L"MeshData\\Monster3.mdat");
-	CGameObject* pMeshObject = pMeshData->Instantiate();
-	pMeshObject->SetName(pMeshData->GetName());
-	pMeshObject->Transform()->SetLocalScale(Vec3(10.f, 10.f, 10.f));
+	//	for (int index = 0; index < pMeshObject->GetChild().size(); index++)
+	//	{
+	//		pMeshObject->GetChild()[index]->Animator3D()->SetClipTime(0, 10.f + index + 1);
+	//	}
 
-	for (int index = 0; index < pMeshObject->GetChild().size(); index++)
-	{
-		pMeshObject->GetChild()[index]->Animator3D()->SetClipTime(0, 0.f);
-	}
+	//	//pMeshObject->Animator3D()->SetClipTime(0, 10.f);
 
-	//pMeshObject->Animator3D()->SetClipTime(0, 0.f);
-
-	pCurScene->AddObject(L"Player", pMeshObject);
-
-	for (int i = 0; i < 5; ++i)
-	{
-		pMeshObject = pMeshObject->Clone();
-		pMeshObject->SetName(pMeshObject->GetName() + L"_C");
-		pMeshObject->Transform()->SetLocalPos(Vec3(300.f * i, 0.f, 0.f));
-
-		for (int index = 0; index < pMeshObject->GetChild().size(); index++)
-		{
-			pMeshObject->GetChild()[index]->Animator3D()->SetClipTime(0, 10.f + index + 1);
-		}
-
-		//pMeshObject->Animator3D()->SetClipTime(0, 10.f);
-
-		pCurScene->AddObject(L"Player", pMeshObject);
-	}
-	//
+	//	pCurScene->AddObject(L"Player", pMeshObject);
+	//}
+	///
 
 
 	// Light3D 추가하기
