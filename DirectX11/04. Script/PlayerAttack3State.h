@@ -1,28 +1,18 @@
 #pragma once
 #include "PlayerState.h"
 
-enum class ATTACK_TYPE
-{
-	ATTACK1=0,
-	ATTACK2,
-	ATTACK3,
-	ATTACK4,
-	END
-};
-
-class PlayerAttackState : public PlayerState
+class PlayerAttack3State : public PlayerState
 {
 private:
-	int findAnimationIndex[(int)ATTACK_TYPE::END];
-	int curAnimationIndex;
+	int findAnimationIndex;
 	bool isNextAttack;
 
 public:
-	PlayerAttackState();
-	~PlayerAttackState();
+	PlayerAttack3State();
+	~PlayerAttack3State();
 
 public:
-	static PlayerAttackState* GetInstance();
+	static PlayerAttack3State* GetInstance();
 
 	// PlayerState을(를) 통해 상속됨
 	virtual void Init(CSSN002PlayerScript * playerScript) override;

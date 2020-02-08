@@ -4,7 +4,7 @@
 #include "SSN002PlayerScript.h"
 #include "PlayerIdleState.h"
 #include "PlayerRollRightState.h"
-#include "PlayerAttackState.h"
+#include "PlayerAttack1State.h"
 #include "PlayerHealState.h"
 #include "PlayerParryingState.h"
 
@@ -78,8 +78,8 @@ void PlayerWalkRightState::Update(CSSN002PlayerScript * playerScript)
 
 	if (KEYTAB(KEY_TYPE::KEY_LBTN))
 	{
-		PlayerAttackState::GetInstance()->Init(playerScript);
-		playerScript->SetState(PlayerAttackState::GetInstance());
+		PlayerAttack1State::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerAttack1State::GetInstance());
 	}
 
 	if (KEYTAB(KEY_TYPE::KEY_E))

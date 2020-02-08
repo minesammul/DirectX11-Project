@@ -194,7 +194,10 @@ call CodeGen.exe</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="HilightScript.h" />
-    <ClInclude Include="PlayerAttackState.h" />
+    <ClInclude Include="PlayerAttack1State.h" />
+    <ClInclude Include="PlayerAttack2State.h" />
+    <ClInclude Include="PlayerAttack3State.h" />
+    <ClInclude Include="PlayerAttack4State.h" />
     <ClInclude Include="PlayerDeadState.h" />
     <ClInclude Include="PlayerHealState.h" />
     <ClInclude Include="PlayerHitedState.h" />
@@ -220,7 +223,10 @@ call CodeGen.exe</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HilightScript.cpp" />
-    <ClCompile Include="PlayerAttackState.cpp" />
+    <ClCompile Include="PlayerAttack1State.cpp" />
+    <ClCompile Include="PlayerAttack2State.cpp" />
+    <ClCompile Include="PlayerAttack3State.cpp" />
+    <ClCompile Include="PlayerAttack4State.cpp" />
     <ClCompile Include="PlayerDeadState.cpp" />
     <ClCompile Include="PlayerHealState.cpp" />
     <ClCompile Include="PlayerHitedState.cpp" />

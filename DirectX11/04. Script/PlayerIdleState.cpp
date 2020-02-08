@@ -9,7 +9,7 @@
 #include "PlayerHealState.h"
 #include "PlayerHitedState.h"
 #include "PlayerDeadState.h"
-#include "PlayerAttackState.h"
+#include "PlayerAttack1State.h"
 #include "PlayerParryingState.h"
 
 PlayerIdleState::PlayerIdleState()
@@ -94,8 +94,8 @@ void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 
 	if (KEYTAB(KEY_TYPE::KEY_LBTN))
 	{
-		PlayerAttackState::GetInstance()->Init(playerScript);
-		playerScript->SetState(PlayerAttackState::GetInstance());
+		PlayerAttack1State::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerAttack1State::GetInstance());
 	}
 
 	if (KEYTAB(KEY_TYPE::KEY_RBTN))

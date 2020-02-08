@@ -81,9 +81,6 @@
     <ClInclude Include="PlayerDeadState.h">
       <Filter>Scripts\Player\State\Component</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerAttackState.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerParryingState.h">
       <Filter>Scripts\Player\State\Component</Filter>
     </ClInclude>
@@ -94,6 +91,18 @@
       <Filter>Scripts\Player\State\Component</Filter>
     </ClInclude>
     <ClInclude Include="PlayerRollRightState.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttack4State.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttack2State.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttack3State.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttack1State.h">
       <Filter>Scripts\Player\State\Component</Filter>
     </ClInclude>
   </ItemGroup>
@@ -149,9 +158,6 @@
     <ClCompile Include="PlayerDeadState.cpp">
       <Filter>Scripts\Player\State\Component</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerAttackState.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerParryingState.cpp">
       <Filter>Scripts\Player\State\Component</Filter>
     </ClCompile>
@@ -162,6 +168,18 @@
       <Filter>Scripts\Player\State\Component</Filter>
     </ClCompile>
     <ClCompile Include="PlayerRollRightState.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttack3State.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttack4State.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttack2State.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttack1State.cpp">
       <Filter>Scripts\Player\State\Component</Filter>
     </ClCompile>
   </ItemGroup>
