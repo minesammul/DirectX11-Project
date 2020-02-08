@@ -72,9 +72,6 @@
     <ClInclude Include="PlayerRollFrontState.h">
       <Filter>Scripts\Player\State\Component</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerHealState.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerHitedState.h">
       <Filter>Scripts\Player\State\Component</Filter>
     </ClInclude>
@@ -103,6 +100,9 @@
       <Filter>Scripts\Player\State\Component</Filter>
     </ClInclude>
     <ClInclude Include="PlayerAttack1State.h">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHealSuccessState.h">
       <Filter>Scripts\Player\State\Component</Filter>
     </ClInclude>
   </ItemGroup>
@@ -149,9 +149,6 @@
     <ClCompile Include="PlayerRollFrontState.cpp">
       <Filter>Scripts\Player\State\Component</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerHealState.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerHitedState.cpp">
       <Filter>Scripts\Player\State\Component</Filter>
     </ClCompile>
@@ -180,6 +177,9 @@
       <Filter>Scripts\Player\State\Component</Filter>
     </ClCompile>
     <ClCompile Include="PlayerAttack1State.cpp">
+      <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHealSuccessState.cpp">
       <Filter>Scripts\Player\State\Component</Filter>
     </ClCompile>
   </ItemGroup>

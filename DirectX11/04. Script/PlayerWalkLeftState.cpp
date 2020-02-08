@@ -5,7 +5,7 @@
 #include "PlayerIdleState.h"
 #include "PlayerRollLeftState.h"
 #include "PlayerAttack1State.h"
-#include "PlayerHealState.h"
+#include "PlayerHealSuccessState.h"
 #include "PlayerParryingState.h"
 
 PlayerWalkLeftState::PlayerWalkLeftState()
@@ -85,8 +85,8 @@ void PlayerWalkLeftState::Update(CSSN002PlayerScript * playerScript)
 
 	if (KEYTAB(KEY_TYPE::KEY_E))
 	{
-		PlayerHealState::GetInstance()->Init(playerScript);
-		playerScript->SetState(PlayerHealState::GetInstance());
+		PlayerHealSuccessState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerHealSuccessState::GetInstance());
 	}
 
 	if (KEYTAB(KEY_TYPE::KEY_RBTN))

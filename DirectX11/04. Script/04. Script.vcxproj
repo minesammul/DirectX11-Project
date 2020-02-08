@@ -199,7 +199,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="PlayerAttack3State.h" />
     <ClInclude Include="PlayerAttack4State.h" />
     <ClInclude Include="PlayerDeadState.h" />
-    <ClInclude Include="PlayerHealState.h" />
+    <ClInclude Include="PlayerHealSuccessState.h" />
     <ClInclude Include="PlayerHitedState.h" />
     <ClInclude Include="PlayerIdleState.h" />
     <ClInclude Include="PlayerParryingState.h" />
@@ -228,7 +228,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="PlayerAttack3State.cpp" />
     <ClCompile Include="PlayerAttack4State.cpp" />
     <ClCompile Include="PlayerDeadState.cpp" />
-    <ClCompile Include="PlayerHealState.cpp" />
+    <ClCompile Include="PlayerHealSuccessState.cpp" />
     <ClCompile Include="PlayerHitedState.cpp" />
     <ClCompile Include="PlayerIdleState.cpp" />
     <ClCompile Include="PlayerParryingState.cpp" />

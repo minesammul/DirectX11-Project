@@ -1,30 +1,30 @@
 #include "stdafx.h"
-#include "PlayerHealState.h"
+#include "PlayerHealSuccessState.h"
 
 #include "SSN002PlayerScript.h"
 #include "PlayerIdleState.h"
 
-PlayerHealState::PlayerHealState()
+PlayerHealSuccessState::PlayerHealSuccessState()
 {
 }
 
 
-PlayerHealState::~PlayerHealState()
+PlayerHealSuccessState::~PlayerHealSuccessState()
 {
 }
 
-PlayerHealState * PlayerHealState::GetInstance()
+PlayerHealSuccessState * PlayerHealSuccessState::GetInstance()
 {
-	static PlayerHealState instance;
+	static PlayerHealSuccessState instance;
 	return &instance;
 }
 
-void PlayerHealState::Init(CSSN002PlayerScript * playerScript)
+void PlayerHealSuccessState::Init(CSSN002PlayerScript * playerScript)
 {
 	//Animation Init
 	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
 	{
-		if (playerScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Heal", findAnimationIndex) == false)
+		if (playerScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Heal_Success", findAnimationIndex) == false)
 		{
 			assert(false && L"Not Find Animation");
 		}
@@ -35,7 +35,7 @@ void PlayerHealState::Init(CSSN002PlayerScript * playerScript)
 	//
 }
 
-void PlayerHealState::Update(CSSN002PlayerScript * playerScript)
+void PlayerHealSuccessState::Update(CSSN002PlayerScript * playerScript)
 {
 	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
 	{
@@ -48,6 +48,6 @@ void PlayerHealState::Update(CSSN002PlayerScript * playerScript)
 	}
 }
 
-void PlayerHealState::Exit(CSSN002PlayerScript * playerScript)
+void PlayerHealSuccessState::Exit(CSSN002PlayerScript * playerScript)
 {
 }

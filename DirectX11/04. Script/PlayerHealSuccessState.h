@@ -2,17 +2,17 @@
 #include "PlayerState.h"
 
 
-class PlayerHealState : public PlayerState
+class PlayerHealSuccessState : public PlayerState
 {
 private:
 	int findAnimationIndex;
 
 public:
-	PlayerHealState();
-	~PlayerHealState();
+	PlayerHealSuccessState();
+	~PlayerHealSuccessState();
 
 public:
-	static PlayerHealState* GetInstance();
+	static PlayerHealSuccessState* GetInstance();
 
 	// PlayerState을(를) 통해 상속됨
 	virtual void Init(CSSN002PlayerScript * playerScript) override;

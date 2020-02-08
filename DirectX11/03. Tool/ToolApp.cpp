@@ -180,7 +180,7 @@ void CToolApp::CreateTestScene()
 	}
 
 	//{
-	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\IronGolem_Stage.fbx");
+	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Heal3.fbx");
 	//	pMeshData->Save();
 	//	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
 

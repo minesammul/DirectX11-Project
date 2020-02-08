@@ -6,7 +6,7 @@
 #include "PlayerWalkBackState.h"
 #include "PlayerWalkLeftState.h"
 #include "PlayerWalkRightState.h"
-#include "PlayerHealState.h"
+#include "PlayerHealSuccessState.h"
 #include "PlayerHitedState.h"
 #include "PlayerDeadState.h"
 #include "PlayerAttack1State.h"
@@ -87,8 +87,8 @@ void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 	//Idle State -> Heal State
 	if (KEYTAB(KEY_TYPE::KEY_E))
 	{
-		PlayerHealState::GetInstance()->Init(playerScript);
-		playerScript->SetState(PlayerHealState::GetInstance());
+		PlayerHealSuccessState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerHealSuccessState::GetInstance());
 	}
 	//
 
