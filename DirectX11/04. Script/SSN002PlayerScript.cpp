@@ -4,8 +4,10 @@
 #include "PlayerIdleState.h"
 
 CSSN002PlayerScript::CSSN002PlayerScript() : 
-	CScript((UINT)SCRIPT_TYPE::SSN002PLAYERSCRIPT)
+	CScript((UINT)SCRIPT_TYPE::SSN002PLAYERSCRIPT),
+	PLAYER_MOVE_SPEED(10.f)
 {
+
 }
 
 

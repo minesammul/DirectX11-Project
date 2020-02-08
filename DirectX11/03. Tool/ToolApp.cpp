@@ -161,87 +161,36 @@ void CToolApp::CreateTestScene()
 	pCurScene->AddLayer(L"Bullet", 2);
 	pCurScene->AddLayer(L"Monster", 3);
 
-	/// FBX Loading
-	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Painting Guardian.fbx");
-	pMeshData->Save();
-	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
-
-	//Animation Clip 분리 테스트 코드.
-	//vector<CResPtr<CMesh>> tempMesh = pMeshData->GetVectorMesh();
-
-	//for (int index = 0; index < tempMesh.size(); index++)
-	//{
-	//	tMTAnimClip tempAniData = tempMesh[index]->GetAnimClip(0);
-	//	vector<tMTAnimClip> tempAniVector;
-	//	tempAniVector.push_back(tempAniData);
-
-	//	tempAniData.iStartFrame = 498;
-	//	tempAniData.iEndFrame = 620;
-	//	tempAniData.iFrameLength = tempAniData.iEndFrame - tempAniData.iStartFrame + 1;
-	//	tempAniData.dStartTime = (*tempMesh[index]->GetBones())[0].vecKeyFrame[tempAniData.iStartFrame].fTime;
-	//	tempAniData.dEndTime = (*tempMesh[index]->GetBones())[0].vecKeyFrame[tempAniData.iEndFrame].fTime;
-	//	tempAniData.dTimeLength = tempAniData.dEndTime - tempAniData.dStartTime;
-	//	tempAniVector.push_back(tempAniData);
-
-	//	tempMesh[index]->SetAnimClip(tempAniVector);
-
-	//	pMeshData->SetVectorMesh(tempMesh[index], index);
-	//}
-	//pMeshData->Save();
-	//
-
-
-	CGameObject* pMeshObject = pMeshData->Instantiate();
-
-	//// Animation Clip Index 지정 테스트
-
-	for (int index = 0; index < pMeshObject->GetChild().size(); index++)
 	{
-		pMeshObject->GetChild()[index]->Animator3D()->SetCurAnimClip(0);
+		CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Painting Guardian.fbx");
+		pMeshData->Save();
+		//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
+
+		CGameObject* pMeshObject = pMeshData->Instantiate();
+
+		for (int index = 0; index < pMeshObject->GetChild().size(); index++)
+		{
+			pMeshObject->GetChild()[index]->Animator3D()->SetCurAnimClip(0);
+		}
+
+		pMeshObject->SetName(L"Artorias");
+		pMeshObject->Transform()->SetLocalScale(Vec3(10.f, 10.f, 10.f));
+
+		pCurScene->AddObject(L"Player", pMeshObject);
 	}
-	//
 
-	pMeshObject->SetName(L"Artorias");
-	pMeshObject->Transform()->SetLocalScale(Vec3(10.f, 10.f, 10.f));
-
-	pCurScene->AddObject(L"Player", pMeshObject);
-	///
-
-	/// 인스턴싱 테스트
-	////Monster Animation Mesh -> GameObject
-	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Monster3.fbx");
-	//pMeshData->Save();
-	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"Monster03", L"MeshData\\Monster3.mdat");
-	//CGameObject* pMeshObject = pMeshData->Instantiate();
-	//pMeshObject->SetName(pMeshData->GetName());
-	//pMeshObject->Transform()->SetLocalScale(Vec3(10.f, 10.f, 10.f));
-
-	//for (int index = 0; index < pMeshObject->GetChild().size(); index++)
 	//{
-	//	pMeshObject->GetChild()[index]->Animator3D()->SetClipTime(0, 0.f);
-	//}
+	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\IronGolem_Stage.fbx");
+	//	pMeshData->Save();
+	//	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
 
-	////pMeshObject->Animator3D()->SetClipTime(0, 0.f);
+	//	CGameObject* pMeshObject = pMeshData->Instantiate();
 
-	//pCurScene->AddObject(L"Player", pMeshObject);
-
-	//for (int i = 0; i < 5; ++i)
-	//{
-	//	pMeshObject = pMeshObject->Clone();
-	//	pMeshObject->SetName(pMeshObject->GetName() + L"_C");
-	//	pMeshObject->Transform()->SetLocalPos(Vec3(300.f * i, 0.f, 0.f));
-
-	//	for (int index = 0; index < pMeshObject->GetChild().size(); index++)
-	//	{
-	//		pMeshObject->GetChild()[index]->Animator3D()->SetClipTime(0, 10.f + index + 1);
-	//	}
-
-	//	//pMeshObject->Animator3D()->SetClipTime(0, 10.f);
+	//	pMeshObject->SetName(L"IronGolem Stage");
+	//	pMeshObject->Transform()->SetLocalScale(Vec3(1.f, 1.f, 1.f));
 
 	//	pCurScene->AddObject(L"Player", pMeshObject);
 	//}
-	///
-
 
 	// Light3D 추가하기
 	CGameObject* pLightObj = new CGameObject;
@@ -277,44 +226,6 @@ void CToolApp::CreateTestScene()
 
 	pCurScene->AddObject(L"Default", pCamObj);
 
-	//Player Object 만들기
-	/*CGameObject* pParent = new CGameObject;
-	pParent->SetName(L"Player");
-
-	CTransform* pTransform = new CTransform;
-	CMeshRender* pMeshRender = new CMeshRender;
-
-	pTransform->SetLocalPos(Vec3(0.f, 100.f, 500.f));
-	pTransform->SetLocalScale(Vec3(1000.f, 1000.f, 1000.f));
-	pTransform->SetLocalRot(Vec3(XM_PI / 2.f, 0.f, 0.f));
-
-	pMeshRender->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pMeshRender->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3DMtrl"));
-	CResPtr<CTexture> diffuse = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01.tga");
-	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &diffuse);
-	CResPtr<CTexture> noraml = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01_N.tga");
-	pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &noraml);*/
-	//CResPtr<CTexture> pHeightMap = CResMgr::GetInst()->CreateTexture(	L"HeightMap", 
-	//																	100, 
-	//																	100,
-	//																	D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS, 
-	//																	D3D11_USAGE_DEFAULT, 
-	//																	DXGI_FORMAT_R32G32B32A32_FLOAT);
-	//pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pHeightMap);
-
-
-	//CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01.tga");
-	//pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTex);
-	//pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_01_N.tga");
-	//pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_1, &pTex);
-	//pTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\HeightMap\\HeightMap_01.jpg");
-	//pMeshRender->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_2, &pTex);
-
-	//pParent->AddComponent(pTransform);
-	//pParent->AddComponent(pMeshRender);
-
-	//pCurScene->AddObject(L"Player", pParent);
-
 	// SkyBox 추가하기
 	CGameObject* pSkyBox = new CGameObject;
 	pSkyBox->SetName(L"Skybox");
@@ -328,12 +239,8 @@ void CToolApp::CreateTestScene()
 
 	pCurScene->AddObject(L"Default", pSkyBox);
 
-	//CResPtr<CSound> pSound = CResMgr::GetInst()->Load<CSound>(L"test.mp3", L"Sound\\test.mp3");
-	//pSound->Play(1);
-
 	// 충돌 지정
 	CCollisionMgr::GetInst()->CollisionCheck(L"Player", L"Monster");
-
 }
 
 // CToolApp 메시지 처리기

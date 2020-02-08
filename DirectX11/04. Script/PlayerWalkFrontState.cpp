@@ -7,6 +7,7 @@
 #include "PlayerAttackState.h"
 #include "PlayerHealState.h"
 #include "PlayerParryingState.h"
+#include <Camera.h>
 
 PlayerWalkFrontState::PlayerWalkFrontState()
 {
@@ -53,6 +54,15 @@ void PlayerWalkFrontState::Update(CSSN002PlayerScript * playerScript)
 			}
 		}
 		//
+
+		vector<CGameObject*> findObject;
+		CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"MainCamera", findObject);
+
+		Vec3 walkDirection = findObject[0]->Transform()->GetLocalDir(DIR_TYPE::DIR_FRONT);
+
+		Vec3 playerPosition = playerScript->Object()->Transform()->GetLocalPos();
+		playerPosition += walkDirection * playerScript->GetPlayerMoveSpeed();
+		playerScript->Object()->Transform()->SetLocalPos(playerPosition);
 	}
 	else if(KEYAWAY(KEY_TYPE::KEY_W))
 	{

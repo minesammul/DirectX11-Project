@@ -5,6 +5,7 @@ class PlayerRollLeftState : public PlayerState
 {
 private:
 	int findAnimationIndex;
+	bool isMove;
 
 public:
 	PlayerRollLeftState();

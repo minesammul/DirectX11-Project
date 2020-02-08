@@ -39,6 +39,19 @@ void PlayerRollRightState::Init(CSSN002PlayerScript * playerScript)
 
 void PlayerRollRightState::Update(CSSN002PlayerScript * playerScript)
 {
+	if (isMove == true)
+	{
+		vector<CGameObject*> findObject;
+		CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"MainCamera", findObject);
+
+		Vec3 walkDirection = findObject[0]->Transform()->GetLocalDir(DIR_TYPE::DIR_RIGHT);
+
+		Vec3 playerPosition = playerScript->Object()->Transform()->GetLocalPos();
+		playerPosition += walkDirection * playerScript->GetPlayerRollSpeed();
+		playerScript->Object()->Transform()->SetLocalPos(playerPosition);
+	}
+
+
 	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
 	{
 		if (playerScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation())
@@ -46,6 +59,18 @@ void PlayerRollRightState::Update(CSSN002PlayerScript * playerScript)
 			PlayerIdleState::GetInstance()->Init(playerScript);
 			playerScript->SetState(PlayerIdleState::GetInstance());
 			break;
+		}
+		else
+		{
+			float curRatioAnimTime = playerScript->Object()->GetChild()[index]->Animator3D()->GetCurRatioAnimTime();
+			if (0.2f <= curRatioAnimTime && curRatioAnimTime <= 0.5f)
+			{
+				isMove = true;
+			}
+			else
+			{
+				isMove = false;
+			}
 		}
 	}
 }
