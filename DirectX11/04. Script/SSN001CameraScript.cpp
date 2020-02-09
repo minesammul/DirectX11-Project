@@ -16,51 +16,76 @@ CSSN001CameraScript::~CSSN001CameraScript()
 
 void CSSN001CameraScript::update()
 {
-	Vec3 vPos = Transform()->GetLocalPos();
+	{
+		vector<CGameObject*> findObject;
+		CSceneMgr::GetInst()->FindGameObject(L"MainCameraArm", findObject);
+		Vec3 vPos = findObject[0]->Transform()->GetWorldPos();
 
-	Vec3 vFront = Transform()->GetLocalDir(DIR_TYPE::DIR_FRONT);
-	Vec3 vRight = Transform()->GetLocalDir(DIR_TYPE::DIR_RIGHT);
-
-	if (KEYHOLD(KEY_TYPE::KEY_W))
-	{
-		vPos += (vFront * DT * m_fSpeed * m_fMul);
-	}
-	if (KEYHOLD(KEY_TYPE::KEY_S))
-	{
-		vPos += (-vFront * DT * m_fSpeed * m_fMul);
-	}
-	if (KEYHOLD(KEY_TYPE::KEY_A))
-	{
-		vPos += (-vRight * DT * m_fSpeed * m_fMul);
-	}
-	if (KEYHOLD(KEY_TYPE::KEY_D))
-	{
-		vPos += (vRight * DT * m_fSpeed * m_fMul);
+		Transform()->SetLocalPos(vPos);
 	}
 
-	if (KEYHOLD(KEY_TYPE::KEY_RBTN))
 	{
-		Vec2 vDragDir = CKeyMgr::GetInst()->GetDragDir();
+		vector<CGameObject*> findArm;
+		CSceneMgr::GetInst()->FindGameObject(L"MainCameraArm", findArm);
 
-		Vec3 vRot = Transform()->GetLocalRot();
-		vRot.y += DT * XM_PI * 0.5f * vDragDir.x;
-		vRot.z = 0.f;
+		vector<CGameObject*> findBody;
+		CSceneMgr::GetInst()->FindGameObject(L"MainCameraBody", findBody);
 
-		Transform()->SetLocalRot(vRot);
+		Vec3 mainCameraBodyPosition = findBody[0]->Transform()->GetWorldPos();
+		Vec3 cameraLookDirection = mainCameraBodyPosition - findArm[0]->Transform()->GetWorldPos();
 
-		// ¿ìº¤ÅÍ È¸Àü
-		Matrix matAxis = XMMatrixRotationAxis(Transform()->GetLocalDir(DIR_TYPE::DIR_RIGHT), DT * XM_PI * 0.5f * -vDragDir.y);
-		Transform()->AddLocalRot(matAxis);
+		if (-0.1f <= cameraLookDirection.z && cameraLookDirection.z <= 0.1f)
+		{
+			cameraLookDirection.z = 1.f;
+		}
+
+		Transform()->SetLookAt(cameraLookDirection);
 	}
 
-	if (KEYHOLD(KEY_TYPE::KEY_LSHIFT))
-	{
-		m_fMul += DT * 5.f;
-	}
-	if (KEYAWAY(KEY_TYPE::KEY_LSHIFT))
-	{
-		m_fMul = 1.f;
-	}
 
-	Transform()->SetLocalPos(vPos);
+	//Vec3 vFront = Transform()->GetLocalDir(DIR_TYPE::DIR_FRONT);
+	//Vec3 vRight = Transform()->GetLocalDir(DIR_TYPE::DIR_RIGHT);
+
+	//if (KEYHOLD(KEY_TYPE::KEY_W))
+	//{
+	//	vPos += (vFront * DT * m_fSpeed * m_fMul);
+	//}
+	//if (KEYHOLD(KEY_TYPE::KEY_S))
+	//{
+	//	vPos += (-vFront * DT * m_fSpeed * m_fMul);
+	//}
+	//if (KEYHOLD(KEY_TYPE::KEY_A))
+	//{
+	//	vPos += (-vRight * DT * m_fSpeed * m_fMul);
+	//}
+	//if (KEYHOLD(KEY_TYPE::KEY_D))
+	//{
+	//	vPos += (vRight * DT * m_fSpeed * m_fMul);
+	//}
+
+	//if (KEYHOLD(KEY_TYPE::KEY_RBTN))
+	//{
+	//	Vec2 vDragDir = CKeyMgr::GetInst()->GetDragDir();
+
+	//	Vec3 vRot = Transform()->GetLocalRot();
+	//	vRot.y += DT * XM_PI * 0.5f * vDragDir.x;
+	//	vRot.z = 0.f;
+
+	//	Transform()->SetLocalRot(vRot);
+
+	//	// ¿ìº¤ÅÍ È¸Àü
+	//	Matrix matAxis = XMMatrixRotationAxis(Transform()->GetLocalDir(DIR_TYPE::DIR_RIGHT), DT * XM_PI * 0.5f * -vDragDir.y);
+	//	Transform()->AddLocalRot(matAxis);
+	//}
+
+	//if (KEYHOLD(KEY_TYPE::KEY_LSHIFT))
+	//{
+	//	m_fMul += DT * 5.f;
+	//}
+	//if (KEYAWAY(KEY_TYPE::KEY_LSHIFT))
+	//{
+	//	m_fMul = 1.f;
+	//}
+
+
 }
