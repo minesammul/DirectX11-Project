@@ -47,6 +47,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_GAMEOBJECT_2DRECT, &CMainFrame::OnGameobject2drect)
 	ON_COMMAND(ID_GAMEOBJECT_CREATETERRAIN, &CMainFrame::OnGameObjectCreateTerrain)
 	ON_COMMAND(ID_GAMEOBJECT_CREATE3DCUBE, &CMainFrame::OnGameobjectCreate3dcube)
+	ON_COMMAND(ID_GAMEOBJECT_CREATEEMPTYOBJECT, &CMainFrame::OnGameobjectCreateEmptyObject)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -382,6 +383,43 @@ void CMainFrame::OnGameobjectCreate3dcube()
 	newObject->AddComponent(pTransform);
 	newObject->AddComponent(pMeshRender);
 	newObject->AddComponent(pCollider3D);
+
+	pCurScene->AddObject(L"Default", newObject);
+
+	((CHierachyView*)GetHierachyView())->init_object();
+}
+
+
+void CMainFrame::OnGameobjectCreateEmptyObject()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+	CGameObject* newObject = new CGameObject;
+
+	CString newObjectName;
+	int newObjectNumber = 0;
+	while (true)
+	{
+		newObjectName.Format(L"EmptyObject_%d", newObjectNumber);
+		if (pCurScene->IsExistGameObjectName(newObjectName.GetBuffer()) == true)
+		{
+			newObjectNumber++;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	newObject->SetName(newObjectName.GetBuffer());
+
+	CTransform* pTransform = new CTransform;
+
+	pTransform->SetLocalPos(Vec3(0.f, 0.f, 500.f));
+	pTransform->SetLocalScale(Vec3(100.f, 100.f, 100.f));
+	pTransform->SetLocalRot(Vec3(0.f, 0.f, 0.f));
+
+	newObject->AddComponent(pTransform);
 
 	pCurScene->AddObject(L"Default", newObject);
 
