@@ -1,4 +1,6 @@
 HilightScript
 SSN001CameraScript
 SSN002PlayerScript
+SSN003CameraArmScript
+SSN004CameraBodyScript
 TestScript

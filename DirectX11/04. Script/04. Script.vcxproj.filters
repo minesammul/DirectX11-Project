@@ -105,6 +105,12 @@
     <ClInclude Include="PlayerHealSuccessState.h">
       <Filter>Scripts\Player\State\Component</Filter>
     </ClInclude>
+    <ClInclude Include="SSN003CameraArmScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="SSN004CameraBodyScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptMgr.cpp">
@@ -181,6 +187,12 @@
     </ClCompile>
     <ClCompile Include="PlayerHealSuccessState.cpp">
       <Filter>Scripts\Player\State\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN003CameraArmScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN004CameraBodyScript.cpp">
+      <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
