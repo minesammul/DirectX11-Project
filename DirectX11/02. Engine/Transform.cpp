@@ -112,6 +112,7 @@ void CTransform::LoadFromScene(FILE * _pFile)
 
 void CTransform::SetLookAt(const Vec3 & _vDir)
 {
+	//그람슈미트 정규화
 	Vec3 vFront = _vDir;
 	vFront.Normalize();
 
@@ -120,6 +121,7 @@ void CTransform::SetLookAt(const Vec3 & _vDir)
 
 	Vec3 vUp = vFront.Cross(vRight);
 	vUp.Normalize();
+	//
 
 	Matrix matRot = XMMatrixIdentity();
 
