@@ -24,6 +24,17 @@ void CSSN002PlayerScript::start()
 void CSSN002PlayerScript::update()
 {
 	playerState->Update(this);
+
+	{
+		vector<CGameObject*> findBody;
+		CSceneMgr::GetInst()->FindGameObject(L"MainCameraBody", findBody);
+
+		Vec3 cameraBodyRotate = findBody[0]->Transform()->GetLocalRot();
+		Vec3 playerRotate = Transform()->GetLocalRot();
+		playerRotate.y = cameraBodyRotate.y;
+
+		Transform()->SetLocalRot(playerRotate);
+	}
 }
 
 void CSSN002PlayerScript::SetState(PlayerState * state)

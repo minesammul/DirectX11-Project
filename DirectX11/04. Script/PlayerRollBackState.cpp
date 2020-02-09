@@ -45,6 +45,7 @@ void PlayerRollBackState::Update(CSSN002PlayerScript * playerScript)
 
 		Vec3 walkDirection = findObject[0]->Transform()->GetLocalDir(DIR_TYPE::DIR_FRONT);
 		walkDirection *= -1.f;
+		walkDirection.y = 0.f;
 
 		Vec3 playerPosition = playerScript->Object()->Transform()->GetLocalPos();
 		playerPosition += walkDirection * playerScript->GetPlayerRollSpeed();

@@ -43,6 +43,7 @@ void PlayerRollFrontState::Update(CSSN002PlayerScript * playerScript)
 		CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"MainCamera", findObject);
 
 		Vec3 walkDirection = findObject[0]->Transform()->GetLocalDir(DIR_TYPE::DIR_FRONT);
+		walkDirection.y = 0.f;
 
 		Vec3 playerPosition = playerScript->Object()->Transform()->GetLocalPos();
 		playerPosition += walkDirection * playerScript->GetPlayerRollSpeed();
