@@ -35,4 +35,6 @@ public:
 	CEdit m_editMtrl;
 	afx_msg void OnBtnMesh();
 	afx_msg void OnBtnMtrl();
+	afx_msg void OnBnClickedCheckSetShadow();
+	BOOL m_isShadow;
 };

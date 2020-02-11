@@ -132,6 +132,8 @@ ULONG64 CMeshRender::GetInstID(UINT _iMtrlIdx)
 
 void CMeshRender::SaveToScene(FILE * _pFile)
 {
+	fwrite(&m_bShadow, 1, 1, _pFile);
+
 	bool bMesh = true, bMtrl = true;
 
 	if (nullptr == m_pMesh)
@@ -170,6 +172,9 @@ void CMeshRender::SaveToScene(FILE * _pFile)
 
 void CMeshRender::LoadFromScene(FILE * _pFile)
 {
+	fread(&m_bShadow, 1, 1, _pFile);
+
+
 	bool bMesh = true, bMtrl = true;
 
 	wstring strKey, strPath;

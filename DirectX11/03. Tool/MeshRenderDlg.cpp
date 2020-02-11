@@ -19,6 +19,7 @@ IMPLEMENT_DYNAMIC(CMeshRenderDlg, CDialogEx)
 
 CMeshRenderDlg::CMeshRenderDlg(CWnd* pParent /*=nullptr*/)
 	: CComponentDlg(IDD_MESHRENDERDLG, pParent)
+	, m_isShadow(FALSE)
 {
 
 }
@@ -32,6 +33,7 @@ void CMeshRenderDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_EDIT1, m_editMesh);
 	DDX_Control(pDX, IDC_EDIT2, m_editMtrl);
+	DDX_Check(pDX, IDC_CHECK1, m_isShadow);
 }
 
 void CMeshRenderDlg::update(CGameObject * _pTarget)
@@ -50,12 +52,17 @@ void CMeshRenderDlg::update(CGameObject * _pTarget)
 
 	m_editMesh.SetWindowTextW(strMeshName);
 	m_editMtrl.SetWindowTextW(strMaterialName);
+
+	m_isShadow = GetTarget()->MeshRender()->IsShadowObj();
+
+	UpdateData(false);
 }
 
 
 BEGIN_MESSAGE_MAP(CMeshRenderDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON1, &CMeshRenderDlg::OnBtnMesh)
 	ON_BN_CLICKED(IDC_BUTTON2, &CMeshRenderDlg::OnBtnMtrl)
+	ON_BN_CLICKED(IDC_CHECK1, &CMeshRenderDlg::OnBnClickedCheckSetShadow)
 END_MESSAGE_MAP()
 
 // CMeshRenderDlg 메시지 처리기
@@ -104,5 +111,18 @@ void CMeshRenderDlg::OnBtnMtrl()
 		CString strSelect = dlg.GetSelectItem();
 		CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(strSelect.GetBuffer());
 		GetTarget()->MeshRender()->SetMaterial(pMtrl);
+	}
+}
+
+void CMeshRenderDlg::OnBnClickedCheckSetShadow()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	if (m_isShadow == true)
+	{
+		GetTarget()->MeshRender()->SetShadow(false);
+	}
+	else
+	{
+		GetTarget()->MeshRender()->SetShadow(true);
 	}
 }
