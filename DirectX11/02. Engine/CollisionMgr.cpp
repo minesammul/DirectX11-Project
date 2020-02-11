@@ -312,19 +312,147 @@ bool CCollisionMgr::CollisionCube(CCollider3D * _pLeft, CCollider3D * _pRight)
 	Matrix matLeftWorld = _pLeft->GetWorldMat();
 	Matrix matRightWorld = _pRight->GetWorldMat();
 
-	VTX* pVtx = (VTX*)pMesh->GetVtxSysMem();
+	//VTX* pVtx = (VTX*)pMesh->GetVtxSysMem();
+	VTX arrCube[24] = {};
+
+	// À­¸é
+	arrCube[0].vPos = Vec3(-0.5f, 0.5f, 0.5f);
+	arrCube[0].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	arrCube[0].vUV = Vec2(0.f, 0.f);
+	arrCube[0].vNormal = Vec3(0.f, 1.f, 0.f);
+
+	arrCube[1].vPos = Vec3(0.5f, 0.5f, 0.5f);
+	arrCube[1].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	arrCube[1].vUV = Vec2(0.f, 0.f);
+	arrCube[1].vNormal = Vec3(0.f, 1.f, 0.f);
+
+	arrCube[2].vPos = Vec3(0.5f, 0.5f, -0.5f);
+	arrCube[2].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	arrCube[2].vUV = Vec2(0.f, 0.f);
+	arrCube[2].vNormal = Vec3(0.f, 1.f, 0.f);
+
+	arrCube[3].vPos = Vec3(-0.5f, 0.5f, -0.5f);
+	arrCube[3].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	arrCube[3].vUV = Vec2(0.f, 0.f);
+	arrCube[3].vNormal = Vec3(0.f, 1.f, 0.f);
+
+
+	// ¾Æ·§ ¸é	
+	arrCube[4].vPos = Vec3(-0.5f, -0.5f, -0.5f);
+	arrCube[4].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	arrCube[4].vUV = Vec2(0.f, 0.f);
+	arrCube[4].vNormal = Vec3(0.f, -1.f, 0.f);
+
+	arrCube[5].vPos = Vec3(0.5f, -0.5f, -0.5f);
+	arrCube[5].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	arrCube[5].vUV = Vec2(0.f, 0.f);
+	arrCube[5].vNormal = Vec3(0.f, -1.f, 0.f);
+
+	arrCube[6].vPos = Vec3(0.5f, -0.5f, 0.5f);
+	arrCube[6].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	arrCube[6].vUV = Vec2(0.f, 0.f);
+	arrCube[6].vNormal = Vec3(0.f, -1.f, 0.f);
+
+	arrCube[7].vPos = Vec3(-0.5f, -0.5f, 0.5f);
+	arrCube[7].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	arrCube[7].vUV = Vec2(0.f, 0.f);
+	arrCube[7].vNormal = Vec3(0.f, -1.f, 0.f);
+
+	// ¿ÞÂÊ ¸é
+	arrCube[8].vPos = Vec3(-0.5f, 0.5f, 0.5f);
+	arrCube[8].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	arrCube[8].vUV = Vec2(0.f, 0.f);
+	arrCube[8].vNormal = Vec3(-1.f, 0.f, 0.f);
+
+	arrCube[9].vPos = Vec3(-0.5f, 0.5f, -0.5f);
+	arrCube[9].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	arrCube[9].vUV = Vec2(0.f, 0.f);
+	arrCube[9].vNormal = Vec3(-1.f, 0.f, 0.f);
+
+	arrCube[10].vPos = Vec3(-0.5f, -0.5f, -0.5f);
+	arrCube[10].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	arrCube[10].vUV = Vec2(0.f, 0.f);
+	arrCube[10].vNormal = Vec3(-1.f, 0.f, 0.f);
+
+	arrCube[11].vPos = Vec3(-0.5f, -0.5f, 0.5f);
+	arrCube[11].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	arrCube[11].vUV = Vec2(0.f, 0.f);
+	arrCube[11].vNormal = Vec3(-1.f, 0.f, 0.f);
+
+	// ¿À¸¥ÂÊ ¸é
+	arrCube[12].vPos = Vec3(0.5f, 0.5f, -0.5f);
+	arrCube[12].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
+	arrCube[12].vUV = Vec2(0.f, 0.f);
+	arrCube[12].vNormal = Vec3(1.f, 0.f, 0.f);
+
+	arrCube[13].vPos = Vec3(0.5f, 0.5f, 0.5f);
+	arrCube[13].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
+	arrCube[13].vUV = Vec2(0.f, 0.f);
+	arrCube[13].vNormal = Vec3(1.f, 0.f, 0.f);
+
+	arrCube[14].vPos = Vec3(0.5f, -0.5f, 0.5f);
+	arrCube[14].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
+	arrCube[14].vUV = Vec2(0.f, 0.f);
+	arrCube[14].vNormal = Vec3(1.f, 0.f, 0.f);
+
+	arrCube[15].vPos = Vec3(0.5f, -0.5f, -0.5f);
+	arrCube[15].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
+	arrCube[15].vUV = Vec2(0.f, 0.f);
+	arrCube[15].vNormal = Vec3(1.f, 0.f, 0.f);
+
+	// µÞ ¸é
+	arrCube[16].vPos = Vec3(0.5f, 0.5f, 0.5f);
+	arrCube[16].vColor = Vec4(1.f, 1.f, 0.f, 1.f);
+	arrCube[16].vUV = Vec2(0.f, 0.f);
+	arrCube[16].vNormal = Vec3(0.f, 0.f, 1.f);
+
+	arrCube[17].vPos = Vec3(-0.5f, 0.5f, 0.5f);
+	arrCube[17].vColor = Vec4(1.f, 1.f, 0.f, 1.f);
+	arrCube[17].vUV = Vec2(0.f, 0.f);
+	arrCube[17].vNormal = Vec3(0.f, 0.f, 1.f);
+
+	arrCube[18].vPos = Vec3(-0.5f, -0.5f, 0.5f);
+	arrCube[18].vColor = Vec4(1.f, 1.f, 0.f, 1.f);
+	arrCube[18].vUV = Vec2(0.f, 0.f);
+	arrCube[18].vNormal = Vec3(0.f, 0.f, 1.f);
+
+	arrCube[19].vPos = Vec3(0.5f, -0.5f, 0.5f);
+	arrCube[19].vColor = Vec4(1.f, 1.f, 0.f, 1.f);
+	arrCube[19].vUV = Vec2(0.f, 0.f);
+	arrCube[19].vNormal = Vec3(0.f, 0.f, 1.f);
+
+	// ¾Õ ¸é
+	arrCube[20].vPos = Vec3(-0.5f, 0.5f, -0.5f);;
+	arrCube[20].vColor = Vec4(1.f, 0.f, 1.f, 1.f);
+	arrCube[20].vUV = Vec2(0.f, 0.f);
+	arrCube[20].vNormal = Vec3(0.f, 0.f, -1.f);
+
+	arrCube[21].vPos = Vec3(0.5f, 0.5f, -0.5f);
+	arrCube[21].vColor = Vec4(1.f, 0.f, 1.f, 1.f);
+	arrCube[21].vUV = Vec2(0.f, 0.f);
+	arrCube[21].vNormal = Vec3(0.f, 0.f, -1.f);
+
+	arrCube[22].vPos = Vec3(0.5f, -0.5f, -0.5f);
+	arrCube[22].vColor = Vec4(1.f, 0.f, 1.f, 1.f);
+	arrCube[22].vUV = Vec2(0.f, 0.f);
+	arrCube[22].vNormal = Vec3(0.f, 0.f, -1.f);
+
+	arrCube[23].vPos = Vec3(-0.5f, -0.5f, -0.5f);
+	arrCube[23].vColor = Vec4(1.f, 0.f, 1.f, 1.f);
+	arrCube[23].vUV = Vec2(0.f, 0.f);
+	arrCube[23].vNormal = Vec3(0.f, 0.f, -1.f);
 
 	Vec3 vLeftWorldPos[24] = {};
 	Vec3 vRightWorldPos[24] = {};
 
 	for (UINT i = 0; i < 24; ++i)
 	{
-		vLeftWorldPos[i] = XMVector3TransformCoord(pVtx[i].vPos, matLeftWorld);
+		vLeftWorldPos[i] = XMVector3TransformCoord(arrCube[i].vPos, matLeftWorld);
 	}
 
 	for (UINT i = 0; i < 24; ++i)
 	{
-		vRightWorldPos[i] = XMVector3TransformCoord(pVtx[i].vPos, matRightWorld);
+		vRightWorldPos[i] = XMVector3TransformCoord(arrCube[i].vPos, matRightWorld);
 	}
 
 	Vec3 vLeftCenter = (vLeftWorldPos[0] + vLeftWorldPos[5]) / 2.f;

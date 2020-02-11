@@ -54,6 +54,10 @@ void CMesh::CreateMesh(UINT _iVtxSize, UINT _iVtxCount, D3D11_USAGE _eVtxUsage, 
 		assert(nullptr);
 	}
 
+	m_pVtxMem = malloc(m_iVtxCount * m_iVtxSize);
+
+	memcpy(m_pVtxMem, _pVtx, m_iVtxCount * m_iVtxSize);
+
 	// Index Buffer »ý¼º	
 	D3D11_BUFFER_DESC tIdxDesc = {};
 	tIdxDesc.ByteWidth = GetSizeofFormat(_eIdxFormat) * _iIdxCount;

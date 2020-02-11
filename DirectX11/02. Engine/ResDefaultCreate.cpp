@@ -306,7 +306,8 @@ void CResMgr::CreateDefaultMesh()
 	}
 
 	pMesh = new CMesh;
-	pMesh->CreateMesh(sizeof(VTX), 24, D3D11_USAGE_DEFAULT, arrCube
+
+	pMesh->CreateMesh(sizeof(VTX), 24, D3D11_USAGE_DEFAULT, &arrCube[0]
 		, vecIdx.size(), D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32_UINT, &vecIdx[0]);
 
 	pMesh->SetName(L"CubeMesh");
