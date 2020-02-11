@@ -26,13 +26,13 @@ void CSSN004CameraBodyScript::update()
 	Transform()->SetLocalPos(vPos);
 
 
-	if (CKeyMgr::GetInst()->GetMousePos().x > CKeyMgr::GetInst()->GetPrevMousePos().x)
+	if (CKeyMgr::GetInst()->GetMousePos().x < CKeyMgr::GetInst()->GetPrevMousePos().x)
 	{
 		Vec3 rotate = Transform()->GetLocalRot();
 		rotate.y -= GetRadian(5.f);
 		Transform()->SetLocalRot(rotate);
 	}
-	else if(CKeyMgr::GetInst()->GetMousePos().x < CKeyMgr::GetInst()->GetPrevMousePos().x)
+	else if(CKeyMgr::GetInst()->GetMousePos().x > CKeyMgr::GetInst()->GetPrevMousePos().x)
 	{
 		Vec3 rotate = Transform()->GetLocalRot();
 		rotate.y += GetRadian(5.f);
