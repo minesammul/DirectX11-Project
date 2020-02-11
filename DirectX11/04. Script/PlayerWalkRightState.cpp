@@ -29,6 +29,11 @@ void PlayerWalkRightState::Init(CSSN002PlayerScript * playerScript)
 	//Animation Init
 	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
 	{
+		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
+		{
+			continue;
+		}
+
 		if (playerScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Walk_Right", findAnimationIndex) == false)
 		{
 			assert(false && L"Not Find Animation");
@@ -44,9 +49,22 @@ void PlayerWalkRightState::Update(CSSN002PlayerScript * playerScript)
 {
 	if (KEYHOLD(KEY_TYPE::KEY_D))
 	{
+		if (playerScript->GetPlayerMovable() == false)
+		{
+			Vec3 beforePlayerPosition = playerScript->GetBeforePlayerPosition();
+			playerScript->Object()->Transform()->SetLocalPos(beforePlayerPosition);
+			return;
+		}
+
+
 		// Animation Done is Init
 		for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
 		{
+			if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
+			{
+				continue;
+			}
+
 			if (playerScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation())
 			{
 				playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);

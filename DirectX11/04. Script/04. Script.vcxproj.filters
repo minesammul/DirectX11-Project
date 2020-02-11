@@ -111,6 +111,9 @@
     <ClInclude Include="SSN004CameraBodyScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="SSN005NavScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptMgr.cpp">
@@ -192,6 +195,9 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="SSN004CameraBodyScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN005NavScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>

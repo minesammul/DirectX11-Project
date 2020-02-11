@@ -27,6 +27,11 @@ void PlayerAttack2State::Init(CSSN002PlayerScript * playerScript)
 
 	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
 	{
+		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
+		{
+			continue;
+		}
+
 		if (playerScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Attack2", findAnimationIndex) == false)
 		{
 			assert(false && L"Not Find Animation");
@@ -41,6 +46,11 @@ void PlayerAttack2State::Update(CSSN002PlayerScript * playerScript)
 {
 	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
 	{
+		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
+		{
+			continue;
+		}
+
 		if (playerScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation())
 		{
 			if (isNextAttack == true)

@@ -33,6 +33,11 @@ void PlayerIdleState::Init(CSSN002PlayerScript* playerScript)
 	//Animation Init
 	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
 	{
+		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
+		{
+			continue;
+		}
+
 		if (playerScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Idle", findAnimationIndex) == false)
 		{
 			assert(false && L"Not Find Animation");
@@ -50,6 +55,11 @@ void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 	// Animation Done is Init
 	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
 	{
+		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
+		{
+			continue;
+		}
+
 		if (playerScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation())
 		{
 			playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);

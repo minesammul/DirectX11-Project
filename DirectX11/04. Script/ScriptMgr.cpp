@@ -6,6 +6,7 @@
 #include "SSN002PlayerScript.h"
 #include "SSN003CameraArmScript.h"
 #include "SSN004CameraBodyScript.h"
+#include "SSN005NavScript.h"
 #include "TestScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
@@ -15,6 +16,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"SSN002PlayerScript");
 	_vec.push_back(L"SSN003CameraArmScript");
 	_vec.push_back(L"SSN004CameraBodyScript");
+	_vec.push_back(L"SSN005NavScript");
 	_vec.push_back(L"TestScript");
 }
 
@@ -30,6 +32,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSSN003CameraArmScript;
 	if (L"SSN004CameraBodyScript" == _strScriptName)
 		return new CSSN004CameraBodyScript;
+	if (L"SSN005NavScript" == _strScriptName)
+		return new CSSN005NavScript;
 	if (L"TestScript" == _strScriptName)
 		return new CTestScript;
 	return nullptr;
@@ -57,6 +61,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::SSN004CAMERABODYSCRIPT:
 		return L"SSN004CameraBodyScript";
+		break;
+
+	case SCRIPT_TYPE::SSN005NAVSCRIPT:
+		return L"SSN005NavScript";
 		break;
 
 	case SCRIPT_TYPE::TESTSCRIPT:
