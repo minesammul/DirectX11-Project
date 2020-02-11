@@ -5,9 +5,13 @@
 class CSSN002PlayerScript : public CScript
 {
 private:
+	const float PLAYER_MOVE_SPEED;
+
+private:
 	PlayerState* playerState;
 
-	const float PLAYER_MOVE_SPEED;
+	bool isMovable;
+	Vec3 beforePlayerPosition;
 
 public:
 	CSSN002PlayerScript();
@@ -20,5 +24,10 @@ public:
 	void SetState(PlayerState* state);
 	float GetPlayerMoveSpeed() { return PLAYER_MOVE_SPEED; }
 	float GetPlayerRollSpeed() { return PLAYER_MOVE_SPEED * 3.f; }
+
+	bool GetPlayerMovable() { return isMovable; }
+
+	Vec3 GetBeforePlayerPosition() { return beforePlayerPosition; }
+	void SetBeforePlayerPosition(Vec3 beforePosition) { beforePlayerPosition = beforePosition; }
 };
 

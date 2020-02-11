@@ -3,4 +3,5 @@ SSN001CameraScript
 SSN002PlayerScript
 SSN003CameraArmScript
 SSN004CameraBodyScript
+SSN005NavScript
 TestScript

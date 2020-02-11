@@ -2,6 +2,7 @@
 #include "SSN002PlayerScript.h"
 
 #include "PlayerIdleState.h"
+#include "SSN005NavScript.h"
 
 CSSN002PlayerScript::CSSN002PlayerScript() : 
 	CScript((UINT)SCRIPT_TYPE::SSN002PLAYERSCRIPT),
@@ -23,8 +24,6 @@ void CSSN002PlayerScript::start()
 
 void CSSN002PlayerScript::update()
 {
-	playerState->Update(this);
-
 	{
 		vector<CGameObject*> findBody;
 		CSceneMgr::GetInst()->FindGameObject(L"MainCameraBody", findBody);
@@ -35,6 +34,27 @@ void CSSN002PlayerScript::update()
 
 		Transform()->SetLocalRot(playerRotate);
 	}
+
+
+	{
+		for (int index = 0; index < Object()->GetChild().size(); index++)
+		{
+			vector<CScript*> childScript = Object()->GetChild()[index]->GetScripts();
+
+			for (int scriptIndex = 0; scriptIndex < childScript.size(); scriptIndex++)
+			{
+				if (childScript[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN005NAVSCRIPT)
+				{
+					isMovable = dynamic_cast<CSSN005NavScript*>(childScript[scriptIndex])->GetNavCollision();
+					beforePlayerPosition = dynamic_cast<CSSN005NavScript*>(childScript[scriptIndex])->GetBeforePosition();
+					break;
+				}
+			}
+		}
+	}
+
+
+	playerState->Update(this);
 }
 
 void CSSN002PlayerScript::SetState(PlayerState * state)
