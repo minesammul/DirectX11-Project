@@ -180,17 +180,51 @@ void CToolApp::CreateTestScene()
 	}
 
 	//{
-	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Heal3.fbx");
+	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Player_Artorias.fbx");
 	//	pMeshData->Save();
 	//	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
 
 	//	CGameObject* pMeshObject = pMeshData->Instantiate();
 
-	//	pMeshObject->SetName(L"IronGolem Stage");
+	//	pMeshObject->SetName(L"Weapon");
 	//	pMeshObject->Transform()->SetLocalScale(Vec3(1.f, 1.f, 1.f));
 
-	//	pCurScene->AddObject(L"Player", pMeshObject);
+	//	pCurScene->AddObject(L"Default", pMeshObject);
 	//}
+
+	//{
+	//	vector<CResPtr<CTexture>> arrtex;
+
+	//	CResPtr<CTexture> tex1 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\T_Cliff01_D.tga");
+	//	CResPtr<CTexture> tex2 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\T_Cliff02_D.tga");
+	//	CResPtr<CTexture> tex3 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\T_Dirt_D.tga");
+	//	CResPtr<CTexture> tex4 = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\T_Grass01_D.tga");
+
+	//	arrtex.push_back(tex1);
+	//	arrtex.push_back(tex2);
+	//	arrtex.push_back(tex3);
+	//	arrtex.push_back(tex4);
+
+	//	CResPtr<CTexture> texarr = CResMgr::GetInst()->CreateArrayTexture(L"Test.dds", arrtex);
+	//	texarr->Save(L"Texture\\Tile\\Test.dds");
+	//}
+
+	//{
+	//	vector<CResPtr<CTexture>> arrtex;
+	//	CResPtr<CTexture> tex1t = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\T_Cliff01_N.tga");
+	//	CResPtr<CTexture> tex2t = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\T_Cliff02_N.tga");
+	//	CResPtr<CTexture> tex3t = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\T_Dirt_N.tga");
+	//	CResPtr<CTexture> tex4t = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\T_Grass01_N.tga");
+
+	//	arrtex.push_back(tex1t);
+	//	arrtex.push_back(tex2t);
+	//	arrtex.push_back(tex3t);
+	//	arrtex.push_back(tex4t);
+
+	//	CResPtr<CTexture> texarr = CResMgr::GetInst()->CreateArrayTexture(L"TestN.dds", arrtex);
+	//	texarr->Save(L"Texture\\Tile\\TestN.dds");
+	//}
+
 
 	// Light3D 추가하기
 	CGameObject* pLightObj = new CGameObject;

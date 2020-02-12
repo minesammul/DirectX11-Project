@@ -307,7 +307,7 @@ void CTexture::CreateArrayTexture(vector<CResPtr<CTexture>>& _vecTex)
 		vecSub.push_back(tSub);
 	}
 
-	DEVICE->CreateTexture2D(&m_tDesc, &vecSub[0], &m_pTex2D);
+	HRESULT createTexture2DResult = DEVICE->CreateTexture2D(&m_tDesc, &vecSub[0], &m_pTex2D);
 	m_pTex2D->GetDesc(&m_tDesc);
 	Capture();
 

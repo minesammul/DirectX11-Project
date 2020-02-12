@@ -50,7 +50,7 @@ void CSSN004CameraBodyScript::update()
 		float radian = acosf(dotValue);
 		float degree = XMConvertToDegrees(radian);
 
-		if (degree > 80.f)
+		if (degree > 90.f)
 		{
 			Vec3 rotate = Transform()->GetLocalRot();
 			rotate.x -= GetRadian(5.f);
