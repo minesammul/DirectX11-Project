@@ -65,6 +65,9 @@ void CAnimator3D::finalupdate()
 		{
 			// 키프레임 별 행렬이 없는 본일 경우
 			m_vecFinalBoneMat[i] = m_pVecBones->at(i).matBone;
+			m_pVecWorldMatrixComponent[i].qRot = Vec4(0.f, 0.f, 0.f, 1.f);
+			m_pVecWorldMatrixComponent[i].vScale = Vec3(1.f, 1.f, 1.f);
+			m_pVecWorldMatrixComponent[i].vTranslate = Vec3(0.f, 0.f, 0.f);
 			continue;
 		}
 
@@ -105,6 +108,15 @@ void CAnimator3D::finalupdate()
 		XMVECTOR vQ = XMQuaternionSlerp(vQ1, vQ2, fPercent);
 
 		XMVECTOR vQZero = XMVectorSet(0.f, 0.f, 0.f, 1.f);
+
+		//
+		m_pVecWorldMatrixComponent[i].vScale = vS;
+		m_pVecWorldMatrixComponent[i].vTranslate = vT;
+		m_pVecWorldMatrixComponent[i].qRot = Vec4(	vQ.vector4_f32[0],
+													vQ.vector4_f32[1],
+													vQ.vector4_f32[2],
+													vQ.vector4_f32[3]);
+		//
 
 		// 오프셋 행렬을 곱하여 최종 본행렬을 만들어낸다.				
 		m_vecFinalBoneMat[i] = m_pVecBones->at(i).matOffset * XMMatrixAffineTransformation(vS, vQZero, vQ, vT);

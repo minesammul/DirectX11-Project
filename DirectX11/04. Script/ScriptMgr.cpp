@@ -7,6 +7,7 @@
 #include "SSN003CameraArmScript.h"
 #include "SSN004CameraBodyScript.h"
 #include "SSN005NavScript.h"
+#include "SSN006WeaponEquipScript.h"
 #include "TestScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
@@ -17,6 +18,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"SSN003CameraArmScript");
 	_vec.push_back(L"SSN004CameraBodyScript");
 	_vec.push_back(L"SSN005NavScript");
+	_vec.push_back(L"SSN006WeaponEquipScript");
 	_vec.push_back(L"TestScript");
 }
 
@@ -34,6 +36,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSSN004CameraBodyScript;
 	if (L"SSN005NavScript" == _strScriptName)
 		return new CSSN005NavScript;
+	if (L"SSN006WeaponEquipScript" == _strScriptName)
+		return new CSSN006WeaponEquipScript;
 	if (L"TestScript" == _strScriptName)
 		return new CTestScript;
 	return nullptr;
@@ -65,6 +69,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::SSN005NAVSCRIPT:
 		return L"SSN005NavScript";
+		break;
+
+	case SCRIPT_TYPE::SSN006WEAPONEQUIPSCRIPT:
+		return L"SSN006WeaponEquipScript";
 		break;
 
 	case SCRIPT_TYPE::TESTSCRIPT:

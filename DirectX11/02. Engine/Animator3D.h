@@ -19,8 +19,16 @@ private:
 
 	float m_curRatioAnimTime;
 
+	vector<tMTKeyFrame> m_pVecWorldMatrixComponent;
+
 public:
-	void SetBones(const vector<tMTBone>* _vecBones) { m_pVecBones = _vecBones; m_vecFinalBoneMat.resize(m_pVecBones->size()); }
+	void SetBones(const vector<tMTBone>* _vecBones) 
+	{ 
+		m_pVecBones = _vecBones;
+		m_vecFinalBoneMat.resize(m_pVecBones->size()); 
+
+		m_pVecWorldMatrixComponent.resize(m_pVecBones->size());
+	}
 	void SetAnimClip(const vector<tMTAnimClip>* _vecAnimClip);
 	bool FindAnimClipIndex(wstring animName, int& findAnimIndex);
 	void SetBoneTex(CResPtr<CTexture> _pBoneTex) { m_pBoneTex = _pBoneTex; }
@@ -37,6 +45,8 @@ public:
 
 	float GetCurRatioAnimTime();
 
+	const vector<tMTBone>* GetVectorBone() { return m_pVecBones; }
+	tMTKeyFrame GetVectorWorldMatrixComponent(int index) { return m_pVecWorldMatrixComponent[index]; }
 public:
 	virtual void awake() {};
 	virtual void start() {};
