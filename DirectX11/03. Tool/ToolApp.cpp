@@ -235,7 +235,7 @@ void CToolApp::CreateTestScene()
 	pLightObj->Transform()->SetLocalPos(Vec3(-500.f, 5000.f, -500.f));
 	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
 	pLightObj->Light3D()->SetLightDir(Vec3(1.f, -1.f, 1.f));
-	pLightObj->Light3D()->SetLightDiffuse(Vec3(1.f, 1.f, 1.f));
+	pLightObj->Light3D()->SetLightDiffuse(Vec3(0.8f, 0.8f, 0.8f));
 	pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));
 	pLightObj->Light3D()->SetLightAmbient(Vec3(0.1f, 0.1f, 0.1f));
 	pLightObj->Light3D()->SetLightRange(100.f);
