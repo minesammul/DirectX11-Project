@@ -86,8 +86,11 @@ void CaculateLight(float3 _vViewPos, float3 _vViewNormal, int _iLightIdx, inout 
     }
 
 
-    _color.vLightDiff += g_arrLight3D[_iLightIdx].tColor.vLightDiff * fPow;
+    //_color.vLightDiff += g_arrLight3D[_iLightIdx].tColor.vLightDiff * fPow;
+    _color.vLightDiff += g_arrLight3D[_iLightIdx].tColor.vLightDiff;
+    
     _color.vLightSpec += g_arrLight3D[_iLightIdx].tColor.vLightSpec * fReflectPow;
+    
     _color.vLightAmb += g_arrLight3D[_iLightIdx].tColor.vLightAmb;
 }
 
