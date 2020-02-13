@@ -366,6 +366,111 @@ void CCamera::render_forward()
 	}
 }
 
+void CCamera::render_posteffect()
+{
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+
+	g_transform.matView = m_matView;
+	g_transform.matProj = m_matProj;
+	g_transform.matViewInv = m_matViewInv;
+
+	for (auto& pair : m_mapSingleObj)
+	{
+		pair.second.clear();
+	}
+
+	tInstancingData tInstData = {};
+
+	for (auto& pair : m_mapInstGroup_P)
+	{
+		// 그룹 오브젝트가 없거나, 쉐이더가 없는 경우
+		if (pair.second.empty())
+			continue;
+		else if (pair.second.size() == 1)
+		{
+			map<INT_PTR, vector<tInstObj>>::iterator iter
+				= m_mapSingleObj.find((INT_PTR)pair.second[0].pObj);
+
+			if (iter != m_mapSingleObj.end())
+				iter->second.push_back(pair.second[0]);
+			else
+			{
+				m_mapSingleObj.insert(make_pair((INT_PTR)pair.second[0].pObj, vector<tInstObj>{pair.second[0]}));
+			}
+			continue;
+		}
+
+		CGameObject* pObj = pair.second[0].pObj;
+		CResPtr<CMesh> pMesh = pObj->MeshRender()->GetMesh();
+		CResPtr<CMaterial> pMtrl = pObj->MeshRender()->GetSharedMaterial(pair.second[0].iMtrlIdx);
+
+		if (NULL == pMtrl->GetShader())
+			continue;
+
+		CInstancingBuffer::GetInst()->Clear();
+		int iRowIdx = 0;
+
+		for (UINT i = 0; i < pair.second.size(); ++i)
+		{
+			if (pair.second[i].pObj->Animator2D())
+			{
+				map<INT_PTR, vector<tInstObj>>::iterator iter
+					= m_mapSingleObj.find((INT_PTR)pair.second[0].pObj);
+
+				if (iter != m_mapSingleObj.end())
+					iter->second.push_back(pair.second[i]);
+				else
+				{
+					m_mapSingleObj.insert(make_pair((INT_PTR)pair.second[0].pObj, vector<tInstObj>{pair.second[i]}));
+				}
+				continue;
+			}
+
+			tInstData.matWorld = pair.second[i].pObj->Transform()->GetWorldMat();
+			tInstData.matWV = tInstData.matWorld * m_matView;
+			tInstData.matWVP = tInstData.matWV * m_matProj;
+
+			if (pair.second[i].pObj->Animator3D())
+			{
+				tInstData.iRowIdx = iRowIdx++;
+				CInstancingBuffer::GetInst()->AddInstancingBoneMat(pair.second[i].pObj->Animator3D()->GetFinalBoneMat());
+			}
+			else
+			{
+				tInstData.iRowIdx = -1;
+			}
+
+			CInstancingBuffer::GetInst()->AddInstancingData(tInstData);
+		}
+
+		// Copy Swapchain To Posteffect
+		CRenderMgr::GetInst()->CopySwapToPosteffect();
+
+		CInstancingBuffer::GetInst()->SetData(pObj->MeshRender()->GetMesh()->GetBoneTex());
+		CAnimation2D::ClearRegister();
+
+		pMtrl->UpdateDataInstancing();
+		pMesh->SetLayout(pMtrl->GetShader(), true);
+		pMesh->render_instancing(pair.second[0].iMtrlIdx);
+	}
+
+	// 개별 랜더링
+	for (auto& pair : m_mapSingleObj)
+	{
+		if (pair.second.empty())
+			continue;
+
+		for (UINT i = 0; i < pair.second.size(); ++i)
+		{
+			// Copy Swapchain To Posteffect
+			CRenderMgr::GetInst()->CopySwapToPosteffect();
+
+			pair.second[i].pObj->Transform()->UpdateData();
+			pair.second[i].pObj->MeshRender()->render(pair.second[i].iMtrlIdx);
+		}
+	}
+}
+
 const tRay & CCamera::GetRay()
 {
 	CalRay();

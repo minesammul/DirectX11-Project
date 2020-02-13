@@ -16,6 +16,7 @@ CMeshRender::CMeshRender()
 	, m_bShadow(true)
 	, CComponent(COMPONENT_TYPE::MESHRENDER)
 {
+	m_vecMtrl.resize(1);
 }
 
 CMeshRender::~CMeshRender()

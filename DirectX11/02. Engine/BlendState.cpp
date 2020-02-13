@@ -27,6 +27,7 @@ void CBlendState::UpdateDefaultData()
 
 void CBlendState::Create(D3D11_BLEND_DESC * _pDesc)
 {
+	m_tDesc = *_pDesc;
 	HRESULT hr = DEVICE->CreateBlendState(_pDesc, &m_pState);
 }
 

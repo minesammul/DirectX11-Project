@@ -65,6 +65,7 @@ public:
 	void finalupdate();
 	void render_deferred();
 	void render_forward();
+	void render_posteffect();
 	void render_shadowmap();
 
 	void SortGameObject();

@@ -30,19 +30,18 @@ void CTimeMgr::update()
 	m_fDeltaTime = (float)(m_llCurCount.QuadPart - m_llOldCount.QuadPart) / (float)m_llFrequency.QuadPart;
 	m_llOldCount = m_llCurCount;
 
+	if ((DWORD_PTR)m_dAccTime < (DWORD_PTR)(m_dAccTime + m_fDeltaTime))
+	{
+		QueryPerformanceFrequency(&m_llFrequency);
+		m_fFPS = 1 / (float)m_fDeltaTime;
+	}
+
 	m_dAccTime += m_fDeltaTime;	
 
 	if (m_bFreeze)
 	{
 		m_bFreeze = false;
 		m_fDeltaTime = 1.f / 60.f;
-	}
-
-	if (m_dAccTime > 1.)
-	{
-		QueryPerformanceFrequency(&m_llFrequency);
-		m_dAccTime = 0.;
-		m_fFPS = 1 / (float)m_fDeltaTime;
 	}
 
 	g_global.fDeltaTime = DT;

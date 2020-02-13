@@ -53,6 +53,8 @@ public:
 	ID3D11DepthStencilView* GetDSV() { return m_pDSV; }
 	ID3D11UnorderedAccessView* GetUAV() { return m_pUAV; }
 
+	ID3D11Texture2D* GetTex2D() { return m_pTex2D; }
+
 	const D3D11_TEXTURE2D_DESC& GetDesc() { return m_tDesc; }
 
 	void* GetSysMem();

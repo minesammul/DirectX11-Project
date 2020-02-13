@@ -593,6 +593,7 @@ void CResMgr::CreateDefaultShader()
 	pShader = new CShader;
 	pShader->CreateVertexShader(L"Shader\\light.fx", "VS_DirLight", 5, 0);
 	pShader->CreatePixelShader(L"Shader\\light.fx", "PS_DirLight", 5, 0);
+	pShader->SetDepthStencilState(CRenderMgr::GetInst()->GetDepthStencilState(DEPTH_STENCIL_TYPE::NO_DEPTH_TEST_WRITE));
 
 	// pShader->AddParam(SHADER_PARAM::TEX_0, L"Normal Target Texture");
 	// pShader->AddParam(SHADER_PARAM::TEX_1, L"Position Target Texture");
@@ -695,6 +696,27 @@ void CResMgr::CreateDefaultShader()
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 
+
+	//===================
+	// Distortion Shader
+	//===================
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\posteffect.fx", "VS_Distortion", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\posteffect.fx", "PS_Distortion", 5, 0);
+
+	pShader->SetDepthStencilState(CRenderMgr::GetInst()->GetDepthStencilState(DEPTH_STENCIL_TYPE::NO_DEPTH_WRITE));
+
+	// Shader Param
+	pShader->AddParam(SHADER_PARAM::TEX_0, L"Posteffect Target Texture");
+
+	// Shader Event Time
+	pShader->SetEventTime(SHADER_EVENT_TIME::POSTEFFECT);
+
+	strKey = L"DistortionShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+
 	//
 	// HeightMap Shader
 	//
@@ -703,6 +725,7 @@ void CResMgr::CreateDefaultShader()
 	strKey = L"CS_HeightMapShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
 
 	//
 	// WeightMap Shader
@@ -713,6 +736,7 @@ void CResMgr::CreateDefaultShader()
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 
+
 	//
 	// Picking Shader
 	//
@@ -721,6 +745,7 @@ void CResMgr::CreateDefaultShader()
 	strKey = L"CS_PickingShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
 
 	// =================
 	// ShadowMap Shader
@@ -874,11 +899,22 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
-	// ShadowMapShader
+	// ShadowMapMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"ShadowMapMtrl");
 	pMtrl->SaveDisable();
 	pMtrl->SetShader(FindRes<CShader>(L"ShadowMapShader"));
+
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
+	// Post Effect DistortionMtrl
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"DistortionMtrl");
+	pMtrl->SaveDisable();
+	pMtrl->SetShader(FindRes<CShader>(L"DistortionShader"));
+
+	pTex = FindRes<CTexture>(L"PosteffectTargetTex");
+	pMtrl->SetData(SHADER_PARAM::TEX_0, &pTex);
 
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
@@ -891,7 +927,7 @@ void CResMgr::CreateDefaultMaterial()
 
 	CTexture::g_pClearMtrl = (CMaterial*)pMtrl.GetPointer();
 
-
+	//
 	CCollider2D::CreateMaterial();
 	CCollider3D::CreateMaterial();
 }

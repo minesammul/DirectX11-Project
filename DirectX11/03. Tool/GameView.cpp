@@ -245,6 +245,9 @@ void CGameView::render_tool()
 
 	m_pToolCam->Camera()->render_forward(); // SwapChain Mrt 에 출력
 
+	// PostEffect 처리
+	CRenderMgr::GetInst()->render_posteffect();
+
 	// Grid render
 	m_pGridObject->render();
 

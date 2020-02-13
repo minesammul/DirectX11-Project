@@ -44,6 +44,9 @@ public:
 	void render_tool();
 	void render_lights();
 	void render_shadowmap();
+	void render_posteffect();
+
+	void CopySwapToPosteffect();
 
 public:
 	CBlendState* GetBlendState(BLEND_TYPE _eType) { return m_arrBlendState[(UINT)_eType]; }

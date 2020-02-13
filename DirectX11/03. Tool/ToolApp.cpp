@@ -273,6 +273,34 @@ void CToolApp::CreateTestScene()
 
 	pCurScene->AddObject(L"Default", pSkyBox);
 
+	//{
+	//	// Post Effect Object
+	//	CGameObject* pObject = new CGameObject;
+	//	pObject->SetName(L"PostEffect");
+
+	//	pObject->AddComponent(new CTransform);
+	//	pObject->AddComponent(new CMeshRender);
+
+	//	pObject->MeshRender()->SetShadow(false);
+
+	//	// Material 값 셋팅
+	//	CResPtr<CMaterial> pMtrl = new CMaterial;
+	//	pMtrl->SaveDisable();
+	//	pMtrl->SetShader(CResMgr::GetInst()->FindRes<CShader>(L"DistortionShader"));
+	//	CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"PosteffectTargetTex");
+	//	pMtrl->SetData(SHADER_PARAM::TEX_0, &pTex);
+
+	//	CResMgr::GetInst()->AddRes<CMaterial>(L"DistortionMtrl", pMtrl);
+
+	//	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	//	pObject->MeshRender()->SetMaterial(pMtrl, 0);
+
+	//	pObject->Transform()->SetLocalScale(Vec3(1500.f, 1500.f, 1500.f));
+	//	pObject->Transform()->SetLocalPos(Vec3(0.f, 0.f, 0.f));
+
+	//	pCurScene->AddObject(L"Default", pObject);
+	//}
+
 	// 충돌 지정
 	CCollisionMgr::GetInst()->CollisionCheck(L"Player", L"Monster");
 }

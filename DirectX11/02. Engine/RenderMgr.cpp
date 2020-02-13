@@ -16,6 +16,7 @@
 #include "RenderTarget23.h"
 #include "MRT.h"
 #include "Camera.h"
+#include "Core.h"
 
 tGlobalValue g_global = {};
 
@@ -107,6 +108,8 @@ void CRenderMgr::render()
 			m_vecCam[i]->render_forward();
 		}
 
+		render_posteffect();
+
 		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->OMSet();
 	}
 	
@@ -156,6 +159,28 @@ void CRenderMgr::render_shadowmap()
 	}
 
 	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->OMSet(); // 메인카메라 깊이로 되돌리기 위해서
+}
+
+void CRenderMgr::render_posteffect()
+{
+	// 후처리 물체 렌더링		
+	if (CCore::GetInst()->GetState() == SCENE_STATE::STOP)
+	{
+		m_pToolCam->render_posteffect();
+	}
+	else
+	{
+		for (UINT i = 0; i < m_vecCam.size(); ++i)
+		{
+			m_vecCam[i]->render_posteffect();
+		}
+	}
+}
+
+void CRenderMgr::CopySwapToPosteffect()
+{
+	CONTEXT->CopyResource(m_arrRT[(UINT)RT_TYPE::POSTEFFECT]->GetRTTex()->GetTex2D()
+		, m_arrRT[(UINT)RT_TYPE::SWAPCHAIN]->GetRTTex()->GetTex2D());
 }
 
 int CRenderMgr::RegisterLight3D(CLight3D * _pLight3D)
@@ -458,6 +483,13 @@ void CRenderMgr::CreateRenderTarget()
 
 	m_arrRT[(UINT)RT_TYPE::SHADOWMAP] = new CRenderTarget23;
 	m_arrRT[(UINT)RT_TYPE::SHADOWMAP]->Create(L"ShadowmapTarget", pTargetTex, Vec4(0.f, 0.f, 0.f, 0.f));
+
+	// PostEffect RenderTarget
+	pTargetTex = CResMgr::GetInst()->CreateTexture(L"PosteffectTargetTex", (UINT)m_tRes.fWidth, (UINT)m_tRes.fHeight
+		, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R8G8B8A8_UNORM);
+
+	m_arrRT[(UINT)RT_TYPE::POSTEFFECT] = new CRenderTarget23;
+	m_arrRT[(UINT)RT_TYPE::POSTEFFECT]->Create(L"PosteffectTarget", pTargetTex, Vec4(0.f, 0.f, 0.f, 0.f));
 
 
 	// =============
