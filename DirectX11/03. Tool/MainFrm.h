@@ -65,6 +65,8 @@ public:
 	afx_msg void OnGameObjectCreateTerrain();
 	afx_msg void OnGameobjectCreate3dcube();
 	afx_msg void OnGameobjectCreateEmptyObject();
+	afx_msg void OnGameobjectCreatefbxobject();
+	afx_msg void OnRefreshdlgRefreshgameobjectdlg();
 };
 
 

@@ -7,6 +7,11 @@
 
 #include <MeshData.h>
 #include <ResMgr.h>
+#include <GameObject.h>
+#include <Animator3D.h>
+#include <Transform.h>
+#include <SceneMgr.h>
+#include <Scene.h>
 
 // CMeshDataDlg 대화 상자
 
@@ -34,6 +39,9 @@ void CMeshDataDlg::SetResource(CResource * _pRes)
 
 	newAniName.SetSel(0, -1);
 	newAniName.Clear();
+
+	editCreateFBXObjectName.SetSel(0, -1);
+	editCreateFBXObjectName.Clear();
 
 	nowAnimationListCtrl.DeleteAllItems();
 
@@ -69,11 +77,13 @@ void CMeshDataDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT2, animationEndFrame);
 	DDX_Control(pDX, IDC_LIST3, nowAnimationListCtrl);
 	DDX_Control(pDX, IDC_EDIT3, newAniName);
+	DDX_Control(pDX, IDC_EDIT4, editCreateFBXObjectName);
 }
 
 
 BEGIN_MESSAGE_MAP(CMeshDataDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON1, &CMeshDataDlg::OnBnClickedButtonNewAniInsert)
+	ON_BN_CLICKED(IDC_BUTTON2, &CMeshDataDlg::OnBnClickedButtonCreateFBXObject)
 END_MESSAGE_MAP()
 
 
@@ -138,4 +148,35 @@ void CMeshDataDlg::OnBnClickedButtonNewAniInsert()
 
 	((CMeshData*)GetRes())->Save();
 
+}
+
+
+void CMeshDataDlg::OnBnClickedButtonCreateFBXObject()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
+	CString objectNameStr;
+	editCreateFBXObjectName.GetWindowTextW(objectNameStr);
+
+	if (objectNameStr.IsEmpty())
+	{
+		return;
+	}
+	
+	CGameObject* pMeshObject = ((CMeshData*)GetRes())->Instantiate();
+
+	for (int index = 0; index < pMeshObject->GetChild().size(); index++)
+	{
+		if (pMeshObject->GetChild()[index]->Animator3D()==nullptr)
+		{
+			continue;
+		}
+
+		pMeshObject->GetChild()[index]->Animator3D()->SetCurAnimClip(0);
+	}
+
+	pMeshObject->SetName(objectNameStr.GetBuffer());
+	pMeshObject->Transform()->SetLocalScale(Vec3(1.f, 1.f, 1.f));
+
+	CSceneMgr::GetInst()->GetCurScene()->AddObject(L"Default", pMeshObject);
 }

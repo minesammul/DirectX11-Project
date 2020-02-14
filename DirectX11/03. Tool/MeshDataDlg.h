@@ -30,4 +30,6 @@ public:
 	CListCtrl nowAnimationListCtrl;
 	afx_msg void OnBnClickedButtonNewAniInsert();
 	CEdit newAniName;
+	afx_msg void OnBnClickedButtonCreateFBXObject();
+	CEdit editCreateFBXObjectName;
 };

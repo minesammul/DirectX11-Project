@@ -48,6 +48,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_GAMEOBJECT_CREATETERRAIN, &CMainFrame::OnGameObjectCreateTerrain)
 	ON_COMMAND(ID_GAMEOBJECT_CREATE3DCUBE, &CMainFrame::OnGameobjectCreate3dcube)
 	ON_COMMAND(ID_GAMEOBJECT_CREATEEMPTYOBJECT, &CMainFrame::OnGameobjectCreateEmptyObject)
+	ON_COMMAND(ID_GAMEOBJECT_CREATEFBXOBJECT, &CMainFrame::OnGameobjectCreatefbxobject)
+	ON_COMMAND(ID_REFRESHDLG_REFRESHGAMEOBJECTDLG, &CMainFrame::OnRefreshdlgRefreshgameobjectdlg)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -423,5 +425,18 @@ void CMainFrame::OnGameobjectCreateEmptyObject()
 
 	pCurScene->AddObject(L"Default", newObject);
 
+	((CHierachyView*)GetHierachyView())->init_object();
+}
+
+
+void CMainFrame::OnGameobjectCreatefbxobject()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CMainFrame::OnRefreshdlgRefreshgameobjectdlg()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	((CHierachyView*)GetHierachyView())->init_object();
 }
