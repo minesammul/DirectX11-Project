@@ -21,6 +21,8 @@ PlayerHitedState * PlayerHitedState::GetInstance()
 
 void PlayerHitedState::Init(CSSN002PlayerScript * playerScript)
 {
+	playerScript->SetHit(false);
+
 	//Animation Init
 	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
 	{

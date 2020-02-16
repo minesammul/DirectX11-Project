@@ -68,6 +68,12 @@ void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 	}
 	//
 
+	if (playerScript->GetHit() == true)
+	{
+		PlayerHitedState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerHitedState::GetInstance());
+	}
+
 	// Idle State -> Walk State
 	if (KEYTAB(KEY_TYPE::KEY_W))
 	{
@@ -113,7 +119,6 @@ void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 		PlayerParryingState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerParryingState::GetInstance());
 	}
-
 }
 
 void PlayerIdleState::Exit(CSSN002PlayerScript* playerScript)

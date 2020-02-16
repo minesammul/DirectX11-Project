@@ -20,6 +20,8 @@ void CSSN002PlayerScript::start()
 {
 	playerState = PlayerIdleState::GetInstance();
 	playerState->Init(this);
+
+	isHit = false;
 }
 
 void CSSN002PlayerScript::update()
