@@ -20,9 +20,9 @@ void CSSN004CameraBodyScript::start()
 void CSSN004CameraBodyScript::update()
 {
 	vector<CGameObject*> findObject;
-	CSceneMgr::GetInst()->FindGameObject(L"Artorias", findObject);
+	CSceneMgr::GetInst()->FindGameObject(L"Player", findObject);
 	Vec3 vPos = findObject[0]->Transform()->GetLocalPos();
-	vPos.y += 50.f;
+	vPos.y += 250.f;
 	Transform()->SetLocalPos(vPos);
 
 
@@ -50,7 +50,7 @@ void CSSN004CameraBodyScript::update()
 		float radian = acosf(dotValue);
 		float degree = XMConvertToDegrees(radian);
 
-		if (degree > 90.f)
+		if (degree > 80.f)
 		{
 			Vec3 rotate = Transform()->GetLocalRot();
 			rotate.x -= GetRadian(5.f);
