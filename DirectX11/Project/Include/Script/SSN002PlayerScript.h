@@ -13,6 +13,8 @@ private:
 	bool isMovable;
 	Vec3 beforePlayerPosition;
 
+	bool isHit;
+
 public:
 	CSSN002PlayerScript();
 	~CSSN002PlayerScript();
@@ -29,5 +31,8 @@ public:
 
 	Vec3 GetBeforePlayerPosition() { return beforePlayerPosition; }
 	void SetBeforePlayerPosition(Vec3 beforePosition) { beforePlayerPosition = beforePosition; }
+
+	void SetHit(bool hited) { isHit = hited; }
+	bool GetHit() { return isHit; }
 };
 

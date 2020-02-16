@@ -5,4 +5,8 @@ SSN003CameraArmScript
 SSN004CameraBodyScript
 SSN005NavScript
 SSN006WeaponEquipScript
+SSN007MonsterScript
+SSN008AttackBoxScript
+SSN009HitBoxScript
+SSN010EventQueueScript
 TestScript

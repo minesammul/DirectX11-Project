@@ -162,7 +162,7 @@ void CToolApp::CreateTestScene()
 	pCurScene->AddLayer(L"Monster", 3);
 
 	{
-		CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Painting Guardian.fbx");
+		CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Iron_Golem3.fbx");
 		pMeshData->Save();
 		//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
 
@@ -174,7 +174,7 @@ void CToolApp::CreateTestScene()
 		}
 
 		pMeshObject->SetName(L"Artorias");
-		pMeshObject->Transform()->SetLocalScale(Vec3(10.f, 10.f, 10.f));
+		pMeshObject->Transform()->SetLocalScale(Vec3(1.f, 1.f, 1.f));
 
 		pCurScene->AddObject(L"Player", pMeshObject);
 	}

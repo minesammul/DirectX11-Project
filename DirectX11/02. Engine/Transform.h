@@ -29,6 +29,8 @@ public:
 
 	const Vec3& GetLocalDir(DIR_TYPE _eType) { return m_vLocalDir[(UINT)_eType]; }
 
+	const Vec3& GetWorldDir(DIR_TYPE _eType) { return m_vWorldDir[(UINT)_eType]; }
+
 	const Matrix& GetWorldMat() { return m_matWorld; }
 
 	void AddLocalRot(const Matrix& _matRot);

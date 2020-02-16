@@ -193,7 +193,30 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EventQueueMgr.h" />
     <ClInclude Include="HilightScript.h" />
+    <ClInclude Include="IronGolemAttack10State.h" />
+    <ClInclude Include="IronGolemAttack11State.h" />
+    <ClInclude Include="IronGolemAttack1State.h" />
+    <ClInclude Include="IronGolemAttack3State.h" />
+    <ClInclude Include="IronGolemAttack4State.h" />
+    <ClInclude Include="IronGolemAttack5State.h" />
+    <ClInclude Include="IronGolemAttack6State.h" />
+    <ClInclude Include="IronGolemAttack7State.h" />
+    <ClInclude Include="IronGolemAttack8State.h" />
+    <ClInclude Include="IronGolemAttack9State.h" />
+    <ClInclude Include="IronGolemDieState.h" />
+    <ClInclude Include="IronGolemIdleState.h" />
+    <ClInclude Include="IronGolemJumpBackState.h" />
+    <ClInclude Include="IronGolemOnState.h" />
+    <ClInclude Include="IronGolemRotateLeftState.h" />
+    <ClInclude Include="IronGolemRotateRightState.h" />
+    <ClInclude Include="IronGolemStandState.h" />
+    <ClInclude Include="IronGolemWalkBackState.h" />
+    <ClInclude Include="IronGolemWalkFrontState.h" />
+    <ClInclude Include="IronGolemWalkLeftState.h" />
+    <ClInclude Include="IronGolemWalkRightState.h" />
+    <ClInclude Include="MonsterState.h" />
     <ClInclude Include="PlayerAttack1State.h" />
     <ClInclude Include="PlayerAttack2State.h" />
     <ClInclude Include="PlayerAttack3State.h" />
@@ -221,12 +244,39 @@ call CodeGen.exe</Command>
     <ClInclude Include="SSN004CameraBodyScript.h" />
     <ClInclude Include="SSN005NavScript.h" />
     <ClInclude Include="SSN006WeaponEquipScript.h" />
+    <ClInclude Include="SSN007MonsterScript.h" />
+    <ClInclude Include="SSN008AttackBoxScript.h" />
+    <ClInclude Include="SSN009HitBoxScript.h" />
+    <ClInclude Include="SSN010EventQueueScript.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TestScript.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EventQueueMgr.cpp" />
     <ClCompile Include="HilightScript.cpp" />
+    <ClCompile Include="IronGolemAttack10State.cpp" />
+    <ClCompile Include="IronGolemAttack11State.cpp" />
+    <ClCompile Include="IronGolemAttack1State.cpp" />
+    <ClCompile Include="IronGolemAttack3State.cpp" />
+    <ClCompile Include="IronGolemAttack4State.cpp" />
+    <ClCompile Include="IronGolemAttack5State.cpp" />
+    <ClCompile Include="IronGolemAttack6State.cpp" />
+    <ClCompile Include="IronGolemAttack7State.cpp" />
+    <ClCompile Include="IronGolemAttack8State.cpp" />
+    <ClCompile Include="IronGolemAttack9State.cpp" />
+    <ClCompile Include="IronGolemDieState.cpp" />
+    <ClCompile Include="IronGolemIdleState.cpp" />
+    <ClCompile Include="IronGolemJumpBackState.cpp" />
+    <ClCompile Include="IronGolemOnState.cpp" />
+    <ClCompile Include="IronGolemRotateLeftState.cpp" />
+    <ClCompile Include="IronGolemRotateRightState.cpp" />
+    <ClCompile Include="IronGolemStandState.cpp" />
+    <ClCompile Include="IronGolemWalkBackState.cpp" />
+    <ClCompile Include="IronGolemWalkFrontState.cpp" />
+    <ClCompile Include="IronGolemWalkLeftState.cpp" />
+    <ClCompile Include="IronGolemWalkRightState.cpp" />
+    <ClCompile Include="MonsterState.cpp" />
     <ClCompile Include="PlayerAttack1State.cpp" />
     <ClCompile Include="PlayerAttack2State.cpp" />
     <ClCompile Include="PlayerAttack3State.cpp" />
@@ -253,6 +303,10 @@ call CodeGen.exe</Command>
     <ClCompile Include="SSN004CameraBodyScript.cpp" />
     <ClCompile Include="SSN005NavScript.cpp" />
     <ClCompile Include="SSN006WeaponEquipScript.cpp" />
+    <ClCompile Include="SSN007MonsterScript.cpp" />
+    <ClCompile Include="SSN008AttackBoxScript.cpp" />
+    <ClCompile Include="SSN009HitBoxScript.cpp" />
+    <ClCompile Include="SSN010EventQueueScript.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

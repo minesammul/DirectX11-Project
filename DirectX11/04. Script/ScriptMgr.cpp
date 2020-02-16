@@ -8,6 +8,10 @@
 #include "SSN004CameraBodyScript.h"
 #include "SSN005NavScript.h"
 #include "SSN006WeaponEquipScript.h"
+#include "SSN007MonsterScript.h"
+#include "SSN008AttackBoxScript.h"
+#include "SSN009HitBoxScript.h"
+#include "SSN010EventQueueScript.h"
 #include "TestScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
@@ -19,6 +23,10 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"SSN004CameraBodyScript");
 	_vec.push_back(L"SSN005NavScript");
 	_vec.push_back(L"SSN006WeaponEquipScript");
+	_vec.push_back(L"SSN007MonsterScript");
+	_vec.push_back(L"SSN008AttackBoxScript");
+	_vec.push_back(L"SSN009HitBoxScript");
+	_vec.push_back(L"SSN010EventQueueScript");
 	_vec.push_back(L"TestScript");
 }
 
@@ -38,6 +46,14 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSSN005NavScript;
 	if (L"SSN006WeaponEquipScript" == _strScriptName)
 		return new CSSN006WeaponEquipScript;
+	if (L"SSN007MonsterScript" == _strScriptName)
+		return new CSSN007MonsterScript;
+	if (L"SSN008AttackBoxScript" == _strScriptName)
+		return new CSSN008AttackBoxScript;
+	if (L"SSN009HitBoxScript" == _strScriptName)
+		return new CSSN009HitBoxScript;
+	if (L"SSN010EventQueueScript" == _strScriptName)
+		return new CSSN010EventQueueScript;
 	if (L"TestScript" == _strScriptName)
 		return new CTestScript;
 	return nullptr;
@@ -73,6 +89,22 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::SSN006WEAPONEQUIPSCRIPT:
 		return L"SSN006WeaponEquipScript";
+		break;
+
+	case SCRIPT_TYPE::SSN007MONSTERSCRIPT:
+		return L"SSN007MonsterScript";
+		break;
+
+	case SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT:
+		return L"SSN008AttackBoxScript";
+		break;
+
+	case SCRIPT_TYPE::SSN009HITBOXSCRIPT:
+		return L"SSN009HitBoxScript";
+		break;
+
+	case SCRIPT_TYPE::SSN010EVENTQUEUESCRIPT:
+		return L"SSN010EventQueueScript";
 		break;
 
 	case SCRIPT_TYPE::TESTSCRIPT:

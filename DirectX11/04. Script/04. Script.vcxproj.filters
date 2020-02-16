@@ -22,6 +22,48 @@
     <Filter Include="Scripts\Player\State\Component">
       <UniqueIdentifier>{ade14e38-5670-46c7-85e6-7106f8200f82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Monster">
+      <UniqueIdentifier>{6f24dfa4-ac99-409b-8343-5ef448418229}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Monster\State">
+      <UniqueIdentifier>{a38eab1e-a8c4-46fe-ad0b-d92961e6ea62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Monster\State\IronGolem">
+      <UniqueIdentifier>{6850432a-49d1-43b6-aa39-0555a67b76db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Monster\State\IronGolem\Component">
+      <UniqueIdentifier>{c3e0e7d9-53d1-44c1-bcfe-0e76254bc367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Monster\State\IronGolem\Component\Walk">
+      <UniqueIdentifier>{1ddb2c74-b408-473a-9adc-dbe891e6ad2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Monster\State\IronGolem\Component\Attack">
+      <UniqueIdentifier>{3012a6ed-57e8-49bf-bd71-135c1db39298}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Monster\State\IronGolem\Incomplete">
+      <UniqueIdentifier>{80f6826b-bca6-48b6-8ba1-b4131a8acfef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Monster\State\IronGolem\Component\Idle">
+      <UniqueIdentifier>{a22fbc9f-940e-4c81-a297-2308b6f63981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Player\State\Component\Attack">
+      <UniqueIdentifier>{9a81f5ec-ac3c-4de9-9cc6-56f8f9622c65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Player\State\Component\Damaged">
+      <UniqueIdentifier>{96410427-5af0-49cc-9cbf-6e6f67ee149c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Player\State\Component\Idle">
+      <UniqueIdentifier>{b8e0620a-b5c8-4f2c-a83e-15e50f4f1a5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Player\State\Component\Walk">
+      <UniqueIdentifier>{1d1021b5-ac44-4d04-a193-d212ed12bb2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Player\State\Component\ItemUse">
+      <UniqueIdentifier>{c5a4ba16-9351-4366-8c90-e89a027e4143}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Monster\State\IronGolem\Component\Rotate">
+      <UniqueIdentifier>{910360df-7d3d-4af5-bb61-ffce1cf8642e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptMgr.h">
@@ -54,57 +96,6 @@
     <ClInclude Include="PlayerState.h">
       <Filter>Scripts\Player\State</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerIdleState.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerWalkFrontState.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerWalkBackState.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerWalkLeftState.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerWalkRightState.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerRollFrontState.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerHitedState.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerDeadState.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerParryingState.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerRollBackState.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerRollLeftState.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerRollRightState.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerAttack4State.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerAttack2State.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerAttack3State.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerAttack1State.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerHealSuccessState.h">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClInclude>
     <ClInclude Include="SSN003CameraArmScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
@@ -115,6 +106,138 @@
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="SSN006WeaponEquipScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="SSN007MonsterScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterState.h">
+      <Filter>Scripts\Monster\State</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemWalkFrontState.h">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemAttack1State.h">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemJumpBackState.h">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemDieState.h">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemStandState.h">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemIdleState.h">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemOnState.h">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemWalkBackState.h">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemWalkLeftState.h">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemWalkRightState.h">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemAttack4State.h">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemAttack5State.h">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemAttack6State.h">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemAttack7State.h">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemAttack8State.h">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemAttack9State.h">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemAttack10State.h">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemAttack11State.h">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttack1State.h">
+      <Filter>Scripts\Player\State\Component\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttack2State.h">
+      <Filter>Scripts\Player\State\Component\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttack3State.h">
+      <Filter>Scripts\Player\State\Component\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttack4State.h">
+      <Filter>Scripts\Player\State\Component\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDeadState.h">
+      <Filter>Scripts\Player\State\Component\Damaged</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHitedState.h">
+      <Filter>Scripts\Player\State\Component\Damaged</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerIdleState.h">
+      <Filter>Scripts\Player\State\Component\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWalkRightState.h">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRollBackState.h">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRollFrontState.h">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRollLeftState.h">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRollRightState.h">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWalkBackState.h">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWalkFrontState.h">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWalkLeftState.h">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerParryingState.h">
+      <Filter>Scripts\Player\State\Component\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHealSuccessState.h">
+      <Filter>Scripts\Player\State\Component\ItemUse</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemRotateRightState.h">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Rotate</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemRotateLeftState.h">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Rotate</Filter>
+    </ClInclude>
+    <ClInclude Include="IronGolemAttack3State.h">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="SSN009HitBoxScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="SSN008AttackBoxScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="EventQueueMgr.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SSN010EventQueueScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
   </ItemGroup>
@@ -143,57 +266,6 @@
     <ClCompile Include="PlayerState.cpp">
       <Filter>Scripts\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerIdleState.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerWalkFrontState.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerWalkBackState.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerWalkLeftState.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerWalkRightState.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerRollFrontState.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerHitedState.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerDeadState.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerParryingState.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerRollBackState.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerRollLeftState.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerRollRightState.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerAttack3State.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerAttack4State.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerAttack2State.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerAttack1State.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerHealSuccessState.cpp">
-      <Filter>Scripts\Player\State\Component</Filter>
-    </ClCompile>
     <ClCompile Include="SSN003CameraArmScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
@@ -204,6 +276,138 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="SSN006WeaponEquipScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN007MonsterScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterState.cpp">
+      <Filter>Scripts\Monster\State</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemWalkFrontState.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemAttack1State.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemJumpBackState.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemDieState.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemIdleState.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemOnState.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemStandState.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemWalkBackState.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemWalkLeftState.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemWalkRightState.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemAttack4State.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemAttack5State.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemAttack6State.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemAttack7State.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemAttack8State.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemAttack9State.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemAttack10State.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemAttack11State.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttack1State.cpp">
+      <Filter>Scripts\Player\State\Component\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttack2State.cpp">
+      <Filter>Scripts\Player\State\Component\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttack3State.cpp">
+      <Filter>Scripts\Player\State\Component\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttack4State.cpp">
+      <Filter>Scripts\Player\State\Component\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerDeadState.cpp">
+      <Filter>Scripts\Player\State\Component\Damaged</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHitedState.cpp">
+      <Filter>Scripts\Player\State\Component\Damaged</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerIdleState.cpp">
+      <Filter>Scripts\Player\State\Component\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRollBackState.cpp">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRollFrontState.cpp">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRollLeftState.cpp">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRollRightState.cpp">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWalkBackState.cpp">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWalkFrontState.cpp">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWalkLeftState.cpp">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWalkRightState.cpp">
+      <Filter>Scripts\Player\State\Component\Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerParryingState.cpp">
+      <Filter>Scripts\Player\State\Component\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHealSuccessState.cpp">
+      <Filter>Scripts\Player\State\Component\ItemUse</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemRotateLeftState.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Rotate</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemRotateRightState.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Rotate</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemAttack3State.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN008AttackBoxScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN009HitBoxScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="EventQueueMgr.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN010EventQueueScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
