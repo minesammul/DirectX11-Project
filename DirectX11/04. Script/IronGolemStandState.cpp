@@ -43,22 +43,6 @@ void IronGolemStandState::Init(CSSN007MonsterScript * monsterScript)
 
 void IronGolemStandState::Update(CSSN007MonsterScript * monsterScript)
 {
-	// Animation Done is Init
-	//for (int index = 0; index < monsterScript->Object()->GetChild().size(); index++)
-	//{
-	//	if (monsterScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-	//	{
-	//		continue;
-	//	}
-
-	//	if (monsterScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation())
-	//	{
-	//		monsterScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
-	//		monsterScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
-	//	}
-	//}
-	//
-
 	{
 		Vec3 playerPosition = monsterScript->GetPlayerObject()->Transform()->GetLocalPos();
 		Vec3 monsterPosition = monsterScript->Object()->Transform()->GetLocalPos();

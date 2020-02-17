@@ -7,6 +7,7 @@
 #include "IronGolemAttack3State.h"
 #include "IronGolemRotateLeftState.h"
 #include "IronGolemRotateRightState.h"
+#include "IronGolemDieState.h"
 
 IronGolemIdleState::IronGolemIdleState() :
 	PLAYER_FIND_DISTANCE(1000.f),
@@ -49,6 +50,14 @@ void IronGolemIdleState::Init(CSSN007MonsterScript * monsterScript)
 
 void IronGolemIdleState::Update(CSSN007MonsterScript * monsterScript)
 {
+	if (monsterScript->GetDead() == true)
+	{
+		IronGolemDieState::GetInstance()->Init(monsterScript);
+		monsterScript->SetState(IronGolemDieState::GetInstance());
+		return;
+	}
+
+
 	// Animation Done is Init
 	bool isAllDoenAnimation = true;
 	for (int index = 0; index < monsterScript->Object()->GetChild().size(); index++)

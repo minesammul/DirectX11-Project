@@ -3,6 +3,7 @@
 
 #include "SSN007MonsterScript.h"
 #include "IronGolemIdleState.h"
+#include "SSN008AttackBoxScript.h"
 
 IronGolemAttack3State::IronGolemAttack3State()
 {
@@ -38,12 +39,17 @@ void IronGolemAttack3State::Init(CSSN007MonsterScript * monsterScript)
 		monsterScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
 	}
 	//
+
+
+	((CSSN008AttackBoxScript*)monsterScript->GetAttackBoxScript())->SetActiveCollision(false);
+	((CSSN008AttackBoxScript*)monsterScript->GetAttackBoxScript())->SetAttackted(false);
 }
 
 void IronGolemAttack3State::Update(CSSN007MonsterScript * monsterScript)
 {
 	// Animation Done is Init
 	bool isAllDoneAnimation = true;
+	float animationRatio = 0.f;
 	for (int index = 0; index < monsterScript->Object()->GetChild().size(); index++)
 	{
 		if (monsterScript->Object()->GetChild()[index]->Animator3D() == nullptr)
@@ -54,11 +60,18 @@ void IronGolemAttack3State::Update(CSSN007MonsterScript * monsterScript)
 		if (monsterScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation() == false)
 		{
 			isAllDoneAnimation = false;
+			animationRatio = monsterScript->Object()->GetChild()[index]->Animator3D()->GetCurRatioAnimTime();
 		}
+	}
+
+	if (animationRatio > 0.5f)
+	{
+		((CSSN008AttackBoxScript*)monsterScript->GetAttackBoxScript())->SetActiveCollision(true);
 	}
 
 	if (isAllDoneAnimation == true)
 	{
+		((CSSN008AttackBoxScript*)monsterScript->GetAttackBoxScript())->SetActiveCollision(false);
 		IronGolemIdleState::GetInstance()->Init(monsterScript);
 		monsterScript->SetState(IronGolemIdleState::GetInstance());
 	}

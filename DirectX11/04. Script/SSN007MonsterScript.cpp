@@ -48,6 +48,9 @@ void CSSN007MonsterScript::start()
 		}
 	}
 
+	isHit = false;
+	monsterHP = 2;
+	isDead = false;
 
 	{
 		monsterState = IronGolemStandState::GetInstance();
@@ -57,6 +60,18 @@ void CSSN007MonsterScript::start()
 
 void CSSN007MonsterScript::update()
 {
+	if (isHit == true)
+	{
+		monsterHP -= 1;
+		isHit = false;
+	}
+
+	if (monsterHP <= 0)
+	{
+		isDead = true;
+	}
+
+
 	monsterState->Update(this);
 }
 

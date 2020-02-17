@@ -18,14 +18,46 @@ CSSN002PlayerScript::~CSSN002PlayerScript()
 
 void CSSN002PlayerScript::start()
 {
+	isHit = false;
+	playerHP = 2;
+	isDead = false;
+
+	{
+		CGameObject* attackBox = nullptr;
+		for (int index = 0; index < Object()->GetChild().size(); index++)
+		{
+			CLayer* attackBoxLayer = CSceneMgr::GetInst()->GetCurScene()->FindLayer(L"AttackBox");
+			if (Object()->GetChild()[index]->GetLayerIdx() == attackBoxLayer->GetLayerIdx())
+			{
+				attackBox = Object()->GetChild()[index];
+				break;
+			}
+		}
+
+		for (int index = 0; index < attackBox->GetScripts().size(); index++)
+		{
+			if (attackBox->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT)
+			{
+				attackBoxScript = attackBox->GetScripts()[index];
+				break;
+			}
+		}
+	}
+
 	playerState = PlayerIdleState::GetInstance();
 	playerState->Init(this);
 
-	isHit = false;
 }
 
 void CSSN002PlayerScript::update()
 {
+	{
+		if (playerHP <= 0)
+		{
+			isDead = true;
+		}
+	}
+
 	{
 		vector<CGameObject*> findBody;
 		CSceneMgr::GetInst()->FindGameObject(L"MainCameraBody", findBody);

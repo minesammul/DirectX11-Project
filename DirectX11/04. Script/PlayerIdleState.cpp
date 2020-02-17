@@ -68,6 +68,12 @@ void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 	}
 	//
 
+	if (playerScript->GetDead() == true)
+	{
+		PlayerDeadState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerDeadState::GetInstance());
+	}
+
 	if (playerScript->GetHit() == true)
 	{
 		PlayerHitedState::GetInstance()->Init(playerScript);

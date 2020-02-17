@@ -39,7 +39,8 @@ void CSSN010EventQueueScript::update()
 					}
 					else if (receiveObject->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN007MONSTERSCRIPT)
 					{
-
+						CSSN007MonsterScript* monsterScript = dynamic_cast<CSSN007MonsterScript*>(receiveObject->GetScripts()[index]);
+						monsterScript->SetHit(true);
 					}
 				}
 

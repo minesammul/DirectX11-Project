@@ -4,6 +4,7 @@
 #include "SSN002PlayerScript.h"
 #include "PlayerIdleState.h"
 #include "PlayerAttack2State.h"
+#include "SSN008AttackBoxScript.h"
 
 PlayerAttack1State::PlayerAttack1State()
 {
@@ -40,10 +41,15 @@ void PlayerAttack1State::Init(CSSN002PlayerScript * playerScript)
 		playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
 		playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
 	}
+
+	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetActiveCollision(false);
+	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetAttackted(false);
 }
 
 void PlayerAttack1State::Update(CSSN002PlayerScript * playerScript)
 {
+	float animationRatio = 0.f;
+
 	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
 	{
 		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
@@ -55,11 +61,13 @@ void PlayerAttack1State::Update(CSSN002PlayerScript * playerScript)
 		{
 			if (isNextAttack == true)
 			{
+				((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetActiveCollision(false);
 				PlayerAttack2State::GetInstance()->Init(playerScript);
 				playerScript->SetState(PlayerAttack2State::GetInstance());
 			}
 			else
 			{
+				((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetActiveCollision(false);
 				PlayerIdleState::GetInstance()->Init(playerScript);
 				playerScript->SetState(PlayerIdleState::GetInstance());
 			}
@@ -69,6 +77,9 @@ void PlayerAttack1State::Update(CSSN002PlayerScript * playerScript)
 		else
 		{
 			float curRatioAnimTime = playerScript->Object()->GetChild()[index]->Animator3D()->GetCurRatioAnimTime();
+			
+			animationRatio = curRatioAnimTime;
+			
 			if (curRatioAnimTime >= 0.5f)
 			{
 				if (KEYTAB(KEY_TYPE::KEY_LBTN))
@@ -78,6 +89,12 @@ void PlayerAttack1State::Update(CSSN002PlayerScript * playerScript)
 			}
 		}
 	}
+
+	if (animationRatio > 0.4f)
+	{
+		((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetActiveCollision(true);
+	}
+
 }
 
 void PlayerAttack1State::Exit(CSSN002PlayerScript * playerScript)
