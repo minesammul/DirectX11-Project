@@ -11,6 +11,12 @@ private:
 
 	CScript* attackBoxScript;
 
+	bool isHit;
+
+	int monsterHP;
+
+	bool isDead;
+
 public:
 	CSSN007MonsterScript();
 	~CSSN007MonsterScript();
@@ -22,5 +28,10 @@ public:
 	void SetState(MonsterState* state);
 	CGameObject* GetPlayerObject();
 	CScript* GetAttackBoxScript();
+
+	void SetHit(bool hit) { isHit = hit; }
+	bool GetHit() { return isHit; }
+
+	bool GetDead() { return isDead; }
 };
 

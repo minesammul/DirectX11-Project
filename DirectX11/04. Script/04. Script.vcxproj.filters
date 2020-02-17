@@ -64,6 +64,9 @@
     <Filter Include="Scripts\Monster\State\IronGolem\Component\Rotate">
       <UniqueIdentifier>{910360df-7d3d-4af5-bb61-ffce1cf8642e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Monster\State\IronGolem\Component\Dead">
+      <UniqueIdentifier>{d2768637-ea1f-4700-a071-026e5c4c1ea1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptMgr.h">
@@ -121,9 +124,6 @@
       <Filter>Scripts\Monster\State\IronGolem\Component\Attack</Filter>
     </ClInclude>
     <ClInclude Include="IronGolemJumpBackState.h">
-      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
-    </ClInclude>
-    <ClInclude Include="IronGolemDieState.h">
       <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
     </ClInclude>
     <ClInclude Include="IronGolemStandState.h">
@@ -240,6 +240,9 @@
     <ClInclude Include="SSN010EventQueueScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="IronGolemDieState.h">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Dead</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptMgr.cpp">
@@ -291,9 +294,6 @@
       <Filter>Scripts\Monster\State\IronGolem\Component\Attack</Filter>
     </ClCompile>
     <ClCompile Include="IronGolemJumpBackState.cpp">
-      <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
-    </ClCompile>
-    <ClCompile Include="IronGolemDieState.cpp">
       <Filter>Scripts\Monster\State\IronGolem\Incomplete</Filter>
     </ClCompile>
     <ClCompile Include="IronGolemIdleState.cpp">
@@ -409,6 +409,9 @@
     </ClCompile>
     <ClCompile Include="SSN010EventQueueScript.cpp">
       <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="IronGolemDieState.cpp">
+      <Filter>Scripts\Monster\State\IronGolem\Component\Dead</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

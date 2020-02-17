@@ -15,6 +15,12 @@ private:
 
 	bool isHit;
 
+	int playerHP;
+
+	bool isDead;
+
+	CScript* attackBoxScript;
+
 public:
 	CSSN002PlayerScript();
 	~CSSN002PlayerScript();
@@ -32,7 +38,20 @@ public:
 	Vec3 GetBeforePlayerPosition() { return beforePlayerPosition; }
 	void SetBeforePlayerPosition(Vec3 beforePosition) { beforePlayerPosition = beforePosition; }
 
-	void SetHit(bool hited) { isHit = hited; }
+	void SetHit(bool hited) 
+	{ 
+		isHit = hited;
+
+		if (hited == true)
+		{
+			playerHP -= 1;
+		}
+	}
+
 	bool GetHit() { return isHit; }
+
+	bool GetDead() { return isDead; }
+
+	CScript* GetAttackBoxScript() { return attackBoxScript; }
 };
 
