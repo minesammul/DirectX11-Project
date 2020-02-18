@@ -243,6 +243,9 @@
     <ClInclude Include="IronGolemDieState.h">
       <Filter>Scripts\Monster\State\IronGolem\Component\Dead</Filter>
     </ClInclude>
+    <ClInclude Include="SSN011PlayerUIScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptMgr.cpp">
@@ -412,6 +415,9 @@
     </ClCompile>
     <ClCompile Include="IronGolemDieState.cpp">
       <Filter>Scripts\Monster\State\IronGolem\Component\Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN011PlayerUIScript.cpp">
+      <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

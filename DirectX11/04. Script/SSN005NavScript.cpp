@@ -14,7 +14,7 @@ CSSN005NavScript::~CSSN005NavScript()
 
 void CSSN005NavScript::start()
 {
-	CLayer* navObjectLayer = CSceneMgr::GetInst()->GetCurScene()->FindLayer(L"Monster");
+	CLayer* navObjectLayer = CSceneMgr::GetInst()->GetCurScene()->FindLayer(L"NavMesh");
 
 	for (int index = 0; index < navObjectLayer->GetParentObject().size(); index++)
 	{

@@ -16,6 +16,8 @@ private:
 	bool isHit;
 
 	int playerHP;
+	int playerSP;
+	int playerMaxSP;
 
 	bool isDead;
 
@@ -53,5 +55,11 @@ public:
 	bool GetDead() { return isDead; }
 
 	CScript* GetAttackBoxScript() { return attackBoxScript; }
+
+	int GetPlayerHP() { return playerHP; }
+	int GetPlayerSP() { return playerSP; }
+
+	void RestoreSP();
+	bool UseSP(int useSPValue);
 };
 

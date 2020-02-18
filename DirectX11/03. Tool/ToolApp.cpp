@@ -158,26 +158,25 @@ void CToolApp::CreateTestScene()
 	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
 
 	pCurScene->AddLayer(L"Player", 1);
-	pCurScene->AddLayer(L"Bullet", 2);
-	pCurScene->AddLayer(L"Monster", 3);
+	pCurScene->AddLayer(L"Monster", 2);
 
-	{
-		CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Iron_Golem3.fbx");
-		pMeshData->Save();
-		//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
+	//{
+	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Iron_Golem3.fbx");
+	//	pMeshData->Save();
+	//	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
 
-		CGameObject* pMeshObject = pMeshData->Instantiate();
+	//	CGameObject* pMeshObject = pMeshData->Instantiate();
 
-		for (int index = 0; index < pMeshObject->GetChild().size(); index++)
-		{
-			pMeshObject->GetChild()[index]->Animator3D()->SetCurAnimClip(0);
-		}
+	//	for (int index = 0; index < pMeshObject->GetChild().size(); index++)
+	//	{
+	//		pMeshObject->GetChild()[index]->Animator3D()->SetCurAnimClip(0);
+	//	}
 
-		pMeshObject->SetName(L"Artorias");
-		pMeshObject->Transform()->SetLocalScale(Vec3(1.f, 1.f, 1.f));
+	//	pMeshObject->SetName(L"Artorias");
+	//	pMeshObject->Transform()->SetLocalScale(Vec3(1.f, 1.f, 1.f));
 
-		pCurScene->AddObject(L"Player", pMeshObject);
-	}
+	//	pCurScene->AddObject(L"Player", pMeshObject);
+	//}
 
 	//{
 	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Player_Artorias.fbx");
@@ -228,7 +227,7 @@ void CToolApp::CreateTestScene()
 
 	// Light3D 추가하기
 	CGameObject* pLightObj = new CGameObject;
-	pLightObj->SetName(L"PointLight_1");
+	pLightObj->SetName(L"DirectionLight1");
 	pLightObj->AddComponent(new CTransform);
 	pLightObj->AddComponent(new CLight3D);
 
@@ -254,7 +253,6 @@ void CToolApp::CreateTestScene()
 	pCamObj->Camera()->SetFOV(XM_PI / 4.f);
 	pCamObj->Camera()->SetScale(1.f);
 	pCamObj->Camera()->CheckLayer(pCurScene->FindLayer(L"Player")->GetLayerIdx());
-	pCamObj->Camera()->CheckLayer(pCurScene->FindLayer(L"Bullet")->GetLayerIdx());
 	pCamObj->Camera()->CheckLayer(pCurScene->FindLayer(L"Monster")->GetLayerIdx());
 	pCamObj->Camera()->CheckLayer(pCurScene->FindLayer(L"Default")->GetLayerIdx());
 

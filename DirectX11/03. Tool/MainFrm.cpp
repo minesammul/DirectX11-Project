@@ -373,7 +373,6 @@ void CMainFrame::OnGameobjectCreate3dcube()
 
 	CTransform* pTransform = new CTransform;
 	CMeshRender* pMeshRender = new CMeshRender;
-	CCollider3D* pCollider3D = new CCollider3D;
 
 	pTransform->SetLocalPos(Vec3(0.f, 0.f, 500.f));
 	pTransform->SetLocalScale(Vec3(100.f, 100.f, 100.f));
@@ -384,7 +383,6 @@ void CMainFrame::OnGameobjectCreate3dcube()
 
 	newObject->AddComponent(pTransform);
 	newObject->AddComponent(pMeshRender);
-	newObject->AddComponent(pCollider3D);
 
 	pCurScene->AddObject(L"Default", newObject);
 

@@ -9,4 +9,5 @@ SSN007MonsterScript
 SSN008AttackBoxScript
 SSN009HitBoxScript
 SSN010EventQueueScript
+SSN011PlayerUIScript
 TestScript
