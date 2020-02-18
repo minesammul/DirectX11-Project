@@ -52,6 +52,8 @@ void PlayerIdleState::Init(CSSN002PlayerScript* playerScript)
 
 void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 {
+	playerScript->RestoreSP();
+
 	// Animation Done is Init
 	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
 	{

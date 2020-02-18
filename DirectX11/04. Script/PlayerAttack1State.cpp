@@ -44,6 +44,8 @@ void PlayerAttack1State::Init(CSSN002PlayerScript * playerScript)
 
 	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetActiveCollision(false);
 	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetAttackted(false);
+
+	playerScript->UseSP(3);
 }
 
 void PlayerAttack1State::Update(CSSN002PlayerScript * playerScript)

@@ -33,5 +33,7 @@ public:
 	bool GetHit() { return isHit; }
 
 	bool GetDead() { return isDead; }
+
+	int GetMonsterHP() { return monsterHP; }
 };
 

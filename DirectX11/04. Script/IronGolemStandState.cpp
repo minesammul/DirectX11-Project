@@ -3,6 +3,7 @@
 
 #include "SSN007MonsterScript.h"
 #include "IronGolemOnState.h"
+#include "EventQueueMgr.h"
 
 IronGolemStandState::IronGolemStandState() : 
 	PLAYER_FIND_DISTANCE(500.f)
@@ -53,6 +54,11 @@ void IronGolemStandState::Update(CSSN007MonsterScript * monsterScript)
 		{
 			IronGolemOnState::GetInstance()->Init(monsterScript);
 			monsterScript->SetState(IronGolemOnState::GetInstance());
+
+			GameEventComponent addEvent;
+			addEvent.eventType = GAME_EVENT_TYPE::ON_MONSTER_UI;
+			addEvent.sendObjectName = monsterScript->Object()->GetName();
+			CEventQueueMgr::GetInst()->AddEvent(addEvent);
 		}
 	}
 

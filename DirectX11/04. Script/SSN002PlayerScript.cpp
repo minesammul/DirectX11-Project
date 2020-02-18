@@ -3,12 +3,15 @@
 
 #include "PlayerIdleState.h"
 #include "SSN005NavScript.h"
+#include "EventQueueMgr.h"
 
 CSSN002PlayerScript::CSSN002PlayerScript() : 
 	CScript((UINT)SCRIPT_TYPE::SSN002PLAYERSCRIPT),
 	PLAYER_MOVE_SPEED(10.f)
 {
-
+	playerHP = 2;
+	playerMaxSP = 10;
+	playerSP = playerMaxSP;
 }
 
 
@@ -19,7 +22,6 @@ CSSN002PlayerScript::~CSSN002PlayerScript()
 void CSSN002PlayerScript::start()
 {
 	isHit = false;
-	playerHP = 2;
 	isDead = false;
 
 	{
@@ -94,4 +96,40 @@ void CSSN002PlayerScript::update()
 void CSSN002PlayerScript::SetState(PlayerState * state)
 {
 	playerState = state;
+}
+
+void CSSN002PlayerScript::RestoreSP()
+{
+	static float deltaTime = 0.f;
+	deltaTime += CTimeMgr::GetInst()->GetDeltaTime();
+	if (playerSP < playerMaxSP)
+	{
+		if (deltaTime > 1.f)
+		{
+			deltaTime = 0.f;
+			playerSP += 1;
+
+			GameEventComponent addEvent;
+			addEvent.eventType = GAME_EVENT_TYPE::PLAYER_SP_UPDATE;
+			addEvent.sendObjectName = Object()->GetName();
+			CEventQueueMgr::GetInst()->AddEvent(addEvent);
+		}
+	}
+}
+
+bool CSSN002PlayerScript::UseSP(int useSPValue)
+{
+	if (useSPValue > playerSP)
+	{
+		return false;
+	}
+
+	playerSP -= useSPValue;
+
+	GameEventComponent addEvent;
+	addEvent.eventType = GAME_EVENT_TYPE::PLAYER_SP_UPDATE;
+	addEvent.sendObjectName = Object()->GetName();
+	CEventQueueMgr::GetInst()->AddEvent(addEvent);
+
+	return true;
 }

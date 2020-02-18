@@ -3,7 +3,10 @@
 
 enum class GAME_EVENT_TYPE
 {
-	HIT
+	HIT,
+	ON_MONSTER_UI,
+	OFF_MONSTER_UI,
+	PLAYER_SP_UPDATE
 };
 
 struct GameEventComponent
