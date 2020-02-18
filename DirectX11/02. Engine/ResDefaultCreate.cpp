@@ -521,6 +521,18 @@ void CResMgr::CreateDefaultShader()
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 
+	// ==============
+	// UI Shader
+	// ==============
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\std.fx", "VS_UI", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\std.fx", "PS_UI", 5, 0);
+
+	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
+
+	strKey = L"UIShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 
 	// ==============
 	// Std2D Shader
@@ -790,6 +802,13 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"TextureMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"TextureShader"));
+	pMtrl->SaveDisable();
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
+	//UIMtrl
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"UIMtrl");
+	pMtrl->SetShader(FindRes<CShader>(L"UIShader"));
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 

@@ -78,6 +78,32 @@ PS_OUT PS_Tex(VTX_TEX_OUTPUT _input)
     return output;
 }
 
+// ========================================
+// UI Shader
+// g_tex_0 : Samling Texture
+// BlendState = default
+// =======================================
+VTX_TEX_OUTPUT VS_UI(VTX_TEX_INPUT _input)
+{
+    VTX_TEX_OUTPUT output = (VTX_TEX_OUTPUT) 0.f;
+    output.vPos = mul(float4(_input.vPos, 1.f), g_matWVP);
+    output.vUV = _input.vUV;
+    return output;
+}
+
+PS_OUT PS_UI(VTX_TEX_OUTPUT _input)
+{
+    PS_OUT output = (PS_OUT) 0.f;
+    output.vOutCol = g_tex_0.Sample(g_sam_0, _input.vUV);
+    
+    if(g_int_0==0)
+    {
+        output.vOutCol.a = 0.f;
+    }
+    
+    return output;
+}
+
 // ==========================
 // Texture UV Animation Shader
 // g_tex_0 : Samling Texture
