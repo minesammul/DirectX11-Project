@@ -13,6 +13,96 @@ CSSN011PlayerUIScript::~CSSN011PlayerUIScript()
 {
 }
 
+void CSSN011PlayerUIScript::SetUIComponent(CGameObject* uiObject, wstring textureName, float alphaValue, Vec3 scale, Vec3 position)
+{
+	uiObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+
+	CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"UIMtrl");
+	uiObject->MeshRender()->SetMaterial(pMtrl);
+
+	CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(textureName);
+	uiObject->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
+	uiObject->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
+
+
+	uiObject->Transform()->SetLocalScale(scale);
+	uiObject->Transform()->SetLocalPos(position);
+}
+
+void CSSN011PlayerUIScript::FadeInOutMonsterDieText()
+{
+	if(isMonsterDie == true)
+	{
+		static float alphaValue = 0.f;
+		static bool isFadeIn = true;
+
+		if (isFadeIn == true)
+		{
+			alphaValue += CTimeMgr::GetInst()->GetDeltaTime() * 0.5f;
+
+			if (alphaValue >= 1.f)
+			{
+				alphaValue = 1.f;
+				isFadeIn = false;
+			}
+
+			float textBackgroundAlpha = alphaValue * 2.f;
+
+			if (textBackgroundAlpha >= 1.f)
+			{
+				textBackgroundAlpha = 1.f;
+			}
+
+			textBackground->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &textBackgroundAlpha);
+			monsterDieText->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
+			monsterDieEffectText->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
+
+
+		}
+		else
+		{
+			alphaValue -= CTimeMgr::GetInst()->GetDeltaTime() * 0.5f;
+
+			if (alphaValue <= 0.f)
+			{
+				isMonsterDie = false;
+				isFadeIn = true;
+				alphaValue = 0.f;
+			}
+
+			textBackground->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
+			monsterDieText->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
+			monsterDieEffectText->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
+		}
+
+	}
+}
+
+void CSSN011PlayerUIScript::FadeInOutPlayerDieText()
+{
+	if (isPlayerDie == true)
+	{
+		static float alphaValue = 0.f;
+
+		alphaValue += CTimeMgr::GetInst()->GetDeltaTime() * 0.5f;
+
+		if (alphaValue >= 1.f)
+		{
+			alphaValue = 1.f;
+		}
+
+		float textBackgroundAlpha = alphaValue * 2.f;
+
+		if (textBackgroundAlpha >= 1.f)
+		{
+			textBackgroundAlpha = 1.f;
+		}
+
+		textBackground->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &textBackgroundAlpha);
+		playerDieText->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
+	}
+}
+
 void CSSN011PlayerUIScript::start()
 {
 	for (int index = 0; index < Object()->GetChild().size(); index++)
@@ -54,235 +144,42 @@ void CSSN011PlayerUIScript::start()
 		{
 			monsterHPDecreaseBar = Object()->GetChild()[index];
 		}
+		else if (findObjectName.compare(L"MonsterDieText") == 0)
+		{
+			monsterDieText = Object()->GetChild()[index];
+		}
+		else if (findObjectName.compare(L"MonsterDieEffectText") == 0)
+		{
+			monsterDieEffectText = Object()->GetChild()[index];
+		}
+		else if (findObjectName.compare(L"PlayerDieText") == 0)
+		{
+			playerDieText = Object()->GetChild()[index];
+		}
+		else if (findObjectName.compare(L"TextBackground") == 0)
+		{
+			textBackground = Object()->GetChild()[index];
+		}
+
 	}
 
-	{
-		playerHPBar->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	SetUIComponent(playerHPBar, L"Texture\\UI\\HpBar.png", 1.f, Vec3(500.f, 10.f, 1.f), Vec3(-350.f, 300.f, 10.f));
+	SetUIComponent(playerSPBar, L"Texture\\UI\\StaminaBar.png", 1.f, Vec3(500.f, 10.f, 1.f), Vec3(-350.f, 280.f, 10.f));
+	SetUIComponent(monsterHPBar, L"Texture\\UI\\HpBar.png", 1.f, Vec3(700.f, 10.f, 1.f), Vec3(0.f, -250.f, 10.f));
 
-		CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"UIMtrl");
-		playerHPBar->MeshRender()->SetMaterial(pMtrl);
+	SetUIComponent(playerHPProgressBar, L"Texture\\UI\\ProgressBar.png", 1.f, Vec3(500.f, 25.f, 1.f), Vec3(-350.f, 300.f, 30.f));
+	SetUIComponent(playerSPProgressBar, L"Texture\\UI\\ProgressBar.png", 1.f, Vec3(500.f, 25.f, 1.f), Vec3(-350.f, 280.f, 30.f));
+	SetUIComponent(monsterHPProgressBar, L"Texture\\UI\\ProgressBar.png", 0.f, Vec3(700.f, 25.f, 1.f), Vec3(0.f, -250.f, 30.f));
 
-		CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\HpBar.png");
-		playerHPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
+	SetUIComponent(playerHPDecreaseBar, L"Texture\\UI\\DecreaseBar.png", 1.f, Vec3(500.f, 10.f, 1.f), Vec3(-350.f, 300.f, 20.f));
+	SetUIComponent(playerSPDecreaseBar, L"Texture\\UI\\DecreaseBar.png", 1.f, Vec3(500.f, 10.f, 1.f), Vec3(-350.f, 280.f, 20.f));
+	SetUIComponent(monsterHPDecreaseBar, L"Texture\\UI\\DecreaseBar.png", 0.f, Vec3(700.f, 10.f, 1.f), Vec3(0.f, -250.f, 20.f));
 
-		int alphaOn = 1;
-		playerHPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::INT_0, &alphaOn);
-	}
+	SetUIComponent(monsterDieText, L"Texture\\UI\\MonsterDieUI.png", 0.f, Vec3(2048.f, 192.f, 1.f), Vec3(0.f, 0.f, 5.f));
+	SetUIComponent(monsterDieEffectText, L"Texture\\UI\\MonsterDieUIPostEffect.png", 0.f, Vec3(2048.f, 192.f, 1.f), Vec3(0.f, 0.f, 4.f));
+	SetUIComponent(playerDieText, L"Texture\\UI\\PlayerDieUI.png", 0.f, Vec3(2048.f, 192.f, 1.f), Vec3(0.f, 0.f, 5.f));
+	SetUIComponent(textBackground, L"Texture\\UI\\MENU_KUROOBI.png", 0.f, Vec3(3072.f, 192.f, 1.f), Vec3(0.f, 0.f, 6.f));
 
-	{
-		playerSPBar->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-
-		CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"UIMtrl");
-		playerSPBar->MeshRender()->SetMaterial(pMtrl);
-
-		CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\HpBar.png");
-		playerSPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
-
-		int alphaOn = 1;
-		playerSPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::INT_0, &alphaOn);
-	}
-
-	{
-		monsterHPBar->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-
-		CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"UIMtrl");
-		monsterHPBar->MeshRender()->SetMaterial(pMtrl);
-
-		CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\StaminaBar.png");
-		monsterHPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
-
-		int alphaOn = 0;
-		monsterHPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::INT_0, &alphaOn);
-	}
-
-	{
-		playerHPProgressBar->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-
-		CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"UIMtrl");
-		playerHPProgressBar->MeshRender()->SetMaterial(pMtrl);
-
-		CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\ProgressBar.png");
-		playerHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
-		
-		int alphaOn = 1;
-		playerHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::INT_0, &alphaOn);
-	}
-
-	{
-		playerSPProgressBar->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-
-		CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"UIMtrl");
-		playerSPProgressBar->MeshRender()->SetMaterial(pMtrl);
-
-		CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\ProgressBar.png");
-		playerSPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
-
-		int alphaOn = 1;
-		playerSPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::INT_0, &alphaOn);
-	}
-
-	{
-		monsterHPProgressBar->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-
-		CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"UIMtrl");
-		monsterHPProgressBar->MeshRender()->SetMaterial(pMtrl);
-
-		CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\ProgressBar.png");
-		monsterHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
-
-		int alphaOn = 0;
-		monsterHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::INT_0, &alphaOn);
-	}
-
-	{
-		playerHPDecreaseBar->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-
-		CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"UIMtrl");
-		playerHPDecreaseBar->MeshRender()->SetMaterial(pMtrl);
-
-		CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\DecreaseBar.png");
-		playerHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
-
-		int alphaOn = 1;
-		playerHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::INT_0, &alphaOn);
-	}
-
-	{
-		playerSPDecreaseBar->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-
-		CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"UIMtrl");
-		playerSPDecreaseBar->MeshRender()->SetMaterial(pMtrl);
-
-		CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\DecreaseBar.png");
-		playerSPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
-
-		int alphaOn = 1;
-		playerSPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::INT_0, &alphaOn);
-	}
-
-	{
-		monsterHPDecreaseBar->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-
-		CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"UIMtrl");
-		monsterHPDecreaseBar->MeshRender()->SetMaterial(pMtrl);
-
-		CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\DecreaseBar.png");
-		monsterHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
-
-		int alphaOn = 0;
-		monsterHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::INT_0, &alphaOn);
-	}
-
-	{
-		Vec3 progressBarScale = playerHPProgressBar->Transform()->GetLocalPos();
-		progressBarScale.x = 500.f;
-		progressBarScale.y = 25.f;
-		playerHPProgressBar->Transform()->SetLocalScale(progressBarScale);
-
-		Vec3 progressBarPosition = playerHPProgressBar->Transform()->GetLocalPos();
-		progressBarPosition.x = -350.f;
-		progressBarPosition.y = 300.f;
-		progressBarPosition.z = 3.f;
-		playerHPProgressBar->Transform()->SetLocalPos(progressBarPosition);
-
-
-		Vec3 decreaseBarScale = playerHPDecreaseBar->Transform()->GetLocalPos();
-		decreaseBarScale.x = 500.f;
-		decreaseBarScale.y = 10.f;
-		playerHPDecreaseBar->Transform()->SetLocalScale(decreaseBarScale);
-
-		Vec3 decreaseBarPosition = playerHPDecreaseBar->Transform()->GetLocalPos();
-		decreaseBarPosition.x = -350.f;
-		decreaseBarPosition.y = 300.f;
-		decreaseBarPosition.z = 2.f;
-		playerHPDecreaseBar->Transform()->SetLocalPos(decreaseBarPosition);
-
-
-		Vec3 hpBarScale = playerHPBar->Transform()->GetLocalPos();
-		hpBarScale.x = 500.f;
-		hpBarScale.y = 10.f;
-		playerHPBar->Transform()->SetLocalScale(hpBarScale);
-
-		Vec3 hpBarPosition = playerHPBar->Transform()->GetLocalPos();
-		hpBarPosition.x = -350.f;
-		hpBarPosition.y = 300.f;
-		hpBarPosition.z = 1.f;
-		playerHPBar->Transform()->SetLocalPos(hpBarPosition);
-	}
-
-	{
-		Vec3 progressBarScale = playerSPProgressBar->Transform()->GetLocalPos();
-		progressBarScale.x = 500.f;
-		progressBarScale.y = 25.f;
-		playerSPProgressBar->Transform()->SetLocalScale(progressBarScale);
-
-		Vec3 progressBarPosition = playerSPProgressBar->Transform()->GetLocalPos();
-		progressBarPosition.x = -350.f;
-		progressBarPosition.y = 280.f;
-		progressBarPosition.z = 3.f;
-		playerSPProgressBar->Transform()->SetLocalPos(progressBarPosition);
-
-
-		Vec3 decreaseBarScale = playerSPDecreaseBar->Transform()->GetLocalPos();
-		decreaseBarScale.x = 500.f;
-		decreaseBarScale.y = 10.f;
-		playerSPDecreaseBar->Transform()->SetLocalScale(decreaseBarScale);
-
-		Vec3 decreaseBarPosition = playerSPDecreaseBar->Transform()->GetLocalPos();
-		decreaseBarPosition.x = -350.f;
-		decreaseBarPosition.y = 280.f;
-		decreaseBarPosition.z = 2.f;
-		playerSPDecreaseBar->Transform()->SetLocalPos(decreaseBarPosition);
-
-
-		Vec3 spBarScale = playerSPBar->Transform()->GetLocalPos();
-		spBarScale.x = 500.f;
-		spBarScale.y = 10.f;
-		playerSPBar->Transform()->SetLocalScale(spBarScale);
-
-		Vec3 spBarPosition = playerHPBar->Transform()->GetLocalPos();
-		spBarPosition.x = -350.f;
-		spBarPosition.y = 280.f;
-		spBarPosition.z = 1.f;
-		playerSPBar->Transform()->SetLocalPos(spBarPosition);
-	}
-
-	{
-		Vec3 progressBarScale = monsterHPProgressBar->Transform()->GetLocalPos();
-		progressBarScale.x = 700.f;
-		progressBarScale.y = 25.f;
-		monsterHPProgressBar->Transform()->SetLocalScale(progressBarScale);
-
-		Vec3 progressBarPosition = monsterHPProgressBar->Transform()->GetLocalPos();
-		progressBarPosition.x = 0.f;
-		progressBarPosition.y = -250.f;
-		progressBarPosition.z = 3.f;
-		monsterHPProgressBar->Transform()->SetLocalPos(progressBarPosition);
-
-
-		Vec3 decreaseBarScale = monsterHPDecreaseBar->Transform()->GetLocalPos();
-		decreaseBarScale.x = 700.f;
-		decreaseBarScale.y = 10.f;
-		monsterHPDecreaseBar->Transform()->SetLocalScale(decreaseBarScale);
-
-		Vec3 decreaseBarPosition = monsterHPDecreaseBar->Transform()->GetLocalPos();
-		decreaseBarPosition.x = 0.f;
-		decreaseBarPosition.y = -250.f;
-		decreaseBarPosition.z = 2.f;
-		monsterHPDecreaseBar->Transform()->SetLocalPos(decreaseBarPosition);
-
-
-		Vec3 spBarScale = monsterHPBar->Transform()->GetLocalPos();
-		spBarScale.x = 700.f;
-		spBarScale.y = 10.f;
-		monsterHPBar->Transform()->SetLocalScale(spBarScale);
-
-		Vec3 spBarPosition = playerHPBar->Transform()->GetLocalPos();
-		spBarPosition.x = 0.f;
-		spBarPosition.y = -250.f;
-		spBarPosition.z = 1.f;
-		monsterHPBar->Transform()->SetLocalPos(spBarPosition);
-	}
 
 	playerHPBarInitScaleX = playerHPBar->Transform()->GetLocalScale().x;
 	playerSPBarInitScaleX = playerSPBar->Transform()->GetLocalScale().x;
@@ -310,6 +207,9 @@ void CSSN011PlayerUIScript::start()
 
 	playerHPRatio = playerHPBarInitScaleX / playerMaxHP;
 	playerSPRatio = playerSPBarInitScaleX / playerMaxSP;
+
+	isPlayerDie = false;
+	isMonsterDie = false;
 }
 
 void CSSN011PlayerUIScript::update()
@@ -330,22 +230,37 @@ void CSSN011PlayerUIScript::update()
 	playerHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &decreaseTexture);
 	playerSPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &decreaseTexture);
 	monsterHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &decreaseTexture);
+
+	CResPtr<CTexture> monsterDieUITexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\MonsterDieUI.png");
+	monsterDieText->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &monsterDieUITexture);
+
+	CResPtr<CTexture> monsterDieEffectUITexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\MonsterDieUIPostEffect.png");
+	monsterDieEffectText->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &monsterDieEffectUITexture);
+
+	CResPtr<CTexture> playerDieUITexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\PlayerDieUI.png");
+	playerDieText->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &playerDieUITexture);
+
+	CResPtr<CTexture> textBackgroundTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\MENU_KUROOBI.png");
+	textBackground->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &textBackgroundTexture);
+
+	FadeInOutMonsterDieText();
+	FadeInOutPlayerDieText();
 }
 
 void CSSN011PlayerUIScript::OnMonsterUI()
 {
-	int alphaOn = 1;
-	monsterHPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::INT_0, &alphaOn);
-	monsterHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::INT_0, &alphaOn);
-	monsterHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::INT_0, &alphaOn);
+	float alphaOn = 1.f;
+	monsterHPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
+	monsterHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
+	monsterHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
 }
 
 void CSSN011PlayerUIScript::OffMonsterUI()
 {
-	int alphaOn = 0;
-	monsterHPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::INT_0, &alphaOn);
-	monsterHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::INT_0, &alphaOn);
-	monsterHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::INT_0, &alphaOn);
+	float alphaOn = 0.f;
+	monsterHPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
+	monsterHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
+	monsterHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
 }
 
 void CSSN011PlayerUIScript::SetMonsterHPRation(int maxHP)
@@ -368,12 +283,16 @@ void CSSN011PlayerUIScript::CalculationPlayerHPUI(int nowHP)
 		Vec3 playerHPBarPosition = playerHPBar->Transform()->GetLocalPos();
 		playerHPBarPosition.x = playerHPBarInitPositionX - movePlayerHPBarPositionXValue;
 		playerHPBar->Transform()->SetLocalPos(playerHPBarPosition);
+
+		isPlayerDie = false;
 	}
 	else
 	{
 		Vec3 playerHPBarScale = playerHPBar->Transform()->GetLocalScale();
 		playerHPBarScale.x = 0.f;
 		playerHPBar->Transform()->SetLocalScale(playerHPBarScale);
+
+		isPlayerDie = true;
 	}
 }
 
@@ -424,5 +343,7 @@ void CSSN011PlayerUIScript::CalculationMonsterHPUI(int nowHP)
 		monsterHPBar->Transform()->SetLocalScale(monsterHPBarScale);
 
 		OffMonsterUI();
+
+		isMonsterDie = true;
 	}
 }
