@@ -10,9 +10,11 @@ CSSN002PlayerScript::CSSN002PlayerScript() :
 	PLAYER_MOVE_SPEED(300.f),
 	PLAYER_ROLL_SPEED(600.f)
 {
-	playerHP = 2;
-	playerMaxSP = 10;
-	playerSP = playerMaxSP;
+	mPlayerHP = 2;
+	mPlayerMaxSP = 10;
+	mPlayerSP = mPlayerMaxSP;
+	mIsHit = false;
+	mIsDead = false;
 }
 
 
@@ -22,9 +24,6 @@ CSSN002PlayerScript::~CSSN002PlayerScript()
 
 void CSSN002PlayerScript::start()
 {
-	isHit = false;
-	isDead = false;
-
 	{
 		CGameObject* attackBox = nullptr;
 		for (int index = 0; index < Object()->GetChild().size(); index++)
@@ -41,28 +40,28 @@ void CSSN002PlayerScript::start()
 		{
 			if (attackBox->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT)
 			{
-				attackBoxScript = attackBox->GetScripts()[index];
+				mAttackBoxScript = attackBox->GetScripts()[index];
 				break;
 			}
 		}
 	}
 
-	playerState = PlayerIdleState::GetInstance();
-	playerState->Init(this);
+	mPlayerState = PlayerIdleState::GetInstance();
+	mPlayerState->Init(this);
 
 }
 
 void CSSN002PlayerScript::update()
 {
 	{
-		if (playerHP <= 0)
+		if (mPlayerHP <= 0)
 		{
-			isDead = true;
+			mIsDead = true;
 		}
 	}
 
 	{
-		if (isDead == false)
+		if (mIsDead == false)
 		{
 			vector<CGameObject*> findBody;
 			CSceneMgr::GetInst()->FindGameObject(L"MainCameraBody", findBody);
@@ -85,8 +84,8 @@ void CSSN002PlayerScript::update()
 			{
 				if (childScript[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN005NAVSCRIPT)
 				{
-					isMovable = dynamic_cast<CSSN005NavScript*>(childScript[scriptIndex])->GetNavCollision();
-					beforePlayerPosition = dynamic_cast<CSSN005NavScript*>(childScript[scriptIndex])->GetBeforePosition();
+					mIsMovable = dynamic_cast<CSSN005NavScript*>(childScript[scriptIndex])->GetNavCollision();
+					mBeforePlayerPosition = dynamic_cast<CSSN005NavScript*>(childScript[scriptIndex])->GetBeforePosition();
 					break;
 				}
 			}
@@ -94,24 +93,26 @@ void CSSN002PlayerScript::update()
 	}
 
 
-	playerState->Update(this);
+	mPlayerState->Update(this);
 }
 
 void CSSN002PlayerScript::SetState(PlayerState * state)
 {
-	playerState = state;
+	mPlayerState = state;
 }
 
 void CSSN002PlayerScript::RestoreSP()
 {
 	static float deltaTime = 0.f;
-	deltaTime += CTimeMgr::GetInst()->GetDeltaTime();
-	if (playerSP < playerMaxSP)
+
+	if (mPlayerSP < mPlayerMaxSP)
 	{
+		deltaTime += CTimeMgr::GetInst()->GetDeltaTime();
+
 		if (deltaTime > 1.f)
 		{
 			deltaTime = 0.f;
-			playerSP += 1;
+			mPlayerSP += 1;
 
 			GameEventComponent addEvent;
 			addEvent.eventType = GAME_EVENT_TYPE::PLAYER_SP_UPDATE;
@@ -121,19 +122,22 @@ void CSSN002PlayerScript::RestoreSP()
 	}
 }
 
-bool CSSN002PlayerScript::UseSP(int useSPValue)
+void CSSN002PlayerScript::UseSP(int useSPValue)
 {
-	if (useSPValue > playerSP)
-	{
-		return false;
-	}
-
-	playerSP -= useSPValue;
+	mPlayerSP -= useSPValue;
 
 	GameEventComponent addEvent;
 	addEvent.eventType = GAME_EVENT_TYPE::PLAYER_SP_UPDATE;
 	addEvent.sendObjectName = Object()->GetName();
 	CEventQueueMgr::GetInst()->AddEvent(addEvent);
+}
+
+bool CSSN002PlayerScript::CanUseSP(int useSPValue)
+{
+	if (useSPValue > mPlayerSP)
+	{
+		return false;
+	}
 
 	return true;
 }
