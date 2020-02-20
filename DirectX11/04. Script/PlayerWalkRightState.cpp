@@ -6,7 +6,8 @@
 #include "PlayerRollRightState.h"
 #include "PlayerAttack1State.h"
 #include "PlayerHealSuccessState.h"
-#include "PlayerParryingState.h"
+#include "PlayerHitedState.h"
+#include "PlayerDeadState.h"
 
 PlayerWalkRightState::PlayerWalkRightState()
 {
@@ -47,6 +48,20 @@ void PlayerWalkRightState::Init(CSSN002PlayerScript * playerScript)
 
 void PlayerWalkRightState::Update(CSSN002PlayerScript * playerScript)
 {
+	playerScript->RestoreSP();
+
+	if (playerScript->GetDead() == true)
+	{
+		PlayerDeadState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerDeadState::GetInstance());
+	}
+
+	if (playerScript->GetHit() == true)
+	{
+		PlayerHitedState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerHitedState::GetInstance());
+	}
+
 	if (KEYHOLD(KEY_TYPE::KEY_D))
 	{
 		if (playerScript->GetPlayerMovable() == false)
@@ -105,12 +120,6 @@ void PlayerWalkRightState::Update(CSSN002PlayerScript * playerScript)
 	{
 		PlayerHealSuccessState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerHealSuccessState::GetInstance());
-	}
-
-	if (KEYTAB(KEY_TYPE::KEY_RBTN))
-	{
-		PlayerParryingState::GetInstance()->Init(playerScript);
-		playerScript->SetState(PlayerParryingState::GetInstance());
 	}
 }
 

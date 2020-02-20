@@ -39,6 +39,8 @@ void PlayerRollBackState::Init(CSSN002PlayerScript * playerScript)
 		playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
 	}
 	//
+
+	playerScript->UseSP(3);
 }
 
 void PlayerRollBackState::Update(CSSN002PlayerScript * playerScript)
@@ -81,7 +83,7 @@ void PlayerRollBackState::Update(CSSN002PlayerScript * playerScript)
 		else
 		{
 			float curRatioAnimTime = playerScript->Object()->GetChild()[index]->Animator3D()->GetCurRatioAnimTime();
-			if (0.2f <= curRatioAnimTime && curRatioAnimTime <= 0.5f)
+			if (curRatioAnimTime <= 0.5f)
 			{
 				isMove = true;
 			}

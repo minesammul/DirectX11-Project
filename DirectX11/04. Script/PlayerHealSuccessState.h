@@ -4,9 +4,6 @@
 
 class PlayerHealSuccessState : public PlayerState
 {
-private:
-	int findAnimationIndex;
-
 public:
 	PlayerHealSuccessState();
 	~PlayerHealSuccessState();

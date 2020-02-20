@@ -40,6 +40,8 @@ void PlayerRollRightState::Init(CSSN002PlayerScript * playerScript)
 	}
 	//
 
+	playerScript->UseSP(3);
+
 }
 
 void PlayerRollRightState::Update(CSSN002PlayerScript * playerScript)
@@ -81,7 +83,7 @@ void PlayerRollRightState::Update(CSSN002PlayerScript * playerScript)
 		else
 		{
 			float curRatioAnimTime = playerScript->Object()->GetChild()[index]->Animator3D()->GetCurRatioAnimTime();
-			if (0.2f <= curRatioAnimTime && curRatioAnimTime <= 0.5f)
+			if (curRatioAnimTime <= 0.5f)
 			{
 				isMove = true;
 			}

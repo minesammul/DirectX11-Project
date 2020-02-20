@@ -10,7 +10,6 @@
 #include "PlayerHitedState.h"
 #include "PlayerDeadState.h"
 #include "PlayerAttack1State.h"
-#include "PlayerParryingState.h"
 
 PlayerIdleState::PlayerIdleState()
 {
@@ -120,12 +119,6 @@ void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 	{
 		PlayerAttack1State::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerAttack1State::GetInstance());
-	}
-
-	if (KEYTAB(KEY_TYPE::KEY_RBTN))
-	{
-		PlayerParryingState::GetInstance()->Init(playerScript);
-		playerScript->SetState(PlayerParryingState::GetInstance());
 	}
 }
 

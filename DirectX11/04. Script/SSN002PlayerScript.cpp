@@ -7,7 +7,8 @@
 
 CSSN002PlayerScript::CSSN002PlayerScript() : 
 	CScript((UINT)SCRIPT_TYPE::SSN002PLAYERSCRIPT),
-	PLAYER_MOVE_SPEED(10.f)
+	PLAYER_MOVE_SPEED(300.f),
+	PLAYER_ROLL_SPEED(600.f)
 {
 	playerHP = 2;
 	playerMaxSP = 10;
@@ -61,14 +62,17 @@ void CSSN002PlayerScript::update()
 	}
 
 	{
-		vector<CGameObject*> findBody;
-		CSceneMgr::GetInst()->FindGameObject(L"MainCameraBody", findBody);
+		if (isDead == false)
+		{
+			vector<CGameObject*> findBody;
+			CSceneMgr::GetInst()->FindGameObject(L"MainCameraBody", findBody);
 
-		Vec3 cameraBodyRotate = findBody[0]->Transform()->GetLocalRot();
-		Vec3 playerRotate = Transform()->GetLocalRot();
-		playerRotate.y = cameraBodyRotate.y;
+			Vec3 cameraBodyRotate = findBody[0]->Transform()->GetLocalRot();
+			Vec3 playerRotate = Transform()->GetLocalRot();
+			playerRotate.y = cameraBodyRotate.y;
 
-		Transform()->SetLocalRot(playerRotate);
+			Transform()->SetLocalRot(playerRotate);
+		}
 	}
 
 

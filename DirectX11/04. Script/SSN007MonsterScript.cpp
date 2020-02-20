@@ -4,7 +4,9 @@
 #include "IronGolemStandState.h"
 
 CSSN007MonsterScript::CSSN007MonsterScript() :
-	CScript((UINT)SCRIPT_TYPE::SSN007MONSTERSCRIPT)
+	CScript((UINT)SCRIPT_TYPE::SSN007MONSTERSCRIPT),
+	MONSTER_MOVE_SPEED(300.f),
+	MONSTER_ROTATE_SPEED(25.f)
 {
 }
 
@@ -62,7 +64,6 @@ void CSSN007MonsterScript::update()
 {
 	if (isHit == true)
 	{
-		monsterHP -= 1;
 		isHit = false;
 	}
 

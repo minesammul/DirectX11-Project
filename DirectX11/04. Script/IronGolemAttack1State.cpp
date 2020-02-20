@@ -4,6 +4,7 @@
 #include "SSN007MonsterScript.h"
 #include "IronGolemIdleState.h"
 #include "SSN008AttackBoxScript.h"
+#include "IronGolemDieState.h"
 
 IronGolemAttack1State::IronGolemAttack1State()
 {
@@ -46,6 +47,13 @@ void IronGolemAttack1State::Init(CSSN007MonsterScript * monsterScript)
 
 void IronGolemAttack1State::Update(CSSN007MonsterScript * monsterScript)
 {
+	if (monsterScript->GetDead() == true)
+	{
+		IronGolemDieState::GetInstance()->Init(monsterScript);
+		monsterScript->SetState(IronGolemDieState::GetInstance());
+		return;
+	}
+
 	// Animation Done is Init
 	bool isAllDoneAnimation = true;
 	float animationRatio = 0.f;

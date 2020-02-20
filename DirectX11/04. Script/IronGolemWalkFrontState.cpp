@@ -3,10 +3,10 @@
 
 #include "SSN007MonsterScript.h"
 #include "IronGolemIdleState.h"
+#include "IronGolemDieState.h"
 
 IronGolemWalkFrontState::IronGolemWalkFrontState():
-	PLAYER_FIND_DISTANCE(200.f),
-	WALK_SPEED(5.f)
+	PLAYER_FIND_DISTANCE(200.f)
 {
 }
 
@@ -23,6 +23,13 @@ IronGolemWalkFrontState * IronGolemWalkFrontState::GetInstance()
 
 void IronGolemWalkFrontState::Init(CSSN007MonsterScript * monsterScript)
 {
+	if (monsterScript->GetDead() == true)
+	{
+		IronGolemDieState::GetInstance()->Init(monsterScript);
+		monsterScript->SetState(IronGolemDieState::GetInstance());
+		return;
+	}
+
 	//Animation Init
 	for (int index = 0; index < monsterScript->Object()->GetChild().size(); index++)
 	{
@@ -78,7 +85,7 @@ void IronGolemWalkFrontState::Update(CSSN007MonsterScript * monsterScript)
 			Vec3 monsterLookAtDirection = monsterWalkDirection;
 			monsterScript->Object()->Transform()->SetLookAt(monsterLookAtDirection);
 
-			monsterPosition += WALK_SPEED * monsterWalkDirection;
+			monsterPosition += monsterScript->GetMonsterMoveSpeed() * monsterWalkDirection;
 			monsterScript->Object()->Transform()->SetLocalPos(monsterPosition);
 
 			float radianValue = GetRadian(270.f);

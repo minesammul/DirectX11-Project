@@ -38,6 +38,8 @@ void PlayerRollFrontState::Init(CSSN002PlayerScript * playerScript)
 		playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
 	}
 	//
+
+	playerScript->UseSP(3);
 }
 
 void PlayerRollFrontState::Update(CSSN002PlayerScript * playerScript)

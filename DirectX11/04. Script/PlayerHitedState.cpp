@@ -22,42 +22,14 @@ PlayerHitedState * PlayerHitedState::GetInstance()
 void PlayerHitedState::Init(CSSN002PlayerScript * playerScript)
 {
 	playerScript->SetHit(false);
-
-	//Animation Init
-	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
-	{
-		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (playerScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Damaged", findAnimationIndex) == false)
-		{
-			assert(false && L"Not Find Animation");
-		}
-
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
-	}
-	//
 }
 
 void PlayerHitedState::Update(CSSN002PlayerScript * playerScript)
 {
-	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
-	{
-		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
+	playerScript->RestoreSP();
 
-		if (playerScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation())
-		{
-			PlayerIdleState::GetInstance()->Init(playerScript);
-			playerScript->SetState(PlayerIdleState::GetInstance());
-			break;
-		}
-	}
+	PlayerIdleState::GetInstance()->Init(playerScript);
+	playerScript->SetState(PlayerIdleState::GetInstance());
 }
 
 void PlayerHitedState::Exit(CSSN002PlayerScript * playerScript)
