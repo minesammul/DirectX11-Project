@@ -106,14 +106,20 @@ void PlayerWalkLeftState::Update(CSSN002PlayerScript * playerScript)
 
 	if (KEYTAB(KEY_TYPE::KEY_SPACE))
 	{
-		PlayerRollLeftState::GetInstance()->Init(playerScript);
-		playerScript->SetState(PlayerRollLeftState::GetInstance());
+		if (playerScript->CanUseSP(PlayerRollLeftState::GetInstance()->GetUseSPAmount()) == true)
+		{
+			PlayerRollLeftState::GetInstance()->Init(playerScript);
+			playerScript->SetState(PlayerRollLeftState::GetInstance());
+		}
 	}
 
 	if (KEYTAB(KEY_TYPE::KEY_LBTN))
 	{
-		PlayerAttack1State::GetInstance()->Init(playerScript);
-		playerScript->SetState(PlayerAttack1State::GetInstance());
+		if (playerScript->CanUseSP(PlayerAttack1State::GetInstance()->GetUseSPAmount()) == true)
+		{
+			PlayerAttack1State::GetInstance()->Init(playerScript);
+			playerScript->SetState(PlayerAttack1State::GetInstance());
+		}
 	}
 
 	if (KEYTAB(KEY_TYPE::KEY_E))

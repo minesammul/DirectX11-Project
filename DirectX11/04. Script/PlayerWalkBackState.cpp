@@ -107,14 +107,20 @@ void PlayerWalkBackState::Update(CSSN002PlayerScript * playerScript)
 
 	if (KEYTAB(KEY_TYPE::KEY_SPACE))
 	{
-		PlayerRollBackState::GetInstance()->Init(playerScript);
-		playerScript->SetState(PlayerRollBackState::GetInstance());
+		if (playerScript->CanUseSP(PlayerRollBackState::GetInstance()->GetUseSPAmount()) == true)
+		{
+			PlayerRollBackState::GetInstance()->Init(playerScript);
+			playerScript->SetState(PlayerRollBackState::GetInstance());
+		}
 	}
 
 	if (KEYTAB(KEY_TYPE::KEY_LBTN))
 	{
-		PlayerAttack1State::GetInstance()->Init(playerScript);
-		playerScript->SetState(PlayerAttack1State::GetInstance());
+		if (playerScript->CanUseSP(PlayerAttack1State::GetInstance()->GetUseSPAmount()) == true)
+		{
+			PlayerAttack1State::GetInstance()->Init(playerScript);
+			playerScript->SetState(PlayerAttack1State::GetInstance());
+		}
 	}
 
 	if (KEYTAB(KEY_TYPE::KEY_E))

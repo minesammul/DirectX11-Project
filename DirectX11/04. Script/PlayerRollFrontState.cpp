@@ -16,6 +16,7 @@ PlayerRollFrontState::~PlayerRollFrontState()
 PlayerRollFrontState * PlayerRollFrontState::GetInstance()
 {
 	static PlayerRollFrontState instance;
+	instance.SetUseSPAmount(3);
 	return &instance;
 }
 
@@ -39,7 +40,7 @@ void PlayerRollFrontState::Init(CSSN002PlayerScript * playerScript)
 	}
 	//
 
-	playerScript->UseSP(3);
+	playerScript->UseSP(GetUseSPAmount());
 }
 
 void PlayerRollFrontState::Update(CSSN002PlayerScript * playerScript)

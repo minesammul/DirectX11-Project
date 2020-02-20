@@ -2,7 +2,8 @@
 #include "PlayerState.h"
 
 
-PlayerState::PlayerState()
+PlayerState::PlayerState() : 
+	mUseSPAmount(0)
 {
 }
 

@@ -20,6 +20,7 @@ PlayerAttack3State::~PlayerAttack3State()
 PlayerAttack3State * PlayerAttack3State::GetInstance()
 {
 	static PlayerAttack3State instance;
+	instance.SetUseSPAmount(3);
 	return &instance;
 }
 
@@ -46,7 +47,7 @@ void PlayerAttack3State::Init(CSSN002PlayerScript * playerScript)
 
 	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetActiveCollision(false);
 	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetAttackted(false);
-	playerScript->UseSP(3);
+	playerScript->UseSP(GetUseSPAmount());
 }
 
 void PlayerAttack3State::Update(CSSN002PlayerScript * playerScript)
@@ -55,12 +56,14 @@ void PlayerAttack3State::Update(CSSN002PlayerScript * playerScript)
 	{
 		PlayerDeadState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerDeadState::GetInstance());
+		return;
 	}
 
 	if (playerScript->GetHit() == true)
 	{
 		PlayerHitedState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerHitedState::GetInstance());
+		return;
 	}
 
 	float animationRatio = 0.f;
@@ -77,11 +80,13 @@ void PlayerAttack3State::Update(CSSN002PlayerScript * playerScript)
 			{
 				PlayerAttack4State::GetInstance()->Init(playerScript);
 				playerScript->SetState(PlayerAttack4State::GetInstance());
+				return;
 			}
 			else
 			{
 				PlayerIdleState::GetInstance()->Init(playerScript);
 				playerScript->SetState(PlayerIdleState::GetInstance());
+				return;
 			}
 
 			break;
@@ -96,7 +101,10 @@ void PlayerAttack3State::Update(CSSN002PlayerScript * playerScript)
 			{
 				if (KEYTAB(KEY_TYPE::KEY_LBTN))
 				{
-					isNextAttack = true;
+					if (playerScript->CanUseSP(PlayerAttack4State::GetInstance()->GetUseSPAmount()) == true)
+					{
+						isNextAttack = true;
+					}
 				}
 			}
 		}

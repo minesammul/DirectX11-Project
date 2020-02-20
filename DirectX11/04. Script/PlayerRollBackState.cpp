@@ -16,7 +16,7 @@ PlayerRollBackState::~PlayerRollBackState()
 PlayerRollBackState * PlayerRollBackState::GetInstance()
 {
 	static PlayerRollBackState instance;
-
+	instance.SetUseSPAmount(3);
 	return &instance;
 }
 
@@ -40,7 +40,7 @@ void PlayerRollBackState::Init(CSSN002PlayerScript * playerScript)
 	}
 	//
 
-	playerScript->UseSP(3);
+	playerScript->UseSP(GetUseSPAmount());
 }
 
 void PlayerRollBackState::Update(CSSN002PlayerScript * playerScript)

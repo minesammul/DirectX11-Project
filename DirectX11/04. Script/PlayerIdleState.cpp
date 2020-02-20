@@ -73,12 +73,14 @@ void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 	{
 		PlayerDeadState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerDeadState::GetInstance());
+		return;
 	}
 
 	if (playerScript->GetHit() == true)
 	{
 		PlayerHitedState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerHitedState::GetInstance());
+		return;
 	}
 
 	// Idle State -> Walk State
@@ -117,8 +119,11 @@ void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 
 	if (KEYTAB(KEY_TYPE::KEY_LBTN))
 	{
-		PlayerAttack1State::GetInstance()->Init(playerScript);
-		playerScript->SetState(PlayerAttack1State::GetInstance());
+		if (playerScript->CanUseSP(PlayerAttack1State::GetInstance()->GetUseSPAmount()) == true)
+		{
+			PlayerAttack1State::GetInstance()->Init(playerScript);
+			playerScript->SetState(PlayerAttack1State::GetInstance());
+		}
 	}
 }
 

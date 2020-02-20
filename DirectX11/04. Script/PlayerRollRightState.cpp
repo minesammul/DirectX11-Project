@@ -16,7 +16,7 @@ PlayerRollRightState::~PlayerRollRightState()
 PlayerRollRightState * PlayerRollRightState::GetInstance()
 {
 	static PlayerRollRightState instance;
-
+	instance.SetUseSPAmount(3);
 	return &instance;
 }
 
@@ -40,7 +40,7 @@ void PlayerRollRightState::Init(CSSN002PlayerScript * playerScript)
 	}
 	//
 
-	playerScript->UseSP(3);
+	playerScript->UseSP(GetUseSPAmount());
 
 }
 

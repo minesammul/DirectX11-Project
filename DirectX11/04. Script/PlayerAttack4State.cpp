@@ -19,6 +19,7 @@ PlayerAttack4State::~PlayerAttack4State()
 PlayerAttack4State * PlayerAttack4State::GetInstance()
 {
 	static PlayerAttack4State instance;
+	instance.SetUseSPAmount(1);
 	return &instance;
 }
 
@@ -42,7 +43,7 @@ void PlayerAttack4State::Init(CSSN002PlayerScript * playerScript)
 
 	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetActiveCollision(false);
 	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetAttackted(false);
-	playerScript->UseSP(1);
+	playerScript->UseSP(GetUseSPAmount());
 }
 
 void PlayerAttack4State::Update(CSSN002PlayerScript * playerScript)
@@ -51,12 +52,14 @@ void PlayerAttack4State::Update(CSSN002PlayerScript * playerScript)
 	{
 		PlayerDeadState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerDeadState::GetInstance());
+		return;
 	}
 
 	if (playerScript->GetHit() == true)
 	{
 		PlayerHitedState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerHitedState::GetInstance());
+		return;
 	}
 
 
@@ -72,8 +75,7 @@ void PlayerAttack4State::Update(CSSN002PlayerScript * playerScript)
 		{
 			PlayerIdleState::GetInstance()->Init(playerScript);
 			playerScript->SetState(PlayerIdleState::GetInstance());
-
-			break;
+			return;
 		}
 		else
 		{
