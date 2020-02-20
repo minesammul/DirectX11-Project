@@ -16,6 +16,11 @@ private:
 	CGameObject* playerSPDecreaseBar;
 	CGameObject* monsterHPDecreaseBar;
 
+	CGameObject* textBackground;
+	CGameObject* monsterDieText;
+	CGameObject* monsterDieEffectText;
+	CGameObject* playerDieText;
+
 	float playerHPBarInitScaleX;
 	float playerSPBarInitScaleX;
 	float monsterHPBarInitScaleX;
@@ -29,9 +34,18 @@ private:
 
 	float monsterHPRatio;
 
+	bool isPlayerDie;
+	bool isMonsterDie;
+
+
 public:
 	CSSN011PlayerUIScript();
 	~CSSN011PlayerUIScript();
+
+private:
+	void SetUIComponent(CGameObject* uiObject, wstring textureName, float alphaValue, Vec3 scale, Vec3 position);
+	void FadeInOutMonsterDieText();
+	void FadeInOutPlayerDieText();
 
 public:
 	virtual void start();
@@ -47,5 +61,7 @@ public:
 	void CalculationPlayerSPUI(int nowSP);
 
 	void CalculationMonsterHPUI(int nowHP);
+
+
 };
 

@@ -67,6 +67,9 @@
     <Filter Include="Scripts\Monster\State\IronGolem\Component\Dead">
       <UniqueIdentifier>{d2768637-ea1f-4700-a071-026e5c4c1ea1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Player\State\Incomplete">
+      <UniqueIdentifier>{7c7b293f-3337-4e99-9281-f3a4bf406406}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptMgr.h">
@@ -213,9 +216,6 @@
     <ClInclude Include="PlayerWalkLeftState.h">
       <Filter>Scripts\Player\State\Component\Walk</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerParryingState.h">
-      <Filter>Scripts\Player\State\Component\Attack</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerHealSuccessState.h">
       <Filter>Scripts\Player\State\Component\ItemUse</Filter>
     </ClInclude>
@@ -245,6 +245,9 @@
     </ClInclude>
     <ClInclude Include="SSN011PlayerUIScript.h">
       <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerParryingState.h">
+      <Filter>Scripts\Player\State\Incomplete</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -386,9 +389,6 @@
     <ClCompile Include="PlayerWalkRightState.cpp">
       <Filter>Scripts\Player\State\Component\Walk</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerParryingState.cpp">
-      <Filter>Scripts\Player\State\Component\Attack</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerHealSuccessState.cpp">
       <Filter>Scripts\Player\State\Component\ItemUse</Filter>
     </ClCompile>
@@ -418,6 +418,9 @@
     </ClCompile>
     <ClCompile Include="SSN011PlayerUIScript.cpp">
       <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerParryingState.cpp">
+      <Filter>Scripts\Player\State\Incomplete</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

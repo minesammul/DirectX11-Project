@@ -6,6 +6,7 @@ class CSSN002PlayerScript : public CScript
 {
 private:
 	const float PLAYER_MOVE_SPEED;
+	const float PLAYER_ROLL_SPEED;
 
 private:
 	PlayerState* playerState;
@@ -32,8 +33,8 @@ public:
 	virtual void update();
 
 	void SetState(PlayerState* state);
-	float GetPlayerMoveSpeed() { return PLAYER_MOVE_SPEED; }
-	float GetPlayerRollSpeed() { return PLAYER_MOVE_SPEED * 3.f; }
+	float GetPlayerMoveSpeed() { return PLAYER_MOVE_SPEED * CTimeMgr::GetInst()->GetDeltaTime(); }
+	float GetPlayerRollSpeed() { return PLAYER_ROLL_SPEED * CTimeMgr::GetInst()->GetDeltaTime(); }
 
 	bool GetPlayerMovable() { return isMovable; }
 

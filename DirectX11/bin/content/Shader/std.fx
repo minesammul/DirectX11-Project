@@ -96,10 +96,12 @@ PS_OUT PS_UI(VTX_TEX_OUTPUT _input)
     PS_OUT output = (PS_OUT) 0.f;
     output.vOutCol = g_tex_0.Sample(g_sam_0, _input.vUV);
     
-    if(g_int_0==0)
-    {
-        output.vOutCol.a = 0.f;
-    }
+    //if(g_int_0==0)
+    //{
+    //    output.vOutCol.a = 0.f;
+    //}
+    
+    output.vOutCol.a *= g_float_0;
     
     return output;
 }

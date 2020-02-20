@@ -5,7 +5,6 @@ class IronGolemWalkFrontState : public MonsterState
 {
 private:
 	const float PLAYER_FIND_DISTANCE;
-	const float WALK_SPEED;
 
 private:
 	int findAnimationIndex;
