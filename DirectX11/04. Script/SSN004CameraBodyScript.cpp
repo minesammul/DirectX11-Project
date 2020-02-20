@@ -3,7 +3,8 @@
 
 
 CSSN004CameraBodyScript::CSSN004CameraBodyScript() : 
-	CScript((UINT)SCRIPT_TYPE::SSN004CAMERABODYSCRIPT)
+	CScript((UINT)SCRIPT_TYPE::SSN004CAMERABODYSCRIPT),
+	CAMERA_ROTATE_SPEED(100.f)
 {
 }
 
@@ -29,13 +30,13 @@ void CSSN004CameraBodyScript::update()
 	if (CKeyMgr::GetInst()->GetMousePos().x < CKeyMgr::GetInst()->GetPrevMousePos().x)
 	{
 		Vec3 rotate = Transform()->GetLocalRot();
-		rotate.y -= GetRadian(5.f);
+		rotate.y -= GetRadian(GetCameraRotateSpeed());
 		Transform()->SetLocalRot(rotate);
 	}
 	else if(CKeyMgr::GetInst()->GetMousePos().x > CKeyMgr::GetInst()->GetPrevMousePos().x)
 	{
 		Vec3 rotate = Transform()->GetLocalRot();
-		rotate.y += GetRadian(5.f);
+		rotate.y += GetRadian(GetCameraRotateSpeed());
 		Transform()->SetLocalRot(rotate);
 	}
 
@@ -53,7 +54,7 @@ void CSSN004CameraBodyScript::update()
 		if (degree > 80.f)
 		{
 			Vec3 rotate = Transform()->GetLocalRot();
-			rotate.x -= GetRadian(5.f);
+			rotate.x -= GetRadian(GetCameraRotateSpeed());
 			Transform()->SetLocalRot(rotate);
 		}
 
@@ -72,7 +73,7 @@ void CSSN004CameraBodyScript::update()
 		if (degree > 45.f)
 		{
 			Vec3 rotate = Transform()->GetLocalRot();
-			rotate.x += GetRadian(5.f);
+			rotate.x += GetRadian(GetCameraRotateSpeed());
 			Transform()->SetLocalRot(rotate);
 		}
 
