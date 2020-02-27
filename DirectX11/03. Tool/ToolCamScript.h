@@ -8,8 +8,16 @@ class CToolCamScript :
 private:
 	float		m_fSpeed;
 	float		m_fMul;
+	
+	bool m_isNavMeshCreate;
+	CGameObject* m_selectNavMesh;
+
+
+private:
+	CGameObject* GetClickNavMesh();
 
 public:
+	virtual void start();
 	virtual void update();
 
 public:
