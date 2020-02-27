@@ -296,6 +296,16 @@ bool CCollisionMgr::IsCollision(CCollider3D * _pLeft, CCollider3D * _pRight)
 		// Circle Circle
 		return CollisionSphere(_pLeft, _pRight);
 	}
+	else if (_pLeft->GetCollider3DType() == COLLIDER3D_TYPE::SPHERE && _pRight->GetCollider3DType() == COLLIDER3D_TYPE::TRIANGLE)
+	{
+		// Circle Triangle
+		return CollisionSphereTriangle(_pLeft, _pRight);
+	}
+	else if (_pLeft->GetCollider3DType() == COLLIDER3D_TYPE::TRIANGLE && _pRight->GetCollider3DType() == COLLIDER3D_TYPE::SPHERE)
+	{
+		// Circle Triangle
+		return CollisionSphereTriangle(_pRight, _pLeft);
+	}
 	else
 	{
 		// Rect, Circle
@@ -531,6 +541,107 @@ bool CCollisionMgr::CollisionSphere(CCollider3D * _pLeft, CCollider3D * _pRight)
 	
 
 	return false;
+}
+
+bool CCollisionMgr::CollisionSphereTriangle(CCollider3D * _pLeftSphere, CCollider3D * _pRightTriangle)
+{
+	//월드에 존재하는 삼각형 충돌체로부터 평면의 방정식을 만든다.
+	VTX triangleMesh[3] = {};
+	triangleMesh[0].vPos = Vec3(-0.5f, 0.5f, 0.f);
+	triangleMesh[0].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	triangleMesh[0].vUV = Vec2(0.f, 0.f);
+
+	triangleMesh[1].vPos = Vec3(0.5f, 0.5f, 0.f);
+	triangleMesh[1].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	triangleMesh[1].vUV = Vec2(1.f, 0.f);
+
+	triangleMesh[2].vPos = Vec3(0.5f, -0.5f, 0.f);
+	triangleMesh[2].vColor = Vec4(0.5f, 0.5f, 0.f, 1.f);
+	triangleMesh[2].vUV = Vec2(1.f, 1.f);
+
+	Matrix matTriangleWorld = _pRightTriangle->GetWorldMat();
+
+	Vec3 TriangleWorldPos[3] = {};
+
+	for (UINT i = 0; i < 3; ++i)
+	{
+		TriangleWorldPos[i] = XMVector3TransformCoord(triangleMesh[i].vPos, matTriangleWorld);
+	}
+
+	Vec4 triangleEquation = DirectX::XMPlaneFromPoints(TriangleWorldPos[0], TriangleWorldPos[1], TriangleWorldPos[2]);
+	//
+
+	// 구의 중점이 삼각형의 검사구역에 존재하는지 검사한다.
+	bool isTriangleInSphereCenter = false;
+	
+	Vec3 sphereCenterPoint = { 0.f,0.f,0.f };
+	Matrix matSphereWorld = _pLeftSphere->GetWorldMat();
+	sphereCenterPoint = XMVector3TransformCoord(sphereCenterPoint, matSphereWorld);
+
+	Vec3 triangle0to1VectorIsV1 = TriangleWorldPos[1] - TriangleWorldPos[0];
+	Vec3 triangle1to2VectorIsV2 = TriangleWorldPos[2] - TriangleWorldPos[1];
+	Vec3 triangle2to0VectorIsV3 = TriangleWorldPos[0] - TriangleWorldPos[2];
+	
+	Vec3 triangle0toSphereCenterVectorIsW1 = sphereCenterPoint - TriangleWorldPos[0];
+	Vec3 triangle1toSphereCenterVectorIsW2 = sphereCenterPoint - TriangleWorldPos[1];
+	Vec3 triangle2toSphereCenterVectorIsW3 = sphereCenterPoint - TriangleWorldPos[2];
+
+	Vec3 W1V1Cross = XMVector3Cross(triangle0to1VectorIsV1, triangle0toSphereCenterVectorIsW1);
+	W1V1Cross.Normalize();
+
+	Vec3 W2V2Cross = XMVector3Cross(triangle1to2VectorIsV2, triangle1toSphereCenterVectorIsW2);
+	W2V2Cross.Normalize();
+
+	Vec3 W3V3Cross = XMVector3Cross(triangle2to0VectorIsV3, triangle2toSphereCenterVectorIsW3);
+	W3V3Cross.Normalize();
+
+	Vec3 triangleNormalVector = XMVector3Cross(triangle0to1VectorIsV1, -triangle2to0VectorIsV3);
+	triangleNormalVector.Normalize();
+
+	if (triangleNormalVector.Dot(W1V1Cross) >= 0.f)
+	{
+		if (triangleNormalVector.Dot(W2V2Cross) >= 0.f &&
+			triangleNormalVector.Dot(W3V3Cross) >= 0.f)
+		{
+			isTriangleInSphereCenter = true;
+		}
+	}
+	else
+	{
+		if (triangleNormalVector.Dot(W2V2Cross) < 0.f &&
+			triangleNormalVector.Dot(W3V3Cross) < 0.f)
+		{
+			isTriangleInSphereCenter = true;
+		}
+	}
+
+	//
+
+
+	if (isTriangleInSphereCenter == true)
+	{
+		//Sphere, Triangle의 충돌여부
+		float sphereToTriangleDistance =	sphereCenterPoint.x *  triangleEquation.x +
+											sphereCenterPoint.y *  triangleEquation.y +
+											sphereCenterPoint.z *  triangleEquation.z +
+											triangleEquation.w;
+
+		float sphereRadius = _pLeftSphere->GetFinalScale().x;
+
+		if (sphereRadius < sphereToTriangleDistance)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+		//
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void CCollisionMgr::CollisionCheck(const wstring & _strLayerName1, const wstring & _strLayerName2)
