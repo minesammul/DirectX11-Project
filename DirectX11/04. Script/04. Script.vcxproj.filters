@@ -249,6 +249,9 @@
     <ClInclude Include="PlayerParryingState.h">
       <Filter>Scripts\Player\State\Incomplete</Filter>
     </ClInclude>
+    <ClInclude Include="SSN012SkyBoxScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptMgr.cpp">
@@ -421,6 +424,9 @@
     </ClCompile>
     <ClCompile Include="PlayerParryingState.cpp">
       <Filter>Scripts\Player\State\Incomplete</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN012SkyBoxScript.cpp">
+      <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

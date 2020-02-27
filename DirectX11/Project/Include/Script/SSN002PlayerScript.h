@@ -9,20 +9,20 @@ private:
 	const float PLAYER_ROLL_SPEED;
 
 private:
-	PlayerState* playerState;
+	PlayerState* mPlayerState;
 
-	bool isMovable;
-	Vec3 beforePlayerPosition;
+	bool mIsMovable;
+	Vec3 mBeforePlayerPosition;
 
-	bool isHit;
+	bool mIsHit;
 
-	int playerHP;
-	int playerSP;
-	int playerMaxSP;
+	int mPlayerHP;
+	int mPlayerSP;
+	int mPlayerMaxSP;
 
-	bool isDead;
+	bool mIsDead;
 
-	CScript* attackBoxScript;
+	CScript* mAttackBoxScript;
 
 public:
 	CSSN002PlayerScript();
@@ -36,31 +36,32 @@ public:
 	float GetPlayerMoveSpeed() { return PLAYER_MOVE_SPEED * CTimeMgr::GetInst()->GetDeltaTime(); }
 	float GetPlayerRollSpeed() { return PLAYER_ROLL_SPEED * CTimeMgr::GetInst()->GetDeltaTime(); }
 
-	bool GetPlayerMovable() { return isMovable; }
+	bool GetPlayerMovable() { return mIsMovable; }
 
-	Vec3 GetBeforePlayerPosition() { return beforePlayerPosition; }
-	void SetBeforePlayerPosition(Vec3 beforePosition) { beforePlayerPosition = beforePosition; }
+	Vec3 GetBeforePlayerPosition() { return mBeforePlayerPosition; }
+	void SetBeforePlayerPosition(Vec3 beforePosition) { mBeforePlayerPosition = beforePosition; }
 
-	void SetHit(bool hited) 
+	void SetHit(bool isHited) 
 	{ 
-		isHit = hited;
+		mIsHit = isHited;
 
-		if (hited == true)
+		if (isHited == true)
 		{
-			playerHP -= 1;
+			mPlayerHP -= 1;
 		}
 	}
 
-	bool GetHit() { return isHit; }
+	bool GetHit() { return mIsHit; }
 
-	bool GetDead() { return isDead; }
+	bool GetDead() { return mIsDead; }
 
-	CScript* GetAttackBoxScript() { return attackBoxScript; }
+	CScript* GetAttackBoxScript() { return mAttackBoxScript; }
 
-	int GetPlayerHP() { return playerHP; }
-	int GetPlayerSP() { return playerSP; }
+	int GetPlayerHP() { return mPlayerHP; }
+	int GetPlayerSP() { return mPlayerSP; }
 
 	void RestoreSP();
-	bool UseSP(int useSPValue);
+	void UseSP(int useSPValue);
+	bool CanUseSP(int useSPValue);
 };
 

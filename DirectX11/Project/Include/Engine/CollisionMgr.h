@@ -48,5 +48,6 @@ private:
 	bool IsCollision(CCollider3D* _pLeft, CCollider3D* _pRight);
 	bool CollisionCube(CCollider3D* _pLeft, CCollider3D* _pRight);
 	bool CollisionSphere(CCollider3D* _pLeft, CCollider3D* _pRight);
+	bool CollisionSphereTriangle(CCollider3D* _pLeftSphere, CCollider3D* _pRightTriangle);
 };
 
