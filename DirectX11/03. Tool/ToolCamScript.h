@@ -11,7 +11,7 @@ private:
 	
 	bool m_isNavMeshCreate;
 	CGameObject* m_selectNavMesh;
-
+	bool m_isNavMeshModify;
 
 private:
 	CGameObject* GetClickNavMesh();

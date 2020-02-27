@@ -11,6 +11,7 @@ CToolCamScript::CToolCamScript()
 	, m_fSpeed(100.f)
 	, m_fMul(1.f)
 	, m_isNavMeshCreate(false)
+	, m_isNavMeshModify(false)
 	, m_selectNavMesh(nullptr)
 {
 }
@@ -159,10 +160,13 @@ void CToolCamScript::update()
 
 				if (clickUpObject == m_selectNavMesh)
 				{
-
+					//선택한 Nav Mesh의 크기, 회전값을 조정하고자 하는 경우다.
+					m_isNavMeshModify = true;
 				}
 				else
 				{
+					m_isNavMeshModify = false;
+
 					if (clickUpObject != nullptr)
 					{
 						//새로운 Nav Mesh를 기존의 Nav Mesh에 붙인다.
@@ -429,7 +433,126 @@ void CToolCamScript::update()
 
 				}
 			}
+			else
+			{
+				m_isNavMeshModify = false;
+			}
+
 		}
 	}
 
+
+	if (m_isNavMeshModify == true)
+	{
+		if (KEYTAB(KEY_TYPE::KEY_I))
+		{
+			//scale front
+			Vec3 selectNavMeshScale = m_selectNavMesh->Transform()->GetLocalScale();
+			selectNavMeshScale.y += 100.f;
+			m_selectNavMesh->Transform()->SetLocalScale(selectNavMeshScale);
+
+
+			Vec3 selectNavMeshPosition = m_selectNavMesh->Transform()->GetLocalPos();
+
+			Vec3 moveDirection = (m_selectNavMesh->Transform()->GetLocalDir(DIR_TYPE::DIR_UP)*-1.f);
+
+			selectNavMeshPosition += 50.f * moveDirection;
+			m_selectNavMesh->Transform()->SetLocalPos(selectNavMeshPosition);
+		}
+
+		if (KEYTAB(KEY_TYPE::KEY_K))
+		{
+			//scale back
+			Vec3 selectNavMeshScale = m_selectNavMesh->Transform()->GetLocalScale();
+			selectNavMeshScale.y -= 100.f;
+			m_selectNavMesh->Transform()->SetLocalScale(selectNavMeshScale);
+
+
+			Vec3 selectNavMeshPosition = m_selectNavMesh->Transform()->GetLocalPos();
+
+			Vec3 moveDirection = (m_selectNavMesh->Transform()->GetLocalDir(DIR_TYPE::DIR_UP)*-1.f);
+
+			selectNavMeshPosition -= 50.f * moveDirection;
+			m_selectNavMesh->Transform()->SetLocalPos(selectNavMeshPosition);
+		}
+
+		if (KEYTAB(KEY_TYPE::KEY_U))
+		{
+			//rotate up
+			VTX triangleMesh[3];
+			triangleMesh[0].vPos = Vec3(-0.5f, 0.5f, 0.f);
+			triangleMesh[1].vPos = Vec3(0.5f, 0.5f, 0.f);
+			triangleMesh[2].vPos = Vec3(0.5f, -0.5f, 0.f);
+
+			Matrix selectNavMeshMatrix = m_selectNavMesh->Collider3D()->GetWorldMat();
+			Vec3 selectTriangleWorldPos[3] = {};
+			for (UINT i = 0; i < 3; ++i)
+			{
+				selectTriangleWorldPos[i] = XMVector3TransformCoord(triangleMesh[i].vPos, selectNavMeshMatrix);
+			}
+
+			Vec3 rotateAxis = selectTriangleWorldPos[0] - selectTriangleWorldPos[1];
+			rotateAxis.Normalize();
+
+			rotateAxis = selectTriangleWorldPos[1] * rotateAxis;
+			
+			Matrix axisRotateResult = XMMatrixRotationAxis(rotateAxis, GetRadian(10.f));
+
+			Vec3 selectNavMeshPosition = m_selectNavMesh->Transform()->GetLocalPos();
+			Vec3 selectNavMeshScale = m_selectNavMesh->Transform()->GetLocalScale();
+			Vec3 selectNavMeshRotate = m_selectNavMesh->Transform()->GetLocalRot();
+
+			Vec3 selectNavMeshVertexToAxis = rotateAxis - selectTriangleWorldPos[1];
+			selectNavMeshPosition += selectNavMeshVertexToAxis;
+
+			Matrix navMeshMatTrans = XMMatrixTranslation(selectNavMeshPosition.x, selectNavMeshPosition.y, selectNavMeshPosition.z);
+			
+			Matrix navMeshMatScale = XMMatrixScaling(selectNavMeshScale.x, selectNavMeshScale.y, selectNavMeshScale.z);
+
+			Matrix navMeshMatRotation = XMMatrixRotationX(selectNavMeshRotate.x);
+			navMeshMatRotation *= XMMatrixRotationY(selectNavMeshRotate.y);
+			navMeshMatRotation *= XMMatrixRotationZ(selectNavMeshRotate.z);
+			
+			Matrix movedSelectNavMeshToAxisMatrix = navMeshMatScale * navMeshMatRotation * navMeshMatTrans;
+
+			movedSelectNavMeshToAxisMatrix *= axisRotateResult;
+
+			XMVECTOR resultScale;
+			XMVECTOR resultPosition;
+			XMVECTOR resultQuaternionRotate;
+
+			XMMatrixDecompose(&resultScale, &resultQuaternionRotate, &resultPosition, movedSelectNavMeshToAxisMatrix);
+
+			Vec3 inputRotate;
+			Vec3 inputPosition = resultPosition;
+			inputPosition -= selectNavMeshVertexToAxis;
+			Vec3 inputScale = resultScale;
+
+			// roll (x-axis rotation)
+			double sinr_cosp = 2 * (resultQuaternionRotate.vector4_f32[3] * resultQuaternionRotate.vector4_f32[0] + resultQuaternionRotate.vector4_f32[1] * resultQuaternionRotate.vector4_f32[2]);
+			double cosr_cosp = 1 - 2 * (resultQuaternionRotate.vector4_f32[0] * resultQuaternionRotate.vector4_f32[0] + resultQuaternionRotate.vector4_f32[1] * resultQuaternionRotate.vector4_f32[1]);
+			inputRotate.x = std::atan2(sinr_cosp, cosr_cosp);
+
+			// pitch (y-axis rotation)
+			double sinp = 2 * (resultQuaternionRotate.vector4_f32[3] * resultQuaternionRotate.vector4_f32[1] - resultQuaternionRotate.vector4_f32[2] * resultQuaternionRotate.vector4_f32[0]);
+			if (std::abs(sinp) >= 1)
+				inputRotate.y = std::copysign(XM_PI / 2, sinp); // use 90 degrees if out of range
+			else
+				inputRotate.y = std::asin(sinp);
+
+			// yaw (z-axis rotation)
+			double siny_cosp = 2 * (resultQuaternionRotate.vector4_f32[3] * resultQuaternionRotate.vector4_f32[2] + resultQuaternionRotate.vector4_f32[0] * resultQuaternionRotate.vector4_f32[1]);
+			double cosy_cosp = 1 - 2 * (resultQuaternionRotate.vector4_f32[1] * resultQuaternionRotate.vector4_f32[1] + resultQuaternionRotate.vector4_f32[2] * resultQuaternionRotate.vector4_f32[2]);
+			inputRotate.z = std::atan2(siny_cosp, cosy_cosp);
+
+			m_selectNavMesh->Transform()->SetLocalRot(inputRotate);
+			m_selectNavMesh->Transform()->SetLocalPos(inputPosition);
+			m_selectNavMesh->Transform()->SetLocalScale(inputScale);
+		}
+		
+		if (KEYTAB(KEY_TYPE::KEY_O))
+		{
+			//rotate down
+		}
+	}
 }
