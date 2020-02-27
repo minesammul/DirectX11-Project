@@ -42,6 +42,10 @@ void CCollider3DDlg::InitComboColliderType(CGameObject * target)
 			typeName = L"SPHERE";
 			vecName.push_back(typeName);
 			break;
+		case COLLIDER3D_TYPE::TRIANGLE:
+			typeName = L"TRIANGLE";
+			vecName.push_back(typeName);
+			break;
 		default:
 			break;
 		}
@@ -96,6 +100,9 @@ void CCollider3DDlg::UpdateColliderType(CGameObject * target)
 		break;
 	case COLLIDER3D_TYPE::SPHERE:
 		comboColliderType.SetCurSel((int)COLLIDER3D_TYPE::SPHERE);
+		break;
+	case COLLIDER3D_TYPE::TRIANGLE:
+		comboColliderType.SetCurSel((int)COLLIDER3D_TYPE::TRIANGLE);
 		break;
 	default:
 		break;
