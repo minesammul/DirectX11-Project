@@ -35,6 +35,8 @@ private:
 	CResPtr<CMaterial>  m_pPickMtrl;
 	CCamera*			m_pToolCam;
 
+	CResPtr<CTexture>	m_pHeightValueOutput;
+	CResPtr<CMaterial>  m_pHeightValueMtrl;
 public:
 	void init(UINT _iXFace, UINT _iZFace);
 

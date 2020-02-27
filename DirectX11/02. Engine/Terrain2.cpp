@@ -117,12 +117,29 @@ int CTerrain::Picking(Vec2 & _vPos)
 	m_pOutput->Capture();
 	Vec4* pData = (Vec4*)m_pOutput->GetSysMem();
 
+	//이거 나오는 위치값에 대해서 100배 해줘야 한다. x, y, z 전부.
+
 	// 피킹 실패
 	if (pData->w == 0.f)
 		return 0;
 
 	// 픽킹 위치를 비율로 전환
+	// 이거 UV값이다.
+	// Terrain의 Height Map에 대한 UV값이다.
 	_vPos = Vec2(pData->x / (float)m_iXFaceCount, 1.f - (pData->z / (float)m_iZFaceCount));
+
+	m_pHeightValueMtrl->SetData(SHADER_PARAM::VEC2_0, &_vPos);
+	m_pHeightValueMtrl->SetData(SHADER_PARAM::TEX_0, &m_pHeightMap);
+
+	// Picking coputeshader 계산
+	//m_pHeightValueOutput->RWClear(Vec4(0.f, 0.f, 0.f, 0.f));
+
+	//m_pHeightValueMtrl->ExcuteComputeShader(1, 1, 1);
+
+	//m_pHeightValueOutput->Capture();
+	//Vec4* heightValue = (Vec4*)m_pHeightValueOutput->GetSysMem();
+
+	//float valueComfirm = heightValue->x;
 
 	return 1;
 }
@@ -157,6 +174,10 @@ void CTerrain::SetMaterialParameter()
 		m_pPickMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pOutput);
 	}
 
+	{
+		m_pHeightValueMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pHeightValueOutput);
+	}
+
 
 	// Material
 	CResPtr<CTexture> pTileArrTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Tile\\TILE_ARR.dds");
@@ -182,6 +203,7 @@ void CTerrain::LoadResource()
 
 	m_pOutput = CResMgr::GetInst()->FindRes<CTexture>(L"PickingOutput");
 
+	m_pHeightValueOutput = CResMgr::GetInst()->FindRes<CTexture>(L"HeightValueOutput");
 
 	// Brush Texture
 	m_vecBrush.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Brush\\Brush_01.png"));
@@ -221,6 +243,14 @@ void CTerrain::LoadResource()
 
 		m_pPickMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pOutput);
 	}
+
+	{
+
+		m_pHeightValueMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"CS_HeightMapValueMtrl");
+
+		m_pHeightValueMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pHeightValueOutput);
+	}
+
 
 	{
 		CResPtr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"TerrainRect");

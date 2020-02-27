@@ -228,4 +228,18 @@ void CS_Picking(uint3 _iThreadID : SV_DispatchThreadID)
     }
 }
 
+
+// =======================
+// HeightMap Value Shader
+// g_vec2_0 : input UV
+
+// g_tex_0 : Height Map
+// g_rwtex_0 : output texture
+// =======================
+[numthreads(1, 1, 1)]
+void CS_HeightMapValue(uint3 _iThreadID : SV_DispatchThreadID)
+{
+    float4 height = g_tex_0.SampleLevel(g_sam_0, g_vec2_0, 0);
+    g_rwtex_0[int2(0, 0)] = height;
+}
 #endif
