@@ -98,8 +98,14 @@ void CCollider3D::SetColliderType(COLLIDER3D_TYPE _eType)
 	{
 		m_pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh");
 	}
+	else if(COLLIDER3D_TYPE::TRIANGLE == m_eType)
+	{
+		m_pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"TriangleMesh");
+	}
 	else
+	{
 		assert(nullptr);
+	}
 }
 
 void CCollider3D::UpdateData()

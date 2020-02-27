@@ -73,6 +73,49 @@ void CResMgr::CreateDefaultMesh()
 	vecVtx.clear();
 	vecIdx.clear();
 
+	// 0 --- 1
+	//    \  |
+	//       2
+
+	v.vPos = Vec3(-0.5f, 0.5f, 0.f);
+	v.vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	v.vNormal = Vec3(0.f, 0.f, -1.f);
+	v.vTangent = Vec3(1.f, 0.f, 0.f);
+	v.vBinormal = Vec3(0.f, 1.f, 0.f);
+	v.vUV = Vec2(0.f, 0.f);
+	vecVtx.push_back(v);
+
+	v.vPos = Vec3(0.5f, 0.5f, 0.f);
+	v.vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	v.vNormal = Vec3(0.f, 0.f, -1.f);
+	v.vTangent = Vec3(1.f, 0.f, 0.f);
+	v.vBinormal = Vec3(0.f, 1.f, 0.f);
+	v.vUV = Vec2(1.f, 0.f);
+	vecVtx.push_back(v);
+
+	v.vPos = Vec3(0.5f, -0.5f, 0.f);
+	v.vColor = Vec4(0.5f, 0.5f, 0.f, 1.f);
+	v.vNormal = Vec3(0.f, 0.f, -1.f);
+	v.vTangent = Vec3(1.f, 0.f, 0.f);
+	v.vBinormal = Vec3(0.f, 1.f, 0.f);
+	v.vUV = Vec2(1.f, 1.f);
+	vecVtx.push_back(v);
+
+	// Create Index Buffer
+	vecIdx.push_back(0);
+	vecIdx.push_back(1);
+	vecIdx.push_back(2);
+
+	pMesh = new CMesh;
+	pMesh->CreateMesh(sizeof(VTX), vecVtx.size(), D3D11_USAGE_DEFAULT, &vecVtx[0]
+		, vecIdx.size(), D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32_UINT, &vecIdx[0]);
+
+	pMesh->SetName(L"TriangleMesh");
+	m_mapRes[(UINT)RES_TYPE::MESH].insert(make_pair(L"TriangleMesh", pMesh));
+
+	vecVtx.clear();
+	vecIdx.clear();
+
 	// ===================
 	// Collider Rect Mesh
 	// ===================
@@ -113,6 +156,44 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh->SetName(L"ColliderRectMesh");
 	m_mapRes[(UINT)RES_TYPE::MESH].insert(make_pair(L"ColliderRectMesh", pMesh));
+
+	vecVtx.clear();
+	vecIdx.clear();
+
+	// ===================
+	// Collider Triangle Mesh
+	// ===================
+	// 0 --- 1
+	//    \	 |
+	//       2
+
+	v.vPos = Vec3(-0.5f, 0.5f, 0.f);
+	v.vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	v.vUV = Vec2(0.f, 0.f);
+	vecVtx.push_back(v);
+
+	v.vPos = Vec3(0.5f, 0.5f, 0.f);
+	v.vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	v.vUV = Vec2(1.f, 0.f);
+	vecVtx.push_back(v);
+
+	v.vPos = Vec3(0.5f, -0.5f, 0.f);
+	v.vColor = Vec4(0.5f, 0.5f, 0.f, 1.f);
+	v.vUV = Vec2(1.f, 1.f);
+	vecVtx.push_back(v);
+
+	// Create Index Buffer
+	vecIdx.push_back(0);
+	vecIdx.push_back(1);
+	vecIdx.push_back(2);
+	vecIdx.push_back(0);
+
+	pMesh = new CMesh;
+	pMesh->CreateMesh(sizeof(VTX), vecVtx.size(), D3D11_USAGE_DEFAULT, &vecVtx[0]
+		, vecIdx.size(), D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32_UINT, &vecIdx[0]);
+
+	pMesh->SetName(L"ColliderTrignaleMesh");
+	m_mapRes[(UINT)RES_TYPE::MESH].insert(make_pair(L"ColliderTrignaleMesh", pMesh));
 
 	vecVtx.clear();
 	vecIdx.clear();
@@ -758,6 +839,15 @@ void CResMgr::CreateDefaultShader()
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 
+	//
+	// HeightMap GetValue Shader
+	//
+	pShader = new CShader;
+	pShader->CreateComputeShader(L"Shader\\compute.fx", "CS_HeightMapValue", 5, 0);
+	strKey = L"CS_HeightMapValueShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
 
 	// =================
 	// ShadowMap Shader
@@ -770,7 +860,6 @@ void CResMgr::CreateDefaultShader()
 	strKey = L"ShadowMapShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
-
 }
 
 void CResMgr::CreateDefaultMaterial()
@@ -918,6 +1007,13 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
+	//CS_HeightMapValueShader
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"CS_HeightMapValueMtrl");
+	pMtrl->SetShader(FindRes<CShader>(L"CS_HeightMapValueShader"));
+	pMtrl->SaveDisable();
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
 	// ShadowMapMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"ShadowMapMtrl");
@@ -946,7 +1042,7 @@ void CResMgr::CreateDefaultMaterial()
 
 	CTexture::g_pClearMtrl = (CMaterial*)pMtrl.GetPointer();
 
-	//
+	//Collider Material
 	CCollider2D::CreateMaterial();
 	CCollider3D::CreateMaterial();
 }
@@ -988,5 +1084,8 @@ void CResMgr::CreateDefaultTexture()
 		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
 		, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-
+	CResMgr::GetInst()->CreateTexture(L"HeightValueOutput"
+		, 1, 1
+		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
+		, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
 }
