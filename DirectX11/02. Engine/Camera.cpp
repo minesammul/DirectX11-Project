@@ -181,7 +181,7 @@ void CCamera::render_deferred()
 		// 그룹 오브젝트가 없거나, 쉐이더가 없는 경우
 		if (pair.second.empty())
 			continue;
-		else if (pair.second.size() <= 1) // instancint 개수 조건
+		else if (pair.second.size() <= 3) // instancint 개수 조건
 		{
 			for (UINT i = 0; i < pair.second.size(); ++i)
 			{

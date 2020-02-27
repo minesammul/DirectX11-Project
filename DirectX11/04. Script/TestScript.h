@@ -3,9 +3,6 @@
 
 class CTestScript : public CScript
 {
-private:
-	int aniIndex;
-
 public:
 	CTestScript();
 	~CTestScript();

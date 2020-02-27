@@ -13,6 +13,7 @@
 #include "SSN009HitBoxScript.h"
 #include "SSN010EventQueueScript.h"
 #include "SSN011PlayerUIScript.h"
+#include "SSN012SkyBoxScript.h"
 #include "TestScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
@@ -29,6 +30,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"SSN009HitBoxScript");
 	_vec.push_back(L"SSN010EventQueueScript");
 	_vec.push_back(L"SSN011PlayerUIScript");
+	_vec.push_back(L"SSN012SkyBoxScript");
 	_vec.push_back(L"TestScript");
 }
 
@@ -58,6 +60,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSSN010EventQueueScript;
 	if (L"SSN011PlayerUIScript" == _strScriptName)
 		return new CSSN011PlayerUIScript;
+	if (L"SSN012SkyBoxScript" == _strScriptName)
+		return new CSSN012SkyBoxScript;
 	if (L"TestScript" == _strScriptName)
 		return new CTestScript;
 	return nullptr;
@@ -113,6 +117,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::SSN011PLAYERUISCRIPT:
 		return L"SSN011PlayerUIScript";
+		break;
+
+	case SCRIPT_TYPE::SSN012SKYBOXSCRIPT:
+		return L"SSN012SkyBoxScript";
 		break;
 
 	case SCRIPT_TYPE::TESTSCRIPT:

@@ -159,6 +159,7 @@ void CToolApp::CreateTestScene()
 
 	pCurScene->AddLayer(L"Player", 1);
 	pCurScene->AddLayer(L"Monster", 2);
+	pCurScene->AddLayer(L"NavMesh", 3);
 
 	//{
 	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Iron_Golem3.fbx");
@@ -301,6 +302,7 @@ void CToolApp::CreateTestScene()
 
 	// 충돌 지정
 	CCollisionMgr::GetInst()->CollisionCheck(L"Player", L"Monster");
+	CCollisionMgr::GetInst()->CollisionCheck(L"Player", L"NavMesh");
 }
 
 // CToolApp 메시지 처리기
