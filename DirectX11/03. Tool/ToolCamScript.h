@@ -15,6 +15,7 @@ private:
 
 private:
 	CGameObject* GetClickNavMesh();
+	void RotateAxisRadian(CGameObject* rotateMesh, Vec3 rotateAxis, float rotateAngle, Vec3 & inOutScale, Vec3 & inOutRotate, Vec3 &inOutPosition);
 
 public:
 	virtual void start();
