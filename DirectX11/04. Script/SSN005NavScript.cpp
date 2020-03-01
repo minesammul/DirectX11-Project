@@ -90,7 +90,7 @@ void CSSN005NavScript::OnCollision(CCollider3D * _pOther)
 
 		Vec3 navCollisionWorldPosition = Object()->Transform()->GetWorldPos();
 
-		float wantDistance = Object()->Transform()->GetLocalScale().x - 20.f;
+		float wantDistance = Object()->Transform()->GetLocalScale().x - 100.f;
 
 		float changeYPosition = (wantDistance - triangleEquation.x*navCollisionWorldPosition.x - triangleEquation.z*navCollisionWorldPosition.z - triangleEquation.w) / triangleEquation.y;
 		
