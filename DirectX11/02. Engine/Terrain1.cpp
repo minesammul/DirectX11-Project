@@ -15,6 +15,7 @@ CTerrain::CTerrain()
 	, m_vBrushScale(Vec2(0.1f, 0.1f))
 	, m_iBrushIdx(0)
 	, m_iTileIdx(0)
+	, heightMapPlusIsUpMiusIsDown(-1)
 {
 }
 

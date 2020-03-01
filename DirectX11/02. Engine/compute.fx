@@ -27,6 +27,7 @@ void CS_Clear(int3 _iThreadID : SV_DispatchThreadID)
 
 // g_int_0 : 높이맵 width
 // g_int_1 : 높이맵 height
+// g_int_2 : 1==Up, -1==Down
 
 // g_vec4_0 : 출력 색상
 // g_vec2_0 : 브러쉬 중심 위치(높이맵 좌상단 기준)
@@ -57,8 +58,14 @@ void CS_HeightMap(int3 _iThreadID : SV_DispatchThreadID)
         if (vColor.a != 0.f)
         {
             //g_rwtex_0[_iThreadID.xy] += fDT * fRatio * (1.f - (vColor.x * vColor.y * vColor.z)) * vColor.a;
-            
-            g_rwtex_0[_iThreadID.xy] += fDT * fRatio * (vColor.x * vColor.y * vColor.z);
+            if (g_int_2 >= 0)
+            {
+                g_rwtex_0[_iThreadID.xy] += fDT * fRatio * (vColor.x * vColor.y * vColor.z);
+            }
+            else
+            {
+                g_rwtex_0[_iThreadID.xy] -= fDT * fRatio * (vColor.x * vColor.y * vColor.z);
+            }
         }
     }
 }

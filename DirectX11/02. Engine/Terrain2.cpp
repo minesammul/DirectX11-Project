@@ -20,6 +20,7 @@ void CTerrain::ModCheck()
 	if (KEYTAB(KEY_TYPE::KEY_NUM1))
 	{
 		m_eMod = TERRAIN_MOD::HEIGHTMAP;
+		heightMapPlusIsUpMiusIsDown *= -1;
 	}
 	else if (KEYTAB(KEY_TYPE::KEY_NUM2))
 	{
@@ -64,6 +65,7 @@ void CTerrain::KeyCheck()
 			m_pHeightMapMtrl->SetData(SHADER_PARAM::TEX_0, &m_vecBrush[m_iBrushIdx]);
 			m_pHeightMapMtrl->SetData(SHADER_PARAM::VEC2_0, &vPos);
 			m_pHeightMapMtrl->SetData(SHADER_PARAM::VEC2_1, &m_vBrushScale);
+			m_pHeightMapMtrl->SetData(SHADER_PARAM::INT_2, &heightMapPlusIsUpMiusIsDown);
 			m_pHeightMapMtrl->ExcuteComputeShader(1, 1024, 1);
 		}
 		else if (m_eMod == TERRAIN_MOD::SPLATTING)
@@ -128,8 +130,8 @@ int CTerrain::Picking(Vec2 & _vPos)
 	// Terrain의 Height Map에 대한 UV값이다.
 	_vPos = Vec2(pData->x / (float)m_iXFaceCount, 1.f - (pData->z / (float)m_iZFaceCount));
 
-	m_pHeightValueMtrl->SetData(SHADER_PARAM::VEC2_0, &_vPos);
-	m_pHeightValueMtrl->SetData(SHADER_PARAM::TEX_0, &m_pHeightMap);
+	//m_pHeightValueMtrl->SetData(SHADER_PARAM::VEC2_0, &_vPos);
+	//m_pHeightValueMtrl->SetData(SHADER_PARAM::TEX_0, &m_pHeightMap);
 
 	// Picking coputeshader 계산
 	//m_pHeightValueOutput->RWClear(Vec4(0.f, 0.f, 0.f, 0.f));
@@ -175,7 +177,7 @@ void CTerrain::SetMaterialParameter()
 	}
 
 	{
-		m_pHeightValueMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pHeightValueOutput);
+		//m_pHeightValueMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pHeightValueOutput);
 	}
 
 
@@ -203,7 +205,7 @@ void CTerrain::LoadResource()
 
 	m_pOutput = CResMgr::GetInst()->FindRes<CTexture>(L"PickingOutput");
 
-	m_pHeightValueOutput = CResMgr::GetInst()->FindRes<CTexture>(L"HeightValueOutput");
+	//m_pHeightValueOutput = CResMgr::GetInst()->FindRes<CTexture>(L"HeightValueOutput");
 
 	// Brush Texture
 	m_vecBrush.push_back(CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Brush\\Brush_01.png"));
@@ -246,9 +248,9 @@ void CTerrain::LoadResource()
 
 	{
 
-		m_pHeightValueMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"CS_HeightMapValueMtrl");
+		//m_pHeightValueMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"CS_HeightMapValueMtrl");
 
-		m_pHeightValueMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pHeightValueOutput);
+		//m_pHeightValueMtrl->SetData(SHADER_PARAM::RWTEX_0, &m_pHeightValueOutput);
 	}
 
 
