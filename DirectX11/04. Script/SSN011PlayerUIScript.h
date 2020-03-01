@@ -37,6 +37,8 @@ private:
 	bool isPlayerDie;
 	bool isMonsterDie;
 
+	bool isBGM;
+	float bgmVolume;
 
 public:
 	CSSN011PlayerUIScript();
