@@ -40,6 +40,7 @@ public:
 	// -1(무한 반복)
 	void Play(int _iRoopCount);
 	void Stop();
+	void SetVolume(float volume);
 
 public:
 	virtual void Load(const wstring& _strFilePath);

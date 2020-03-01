@@ -55,6 +55,7 @@ void CSound::Play(int _iRoopCount)
 	g_pFMOD->playSound(m_pSound, nullptr, false, &m_pChanel);
 	m_pChanel->setMode(FMOD_LOOP_NORMAL);
 	m_pChanel->setLoopCount(_iRoopCount);
+	
 }
 
 void CSound::Stop()
@@ -67,6 +68,11 @@ void CSound::Stop()
 		if (m_pSound == pCurSound)
 			m_pChanel->stop();
 	}
+}
+
+void CSound::SetVolume(float volume)
+{
+	m_pChanel->setVolume(volume);
 }
 
 void CSound::Load(const wstring& _strFilePath)
