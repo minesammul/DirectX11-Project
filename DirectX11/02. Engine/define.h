@@ -105,6 +105,7 @@ enum class COLLIDER3D_TYPE
 	CUBE,
 	SPHERE,
 	TRIANGLE,
+	RECT,
 	END,
 };
 

@@ -102,6 +102,10 @@ void CCollider3D::SetColliderType(COLLIDER3D_TYPE _eType)
 	{
 		m_pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"TriangleMesh");
 	}
+	else if (COLLIDER3D_TYPE::RECT == m_eType)
+	{
+		m_pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh");
+	}
 	else
 	{
 		assert(nullptr);
