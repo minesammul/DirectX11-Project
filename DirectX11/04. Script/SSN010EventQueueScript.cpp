@@ -177,7 +177,22 @@ void CSSN010EventQueueScript::update()
 			playerUIScript->SetPlayerHPRation(playerMaxHP);
 			playerUIScript->CalculationPlayerHPUI(playerHP);
 		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_SLOW_ON)
+		{
 
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_FAST_ON)
+		{
+
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_SLOW_OFF)
+		{
+
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_FAST_OFF)
+		{
+
+		}
 
 		CEventQueueMgr::GetInst()->GetEvents()->pop();
 	}
