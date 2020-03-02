@@ -41,6 +41,7 @@ public:
 	void Play(int _iRoopCount);
 	void Stop();
 	void SetVolume(float volume);
+	float GetVolume();
 
 public:
 	virtual void Load(const wstring& _strFilePath);

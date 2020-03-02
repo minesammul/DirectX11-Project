@@ -11,4 +11,5 @@ SSN009HitBoxScript
 SSN010EventQueueScript
 SSN011PlayerUIScript
 SSN012SkyBoxScript
+SSN013MusicScript
 TestScript

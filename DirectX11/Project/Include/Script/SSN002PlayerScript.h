@@ -17,6 +17,7 @@ private:
 	bool mIsHit;
 
 	int mPlayerHP;
+	int mPlayerMaxHP;
 	int mPlayerSP;
 	int mPlayerMaxSP;
 
@@ -58,7 +59,9 @@ public:
 	CScript* GetAttackBoxScript() { return mAttackBoxScript; }
 
 	int GetPlayerHP() { return mPlayerHP; }
+	int GetPlayerMaxHP() { return mPlayerMaxHP; }
 	int GetPlayerSP() { return mPlayerSP; }
+	int GetPlayerMaxSP() { return mPlayerMaxSP; }
 
 	void RestoreSP();
 	void UseSP(int useSPValue);
