@@ -14,6 +14,6 @@ CSSN012SkyBoxScript::~CSSN012SkyBoxScript()
 
 void CSSN012SkyBoxScript::update()
 {
-	CResPtr<CTexture> pSkyBoxTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Skybox\\Sky01.png");
-	Object()->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pSkyBoxTex);
+	CResPtr<CTexture> skyBoxTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Skybox\\Sky01.png");
+	Object()->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &skyBoxTexture);
 }
