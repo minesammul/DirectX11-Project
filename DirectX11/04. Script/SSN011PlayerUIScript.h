@@ -48,6 +48,7 @@ private:
 	void SetUIComponent(CGameObject* uiObject, wstring textureName, float alphaValue, Vec3 scale, Vec3 position);
 	void FadeInOutMonsterDieText();
 	void FadeInOutPlayerDieText();
+	void FindUIObject();
 
 public:
 	virtual void start();
@@ -57,13 +58,11 @@ public:
 	void OffMonsterUI();
 
 	void SetMonsterHPRation(int maxHP);
+	void SetPlayerHPRation(int maxHP);
+	void SetPlayerSPRation(int maxSP);
 
 	void CalculationPlayerHPUI(int nowHP);
-
 	void CalculationPlayerSPUI(int nowSP);
-
 	void CalculationMonsterHPUI(int nowHP);
-
-
 };
 

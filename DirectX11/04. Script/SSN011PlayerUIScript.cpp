@@ -103,7 +103,7 @@ void CSSN011PlayerUIScript::FadeInOutPlayerDieText()
 	}
 }
 
-void CSSN011PlayerUIScript::start()
+void CSSN011PlayerUIScript::FindUIObject()
 {
 	for (int index = 0; index < Object()->GetChild().size(); index++)
 	{
@@ -162,11 +162,15 @@ void CSSN011PlayerUIScript::start()
 		}
 
 	}
+}
+
+void CSSN011PlayerUIScript::start()
+{
+	FindUIObject();
 
 	SetUIComponent(mPlayerHPBar, L"Texture\\UI\\HpBar.png", 1.f, Vec3(500.f, 10.f, 1.f), Vec3(-350.f, 300.f, 10.f));
 	SetUIComponent(mPlayerSPBar, L"Texture\\UI\\StaminaBar.png", 1.f, Vec3(500.f, 10.f, 1.f), Vec3(-350.f, 280.f, 10.f));
 	SetUIComponent(mMonsterHPBar, L"Texture\\UI\\HpBar.png", 1.f, Vec3(700.f, 10.f, 1.f), Vec3(0.f, -250.f, 10.f));
-
 
 	SetUIComponent(mPlayerHPProgressBar, L"Texture\\UI\\ProgressBar.png", 1.f, Vec3(500.f, 25.f, 1.f), Vec3(-350.f, 300.f, 30.f));
 	SetUIComponent(mPlayerSPProgressBar, L"Texture\\UI\\ProgressBar.png", 1.f, Vec3(500.f, 25.f, 1.f), Vec3(-350.f, 280.f, 30.f));
@@ -190,32 +194,18 @@ void CSSN011PlayerUIScript::start()
 	mPlayerSPBarInitPositionX = mPlayerSPBar->Transform()->GetLocalPos().x;
 	mMonsterHPBarInitPositionX = mMonsterHPBar->Transform()->GetLocalPos().x;
 
-	vector<CGameObject*> findObject;
-	CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"Player", findObject);
-
-	int playerMaxHP = 0;
-	int playerMaxSP = 0;
-	for (int index = 0; index < findObject[0]->GetScripts().size(); index++)
-	{
-		if (findObject[0]->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN002PLAYERSCRIPT)
-		{
-			CSSN002PlayerScript* playerScript = dynamic_cast<CSSN002PlayerScript*>(findObject[0]->GetScripts()[index]);
-			playerMaxHP = playerScript->GetPlayerHP();
-			playerMaxSP = playerScript->GetPlayerSP();
-			break;
-		}
-	}
-
-	mPlayerHPRatio = mPlayerHPBarInitScaleX / playerMaxHP;
-	mPlayerSPRatio = mPlayerSPBarInitScaleX / playerMaxSP;
-
 	mIsPlayerDie = false;
 	mIsMonsterDie = false;
 
-	OffMonsterUI();
-
 	mIsBGM = false;
 	mBGMVolume = 0.0f;
+
+	OffMonsterUI();
+
+	mPlayerHPRatio = 1.f;
+	mPlayerSPRatio = 1.f;
+
+	mMonsterHPRatio = 1.f;
 }
 
 void CSSN011PlayerUIScript::update()
@@ -310,6 +300,16 @@ void CSSN011PlayerUIScript::OffMonsterUI()
 void CSSN011PlayerUIScript::SetMonsterHPRation(int maxHP)
 {
 	mMonsterHPRatio = mMonsterHPBarInitScaleX / maxHP;
+}
+
+void CSSN011PlayerUIScript::SetPlayerHPRation(int maxHP)
+{
+	mPlayerHPRatio = mPlayerHPBarInitScaleX / maxHP;
+}
+
+void CSSN011PlayerUIScript::SetPlayerSPRation(int maxSP)
+{
+	mPlayerSPRatio = mPlayerSPBarInitScaleX / maxSP;
 }
 
 void CSSN011PlayerUIScript::CalculationPlayerHPUI(int nowHP)
