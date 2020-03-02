@@ -10,7 +10,8 @@ CSSN002PlayerScript::CSSN002PlayerScript() :
 	PLAYER_MOVE_SPEED(300.f),
 	PLAYER_ROLL_SPEED(600.f)
 {
-	mPlayerHP = 2;
+	mPlayerMaxHP = 2;
+	mPlayerHP = mPlayerMaxHP;
 	mPlayerMaxSP = 10;
 	mPlayerSP = mPlayerMaxSP;
 	mIsHit = false;
@@ -46,9 +47,16 @@ void CSSN002PlayerScript::start()
 		}
 	}
 
+
+	{
+		GameEventComponent addEvent;
+		addEvent.eventType = GAME_EVENT_TYPE::PLAYER_HP_UPDATE;
+		addEvent.sendObjectName = Object()->GetName();
+		CEventQueueMgr::GetInst()->AddEvent(addEvent);
+	}
+
 	mPlayerState = PlayerIdleState::GetInstance();
 	mPlayerState->Init(this);
-
 }
 
 void CSSN002PlayerScript::update()
