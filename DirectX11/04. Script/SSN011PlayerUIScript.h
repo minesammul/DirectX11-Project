@@ -37,9 +37,6 @@ private:
 	bool mIsOnPlayerDieTextUI;
 	bool mIsOnMonsterDieTextUI;
 
-	bool mIsBGM;
-	float mBGMVolume;
-
 public:
 	CSSN011PlayerUIScript();
 	~CSSN011PlayerUIScript();

@@ -2,6 +2,7 @@
 #include "SSN011PlayerUIScript.h"
 
 #include "SSN002PlayerScript.h"
+#include "EventQueueMgr.h"
 
 CSSN011PlayerUIScript::CSSN011PlayerUIScript():
 	CScript((UINT)SCRIPT_TYPE::SSN011PLAYERUISCRIPT)
@@ -23,7 +24,6 @@ void CSSN011PlayerUIScript::SetUIComponent(CGameObject* uiObject, wstring textur
 	CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(textureName);
 	uiObject->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
 	uiObject->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
-
 
 	uiObject->Transform()->SetLocalScale(scale);
 	uiObject->Transform()->SetLocalPos(position);
@@ -197,9 +197,6 @@ void CSSN011PlayerUIScript::start()
 	mIsOnPlayerDieTextUI = false;
 	mIsOnMonsterDieTextUI = false;
 
-	mIsBGM = false;
-	mBGMVolume = 0.0f;
-
 	mPlayerHPRatio = 1.f;
 	mPlayerSPRatio = 1.f;
 
@@ -241,36 +238,6 @@ void CSSN011PlayerUIScript::update()
 
 	FadeInOutMonsterDieText();
 	FadeInOutPlayerDieText();
-
-	if (mIsBGM == true)
-	{
-		if (mBGMVolume < 0.5f)
-		{
-			mBGMVolume += CTimeMgr::GetInst()->GetDeltaTime() * 0.1f;
-		}
-		else
-		{
-			mBGMVolume = 0.5f;
-		}
-
-		CResPtr<CSound> pSound = CResMgr::GetInst()->Load<CSound>(L"IronGolemBGM.mp3", L"Sound\\IronGolemBGM.mp3");
-		pSound->SetVolume(mBGMVolume);
-	}
-	else
-	{
-		if (mBGMVolume <= 0.f)
-		{
-			mBGMVolume = 0.f;
-			CResPtr<CSound> pSound = CResMgr::GetInst()->Load<CSound>(L"IronGolemBGM.mp3", L"Sound\\IronGolemBGM.mp3");
-			pSound->Stop();
-		}
-		else
-		{
-			mBGMVolume -= CTimeMgr::GetInst()->GetDeltaTime() * 0.1f;
-			CResPtr<CSound> pSound = CResMgr::GetInst()->Load<CSound>(L"IronGolemBGM.mp3", L"Sound\\IronGolemBGM.mp3");
-			pSound->SetVolume(mBGMVolume);
-		}
-	}
 }
 
 void CSSN011PlayerUIScript::OnMonsterUI()
@@ -280,11 +247,10 @@ void CSSN011PlayerUIScript::OnMonsterUI()
 	mMonsterHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
 	mMonsterHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
 
-	// Sound 파일 로딩
-	mIsBGM = true;
-	CResPtr<CSound> pSound = CResMgr::GetInst()->Load<CSound>(L"IronGolemBGM.mp3", L"Sound\\IronGolemBGM.mp3");
-	pSound->Play(1);
-	pSound->SetVolume(0.0f);
+	GameEventComponent addEvent;
+	addEvent.eventType = GAME_EVENT_TYPE::MUSIC_MONSTER_BGM_ON;
+	addEvent.sendObjectName = Object()->GetName();
+	CEventQueueMgr::GetInst()->AddEvent(addEvent);
 }
 
 void CSSN011PlayerUIScript::OffMonsterUI()
@@ -293,8 +259,11 @@ void CSSN011PlayerUIScript::OffMonsterUI()
 	mMonsterHPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
 	mMonsterHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
 	mMonsterHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
-	
-	mIsBGM = false;
+
+	GameEventComponent addEvent;
+	addEvent.eventType = GAME_EVENT_TYPE::MUSIC_MONSTER_BGM_OFF;
+	addEvent.sendObjectName = Object()->GetName();
+	CEventQueueMgr::GetInst()->AddEvent(addEvent);
 }
 
 void CSSN011PlayerUIScript::SetMonsterHPRation(int maxHP)
