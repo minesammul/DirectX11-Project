@@ -5,6 +5,7 @@
 #include "SSN002PlayerScript.h"
 #include "SSN007MonsterScript.h"
 #include "SSN011PlayerUIScript.h"
+#include "SSN013MusicScript.h"
 
 CSSN010EventQueueScript::CSSN010EventQueueScript() : 
 	CScript((UINT)SCRIPT_TYPE::SSN010EVENTQUEUESCRIPT)
@@ -177,21 +178,43 @@ void CSSN010EventQueueScript::update()
 			playerUIScript->SetPlayerHPRation(playerMaxHP);
 			playerUIScript->CalculationPlayerHPUI(playerHP);
 		}
-		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_SLOW_ON)
+		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_MONSTER_BGM_ON)
 		{
+			CSSN013MusicScript* musicScript = nullptr;
+			{
+				vector<CGameObject*> findObject;
+				CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"Music", findObject);
 
+				for (int index = 0; index < findObject[0]->GetScripts().size(); index++)
+				{
+					if (findObject[0]->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN013MUSICSCRIPT)
+					{
+						musicScript = dynamic_cast<CSSN013MusicScript*>(findObject[0]->GetScripts()[index]);
+						break;
+					}
+				}
+			}
+
+			musicScript->OnMusic(MUSIC_KIND::IRON_GOLEM_BACKGROUND, MUSIC_STATE::ON);
 		}
-		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_FAST_ON)
+		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_MONSTER_BGM_OFF)
 		{
+			CSSN013MusicScript* musicScript = nullptr;
+			{
+				vector<CGameObject*> findObject;
+				CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"Music", findObject);
 
-		}
-		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_SLOW_OFF)
-		{
+				for (int index = 0; index < findObject[0]->GetScripts().size(); index++)
+				{
+					if (findObject[0]->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN013MUSICSCRIPT)
+					{
+						musicScript = dynamic_cast<CSSN013MusicScript*>(findObject[0]->GetScripts()[index]);
+						break;
+					}
+				}
+			}
 
-		}
-		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_FAST_OFF)
-		{
-
+			musicScript->OnMusic(MUSIC_KIND::IRON_GOLEM_BACKGROUND, MUSIC_STATE::OFF);
 		}
 
 		CEventQueueMgr::GetInst()->GetEvents()->pop();
