@@ -4,41 +4,41 @@
 class CSSN011PlayerUIScript : public CScript
 {
 private:
-	CGameObject* playerHPBar;
-	CGameObject* playerSPBar;
-	CGameObject* monsterHPBar;
+	CGameObject* mPlayerHPBar;
+	CGameObject* mPlayerSPBar;
+	CGameObject* mMonsterHPBar;
 
-	CGameObject* playerHPProgressBar;
-	CGameObject* playerSPProgressBar;
-	CGameObject* monsterHPProgressBar;
+	CGameObject* mPlayerHPProgressBar;
+	CGameObject* mPlayerSPProgressBar;
+	CGameObject* mMonsterHPProgressBar;
 
-	CGameObject* playerHPDecreaseBar;
-	CGameObject* playerSPDecreaseBar;
-	CGameObject* monsterHPDecreaseBar;
+	CGameObject* mPlayerHPDecreaseBar;
+	CGameObject* mPlayerSPDecreaseBar;
+	CGameObject* mMonsterHPDecreaseBar;
 
-	CGameObject* textBackground;
-	CGameObject* monsterDieText;
-	CGameObject* monsterDieEffectText;
-	CGameObject* playerDieText;
+	CGameObject* mTextBackground;
+	CGameObject* mMonsterDieText;
+	CGameObject* mMonsterDieEffectText;
+	CGameObject* mPlayerDieText;
 
-	float playerHPBarInitScaleX;
-	float playerSPBarInitScaleX;
-	float monsterHPBarInitScaleX;
+	float mPlayerHPBarInitScaleX;
+	float mPlayerSPBarInitScaleX;
+	float mMonsterHPBarInitScaleX;
 
-	float playerHPBarInitPositionX;
-	float playerSPBarInitPositionX;
-	float monsterHPBarInitPositionX;
+	float mPlayerHPBarInitPositionX;
+	float mPlayerSPBarInitPositionX;
+	float mMonsterHPBarInitPositionX;
 
-	float playerHPRatio;
-	float playerSPRatio;
+	float mPlayerHPRatio;
+	float mPlayerSPRatio;
 
-	float monsterHPRatio;
+	float mMonsterHPRatio;
 
-	bool isPlayerDie;
-	bool isMonsterDie;
+	bool mIsPlayerDie;
+	bool mIsMonsterDie;
 
-	bool isBGM;
-	float bgmVolume;
+	bool mIsBGM;
+	float mBGMVolume;
 
 public:
 	CSSN011PlayerUIScript();
