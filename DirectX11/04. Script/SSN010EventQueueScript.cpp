@@ -134,8 +134,48 @@ void CSSN010EventQueueScript::update()
 				}
 			}
 
+			int playerMaxSP = playerScript->GetPlayerMaxSP();
 			int playerSP = playerScript->GetPlayerSP();
+			playerUIScript->SetPlayerSPRation(playerMaxSP);
 			playerUIScript->CalculationPlayerSPUI(playerSP);
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::PLAYER_HP_UPDATE)
+		{
+			CSSN002PlayerScript* playerScript = nullptr;
+			CSSN011PlayerUIScript* playerUIScript = nullptr;
+
+			{
+				vector<CGameObject*> findObject;
+				CSceneMgr::GetInst()->GetCurScene()->FindGameObject(popEvent.sendObjectName, findObject);
+
+				for (int index = 0; index < findObject[0]->GetScripts().size(); index++)
+				{
+					if (findObject[0]->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN002PLAYERSCRIPT)
+					{
+						playerScript = dynamic_cast<CSSN002PlayerScript*>(findObject[0]->GetScripts()[index]);
+						break;
+					}
+				}
+			}
+
+			{
+				vector<CGameObject*> findObject;
+				CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"PlayerUI", findObject);
+
+				for (int index = 0; index < findObject[0]->GetScripts().size(); index++)
+				{
+					if (findObject[0]->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN011PLAYERUISCRIPT)
+					{
+						playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(findObject[0]->GetScripts()[index]);
+						break;
+					}
+				}
+			}
+
+			int playerMaxHP = playerScript->GetPlayerMaxHP();
+			int playerHP = playerScript->GetPlayerHP();
+			playerUIScript->SetPlayerHPRation(playerMaxHP);
+			playerUIScript->CalculationPlayerHPUI(playerHP);
 		}
 
 
