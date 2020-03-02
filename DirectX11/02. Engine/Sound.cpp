@@ -75,6 +75,14 @@ void CSound::SetVolume(float volume)
 	m_pChanel->setVolume(volume);
 }
 
+float CSound::GetVolume()
+{
+	float volume = 0.f;
+	m_pChanel->getVolume(&volume);
+
+	return volume;
+}
+
 void CSound::Load(const wstring& _strFilePath)
 {
 	string path(_strFilePath.begin(), _strFilePath.end());
