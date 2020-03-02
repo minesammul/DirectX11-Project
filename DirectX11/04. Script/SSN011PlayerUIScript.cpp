@@ -31,7 +31,7 @@ void CSSN011PlayerUIScript::SetUIComponent(CGameObject* uiObject, wstring textur
 
 void CSSN011PlayerUIScript::FadeInOutMonsterDieText()
 {
-	if(mIsMonsterDie == true)
+	if(mIsOnMonsterDieTextUI == true)
 	{
 		static float alphaValue = 0.f;
 		static bool isFadeIn = true;
@@ -65,7 +65,7 @@ void CSSN011PlayerUIScript::FadeInOutMonsterDieText()
 
 			if (alphaValue <= 0.f)
 			{
-				mIsMonsterDie = false;
+				mIsOnMonsterDieTextUI = false;
 				isFadeIn = true;
 				alphaValue = 0.f;
 			}
@@ -80,7 +80,7 @@ void CSSN011PlayerUIScript::FadeInOutMonsterDieText()
 
 void CSSN011PlayerUIScript::FadeInOutPlayerDieText()
 {
-	if (mIsPlayerDie == true)
+	if (mIsOnPlayerDieTextUI == true)
 	{
 		static float alphaValue = 0.f;
 
@@ -194,18 +194,18 @@ void CSSN011PlayerUIScript::start()
 	mPlayerSPBarInitPositionX = mPlayerSPBar->Transform()->GetLocalPos().x;
 	mMonsterHPBarInitPositionX = mMonsterHPBar->Transform()->GetLocalPos().x;
 
-	mIsPlayerDie = false;
-	mIsMonsterDie = false;
+	mIsOnPlayerDieTextUI = false;
+	mIsOnMonsterDieTextUI = false;
 
 	mIsBGM = false;
 	mBGMVolume = 0.0f;
-
-	OffMonsterUI();
 
 	mPlayerHPRatio = 1.f;
 	mPlayerSPRatio = 1.f;
 
 	mMonsterHPRatio = 1.f;
+
+	OffMonsterUI();
 }
 
 void CSSN011PlayerUIScript::update()
@@ -328,7 +328,7 @@ void CSSN011PlayerUIScript::CalculationPlayerHPUI(int nowHP)
 		playerHPBarPosition.x = mPlayerHPBarInitPositionX - movePlayerHPBarPositionXValue;
 		mPlayerHPBar->Transform()->SetLocalPos(playerHPBarPosition);
 
-		mIsPlayerDie = false;
+		mIsOnPlayerDieTextUI = false;
 	}
 	else
 	{
@@ -336,7 +336,7 @@ void CSSN011PlayerUIScript::CalculationPlayerHPUI(int nowHP)
 		playerHPBarScale.x = 0.f;
 		mPlayerHPBar->Transform()->SetLocalScale(playerHPBarScale);
 
-		mIsPlayerDie = true;
+		mIsOnPlayerDieTextUI = true;
 	}
 }
 
@@ -379,6 +379,8 @@ void CSSN011PlayerUIScript::CalculationMonsterHPUI(int nowHP)
 		Vec3 monsterHPBarPosition = mMonsterHPBar->Transform()->GetLocalPos();
 		monsterHPBarPosition.x = mMonsterHPBarInitPositionX - moveMonsterHPBarPositionXValue;
 		mMonsterHPBar->Transform()->SetLocalPos(monsterHPBarPosition);
+
+		mIsOnMonsterDieTextUI = false;
 	}
 	else
 	{
@@ -388,6 +390,6 @@ void CSSN011PlayerUIScript::CalculationMonsterHPUI(int nowHP)
 
 		OffMonsterUI();
 
-		mIsMonsterDie = true;
+		mIsOnMonsterDieTextUI = true;
 	}
 }

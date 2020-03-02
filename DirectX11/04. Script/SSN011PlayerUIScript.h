@@ -34,8 +34,8 @@ private:
 
 	float mMonsterHPRatio;
 
-	bool mIsPlayerDie;
-	bool mIsMonsterDie;
+	bool mIsOnPlayerDieTextUI;
+	bool mIsOnMonsterDieTextUI;
 
 	bool mIsBGM;
 	float mBGMVolume;
