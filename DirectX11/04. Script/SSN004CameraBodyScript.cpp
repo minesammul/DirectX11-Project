@@ -13,10 +13,6 @@ CSSN004CameraBodyScript::~CSSN004CameraBodyScript()
 {
 }
 
-void CSSN004CameraBodyScript::start()
-{
-	//beforeMousePosition = CKeyMgr::GetInst()->get
-}
 
 void CSSN004CameraBodyScript::update()
 {
