@@ -10,6 +10,10 @@ CSSN007MonsterScript::CSSN007MonsterScript() :
 	MONSTER_MOVE_SPEED(300.f),
 	MONSTER_ROTATE_SPEED(25.f)
 {
+	mMonsterHP = 2;
+
+	mIsHit = false;
+	mIsDead = false;
 }
 
 
@@ -19,16 +23,8 @@ CSSN007MonsterScript::~CSSN007MonsterScript()
 
 void CSSN007MonsterScript::start()
 {
-	{
-		vector<CGameObject*> findPlayer;
-		CSceneMgr::GetInst()->FindGameObject(L"Player", findPlayer);
-		if (findPlayer.empty() == true)
-		{
-			assert(false && L"Monster Not Find Player");
-		}
-
-		mPlayerObject = findPlayer[0];
-	}
+	mPlayerObject = CFunctionMgr::GetInst()->FindObject(L"Player");
+	
 
 	{
 		CGameObject* attackBox = nullptr;
@@ -45,9 +41,7 @@ void CSSN007MonsterScript::start()
 		mAttackBoxScript = dynamic_cast<CSSN008AttackBoxScript*>(CFunctionMgr::GetInst()->FindScript(attackBox->GetName(), SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT));
 	}
 
-	mIsHit = false;
-	mMonsterHP = 2;
-	mIsDead = false;
+
 
 	{
 		mMonsterState = IronGolemStandState::GetInstance();
