@@ -79,12 +79,7 @@ void CSSN013MusicScript::update()
 	}
 }
 
-void CSSN013MusicScript::OnMusic(MUSIC_KIND musicKind, MUSIC_STATE musicState)
-{
-	mMusics[musicKind].musicState = musicState;
-}
-
-void CSSN013MusicScript::OffMusic(MUSIC_KIND musicKind, MUSIC_STATE musicState)
+void CSSN013MusicScript::OperateMusic(MUSIC_KIND musicKind, MUSIC_STATE musicState)
 {
 	mMusics[musicKind].musicState = musicState;
 }
