@@ -17,6 +17,24 @@ CSSN010EventQueueScript::~CSSN010EventQueueScript()
 {
 }
 
+CScript * CSSN010EventQueueScript::FindScript(wstring objectName, SCRIPT_TYPE scriptType)
+{
+	vector<CGameObject*> findObject;
+	CSceneMgr::GetInst()->GetCurScene()->FindGameObject(objectName, findObject);
+
+	CScript* findScript = nullptr;
+	for (int index = 0; index < findObject[0]->GetScripts().size(); index++)
+	{
+		if (findObject[0]->GetScripts()[index]->GetScriptType() == (UINT)scriptType)
+		{
+			findScript = findObject[0]->GetScripts()[index];
+			break;
+		}
+	}
+
+	return findScript;
+}
+
 void CSSN010EventQueueScript::update()
 {
 	if (CEventQueueMgr::GetInst()->GetEvents()->empty() == false)
@@ -25,153 +43,51 @@ void CSSN010EventQueueScript::update()
 
 		if (popEvent.eventType == GAME_EVENT_TYPE::HIT)
 		{
-			vector<CGameObject*> findObject;
-			CSceneMgr::GetInst()->GetCurScene()->FindGameObject(popEvent.receiveObjectName,findObject);
+			CSSN011PlayerUIScript* playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(FindScript(L"PlayerUI", SCRIPT_TYPE::SSN011PLAYERUISCRIPT));
 
-			if (findObject.empty()==false)
+			CSSN002PlayerScript* playerScript = dynamic_cast<CSSN002PlayerScript*>(FindScript(popEvent.receiveObjectName, SCRIPT_TYPE::SSN002PLAYERSCRIPT));
+			CSSN007MonsterScript* monsterScript = dynamic_cast<CSSN007MonsterScript*>(FindScript(popEvent.receiveObjectName, SCRIPT_TYPE::SSN007MONSTERSCRIPT));
+
+			if (playerScript != nullptr)
 			{
-				vector<CGameObject*> UIObject;
-				CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"PlayerUI", UIObject);
-				CGameObject* playerUIObject = UIObject[0];
-				CSSN011PlayerUIScript* playerUIScript = nullptr;
-				for (int index = 0; index < playerUIObject->GetScripts().size(); index++)
-				{
-					if (playerUIObject->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN011PLAYERUISCRIPT)
-					{
-						playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(playerUIObject->GetScripts()[index]);
-						break;
-					}
-				}
+				playerScript->SetHit(true);
 
-
-				CGameObject* receiveObject = findObject[0];
-				for (int index = 0; index < receiveObject->GetScripts().size(); index++)
-				{
-					if (receiveObject->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN002PLAYERSCRIPT)
-					{
-						CSSN002PlayerScript* playerScript = dynamic_cast<CSSN002PlayerScript*>(receiveObject->GetScripts()[index]);
-						playerScript->SetHit(true);
-
-						int playerHP = playerScript->GetPlayerHP();
-						playerUIScript->CalculationPlayerHPUI(playerHP);
-					}
-					else if (receiveObject->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN007MONSTERSCRIPT)
-					{
-						CSSN007MonsterScript* monsterScript = dynamic_cast<CSSN007MonsterScript*>(receiveObject->GetScripts()[index]);
-						monsterScript->SetHit(true);
-
-						int monsterHP = monsterScript->GetMonsterHP();
-						playerUIScript->CalculationMonsterHPUI(monsterHP);
-					}
-				}
-
+				int playerHP = playerScript->GetPlayerHP();
+				playerUIScript->CalculationPlayerHPUI(playerHP);
 			}
+			else if (monsterScript != nullptr)
+			{
+				monsterScript->SetHit(true);
+
+				int monsterHP = monsterScript->GetMonsterHP();
+				playerUIScript->CalculationMonsterHPUI(monsterHP);
+			}
+
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::ON_MONSTER_UI)
 		{
-			vector<CGameObject*> findObject;
-			CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"PlayerUI", findObject);
+			CSSN011PlayerUIScript* playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(FindScript(L"PlayerUI", SCRIPT_TYPE::SSN011PLAYERUISCRIPT));
+			CSSN007MonsterScript* monsterScript = dynamic_cast<CSSN007MonsterScript*>(FindScript(popEvent.sendObjectName, SCRIPT_TYPE::SSN007MONSTERSCRIPT));
 
-			if (findObject.empty() == false)
-			{
-				vector<CGameObject*> mosnterObject;
-				CSceneMgr::GetInst()->GetCurScene()->FindGameObject(popEvent.sendObjectName, mosnterObject);
-				CGameObject* sendObject = mosnterObject[0];
-
-				int monsterMaxHP = 0;
-				for (int index = 0; index < sendObject->GetScripts().size(); index++)
-				{
-					if (sendObject->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN007MONSTERSCRIPT)
-					{
-						CSSN007MonsterScript* monsterScript = dynamic_cast<CSSN007MonsterScript*>(sendObject->GetScripts()[index]);
-						monsterMaxHP = monsterScript->GetMonsterHP();
-					}
-				}
-
-
-				CGameObject* receiveObject = findObject[0];
-				for (int index = 0; index < receiveObject->GetScripts().size(); index++)
-				{
-					if (receiveObject->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN011PLAYERUISCRIPT)
-					{
-						CSSN011PlayerUIScript* playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(receiveObject->GetScripts()[index]);
-						playerUIScript->OnMonsterUI();
-						playerUIScript->SetMonsterHPRation(monsterMaxHP);
-					}
-				}
-
-			}
+			int monsterMaxHP = monsterMaxHP = monsterScript->GetMonsterHP();
+			playerUIScript->OnMonsterUI();
+			playerUIScript->SetMonsterHPRation(monsterMaxHP);
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::PLAYER_SP_UPDATE)
 		{
-			CSSN002PlayerScript* playerScript = nullptr;
-			CSSN011PlayerUIScript* playerUIScript = nullptr;
+			CSSN011PlayerUIScript* playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(FindScript(L"PlayerUI", SCRIPT_TYPE::SSN011PLAYERUISCRIPT));
+			CSSN002PlayerScript* playerScript = dynamic_cast<CSSN002PlayerScript*>(FindScript(popEvent.sendObjectName, SCRIPT_TYPE::SSN002PLAYERSCRIPT));
 			
-			{
-				vector<CGameObject*> findObject;
-				CSceneMgr::GetInst()->GetCurScene()->FindGameObject(popEvent.sendObjectName, findObject);
-				
-				for (int index = 0; index < findObject[0]->GetScripts().size(); index++)
-				{
-					if (findObject[0]->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN002PLAYERSCRIPT)
-					{
-						playerScript = dynamic_cast<CSSN002PlayerScript*>(findObject[0]->GetScripts()[index]);
-						break;
-					}
-				}
-			}
-
-			{
-				vector<CGameObject*> findObject;
-				CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"PlayerUI", findObject);
-				
-				for (int index = 0; index < findObject[0]->GetScripts().size(); index++)
-				{
-					if (findObject[0]->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN011PLAYERUISCRIPT)
-					{
-						playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(findObject[0]->GetScripts()[index]);
-						break;
-					}
-				}
-			}
-
 			int playerMaxSP = playerScript->GetPlayerMaxSP();
 			int playerSP = playerScript->GetPlayerSP();
+
 			playerUIScript->SetPlayerSPRation(playerMaxSP);
 			playerUIScript->CalculationPlayerSPUI(playerSP);
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::PLAYER_HP_UPDATE)
 		{
-			CSSN002PlayerScript* playerScript = nullptr;
-			CSSN011PlayerUIScript* playerUIScript = nullptr;
-
-			{
-				vector<CGameObject*> findObject;
-				CSceneMgr::GetInst()->GetCurScene()->FindGameObject(popEvent.sendObjectName, findObject);
-
-				for (int index = 0; index < findObject[0]->GetScripts().size(); index++)
-				{
-					if (findObject[0]->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN002PLAYERSCRIPT)
-					{
-						playerScript = dynamic_cast<CSSN002PlayerScript*>(findObject[0]->GetScripts()[index]);
-						break;
-					}
-				}
-			}
-
-			{
-				vector<CGameObject*> findObject;
-				CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"PlayerUI", findObject);
-
-				for (int index = 0; index < findObject[0]->GetScripts().size(); index++)
-				{
-					if (findObject[0]->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN011PLAYERUISCRIPT)
-					{
-						playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(findObject[0]->GetScripts()[index]);
-						break;
-					}
-				}
-			}
+			CSSN002PlayerScript* playerScript = dynamic_cast<CSSN002PlayerScript*>(FindScript(popEvent.sendObjectName, SCRIPT_TYPE::SSN002PLAYERSCRIPT));
+			CSSN011PlayerUIScript* playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(FindScript(L"PlayerUI", SCRIPT_TYPE::SSN011PLAYERUISCRIPT));
 
 			int playerMaxHP = playerScript->GetPlayerMaxHP();
 			int playerHP = playerScript->GetPlayerHP();
@@ -180,39 +96,13 @@ void CSSN010EventQueueScript::update()
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_MONSTER_BGM_ON)
 		{
-			CSSN013MusicScript* musicScript = nullptr;
-			{
-				vector<CGameObject*> findObject;
-				CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"Music", findObject);
-
-				for (int index = 0; index < findObject[0]->GetScripts().size(); index++)
-				{
-					if (findObject[0]->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN013MUSICSCRIPT)
-					{
-						musicScript = dynamic_cast<CSSN013MusicScript*>(findObject[0]->GetScripts()[index]);
-						break;
-					}
-				}
-			}
-
+			CSSN013MusicScript* musicScript = dynamic_cast<CSSN013MusicScript*>(FindScript(L"Music", SCRIPT_TYPE::SSN013MUSICSCRIPT));
+			
 			musicScript->OnMusic(MUSIC_KIND::IRON_GOLEM_BACKGROUND, MUSIC_STATE::ON);
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_MONSTER_BGM_OFF)
 		{
-			CSSN013MusicScript* musicScript = nullptr;
-			{
-				vector<CGameObject*> findObject;
-				CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"Music", findObject);
-
-				for (int index = 0; index < findObject[0]->GetScripts().size(); index++)
-				{
-					if (findObject[0]->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN013MUSICSCRIPT)
-					{
-						musicScript = dynamic_cast<CSSN013MusicScript*>(findObject[0]->GetScripts()[index]);
-						break;
-					}
-				}
-			}
+			CSSN013MusicScript* musicScript = dynamic_cast<CSSN013MusicScript*>(FindScript(L"Music", SCRIPT_TYPE::SSN013MUSICSCRIPT));
 
 			musicScript->OnMusic(MUSIC_KIND::IRON_GOLEM_BACKGROUND, MUSIC_STATE::OFF);
 		}
