@@ -2,6 +2,8 @@
 #include <Script.h>
 #include "PlayerState.h"
 
+class CSSN008AttackBoxScript;
+
 class CSSN002PlayerScript : public CScript
 {
 private:
@@ -23,7 +25,7 @@ private:
 
 	bool mIsDead;
 
-	CScript* mAttackBoxScript;
+	CSSN008AttackBoxScript* mAttackBoxScript;
 
 public:
 	CSSN002PlayerScript();
@@ -34,7 +36,9 @@ public:
 	virtual void update();
 
 	void SetState(PlayerState* state);
+
 	float GetPlayerMoveSpeed() { return PLAYER_MOVE_SPEED * CTimeMgr::GetInst()->GetDeltaTime(); }
+
 	float GetPlayerRollSpeed() { return PLAYER_ROLL_SPEED * CTimeMgr::GetInst()->GetDeltaTime(); }
 
 	bool GetPlayerMovable() { return mIsMovable; }
@@ -56,7 +60,7 @@ public:
 
 	bool GetDead() { return mIsDead; }
 
-	CScript* GetAttackBoxScript() { return mAttackBoxScript; }
+	CSSN008AttackBoxScript* GetAttackBoxScript() { return mAttackBoxScript; }
 
 	int GetPlayerHP() { return mPlayerHP; }
 	int GetPlayerMaxHP() { return mPlayerMaxHP; }

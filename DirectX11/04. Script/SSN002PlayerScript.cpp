@@ -4,6 +4,8 @@
 #include "PlayerIdleState.h"
 #include "SSN005NavScript.h"
 #include "EventQueueMgr.h"
+#include "FunctionMgr.h"
+#include "SSN008AttackBoxScript.h"
 
 CSSN002PlayerScript::CSSN002PlayerScript() : 
 	CScript((UINT)SCRIPT_TYPE::SSN002PLAYERSCRIPT),
@@ -37,14 +39,8 @@ void CSSN002PlayerScript::start()
 			}
 		}
 
-		for (int index = 0; index < attackBox->GetScripts().size(); index++)
-		{
-			if (attackBox->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT)
-			{
-				mAttackBoxScript = attackBox->GetScripts()[index];
-				break;
-			}
-		}
+
+		mAttackBoxScript = dynamic_cast<CSSN008AttackBoxScript*>(CFunctionMgr::GetInst()->FindScript(attackBox->GetName(), SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT));
 	}
 
 
