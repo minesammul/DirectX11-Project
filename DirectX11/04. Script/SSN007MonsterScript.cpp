@@ -25,7 +25,7 @@ void CSSN007MonsterScript::start()
 			assert(false && L"Monster Not Find Player");
 		}
 
-		playerObject = findPlayer[0];
+		mPlayerObject = findPlayer[0];
 	}
 
 	{
@@ -44,49 +44,49 @@ void CSSN007MonsterScript::start()
 		{
 			if (attackBox->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT)
 			{
-				attackBoxScript = attackBox->GetScripts()[index];
+				mAttackBoxScript = attackBox->GetScripts()[index];
 				break;
 			}
 		}
 	}
 
-	isHit = false;
-	monsterHP = 2;
-	isDead = false;
+	mIsHit = false;
+	mMonsterHP = 2;
+	mIsDead = false;
 
 	{
-		monsterState = IronGolemStandState::GetInstance();
-		monsterState->Init(this);
+		mMonsterState = IronGolemStandState::GetInstance();
+		mMonsterState->Init(this);
 	}
 }
 
 void CSSN007MonsterScript::update()
 {
-	if (isHit == true)
+	if (mIsHit == true)
 	{
-		isHit = false;
+		mIsHit = false;
 	}
 
-	if (monsterHP <= 0)
+	if (mMonsterHP <= 0)
 	{
-		isDead = true;
+		mIsDead = true;
 	}
 
 
-	monsterState->Update(this);
+	mMonsterState->Update(this);
 }
 
 void CSSN007MonsterScript::SetState(MonsterState * state)
 {
-	monsterState = state;
+	mMonsterState = state;
 }
 
 CGameObject * CSSN007MonsterScript::GetPlayerObject()
 {
-	return playerObject;
+	return mPlayerObject;
 }
 
 CScript * CSSN007MonsterScript::GetAttackBoxScript()
 {
-	return attackBoxScript;
+	return mAttackBoxScript;
 }
