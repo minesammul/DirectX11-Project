@@ -2,6 +2,8 @@
 #include "SSN007MonsterScript.h"
 
 #include "IronGolemStandState.h"
+#include "FunctionMgr.h"
+#include "SSN008AttackBoxScript.h"
 
 CSSN007MonsterScript::CSSN007MonsterScript() :
 	CScript((UINT)SCRIPT_TYPE::SSN007MONSTERSCRIPT),
@@ -40,14 +42,7 @@ void CSSN007MonsterScript::start()
 			}
 		}
 
-		for (int index = 0; index < attackBox->GetScripts().size(); index++)
-		{
-			if (attackBox->GetScripts()[index]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT)
-			{
-				mAttackBoxScript = attackBox->GetScripts()[index];
-				break;
-			}
-		}
+		mAttackBoxScript = dynamic_cast<CSSN008AttackBoxScript*>(CFunctionMgr::GetInst()->FindScript(attackBox->GetName(), SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT));
 	}
 
 	mIsHit = false;
@@ -86,7 +81,7 @@ CGameObject * CSSN007MonsterScript::GetPlayerObject()
 	return mPlayerObject;
 }
 
-CScript * CSSN007MonsterScript::GetAttackBoxScript()
+CSSN008AttackBoxScript * CSSN007MonsterScript::GetAttackBoxScript()
 {
 	return mAttackBoxScript;
 }
