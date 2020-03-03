@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SSN001CameraScript.h"
 
+#include "FunctionMgr.h"
 
 CSSN001CameraScript::CSSN001CameraScript():
 	CScript((UINT)SCRIPT_TYPE::SSN001CAMERASCRIPT),
@@ -13,18 +14,6 @@ CSSN001CameraScript::~CSSN001CameraScript()
 {
 }
 
-void CSSN001CameraScript::FindObject(CGameObject ** findResultObject, wstring findObjectName)
-{
-	vector<CGameObject*> findObject;
-	CSceneMgr::GetInst()->FindGameObject(findObjectName, findObject);
-
-	if (findObject.empty() == true)
-	{
-		assert(false && L"CameraScritp is not find want object");
-	}
-
-	*findResultObject = findObject[0];
-}
 
 void CSSN001CameraScript::UpdatePosition()
 {
@@ -48,8 +37,8 @@ void CSSN001CameraScript::UpdateLookAt()
 
 void CSSN001CameraScript::start()
 {
-	FindObject(&mMainCameraArm, L"MainCameraArm");
-	FindObject(&mMainCameraBody, L"MainCameraBody");
+	mMainCameraArm = CFunctionMgr::GetInst()->FindObject(L"MainCameraArm");
+	mMainCameraBody = CFunctionMgr::GetInst()->FindObject(L"MainCameraBody");
 }
 
 void CSSN001CameraScript::update()
