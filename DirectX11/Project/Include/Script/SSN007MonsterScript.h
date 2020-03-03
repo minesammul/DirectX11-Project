@@ -2,6 +2,7 @@
 #include <Script.h>
 #include "MonsterState.h"
 
+class CSSN008AttackBoxScript;
 class CSSN007MonsterScript : public CScript
 {
 private:
@@ -9,17 +10,17 @@ private:
 	const float MONSTER_ROTATE_SPEED;
 
 private:
-	MonsterState* monsterState;
+	MonsterState* mMonsterState;
 
-	CGameObject* playerObject;
+	CGameObject* mPlayerObject;
 
-	CScript* attackBoxScript;
+	CSSN008AttackBoxScript* mAttackBoxScript;
 
-	bool isHit;
+	bool mIsHit;
 
-	int monsterHP;
+	int mMonsterHP;
 
-	bool isDead;
+	bool mIsDead;
 
 public:
 	CSSN007MonsterScript();
@@ -31,23 +32,23 @@ public:
 
 	void SetState(MonsterState* state);
 	CGameObject* GetPlayerObject();
-	CScript* GetAttackBoxScript();
+	CSSN008AttackBoxScript* GetAttackBoxScript();
 
-	void SetHit(bool hit) 
+	void SetHit(bool isHit) 
 	{
-		isHit = hit; 
+		mIsHit = isHit;
 
-		if (hit == true)
+		if (isHit == true)
 		{
-			monsterHP -= 1;
+			mMonsterHP -= 1;
 		}
 	}
 
-	bool GetHit() { return isHit; }
+	bool GetHit() { return mIsHit; }
 
-	bool GetDead() { return isDead; }
+	bool GetDead() { return mIsDead; }
 
-	int GetMonsterHP() { return monsterHP; }
+	int GetMonsterHP() { return mMonsterHP; }
 
 	float GetMonsterMoveSpeed() { return MONSTER_MOVE_SPEED * CTimeMgr::GetInst()->GetDeltaTime(); }
 	float GetMonsterRotateSpeed() { return MONSTER_ROTATE_SPEED * CTimeMgr::GetInst()->GetDeltaTime(); }
