@@ -11,7 +11,9 @@ public:
 	~CSSN004CameraBodyScript();
 
 private:
-	float GetCameraRotateSpeed() { return CAMERA_ROTATE_SPEED * CTimeMgr::GetInst()->GetDeltaTime(); }
+	float GetCameraBodyRotateSpeed() { return CAMERA_ROTATE_SPEED * CTimeMgr::GetInst()->GetDeltaTime(); }
+	void UpdateCameraBodyPosition();
+	void OperateCameraBodyRotate();
 
 public:
 	virtual void update();

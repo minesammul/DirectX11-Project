@@ -14,25 +14,27 @@ CSSN004CameraBodyScript::~CSSN004CameraBodyScript()
 }
 
 
-void CSSN004CameraBodyScript::update()
+void CSSN004CameraBodyScript::UpdateCameraBodyPosition()
 {
 	vector<CGameObject*> findObject;
 	CSceneMgr::GetInst()->FindGameObject(L"Player", findObject);
 	Vec3 vPos = findObject[0]->Transform()->GetLocalPos();
 	vPos.y += 250.f;
 	Transform()->SetLocalPos(vPos);
+}
 
-
+void CSSN004CameraBodyScript::OperateCameraBodyRotate()
+{
 	if (CKeyMgr::GetInst()->GetMousePos().x < CKeyMgr::GetInst()->GetPrevMousePos().x)
 	{
 		Vec3 rotate = Transform()->GetLocalRot();
-		rotate.y -= GetRadian(GetCameraRotateSpeed());
+		rotate.y -= GetRadian(GetCameraBodyRotateSpeed());
 		Transform()->SetLocalRot(rotate);
 	}
-	else if(CKeyMgr::GetInst()->GetMousePos().x > CKeyMgr::GetInst()->GetPrevMousePos().x)
+	else if (CKeyMgr::GetInst()->GetMousePos().x > CKeyMgr::GetInst()->GetPrevMousePos().x)
 	{
 		Vec3 rotate = Transform()->GetLocalRot();
-		rotate.y += GetRadian(GetCameraRotateSpeed());
+		rotate.y += GetRadian(GetCameraBodyRotateSpeed());
 		Transform()->SetLocalRot(rotate);
 	}
 
@@ -50,7 +52,7 @@ void CSSN004CameraBodyScript::update()
 		if (degree > 80.f)
 		{
 			Vec3 rotate = Transform()->GetLocalRot();
-			rotate.x -= GetRadian(GetCameraRotateSpeed());
+			rotate.x -= GetRadian(GetCameraBodyRotateSpeed());
 			Transform()->SetLocalRot(rotate);
 		}
 
@@ -69,10 +71,17 @@ void CSSN004CameraBodyScript::update()
 		if (degree > 45.f)
 		{
 			Vec3 rotate = Transform()->GetLocalRot();
-			rotate.x += GetRadian(GetCameraRotateSpeed());
+			rotate.x += GetRadian(GetCameraBodyRotateSpeed());
 			Transform()->SetLocalRot(rotate);
 		}
 
 	}
 
+}
+
+void CSSN004CameraBodyScript::update()
+{
+	UpdateCameraBodyPosition();
+
+	OperateCameraBodyRotate();
 }
