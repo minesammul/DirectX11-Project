@@ -255,6 +255,9 @@
     <ClInclude Include="SSN013MusicScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="FunctionMgr.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptMgr.cpp">
@@ -433,6 +436,9 @@
     </ClCompile>
     <ClCompile Include="SSN013MusicScript.cpp">
       <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="FunctionMgr.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

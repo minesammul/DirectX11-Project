@@ -194,6 +194,7 @@ call CodeGen.exe</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="EventQueueMgr.h" />
+    <ClInclude Include="FunctionMgr.h" />
     <ClInclude Include="HilightScript.h" />
     <ClInclude Include="IronGolemAttack10State.h" />
     <ClInclude Include="IronGolemAttack11State.h" />
@@ -257,6 +258,7 @@ call CodeGen.exe</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EventQueueMgr.cpp" />
+    <ClCompile Include="FunctionMgr.cpp" />
     <ClCompile Include="HilightScript.cpp" />
     <ClCompile Include="IronGolemAttack10State.cpp" />
     <ClCompile Include="IronGolemAttack11State.cpp" />
