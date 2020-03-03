@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SSN004CameraBodyScript.h"
 
+#include "FunctionMgr.h"
 
 CSSN004CameraBodyScript::CSSN004CameraBodyScript() : 
 	CScript((UINT)SCRIPT_TYPE::SSN004CAMERABODYSCRIPT),
@@ -16,11 +17,9 @@ CSSN004CameraBodyScript::~CSSN004CameraBodyScript()
 
 void CSSN004CameraBodyScript::UpdateCameraBodyPosition()
 {
-	vector<CGameObject*> findObject;
-	CSceneMgr::GetInst()->FindGameObject(L"Player", findObject);
-	Vec3 vPos = findObject[0]->Transform()->GetLocalPos();
-	vPos.y += 250.f;
-	Transform()->SetLocalPos(vPos);
+	Vec3 playerPosition = mPlayerObject->Transform()->GetLocalPos();
+	playerPosition.y += 250.f;
+	Transform()->SetLocalPos(playerPosition);
 }
 
 void CSSN004CameraBodyScript::OperateCameraBodyRotate()
@@ -38,11 +37,10 @@ void CSSN004CameraBodyScript::OperateCameraBodyRotate()
 		Transform()->SetLocalRot(rotate);
 	}
 
+
 	if (CKeyMgr::GetInst()->GetMousePos().y > CKeyMgr::GetInst()->GetPrevMousePos().y)
 	{
-		vector<CGameObject*> findArm;
-		CSceneMgr::GetInst()->FindGameObject(L"MainCameraArm", findArm);
-		Vec3 bodyToArm = findArm[0]->Transform()->GetWorldPos() - Transform()->GetWorldPos();
+		Vec3 bodyToArm = mCameraArmObject->Transform()->GetWorldPos() - Transform()->GetWorldPos();
 		bodyToArm.Normalize();
 
 		float dotValue = Vec3::Down.Dot(bodyToArm);
@@ -59,9 +57,7 @@ void CSSN004CameraBodyScript::OperateCameraBodyRotate()
 	}
 	else if (CKeyMgr::GetInst()->GetMousePos().y < CKeyMgr::GetInst()->GetPrevMousePos().y)
 	{
-		vector<CGameObject*> findArm;
-		CSceneMgr::GetInst()->FindGameObject(L"MainCameraArm", findArm);
-		Vec3 bodyToArm = findArm[0]->Transform()->GetWorldPos() - Transform()->GetWorldPos();
+		Vec3 bodyToArm = mCameraArmObject->Transform()->GetWorldPos() - Transform()->GetWorldPos();
 		bodyToArm.Normalize();
 
 		float dotValue = Vec3::Up.Dot(bodyToArm);
@@ -77,6 +73,12 @@ void CSSN004CameraBodyScript::OperateCameraBodyRotate()
 
 	}
 
+}
+
+void CSSN004CameraBodyScript::start()
+{
+	mPlayerObject = CFunctionMgr::GetInst()->FindObject(L"Player");
+	mCameraArmObject = CFunctionMgr::GetInst()->FindObject(L"MainCameraArm");
 }
 
 void CSSN004CameraBodyScript::update()
