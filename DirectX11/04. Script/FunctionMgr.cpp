@@ -32,3 +32,16 @@ CScript * CFunctionMgr::FindScript(wstring objectName, SCRIPT_TYPE scriptType)
 
 	return findScript;
 }
+
+CGameObject * CFunctionMgr::FindObject(wstring objectName)
+{
+	vector<CGameObject*> findObject;
+	CSceneMgr::GetInst()->FindGameObject(objectName, findObject);
+
+	if (findObject.empty() == true)
+	{
+		assert(false && L"CameraScript is not find want object");
+	}
+
+	return findObject[0];
+}
