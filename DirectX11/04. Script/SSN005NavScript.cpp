@@ -20,25 +20,25 @@ void CSSN005NavScript::start()
 	{
 		UINT objectID = navObjectLayer->GetParentObject()[index]->GetID();
 		
-		navObjectCollisionCheck[objectID] = false;
+		mNavObjectCollisionCheck[objectID] = false;
 	}
 }
 
 void CSSN005NavScript::update()
 {
-	map<UINT, bool>::iterator navObjectIter = navObjectCollisionCheck.begin();
-	while (navObjectIter != navObjectCollisionCheck.end())
+	map<UINT, bool>::iterator navObjectIter = mNavObjectCollisionCheck.begin();
+	while (navObjectIter != mNavObjectCollisionCheck.end())
 	{
 		if (navObjectIter->second == true)
 		{
-			isNavCollision = true;
+			mIsNavCollision = true;
 			return;
 		}
 
 		navObjectIter++;
 	}
 
-	isNavCollision = false;
+	mIsNavCollision = false;
 }
 
 void CSSN005NavScript::OnCollisionEnter(CCollider3D * _pOther)
@@ -50,10 +50,10 @@ void CSSN005NavScript::OnCollisionEnter(CCollider3D * _pOther)
 void CSSN005NavScript::OnCollision(CCollider3D * _pOther)
 {
 	//충돌지점 이후 위치 정하기
-	beforePosition = Object()->GetParent()->Transform()->GetLocalPos();
+	mBeforePosition = Object()->GetParent()->Transform()->GetLocalPos();
 
 	UINT objectID = _pOther->Object()->GetID();
-	navObjectCollisionCheck[objectID] = true;
+	mNavObjectCollisionCheck[objectID] = true;
 
 	{
 		//월드에 존재하는 삼각형 충돌체로부터 평면의 방정식을 만든다.
@@ -113,5 +113,5 @@ void CSSN005NavScript::OnCollisionExit(CCollider3D * _pOther)
 	//중력적용
 
 	UINT objectID = _pOther->Object()->GetID();
-	navObjectCollisionCheck[objectID] = false;
+	mNavObjectCollisionCheck[objectID] = false;
 }
