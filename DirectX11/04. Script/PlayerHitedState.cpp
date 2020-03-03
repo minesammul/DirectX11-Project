@@ -24,8 +24,8 @@ void PlayerHitedState::Init(CSSN002PlayerScript * playerScript)
 {
 	playerScript->SetHit(false);
 
-	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetActiveCollision(false);
-	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetAttackted(false);
+	playerScript->GetAttackBoxScript()->SetActiveCollision(false);
+	playerScript->GetAttackBoxScript()->SetAttackted(false);
 }
 
 void PlayerHitedState::Update(CSSN002PlayerScript * playerScript)

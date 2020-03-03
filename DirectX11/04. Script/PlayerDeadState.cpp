@@ -39,8 +39,8 @@ void PlayerDeadState::Init(CSSN002PlayerScript * playerScript)
 	}
 	//
 
-	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetActiveCollision(false);
-	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetAttackted(false);
+	playerScript->GetAttackBoxScript()->SetActiveCollision(false);
+	playerScript->GetAttackBoxScript()->SetAttackted(false);
 }
 
 void PlayerDeadState::Update(CSSN002PlayerScript * playerScript)

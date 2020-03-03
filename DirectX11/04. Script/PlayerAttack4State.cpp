@@ -41,8 +41,8 @@ void PlayerAttack4State::Init(CSSN002PlayerScript * playerScript)
 		playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
 	}
 
-	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetActiveCollision(false);
-	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetAttackted(false);
+	playerScript->GetAttackBoxScript()->SetActiveCollision(false);
+	playerScript->GetAttackBoxScript()->SetAttackted(false);
 	playerScript->UseSP(GetUseSPAmount());
 }
 
@@ -85,7 +85,7 @@ void PlayerAttack4State::Update(CSSN002PlayerScript * playerScript)
 
 	if (animationRatio > 0.4f)
 	{
-		((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetActiveCollision(true);
+		playerScript->GetAttackBoxScript()->SetActiveCollision(true);
 	}
 }
 
