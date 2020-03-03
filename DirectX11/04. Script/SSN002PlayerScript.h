@@ -31,6 +31,11 @@ public:
 	CSSN002PlayerScript();
 	~CSSN002PlayerScript();
 
+private:
+	void CheckDie();
+	void LookAtFront();
+	void CheckMovable();
+
 public:
 	virtual void start();
 	virtual void update();

@@ -25,6 +25,43 @@ CSSN002PlayerScript::~CSSN002PlayerScript()
 {
 }
 
+void CSSN002PlayerScript::CheckDie()
+{
+	if (mPlayerHP <= 0)
+	{
+		mIsDead = true;
+	}
+}
+
+void CSSN002PlayerScript::LookAtFront()
+{
+	if (mIsDead == false)
+	{
+		vector<CGameObject*> findBody;
+		CSceneMgr::GetInst()->FindGameObject(L"MainCameraBody", findBody);
+
+		Vec3 cameraBodyRotate = findBody[0]->Transform()->GetLocalRot();
+		Vec3 playerRotate = Transform()->GetLocalRot();
+		playerRotate.y = cameraBodyRotate.y;
+
+		Transform()->SetLocalRot(playerRotate);
+	}
+}
+
+void CSSN002PlayerScript::CheckMovable()
+{
+	for (int index = 0; index < Object()->GetChild().size(); index++)
+	{
+		CSSN005NavScript* navScript = dynamic_cast<CSSN005NavScript*>(CFunctionMgr::GetInst()->FindScript(Object()->GetChild()[index]->GetName(), SCRIPT_TYPE::SSN005NAVSCRIPT));
+		if (navScript != nullptr)
+		{
+			mIsMovable = navScript->GetNavCollision();
+			mBeforePlayerPosition = navScript->GetBeforePosition();
+			break;
+		}
+	}
+}
+
 void CSSN002PlayerScript::start()
 {
 	{
@@ -57,45 +94,11 @@ void CSSN002PlayerScript::start()
 
 void CSSN002PlayerScript::update()
 {
-	{
-		if (mPlayerHP <= 0)
-		{
-			mIsDead = true;
-		}
-	}
+	CheckDie();
 
-	{
-		if (mIsDead == false)
-		{
-			vector<CGameObject*> findBody;
-			CSceneMgr::GetInst()->FindGameObject(L"MainCameraBody", findBody);
+	LookAtFront();
 
-			Vec3 cameraBodyRotate = findBody[0]->Transform()->GetLocalRot();
-			Vec3 playerRotate = Transform()->GetLocalRot();
-			playerRotate.y = cameraBodyRotate.y;
-
-			Transform()->SetLocalRot(playerRotate);
-		}
-	}
-
-
-	{
-		for (int index = 0; index < Object()->GetChild().size(); index++)
-		{
-			vector<CScript*> childScript = Object()->GetChild()[index]->GetScripts();
-
-			for (int scriptIndex = 0; scriptIndex < childScript.size(); scriptIndex++)
-			{
-				if (childScript[scriptIndex]->GetScriptType() == (UINT)SCRIPT_TYPE::SSN005NAVSCRIPT)
-				{
-					mIsMovable = dynamic_cast<CSSN005NavScript*>(childScript[scriptIndex])->GetNavCollision();
-					mBeforePlayerPosition = dynamic_cast<CSSN005NavScript*>(childScript[scriptIndex])->GetBeforePosition();
-					break;
-				}
-			}
-		}
-	}
-
+	CheckMovable();
 
 	mPlayerState->Update(this);
 }
