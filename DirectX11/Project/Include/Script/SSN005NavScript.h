@@ -4,10 +4,10 @@
 class CSSN005NavScript : public CScript
 {
 private:
-	bool isNavCollision;
-	map<UINT, bool> navObjectCollisionCheck;
+	bool mIsNavCollision;
+	map<UINT, bool> mNavObjectCollisionCheck;
 
-	Vec3 beforePosition;
+	Vec3 mBeforePosition;
 
 public:
 	CSSN005NavScript();
@@ -16,12 +16,12 @@ public:
 public:
 	virtual void start();
 	virtual void update();
-	virtual void OnCollisionEnter(CCollider3D* _pOther);
+
 	virtual void OnCollision(CCollider3D* _pOther);
 	virtual void OnCollisionExit(CCollider3D* _pOther);
 
-	bool GetNavCollision() { return isNavCollision; }
+	bool GetNavCollision() { return mIsNavCollision; }
 
-	Vec3 GetBeforePosition() { return beforePosition; }
+	Vec3 GetBeforePosition() { return mBeforePosition; }
 };
 

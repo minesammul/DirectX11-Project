@@ -4,9 +4,9 @@
 class CSSN006WeaponEquipScript : public CScript
 {
 private:
-	int findEquipMeshIndex;
-	Vec3 initialPosition;
-	Vec3 initialRotate;
+	int mFindEquipMeshIndex;
+	Vec3 mInitialPosition;
+	Vec3 mInitialRotate;
 
 public:
 	CSSN006WeaponEquipScript();
