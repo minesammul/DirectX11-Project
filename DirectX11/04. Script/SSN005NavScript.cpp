@@ -41,12 +41,6 @@ void CSSN005NavScript::update()
 	mIsNavCollision = false;
 }
 
-void CSSN005NavScript::OnCollisionEnter(CCollider3D * _pOther)
-{
-	//중력해제
-
-}
-
 void CSSN005NavScript::OnCollision(CCollider3D * _pOther)
 {
 	//충돌지점 이후 위치 정하기
@@ -81,13 +75,6 @@ void CSSN005NavScript::OnCollision(CCollider3D * _pOther)
 
 		Vec4 triangleEquation = DirectX::XMPlaneFromPoints(TriangleWorldPos[0], TriangleWorldPos[1], TriangleWorldPos[2]);
 		
-		Vec3 triangle0to1VectorIsV1 = TriangleWorldPos[1] - TriangleWorldPos[0];
-		Vec3 triangle1to2VectorIsV2 = TriangleWorldPos[2] - TriangleWorldPos[1];
-		Vec3 triangle2to0VectorIsV3 = TriangleWorldPos[0] - TriangleWorldPos[2];
-
-		Vec3 triangleNormalVector = XMVector3Cross(triangle0to1VectorIsV1, -triangle2to0VectorIsV3);
-		triangleNormalVector.Normalize();
-
 		Vec3 navCollisionWorldPosition = Object()->Transform()->GetWorldPos();
 
 		float wantDistance = Object()->Transform()->GetLocalScale().x - 100.f;
@@ -98,20 +85,10 @@ void CSSN005NavScript::OnCollision(CCollider3D * _pOther)
 		characterPosition.y = changeYPosition;
 		Object()->GetParent()->Transform()->SetLocalPos(characterPosition);
 	}
-
-	//{
-	//	Vec3 colliderPosition = _pOther->Object()->Transform()->GetLocalPos();
-	//	Vec3 playerPosition = Object()->GetParent()->Transform()->GetLocalPos();
-	//	playerPosition.y = colliderPosition.y;
-	//	Object()->GetParent()->Transform()->SetLocalPos(playerPosition);
-	//}
-
 }
 
 void CSSN005NavScript::OnCollisionExit(CCollider3D * _pOther)
 {
-	//중력적용
-
 	UINT objectID = _pOther->Object()->GetID();
 	mNavObjectCollisionCheck[objectID] = false;
 }

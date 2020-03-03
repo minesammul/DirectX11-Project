@@ -16,7 +16,7 @@ public:
 public:
 	virtual void start();
 	virtual void update();
-	virtual void OnCollisionEnter(CCollider3D* _pOther);
+
 	virtual void OnCollision(CCollider3D* _pOther);
 	virtual void OnCollisionExit(CCollider3D* _pOther);
 
