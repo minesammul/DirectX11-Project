@@ -42,8 +42,8 @@ void IronGolemAttack3State::Init(CSSN007MonsterScript * monsterScript)
 	//
 
 
-	((CSSN008AttackBoxScript*)monsterScript->GetAttackBoxScript())->SetActiveCollision(false);
-	((CSSN008AttackBoxScript*)monsterScript->GetAttackBoxScript())->SetAttackted(false);
+	monsterScript->GetAttackBoxScript()->SetActiveCollision(false);
+	monsterScript->GetAttackBoxScript()->SetAttackted(false);
 }
 
 void IronGolemAttack3State::Update(CSSN007MonsterScript * monsterScript)
@@ -74,7 +74,7 @@ void IronGolemAttack3State::Update(CSSN007MonsterScript * monsterScript)
 
 	if (animationRatio > 0.5f)
 	{
-		((CSSN008AttackBoxScript*)monsterScript->GetAttackBoxScript())->SetActiveCollision(true);
+		monsterScript->GetAttackBoxScript()->SetActiveCollision(true);
 	}
 
 	if (isAllDoneAnimation == true)

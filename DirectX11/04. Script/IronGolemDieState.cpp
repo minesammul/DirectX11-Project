@@ -39,8 +39,8 @@ void IronGolemDieState::Init(CSSN007MonsterScript * monsterScript)
 	}
 	//
 
-	((CSSN008AttackBoxScript*)monsterScript->GetAttackBoxScript())->SetActiveCollision(false);
-	((CSSN008AttackBoxScript*)monsterScript->GetAttackBoxScript())->SetAttackted(false);
+	monsterScript->GetAttackBoxScript()->SetActiveCollision(false);
+	monsterScript->GetAttackBoxScript()->SetAttackted(false);
 }
 
 void IronGolemDieState::Update(CSSN007MonsterScript * monsterScript)
