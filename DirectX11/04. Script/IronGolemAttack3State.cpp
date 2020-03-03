@@ -79,7 +79,6 @@ void IronGolemAttack3State::Update(CSSN007MonsterScript * monsterScript)
 
 	if (isAllDoneAnimation == true)
 	{
-		((CSSN008AttackBoxScript*)monsterScript->GetAttackBoxScript())->SetActiveCollision(false);
 		IronGolemIdleState::GetInstance()->Init(monsterScript);
 		monsterScript->SetState(IronGolemIdleState::GetInstance());
 	}

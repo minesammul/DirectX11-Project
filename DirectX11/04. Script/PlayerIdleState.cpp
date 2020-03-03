@@ -10,6 +10,7 @@
 #include "PlayerHitedState.h"
 #include "PlayerDeadState.h"
 #include "PlayerAttack1State.h"
+#include "SSN008AttackBoxScript.h"
 
 PlayerIdleState::PlayerIdleState()
 {
@@ -47,6 +48,8 @@ void PlayerIdleState::Init(CSSN002PlayerScript* playerScript)
 	}
 	//
 
+	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetActiveCollision(false);
+	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetAttackted(false);
 }
 
 void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)

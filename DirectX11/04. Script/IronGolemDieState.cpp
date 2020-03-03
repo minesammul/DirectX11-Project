@@ -2,6 +2,7 @@
 #include "IronGolemDieState.h"
 
 #include "SSN007MonsterScript.h"
+#include "SSN008AttackBoxScript.h"
 
 IronGolemDieState::IronGolemDieState()
 {
@@ -37,6 +38,9 @@ void IronGolemDieState::Init(CSSN007MonsterScript * monsterScript)
 		monsterScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
 	}
 	//
+
+	((CSSN008AttackBoxScript*)monsterScript->GetAttackBoxScript())->SetActiveCollision(false);
+	((CSSN008AttackBoxScript*)monsterScript->GetAttackBoxScript())->SetAttackted(false);
 }
 
 void IronGolemDieState::Update(CSSN007MonsterScript * monsterScript)

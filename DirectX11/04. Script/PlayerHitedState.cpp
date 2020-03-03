@@ -3,6 +3,7 @@
 
 #include "SSN002PlayerScript.h"
 #include "PlayerIdleState.h"
+#include "SSN008AttackBoxScript.h"
 
 PlayerHitedState::PlayerHitedState()
 {
@@ -22,6 +23,9 @@ PlayerHitedState * PlayerHitedState::GetInstance()
 void PlayerHitedState::Init(CSSN002PlayerScript * playerScript)
 {
 	playerScript->SetHit(false);
+
+	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetActiveCollision(false);
+	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetAttackted(false);
 }
 
 void PlayerHitedState::Update(CSSN002PlayerScript * playerScript)

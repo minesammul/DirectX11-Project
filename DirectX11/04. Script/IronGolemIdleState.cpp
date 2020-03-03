@@ -8,6 +8,7 @@
 #include "IronGolemRotateLeftState.h"
 #include "IronGolemRotateRightState.h"
 #include "IronGolemDieState.h"
+#include "SSN008AttackBoxScript.h"
 
 IronGolemIdleState::IronGolemIdleState() :
 	PLAYER_FIND_DISTANCE(1000.f),
@@ -46,6 +47,9 @@ void IronGolemIdleState::Init(CSSN007MonsterScript * monsterScript)
 		monsterScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
 	}
 	//
+
+	((CSSN008AttackBoxScript*)monsterScript->GetAttackBoxScript())->SetActiveCollision(false);
+	((CSSN008AttackBoxScript*)monsterScript->GetAttackBoxScript())->SetAttackted(false);
 }
 
 void IronGolemIdleState::Update(CSSN007MonsterScript * monsterScript)

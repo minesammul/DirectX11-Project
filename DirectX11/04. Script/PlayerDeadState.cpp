@@ -2,6 +2,7 @@
 #include "PlayerDeadState.h"
 
 #include "SSN002PlayerScript.h"
+#include "SSN008AttackBoxScript.h"
 
 PlayerDeadState::PlayerDeadState()
 {
@@ -37,6 +38,9 @@ void PlayerDeadState::Init(CSSN002PlayerScript * playerScript)
 		playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
 	}
 	//
+
+	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetActiveCollision(false);
+	((CSSN008AttackBoxScript*)playerScript->GetAttackBoxScript())->SetAttackted(false);
 }
 
 void PlayerDeadState::Update(CSSN002PlayerScript * playerScript)
