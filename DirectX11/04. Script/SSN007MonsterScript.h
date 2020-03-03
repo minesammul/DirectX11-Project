@@ -2,6 +2,7 @@
 #include <Script.h>
 #include "MonsterState.h"
 
+class CSSN008AttackBoxScript;
 class CSSN007MonsterScript : public CScript
 {
 private:
@@ -13,7 +14,7 @@ private:
 
 	CGameObject* mPlayerObject;
 
-	CScript* mAttackBoxScript;
+	CSSN008AttackBoxScript* mAttackBoxScript;
 
 	bool mIsHit;
 
@@ -31,7 +32,7 @@ public:
 
 	void SetState(MonsterState* state);
 	CGameObject* GetPlayerObject();
-	CScript* GetAttackBoxScript();
+	CSSN008AttackBoxScript* GetAttackBoxScript();
 
 	void SetHit(bool isHit) 
 	{
