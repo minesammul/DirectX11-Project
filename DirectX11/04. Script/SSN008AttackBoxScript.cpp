@@ -14,8 +14,8 @@ CSSN008AttackBoxScript::~CSSN008AttackBoxScript()
 
 void CSSN008AttackBoxScript::start()
 {
-	activeCollision = false;
-	isAttacked = false;
+	mActiveCollision = false;
+	mIsAttacked = false;
 }
 
 void CSSN008AttackBoxScript::update()
