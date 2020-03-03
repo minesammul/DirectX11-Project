@@ -7,9 +7,6 @@ public:
 	CSSN010EventQueueScript();
 	~CSSN010EventQueueScript();
 
-private:
-	CScript* FindScript(wstring objectName, SCRIPT_TYPE scriptType);
-
 public:
 	virtual void update();
 };

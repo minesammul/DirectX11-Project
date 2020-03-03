@@ -6,6 +6,7 @@
 #include "SSN007MonsterScript.h"
 #include "SSN011PlayerUIScript.h"
 #include "SSN013MusicScript.h"
+#include "FunctionMgr.h"
 
 CSSN010EventQueueScript::CSSN010EventQueueScript() : 
 	CScript((UINT)SCRIPT_TYPE::SSN010EVENTQUEUESCRIPT)
@@ -17,24 +18,6 @@ CSSN010EventQueueScript::~CSSN010EventQueueScript()
 {
 }
 
-CScript * CSSN010EventQueueScript::FindScript(wstring objectName, SCRIPT_TYPE scriptType)
-{
-	vector<CGameObject*> findObject;
-	CSceneMgr::GetInst()->GetCurScene()->FindGameObject(objectName, findObject);
-
-	CScript* findScript = nullptr;
-	for (int index = 0; index < findObject[0]->GetScripts().size(); index++)
-	{
-		if (findObject[0]->GetScripts()[index]->GetScriptType() == (UINT)scriptType)
-		{
-			findScript = findObject[0]->GetScripts()[index];
-			break;
-		}
-	}
-
-	return findScript;
-}
-
 void CSSN010EventQueueScript::update()
 {
 	if (CEventQueueMgr::GetInst()->GetEvents()->empty() == false)
@@ -43,10 +26,10 @@ void CSSN010EventQueueScript::update()
 
 		if (popEvent.eventType == GAME_EVENT_TYPE::HIT)
 		{
-			CSSN011PlayerUIScript* playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(FindScript(L"PlayerUI", SCRIPT_TYPE::SSN011PLAYERUISCRIPT));
+			CSSN011PlayerUIScript* playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(CFunctionMgr::GetInst()->FindScript(L"PlayerUI", SCRIPT_TYPE::SSN011PLAYERUISCRIPT));
 
-			CSSN002PlayerScript* playerScript = dynamic_cast<CSSN002PlayerScript*>(FindScript(popEvent.receiveObjectName, SCRIPT_TYPE::SSN002PLAYERSCRIPT));
-			CSSN007MonsterScript* monsterScript = dynamic_cast<CSSN007MonsterScript*>(FindScript(popEvent.receiveObjectName, SCRIPT_TYPE::SSN007MONSTERSCRIPT));
+			CSSN002PlayerScript* playerScript = dynamic_cast<CSSN002PlayerScript*>(CFunctionMgr::GetInst()->FindScript(popEvent.receiveObjectName, SCRIPT_TYPE::SSN002PLAYERSCRIPT));
+			CSSN007MonsterScript* monsterScript = dynamic_cast<CSSN007MonsterScript*>(CFunctionMgr::GetInst()->FindScript(popEvent.receiveObjectName, SCRIPT_TYPE::SSN007MONSTERSCRIPT));
 
 			if (playerScript != nullptr)
 			{
@@ -66,8 +49,8 @@ void CSSN010EventQueueScript::update()
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::ON_MONSTER_UI)
 		{
-			CSSN011PlayerUIScript* playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(FindScript(L"PlayerUI", SCRIPT_TYPE::SSN011PLAYERUISCRIPT));
-			CSSN007MonsterScript* monsterScript = dynamic_cast<CSSN007MonsterScript*>(FindScript(popEvent.sendObjectName, SCRIPT_TYPE::SSN007MONSTERSCRIPT));
+			CSSN011PlayerUIScript* playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(CFunctionMgr::GetInst()->FindScript(L"PlayerUI", SCRIPT_TYPE::SSN011PLAYERUISCRIPT));
+			CSSN007MonsterScript* monsterScript = dynamic_cast<CSSN007MonsterScript*>(CFunctionMgr::GetInst()->FindScript(popEvent.sendObjectName, SCRIPT_TYPE::SSN007MONSTERSCRIPT));
 
 			int monsterMaxHP = monsterMaxHP = monsterScript->GetMonsterHP();
 			playerUIScript->OnMonsterUI();
@@ -75,8 +58,8 @@ void CSSN010EventQueueScript::update()
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::PLAYER_SP_UPDATE)
 		{
-			CSSN011PlayerUIScript* playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(FindScript(L"PlayerUI", SCRIPT_TYPE::SSN011PLAYERUISCRIPT));
-			CSSN002PlayerScript* playerScript = dynamic_cast<CSSN002PlayerScript*>(FindScript(popEvent.sendObjectName, SCRIPT_TYPE::SSN002PLAYERSCRIPT));
+			CSSN011PlayerUIScript* playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(CFunctionMgr::GetInst()->FindScript(L"PlayerUI", SCRIPT_TYPE::SSN011PLAYERUISCRIPT));
+			CSSN002PlayerScript* playerScript = dynamic_cast<CSSN002PlayerScript*>(CFunctionMgr::GetInst()->FindScript(popEvent.sendObjectName, SCRIPT_TYPE::SSN002PLAYERSCRIPT));
 			
 			int playerMaxSP = playerScript->GetPlayerMaxSP();
 			int playerSP = playerScript->GetPlayerSP();
@@ -86,8 +69,8 @@ void CSSN010EventQueueScript::update()
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::PLAYER_HP_UPDATE)
 		{
-			CSSN002PlayerScript* playerScript = dynamic_cast<CSSN002PlayerScript*>(FindScript(popEvent.sendObjectName, SCRIPT_TYPE::SSN002PLAYERSCRIPT));
-			CSSN011PlayerUIScript* playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(FindScript(L"PlayerUI", SCRIPT_TYPE::SSN011PLAYERUISCRIPT));
+			CSSN002PlayerScript* playerScript = dynamic_cast<CSSN002PlayerScript*>(CFunctionMgr::GetInst()->FindScript(popEvent.sendObjectName, SCRIPT_TYPE::SSN002PLAYERSCRIPT));
+			CSSN011PlayerUIScript* playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(CFunctionMgr::GetInst()->FindScript(L"PlayerUI", SCRIPT_TYPE::SSN011PLAYERUISCRIPT));
 
 			int playerMaxHP = playerScript->GetPlayerMaxHP();
 			int playerHP = playerScript->GetPlayerHP();
@@ -96,13 +79,13 @@ void CSSN010EventQueueScript::update()
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_MONSTER_BGM_ON)
 		{
-			CSSN013MusicScript* musicScript = dynamic_cast<CSSN013MusicScript*>(FindScript(L"Music", SCRIPT_TYPE::SSN013MUSICSCRIPT));
+			CSSN013MusicScript* musicScript = dynamic_cast<CSSN013MusicScript*>(CFunctionMgr::GetInst()->FindScript(L"Music", SCRIPT_TYPE::SSN013MUSICSCRIPT));
 			
 			musicScript->OnMusic(MUSIC_KIND::IRON_GOLEM_BACKGROUND, MUSIC_STATE::ON);
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_MONSTER_BGM_OFF)
 		{
-			CSSN013MusicScript* musicScript = dynamic_cast<CSSN013MusicScript*>(FindScript(L"Music", SCRIPT_TYPE::SSN013MUSICSCRIPT));
+			CSSN013MusicScript* musicScript = dynamic_cast<CSSN013MusicScript*>(CFunctionMgr::GetInst()->FindScript(L"Music", SCRIPT_TYPE::SSN013MUSICSCRIPT));
 
 			musicScript->OnMusic(MUSIC_KIND::IRON_GOLEM_BACKGROUND, MUSIC_STATE::OFF);
 		}
