@@ -10,10 +10,7 @@ CSSN007MonsterScript::CSSN007MonsterScript() :
 	MONSTER_MOVE_SPEED(300.f),
 	MONSTER_ROTATE_SPEED(25.f)
 {
-	mMonsterHP = 2;
 
-	mIsHit = false;
-	mIsDead = false;
 }
 
 
@@ -41,7 +38,10 @@ void CSSN007MonsterScript::start()
 		mAttackBoxScript = dynamic_cast<CSSN008AttackBoxScript*>(CFunctionMgr::GetInst()->FindScript(attackBox->GetName(), SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT));
 	}
 
+	mMonsterHP = 2;
 
+	mIsHit = false;
+	mIsDead = false;
 
 	{
 		mMonsterState = IronGolemStandState::GetInstance();

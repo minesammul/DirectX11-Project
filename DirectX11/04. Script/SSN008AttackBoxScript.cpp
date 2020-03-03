@@ -5,6 +5,7 @@
 CSSN008AttackBoxScript::CSSN008AttackBoxScript() : 
 	CScript((UINT)SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT)
 {
+
 }
 
 
