@@ -13,7 +13,6 @@ public:
 
 public:
 	virtual void start();
-	virtual void update();
 
 	bool GetActiveCollision() { return mActiveCollision; }
 	void SetActiveCollision(bool active) { mActiveCollision = active; }
