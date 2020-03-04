@@ -54,7 +54,7 @@ void CSSN010EventQueueScript::update()
 
 			int monsterMaxHP = monsterMaxHP = monsterScript->GetMonsterHP();
 
-			playerUIScript->OnOffMonsterUI(true);
+			playerUIScript->OnMonsterUI();
 			playerUIScript->SetMonsterHPRation(monsterMaxHP);
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::PLAYER_SP_UPDATE)
