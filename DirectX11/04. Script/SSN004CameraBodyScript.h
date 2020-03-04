@@ -17,7 +17,7 @@ public:
 private:
 	float GetCameraBodyRotateSpeed() { return CAMERA_ROTATE_SPEED * CTimeMgr::GetInst()->GetDeltaTime(); }
 	void UpdateCameraBodyPosition();
-	void OperateCameraBodyRotate();
+	void UpdateCameraBodyRotate();
 
 public:
 	virtual void start();

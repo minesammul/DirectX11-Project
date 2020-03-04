@@ -22,7 +22,7 @@ void CSSN004CameraBodyScript::UpdateCameraBodyPosition()
 	Transform()->SetLocalPos(playerPosition);
 }
 
-void CSSN004CameraBodyScript::OperateCameraBodyRotate()
+void CSSN004CameraBodyScript::UpdateCameraBodyRotate()
 {
 	if (CKeyMgr::GetInst()->GetMousePos().x < CKeyMgr::GetInst()->GetPrevMousePos().x)
 	{
@@ -84,6 +84,5 @@ void CSSN004CameraBodyScript::start()
 void CSSN004CameraBodyScript::update()
 {
 	UpdateCameraBodyPosition();
-
-	OperateCameraBodyRotate();
+	UpdateCameraBodyRotate();
 }
