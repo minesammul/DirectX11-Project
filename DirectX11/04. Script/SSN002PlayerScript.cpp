@@ -32,10 +32,9 @@ void CSSN002PlayerScript::LookAtFront()
 {
 	if (mIsDead == false)
 	{
-		vector<CGameObject*> findBody;
-		CSceneMgr::GetInst()->FindGameObject(L"MainCameraBody", findBody);
+		CGameObject* mainCameraBody = CFunctionMgr::GetInst()->FindObject(L"MainCameraBody");
 
-		Vec3 cameraBodyRotate = findBody[0]->Transform()->GetLocalRot();
+		Vec3 cameraBodyRotate = mainCameraBody->Transform()->GetLocalRot();
 		Vec3 playerRotate = Transform()->GetLocalRot();
 		playerRotate.y = cameraBodyRotate.y;
 
