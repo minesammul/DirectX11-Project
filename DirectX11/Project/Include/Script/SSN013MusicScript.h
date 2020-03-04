@@ -37,7 +37,6 @@ public:
 	virtual void start();
 	virtual void update();
 
-	void OnMusic(MUSIC_KIND musicKind, MUSIC_STATE musicState);
-	void OffMusic(MUSIC_KIND musicKind, MUSIC_STATE musicState);
+	void OperateMusic(MUSIC_KIND musicKind, MUSIC_STATE musicState);
 };
 

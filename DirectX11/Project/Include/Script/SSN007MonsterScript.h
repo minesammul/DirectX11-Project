@@ -26,6 +26,11 @@ public:
 	CSSN007MonsterScript();
 	~CSSN007MonsterScript();
 
+private:
+	void CheckHited();
+	void CheckDie();
+
+
 public:
 	virtual void start();
 	virtual void update();

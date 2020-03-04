@@ -11,8 +11,3 @@ CSSN003CameraArmScript::CSSN003CameraArmScript() :
 CSSN003CameraArmScript::~CSSN003CameraArmScript()
 {
 }
-
-void CSSN003CameraArmScript::update()
-{
-
-}

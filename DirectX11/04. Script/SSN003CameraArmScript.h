@@ -6,8 +6,5 @@ class CSSN003CameraArmScript : public CScript
 public:
 	CSSN003CameraArmScript();
 	~CSSN003CameraArmScript();
-
-public:
-	virtual void update();
 };
 

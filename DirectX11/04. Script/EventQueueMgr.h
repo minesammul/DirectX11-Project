@@ -24,10 +24,10 @@ class CEventQueueMgr
 	SINGLE(CEventQueueMgr);
 
 private:
-	queue<GameEventComponent> events;
+	queue<GameEventComponent> mEvents;
 
 public:
 	void AddEvent(GameEventComponent addEvent);
-	queue<GameEventComponent>* GetEvents() { return &events; }
+	queue<GameEventComponent>* GetEvents() { return &mEvents; }
 };
 

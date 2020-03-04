@@ -15,7 +15,6 @@ public:
 	~CSSN001CameraScript();
 
 private:
-	void FindObject(CGameObject** findResultObject, wstring findObjectName);
 	void UpdatePosition();
 	void UpdateLookAt();
 

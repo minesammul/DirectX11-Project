@@ -61,7 +61,6 @@ void CSSN002PlayerScript::start()
 	CGameObject* attackBox = CFunctionMgr::GetInst()->FindObjectInChildUseLayer(Object(), L"AttackBox");
 	mAttackBoxScript = dynamic_cast<CSSN008AttackBoxScript*>(CFunctionMgr::GetInst()->FindScript(attackBox->GetName(), SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT));
 
-
 	mPlayerMaxHP = 2;
 	mPlayerHP = mPlayerMaxHP;
 	mPlayerMaxSP = 10;
@@ -69,12 +68,10 @@ void CSSN002PlayerScript::start()
 	mIsHit = false;
 	mIsDead = false;
 
-
 	GameEventComponent addEvent;
 	addEvent.eventType = GAME_EVENT_TYPE::PLAYER_HP_UPDATE;
 	addEvent.sendObjectName = Object()->GetName();
 	CEventQueueMgr::GetInst()->AddEvent(addEvent);
-
 
 	mPlayerState = PlayerIdleState::GetInstance();
 	mPlayerState->Init(this);
@@ -83,11 +80,8 @@ void CSSN002PlayerScript::start()
 void CSSN002PlayerScript::update()
 {
 	CheckDie();
-
 	LookAtFront();
-
 	CheckMovable();
-
 	mPlayerState->Update(this);
 }
 

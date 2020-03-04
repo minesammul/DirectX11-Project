@@ -40,7 +40,7 @@ CGameObject * CFunctionMgr::FindObject(wstring objectName)
 
 	if (findObject.empty() == true)
 	{
-		assert(false && L"CameraScript is not find want object");
+		assert(false && L"Is not find want object");
 	}
 
 	return findObject[0];

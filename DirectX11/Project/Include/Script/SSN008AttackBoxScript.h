@@ -4,7 +4,7 @@
 class CSSN008AttackBoxScript : public CScript
 {
 private:
-	bool mActiveCollision;
+	bool mIsActiveCollision;
 	bool mIsAttacked;
 
 public:
@@ -13,10 +13,9 @@ public:
 
 public:
 	virtual void start();
-	virtual void update();
 
-	bool GetActiveCollision() { return mActiveCollision; }
-	void SetActiveCollision(bool active) { mActiveCollision = active; }
+	bool GetActiveCollision() { return mIsActiveCollision; }
+	void SetActiveCollision(bool active) { mIsActiveCollision = active; }
 
 	bool GetAttackted() { return mIsAttacked; }
 	void SetAttackted(bool attacked) { mIsAttacked = attacked; }

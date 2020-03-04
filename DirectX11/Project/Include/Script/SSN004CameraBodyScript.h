@@ -6,6 +6,10 @@ class CSSN004CameraBodyScript : public CScript
 private:
 	const float CAMERA_ROTATE_SPEED;
 
+private:
+	CGameObject* mPlayerObject;
+	CGameObject* mCameraArmObject;
+
 public:
 	CSSN004CameraBodyScript();
 	~CSSN004CameraBodyScript();
@@ -13,9 +17,10 @@ public:
 private:
 	float GetCameraBodyRotateSpeed() { return CAMERA_ROTATE_SPEED * CTimeMgr::GetInst()->GetDeltaTime(); }
 	void UpdateCameraBodyPosition();
-	void OperateCameraBodyRotate();
+	void UpdateCameraBodyRotate();
 
 public:
+	virtual void start();
 	virtual void update();
 };
 

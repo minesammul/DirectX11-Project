@@ -13,5 +13,5 @@ CEventQueueMgr::~CEventQueueMgr()
 
 void CEventQueueMgr::AddEvent(GameEventComponent addEvent)
 {
-	events.push(addEvent);
+	mEvents.push(addEvent);
 }
