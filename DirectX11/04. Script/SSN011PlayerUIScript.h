@@ -51,8 +51,7 @@ public:
 	virtual void start();
 	virtual void update();
 
-	void OnMonsterUI();
-	void OffMonsterUI();
+	void OnOffMonsterUI(bool isOn);
 
 	void SetMonsterHPRation(int maxHP);
 	void SetPlayerHPRation(int maxHP);

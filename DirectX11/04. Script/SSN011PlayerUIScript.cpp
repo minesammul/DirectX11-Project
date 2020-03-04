@@ -202,7 +202,7 @@ void CSSN011PlayerUIScript::start()
 
 	mMonsterHPRatio = 1.f;
 
-	OffMonsterUI();
+	OnOffMonsterUI(false);
 }
 
 void CSSN011PlayerUIScript::update()
@@ -240,30 +240,32 @@ void CSSN011PlayerUIScript::update()
 	FadeInOutPlayerDieText();
 }
 
-void CSSN011PlayerUIScript::OnMonsterUI()
+void CSSN011PlayerUIScript::OnOffMonsterUI(bool isOn)
 {
-	float alphaOn = 1.f;
-	mMonsterHPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
-	mMonsterHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
-	mMonsterHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
+	if (isOn == true)
+	{
+		float alphaOn = 1.f;
+		mMonsterHPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
+		mMonsterHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
+		mMonsterHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
 
-	GameEventComponent addEvent;
-	addEvent.eventType = GAME_EVENT_TYPE::MUSIC_MONSTER_BGM_ON;
-	addEvent.sendObjectName = Object()->GetName();
-	CEventQueueMgr::GetInst()->AddEvent(addEvent);
-}
+		GameEventComponent addEvent;
+		addEvent.eventType = GAME_EVENT_TYPE::MUSIC_MONSTER_BGM_ON;
+		addEvent.sendObjectName = Object()->GetName();
+		CEventQueueMgr::GetInst()->AddEvent(addEvent);
+	}
+	else
+	{
+		float alphaOn = 0.f;
+		mMonsterHPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
+		mMonsterHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
+		mMonsterHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
 
-void CSSN011PlayerUIScript::OffMonsterUI()
-{
-	float alphaOn = 0.f;
-	mMonsterHPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
-	mMonsterHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
-	mMonsterHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaOn);
-
-	GameEventComponent addEvent;
-	addEvent.eventType = GAME_EVENT_TYPE::MUSIC_MONSTER_BGM_OFF;
-	addEvent.sendObjectName = Object()->GetName();
-	CEventQueueMgr::GetInst()->AddEvent(addEvent);
+		GameEventComponent addEvent;
+		addEvent.eventType = GAME_EVENT_TYPE::MUSIC_MONSTER_BGM_OFF;
+		addEvent.sendObjectName = Object()->GetName();
+		CEventQueueMgr::GetInst()->AddEvent(addEvent);
+	}
 }
 
 void CSSN011PlayerUIScript::SetMonsterHPRation(int maxHP)
@@ -357,7 +359,7 @@ void CSSN011PlayerUIScript::CalculationMonsterHPUI(int nowHP)
 		monsterHPBarScale.x = mMonsterHPBarInitScaleX;
 		mMonsterHPBar->Transform()->SetLocalScale(monsterHPBarScale);
 
-		OffMonsterUI();
+		OnOffMonsterUI(false);
 
 		mIsOnMonsterDieTextUI = true;
 	}
