@@ -11,7 +11,5 @@ public:
 public:
 	virtual void Init(CSSN007MonsterScript* monsterScript) = 0;
 	virtual void Update(CSSN007MonsterScript* monsterScript) = 0;
-	virtual void Exit(CSSN007MonsterScript* monsterScript) = 0;
-
 };
 
