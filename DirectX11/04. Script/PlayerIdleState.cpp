@@ -22,6 +22,46 @@ PlayerIdleState::~PlayerIdleState()
 {
 }
 
+bool PlayerIdleState::CheckDieState(CSSN002PlayerScript* playerScript)
+{
+	return playerScript->GetDead();
+}
+
+bool PlayerIdleState::CheckHitedState(CSSN002PlayerScript * playerScript)
+{
+	return playerScript->GetHit();
+}
+
+bool PlayerIdleState::CheckWalkFrontState(CSSN002PlayerScript * playerScript)
+{
+	return KEYTAB(KEY_TYPE::KEY_W);
+}
+
+bool PlayerIdleState::CheckWalkBackState(CSSN002PlayerScript * playerScript)
+{
+	return KEYTAB(KEY_TYPE::KEY_S);
+}
+
+bool PlayerIdleState::CheckWalkLeftState(CSSN002PlayerScript * playerScript)
+{
+	return KEYTAB(KEY_TYPE::KEY_A);
+}
+
+bool PlayerIdleState::CheckWalkRightState(CSSN002PlayerScript * playerScript)
+{
+	return KEYTAB(KEY_TYPE::KEY_D);
+}
+
+bool PlayerIdleState::CheckHealState(CSSN002PlayerScript * playerScript)
+{
+	return KEYTAB(KEY_TYPE::KEY_E);
+}
+
+bool PlayerIdleState::CheckAttack1State(CSSN002PlayerScript * playerScript)
+{
+	return KEYTAB(KEY_TYPE::KEY_LBTN);
+}
+
 PlayerIdleState * PlayerIdleState::GetInstance()
 {
 	static PlayerIdleState instance;
@@ -54,8 +94,6 @@ void PlayerIdleState::Init(CSSN002PlayerScript* playerScript)
 
 void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 {
-	playerScript->RestoreSP();
-
 	// Animation Done is Init
 	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
 	{
@@ -72,60 +110,46 @@ void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 	}
 	//
 
-	if (playerScript->GetDead() == true)
+	playerScript->RestoreSP();
+
+	if (CheckDieState(playerScript) == true)
 	{
 		PlayerDeadState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerDeadState::GetInstance());
-		return;
 	}
-
-	if (playerScript->GetHit() == true)
+	else if(CheckHitedState(playerScript)==true)
 	{
 		PlayerHitedState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerHitedState::GetInstance());
-		return;
 	}
-
-	// Idle State -> Walk State
-	if (KEYTAB(KEY_TYPE::KEY_W))
+	else if (CheckWalkFrontState(playerScript) == true)
 	{
 		PlayerWalkFrontState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerWalkFrontState::GetInstance());
 	}
-
-	if (KEYTAB(KEY_TYPE::KEY_S))
+	else if (CheckWalkBackState(playerScript) == true)
 	{
 		PlayerWalkBackState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerWalkBackState::GetInstance());
 	}
-
-	if (KEYTAB(KEY_TYPE::KEY_A))
+	else if (CheckWalkLeftState(playerScript) == true)
 	{
 		PlayerWalkLeftState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerWalkLeftState::GetInstance());
 	}
-
-	if (KEYTAB(KEY_TYPE::KEY_D))
+	else if (CheckWalkRightState(playerScript) == true)
 	{
 		PlayerWalkRightState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerWalkRightState::GetInstance());
 	}
-	//
-
-	//Idle State -> Heal State
-	if (KEYTAB(KEY_TYPE::KEY_E))
+	else if (CheckHealState(playerScript) == true)
 	{
 		PlayerHealSuccessState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerHealSuccessState::GetInstance());
 	}
-	//
-
-	if (KEYTAB(KEY_TYPE::KEY_LBTN))
+	else if (CheckAttack1State(playerScript) == true)
 	{
-		if (playerScript->CanUseSP(PlayerAttack1State::GetInstance()->GetUseSPAmount()) == true)
-		{
-			PlayerAttack1State::GetInstance()->Init(playerScript);
-			playerScript->SetState(PlayerAttack1State::GetInstance());
-		}
+		PlayerAttack1State::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerAttack1State::GetInstance());
 	}
 }
