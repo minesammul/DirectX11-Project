@@ -53,7 +53,8 @@ void CSSN010EventQueueScript::update()
 			CSSN007MonsterScript* monsterScript = dynamic_cast<CSSN007MonsterScript*>(CFunctionMgr::GetInst()->FindScript(popEvent.sendObjectName, SCRIPT_TYPE::SSN007MONSTERSCRIPT));
 
 			int monsterMaxHP = monsterMaxHP = monsterScript->GetMonsterHP();
-			playerUIScript->OnMonsterUI();
+
+			playerUIScript->OnOffMonsterUI(true);
 			playerUIScript->SetMonsterHPRation(monsterMaxHP);
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::PLAYER_SP_UPDATE)
