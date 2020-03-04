@@ -3,9 +3,6 @@
 
 class PlayerWalkBackState : public PlayerState
 {
-private:
-	int findAnimationIndex;
-
 public:
 	PlayerWalkBackState();
 	~PlayerWalkBackState();

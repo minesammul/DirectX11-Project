@@ -8,6 +8,7 @@
 #include "PlayerHealSuccessState.h"
 #include "PlayerDeadState.h"
 #include "PlayerHitedState.h"
+#include "FunctionMgr.h"
 
 PlayerWalkBackState::PlayerWalkBackState()
 {
@@ -21,29 +22,12 @@ PlayerWalkBackState::~PlayerWalkBackState()
 PlayerWalkBackState * PlayerWalkBackState::GetInstance()
 {
 	static PlayerWalkBackState instance;
-
 	return &instance;
 }
 
 void PlayerWalkBackState::Init(CSSN002PlayerScript * playerScript)
 {
-	//Animation Init
-	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
-	{
-		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (playerScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Walk_Back", findAnimationIndex) == false)
-		{
-			assert(false && L"Not Find Animation");
-		}
-
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
-	}
-	//
+	CFunctionMgr::GetInst()->SetAnimation(playerScript->Object(), L"Walk_Back", true);
 }
 
 void PlayerWalkBackState::Update(CSSN002PlayerScript * playerScript)
@@ -70,23 +54,6 @@ void PlayerWalkBackState::Update(CSSN002PlayerScript * playerScript)
 			playerScript->Object()->Transform()->SetLocalPos(beforePlayerPosition);
 			return;
 		}
-
-
-		// Animation Done is Init
-		for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
-		{
-			if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-			{
-				continue;
-			}
-
-			if (playerScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation())
-			{
-				playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
-				playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
-			}
-		}
-		//
 
 		vector<CGameObject*> findObject;
 		CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"MainCamera", findObject);
