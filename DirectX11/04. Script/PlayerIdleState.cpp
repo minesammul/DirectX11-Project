@@ -11,10 +11,10 @@
 #include "PlayerDeadState.h"
 #include "PlayerAttack1State.h"
 #include "SSN008AttackBoxScript.h"
+#include "FunctionMgr.h"
 
 PlayerIdleState::PlayerIdleState()
 {
-	mFindAnimationIndex = -1;
 }
 
 
@@ -70,23 +70,7 @@ PlayerIdleState * PlayerIdleState::GetInstance()
 
 void PlayerIdleState::Init(CSSN002PlayerScript* playerScript)
 {
-	//Animation Init
-	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
-	{
-		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (playerScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Idle", mFindAnimationIndex) == false)
-		{
-			assert(false && L"Not Find Animation");
-		}
-
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(mFindAnimationIndex, 0.f);
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(mFindAnimationIndex);
-	}
-	//
+	CFunctionMgr::GetInst()->SetAnimation(playerScript->Object(), L"Idle", true);
 
 	playerScript->GetAttackBoxScript()->SetActiveCollision(false);
 	playerScript->GetAttackBoxScript()->SetAttackted(false);
@@ -94,24 +78,6 @@ void PlayerIdleState::Init(CSSN002PlayerScript* playerScript)
 
 void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 {
-	// Animation Done is Init
-	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
-	{
-		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (playerScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation())
-		{
-			playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(mFindAnimationIndex, 0.f);
-			playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(mFindAnimationIndex);
-		}
-	}
-	//
-
-	playerScript->RestoreSP();
-
 	if (CheckDieState(playerScript) == true)
 	{
 		PlayerDeadState::GetInstance()->Init(playerScript);
@@ -151,5 +117,9 @@ void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 	{
 		PlayerAttack1State::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerAttack1State::GetInstance());
+	}
+	else
+	{
+		playerScript->RestoreSP();
 	}
 }
