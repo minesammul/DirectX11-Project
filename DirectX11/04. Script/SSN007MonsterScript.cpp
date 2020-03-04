@@ -18,6 +18,22 @@ CSSN007MonsterScript::~CSSN007MonsterScript()
 {
 }
 
+void CSSN007MonsterScript::CheckHited()
+{
+	if (mIsHit == true)
+	{
+		mIsHit = false;
+	}
+}
+
+void CSSN007MonsterScript::CheckDie()
+{
+	if (mMonsterHP <= 0)
+	{
+		mIsDead = true;
+	}
+}
+
 void CSSN007MonsterScript::start()
 {
 	mPlayerObject = CFunctionMgr::GetInst()->FindObject(L"Player");
@@ -51,16 +67,9 @@ void CSSN007MonsterScript::start()
 
 void CSSN007MonsterScript::update()
 {
-	if (mIsHit == true)
-	{
-		mIsHit = false;
-	}
+	CheckHited();
 
-	if (mMonsterHP <= 0)
-	{
-		mIsDead = true;
-	}
-
+	CheckDie();
 
 	mMonsterState->Update(this);
 }
