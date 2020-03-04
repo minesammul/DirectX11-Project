@@ -96,6 +96,3 @@ void PlayerRollLeftState::Update(CSSN002PlayerScript * playerScript)
 	}
 }
 
-void PlayerRollLeftState::Exit(CSSN002PlayerScript * playerScript)
-{
-}

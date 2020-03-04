@@ -42,7 +42,3 @@ void PlayerHealSuccessState::Update(CSSN002PlayerScript * playerScript)
 		playerScript->SetState(PlayerHitedState::GetInstance());
 	}
 }
-
-void PlayerHealSuccessState::Exit(CSSN002PlayerScript * playerScript)
-{
-}

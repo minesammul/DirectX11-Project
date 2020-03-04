@@ -95,6 +95,3 @@ void PlayerRollBackState::Update(CSSN002PlayerScript * playerScript)
 	}
 }
 
-void PlayerRollBackState::Exit(CSSN002PlayerScript * playerScript)
-{
-}

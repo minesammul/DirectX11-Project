@@ -94,7 +94,3 @@ void PlayerRollRightState::Update(CSSN002PlayerScript * playerScript)
 		}
 	}
 }
-
-void PlayerRollRightState::Exit(CSSN002PlayerScript * playerScript)
-{
-}

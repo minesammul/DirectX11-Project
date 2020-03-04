@@ -89,6 +89,3 @@ void PlayerAttack4State::Update(CSSN002PlayerScript * playerScript)
 	}
 }
 
-void PlayerAttack4State::Exit(CSSN002PlayerScript * playerScript)
-{
-}

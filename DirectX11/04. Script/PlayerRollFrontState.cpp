@@ -93,7 +93,3 @@ void PlayerRollFrontState::Update(CSSN002PlayerScript * playerScript)
 		}
 	}
 }
-
-void PlayerRollFrontState::Exit(CSSN002PlayerScript * playerScript)
-{
-}

@@ -127,7 +127,3 @@ void PlayerWalkFrontState::Update(CSSN002PlayerScript * playerScript)
 		playerScript->SetState(PlayerHealSuccessState::GetInstance());
 	}
 }
-
-void PlayerWalkFrontState::Exit(CSSN002PlayerScript * playerScript)
-{
-}

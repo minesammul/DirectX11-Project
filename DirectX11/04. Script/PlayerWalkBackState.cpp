@@ -129,7 +129,3 @@ void PlayerWalkBackState::Update(CSSN002PlayerScript * playerScript)
 		playerScript->SetState(PlayerHealSuccessState::GetInstance());
 	}
 }
-
-void PlayerWalkBackState::Exit(CSSN002PlayerScript * playerScript)
-{
-}

@@ -59,6 +59,4 @@ void PlayerDeadState::Update(CSSN002PlayerScript * playerScript)
 	}
 }
 
-void PlayerDeadState::Exit(CSSN002PlayerScript * playerScript)
-{
-}
+

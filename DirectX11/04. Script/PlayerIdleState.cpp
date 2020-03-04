@@ -129,8 +129,3 @@ void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 		}
 	}
 }
-
-void PlayerIdleState::Exit(CSSN002PlayerScript* playerScript)
-{
-
-}

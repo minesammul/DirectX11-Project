@@ -58,7 +58,3 @@ void PlayerParryingState::Update(CSSN002PlayerScript * playerScript)
 		}
 	}
 }
-
-void PlayerParryingState::Exit(CSSN002PlayerScript * playerScript)
-{
-}

@@ -36,6 +36,3 @@ void PlayerHitedState::Update(CSSN002PlayerScript * playerScript)
 	playerScript->SetState(PlayerIdleState::GetInstance());
 }
 
-void PlayerHitedState::Exit(CSSN002PlayerScript * playerScript)
-{
-}
