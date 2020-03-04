@@ -45,3 +45,19 @@ CGameObject * CFunctionMgr::FindObject(wstring objectName)
 
 	return findObject[0];
 }
+
+CGameObject * CFunctionMgr::FindObjectInChildUseLayer(CGameObject* parent, wstring layerName)
+{
+	CGameObject* findObject = nullptr;
+	for (int index = 0; index < parent->GetChild().size(); index++)
+	{
+		CLayer* findLayer = CSceneMgr::GetInst()->GetCurScene()->FindLayer(layerName);
+		if (parent->GetChild()[index]->GetLayerIdx() == findLayer->GetLayerIdx())
+		{
+			findObject = parent->GetChild()[index];
+			break;
+		}
+	}
+
+	return findObject;
+}
