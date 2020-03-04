@@ -39,30 +39,18 @@ void CSSN007MonsterScript::start()
 	mPlayerObject = CFunctionMgr::GetInst()->FindObject(L"Player");
 	
 
-	{
-		CGameObject* attackBox = nullptr;
-		for (int index = 0; index < Object()->GetChild().size(); index++)
-		{
-			CLayer* attackBoxLayer = CSceneMgr::GetInst()->GetCurScene()->FindLayer(L"AttackBox");
-			if (Object()->GetChild()[index]->GetLayerIdx() == attackBoxLayer->GetLayerIdx())
-			{
-				attackBox = Object()->GetChild()[index];
-				break;
-			}
-		}
+	CGameObject* attackBox = CFunctionMgr::GetInst()->FindObjectInChildUseLayer(Object(), L"AttackBox");
+	mAttackBoxScript = dynamic_cast<CSSN008AttackBoxScript*>(CFunctionMgr::GetInst()->FindScript(attackBox->GetName(), SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT));
 
-		mAttackBoxScript = dynamic_cast<CSSN008AttackBoxScript*>(CFunctionMgr::GetInst()->FindScript(attackBox->GetName(), SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT));
-	}
 
 	mMonsterHP = 2;
 
 	mIsHit = false;
 	mIsDead = false;
 
-	{
-		mMonsterState = IronGolemStandState::GetInstance();
-		mMonsterState->Init(this);
-	}
+
+	mMonsterState = IronGolemStandState::GetInstance();
+	mMonsterState->Init(this);
 }
 
 void CSSN007MonsterScript::update()
