@@ -4,7 +4,7 @@
 class PlayerIdleState : public PlayerState
 {
 private:
-	int findAnimationIndex;
+	int mFindAnimationIndex;
 
 
 public:

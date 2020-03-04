@@ -14,7 +14,7 @@
 
 PlayerIdleState::PlayerIdleState()
 {
-	findAnimationIndex = -1;
+	mFindAnimationIndex = -1;
 }
 
 
@@ -38,13 +38,13 @@ void PlayerIdleState::Init(CSSN002PlayerScript* playerScript)
 			continue;
 		}
 
-		if (playerScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Idle", findAnimationIndex) == false)
+		if (playerScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Idle", mFindAnimationIndex) == false)
 		{
 			assert(false && L"Not Find Animation");
 		}
 
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
+		playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(mFindAnimationIndex, 0.f);
+		playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(mFindAnimationIndex);
 	}
 	//
 
@@ -66,8 +66,8 @@ void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 
 		if (playerScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation())
 		{
-			playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
-			playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
+			playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(mFindAnimationIndex, 0.f);
+			playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(mFindAnimationIndex);
 		}
 	}
 	//
