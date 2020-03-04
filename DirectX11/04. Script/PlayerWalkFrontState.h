@@ -3,12 +3,17 @@
 
 class PlayerWalkFrontState : public PlayerState
 {
-private:
-	int findAnimationIndex;
-
 public:
 	PlayerWalkFrontState();
 	~PlayerWalkFrontState();
+
+private:
+	bool CheckDieState(CSSN002PlayerScript * playerScript);
+	bool CheckHitedState(CSSN002PlayerScript * playerScript);
+	bool CheckIdleState(CSSN002PlayerScript * playerScript);
+	bool CheckRollFrontState(CSSN002PlayerScript * playerScript);
+	bool CheckAttack1State(CSSN002PlayerScript * playerScript);
+	bool CheckHealState(CSSN002PlayerScript * playerScript);
 
 public:
 	static PlayerWalkFrontState* GetInstance();
