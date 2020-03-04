@@ -207,35 +207,6 @@ void CSSN011PlayerUIScript::start()
 
 void CSSN011PlayerUIScript::update()
 {
-	CResPtr<CTexture> hpTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\HpBar.png");
-	mPlayerHPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &hpTexture);
-	mMonsterHPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &hpTexture);
-
-	CResPtr<CTexture> spTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\StaminaBar.png");
-	mPlayerSPBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &spTexture);
-
-	CResPtr<CTexture> progressTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\ProgressBar.png");
-	mPlayerHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &progressTexture);
-	mPlayerSPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &progressTexture);
-	mMonsterHPProgressBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &progressTexture);
-
-	CResPtr<CTexture> decreaseTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\DecreaseBar.png");
-	mPlayerHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &decreaseTexture);
-	mPlayerSPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &decreaseTexture);
-	mMonsterHPDecreaseBar->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &decreaseTexture);
-
-	CResPtr<CTexture> monsterDieUITexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\MonsterDieUI.png");
-	mMonsterDieText->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &monsterDieUITexture);
-
-	CResPtr<CTexture> monsterDieEffectUITexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\MonsterDieUIPostEffect.png");
-	mMonsterDieEffectText->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &monsterDieEffectUITexture);
-
-	CResPtr<CTexture> playerDieUITexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\PlayerDieUI.png");
-	mPlayerDieText->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &playerDieUITexture);
-
-	CResPtr<CTexture> textBackgroundTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\MENU_KUROOBI.png");
-	mTextBackground->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &textBackgroundTexture);
-
 	FadeInOutMonsterDieText();
 	FadeInOutPlayerDieText();
 }
