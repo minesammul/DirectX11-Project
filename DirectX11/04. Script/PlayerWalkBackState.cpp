@@ -19,6 +19,36 @@ PlayerWalkBackState::~PlayerWalkBackState()
 {
 }
 
+bool PlayerWalkBackState::CheckDieState(CSSN002PlayerScript * playerScript)
+{
+	return playerScript->GetDead();
+}
+
+bool PlayerWalkBackState::CheckHitedState(CSSN002PlayerScript * playerScript)
+{
+	return playerScript->GetHit();
+}
+
+bool PlayerWalkBackState::CheckIdleState(CSSN002PlayerScript * playerScript)
+{
+	return KEYAWAY(KEY_TYPE::KEY_S);
+}
+
+bool PlayerWalkBackState::CheckRollBackState(CSSN002PlayerScript * playerScript)
+{
+	return (KEYTAB(KEY_TYPE::KEY_SPACE) && playerScript->CanUseSP(PlayerRollBackState::GetInstance()->GetUseSPAmount()) == true);
+}
+
+bool PlayerWalkBackState::CheckAttack1State(CSSN002PlayerScript * playerScript)
+{
+	return (KEYTAB(KEY_TYPE::KEY_LBTN) && playerScript->CanUseSP(PlayerAttack1State::GetInstance()->GetUseSPAmount()) == true);
+}
+
+bool PlayerWalkBackState::CheckHealState(CSSN002PlayerScript * playerScript)
+{
+	return KEYTAB(KEY_TYPE::KEY_E);
+}
+
 PlayerWalkBackState * PlayerWalkBackState::GetInstance()
 {
 	static PlayerWalkBackState instance;
@@ -32,22 +62,40 @@ void PlayerWalkBackState::Init(CSSN002PlayerScript * playerScript)
 
 void PlayerWalkBackState::Update(CSSN002PlayerScript * playerScript)
 {
-	playerScript->RestoreSP();
-
-	if (playerScript->GetDead() == true)
+	if (CheckDieState(playerScript) == true)
 	{
 		PlayerDeadState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerDeadState::GetInstance());
 	}
-
-	if (playerScript->GetHit() == true)
+	else if (CheckHitedState(playerScript) == true)
 	{
 		PlayerHitedState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerHitedState::GetInstance());
 	}
-
-	if (KEYHOLD(KEY_TYPE::KEY_S))
+	else if (CheckIdleState(playerScript) == true)
 	{
+		PlayerIdleState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerIdleState::GetInstance());
+	}
+	else if (CheckRollBackState(playerScript) == true)
+	{
+		PlayerRollBackState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerRollBackState::GetInstance());
+	}
+	else if (CheckAttack1State(playerScript) == true)
+	{
+		PlayerAttack1State::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerAttack1State::GetInstance());
+	}
+	else if (CheckHealState(playerScript) == true)
+	{
+		PlayerHealSuccessState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerHealSuccessState::GetInstance());
+	}
+	else
+	{
+		playerScript->RestoreSP();
+
 		if (playerScript->GetPlayerMovable() == false)
 		{
 			Vec3 beforePlayerPosition = playerScript->GetBeforePlayerPosition();
@@ -65,34 +113,5 @@ void PlayerWalkBackState::Update(CSSN002PlayerScript * playerScript)
 		Vec3 playerPosition = playerScript->Object()->Transform()->GetLocalPos();
 		playerPosition += walkDirection * playerScript->GetPlayerMoveSpeed();
 		playerScript->Object()->Transform()->SetLocalPos(playerPosition);
-	}
-	else if(KEYAWAY(KEY_TYPE::KEY_S))
-	{
-		PlayerIdleState::GetInstance()->Init(playerScript);
-		playerScript->SetState(PlayerIdleState::GetInstance());
-	}
-
-	if (KEYTAB(KEY_TYPE::KEY_SPACE))
-	{
-		if (playerScript->CanUseSP(PlayerRollBackState::GetInstance()->GetUseSPAmount()) == true)
-		{
-			PlayerRollBackState::GetInstance()->Init(playerScript);
-			playerScript->SetState(PlayerRollBackState::GetInstance());
-		}
-	}
-
-	if (KEYTAB(KEY_TYPE::KEY_LBTN))
-	{
-		if (playerScript->CanUseSP(PlayerAttack1State::GetInstance()->GetUseSPAmount()) == true)
-		{
-			PlayerAttack1State::GetInstance()->Init(playerScript);
-			playerScript->SetState(PlayerAttack1State::GetInstance());
-		}
-	}
-
-	if (KEYTAB(KEY_TYPE::KEY_E))
-	{
-		PlayerHealSuccessState::GetInstance()->Init(playerScript);
-		playerScript->SetState(PlayerHealSuccessState::GetInstance());
 	}
 }
