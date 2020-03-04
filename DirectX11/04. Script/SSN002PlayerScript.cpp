@@ -58,29 +58,9 @@ void CSSN002PlayerScript::CheckMovable()
 
 void CSSN002PlayerScript::start()
 {
-	{
-		CGameObject* attackBox = nullptr;
-		for (int index = 0; index < Object()->GetChild().size(); index++)
-		{
-			CLayer* attackBoxLayer = CSceneMgr::GetInst()->GetCurScene()->FindLayer(L"AttackBox");
-			if (Object()->GetChild()[index]->GetLayerIdx() == attackBoxLayer->GetLayerIdx())
-			{
-				attackBox = Object()->GetChild()[index];
-				break;
-			}
-		}
+	CGameObject* attackBox = CFunctionMgr::GetInst()->FindObjectInChildUseLayer(Object(), L"AttackBox");
+	mAttackBoxScript = dynamic_cast<CSSN008AttackBoxScript*>(CFunctionMgr::GetInst()->FindScript(attackBox->GetName(), SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT));
 
-
-		mAttackBoxScript = dynamic_cast<CSSN008AttackBoxScript*>(CFunctionMgr::GetInst()->FindScript(attackBox->GetName(), SCRIPT_TYPE::SSN008ATTACKBOXSCRIPT));
-	}
-
-
-	{
-		GameEventComponent addEvent;
-		addEvent.eventType = GAME_EVENT_TYPE::PLAYER_HP_UPDATE;
-		addEvent.sendObjectName = Object()->GetName();
-		CEventQueueMgr::GetInst()->AddEvent(addEvent);
-	}
 
 	mPlayerMaxHP = 2;
 	mPlayerHP = mPlayerMaxHP;
@@ -88,6 +68,13 @@ void CSSN002PlayerScript::start()
 	mPlayerSP = mPlayerMaxSP;
 	mIsHit = false;
 	mIsDead = false;
+
+
+	GameEventComponent addEvent;
+	addEvent.eventType = GAME_EVENT_TYPE::PLAYER_HP_UPDATE;
+	addEvent.sendObjectName = Object()->GetName();
+	CEventQueueMgr::GetInst()->AddEvent(addEvent);
+
 
 	mPlayerState = PlayerIdleState::GetInstance();
 	mPlayerState->Init(this);
