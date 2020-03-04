@@ -84,7 +84,3 @@ void IronGolemAttack3State::Update(CSSN007MonsterScript * monsterScript)
 	}
 	//
 }
-
-void IronGolemAttack3State::Exit(CSSN007MonsterScript * monsterScript)
-{
-}

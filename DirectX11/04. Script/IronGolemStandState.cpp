@@ -64,6 +64,3 @@ void IronGolemStandState::Update(CSSN007MonsterScript * monsterScript)
 
 }
 
-void IronGolemStandState::Exit(CSSN007MonsterScript * monsterScript)
-{
-}

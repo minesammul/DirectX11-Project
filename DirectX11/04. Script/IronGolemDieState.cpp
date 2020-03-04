@@ -46,7 +46,3 @@ void IronGolemDieState::Init(CSSN007MonsterScript * monsterScript)
 void IronGolemDieState::Update(CSSN007MonsterScript * monsterScript)
 {
 }
-
-void IronGolemDieState::Exit(CSSN007MonsterScript * monsterScript)
-{
-}

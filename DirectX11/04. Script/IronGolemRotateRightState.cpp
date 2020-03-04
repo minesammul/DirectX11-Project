@@ -93,7 +93,3 @@ void IronGolemRotateRightState::Update(CSSN007MonsterScript * monsterScript)
 		}
 	}
 }
-
-void IronGolemRotateRightState::Exit(CSSN007MonsterScript * monsterScript)
-{
-}

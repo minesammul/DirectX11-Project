@@ -152,6 +152,3 @@ void IronGolemIdleState::Update(CSSN007MonsterScript * monsterScript)
 	}
 }
 
-void IronGolemIdleState::Exit(CSSN007MonsterScript * monsterScript)
-{
-}

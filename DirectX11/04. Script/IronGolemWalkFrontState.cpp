@@ -96,7 +96,3 @@ void IronGolemWalkFrontState::Update(CSSN007MonsterScript * monsterScript)
 	}
 	//
 }
-
-void IronGolemWalkFrontState::Exit(CSSN007MonsterScript * monsterScript)
-{
-}
