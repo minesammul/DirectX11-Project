@@ -13,6 +13,23 @@ CSSN006WeaponEquipScript::~CSSN006WeaponEquipScript()
 {
 }
 
+void CSSN006WeaponEquipScript::UpdatePosition()
+{
+	Vec3 nowEquipMeshPosition = Object()->GetParent()->Animator3D()->GetVectorWorldMatrixComponent(mFindEquipMeshIndex).vTranslate;
+	nowEquipMeshPosition += mInitialPosition;
+
+	Object()->Transform()->SetLocalPos(nowEquipMeshPosition);
+}
+
+void CSSN006WeaponEquipScript::UpdateRotate()
+{
+	Vec4 nowEquipMeshQuterialRotate = Object()->GetParent()->Animator3D()->GetVectorWorldMatrixComponent(mFindEquipMeshIndex).qRot;
+	Vec3 nowEquipMeshRotate = Vec3(nowEquipMeshQuterialRotate.x, nowEquipMeshQuterialRotate.y, nowEquipMeshQuterialRotate.z);
+	nowEquipMeshRotate += mInitialRotate;
+
+	Object()->Transform()->SetLocalRot(nowEquipMeshRotate);
+}
+
 void CSSN006WeaponEquipScript::start()
 {
 	for (int index = 0; index < Object()->GetParent()->Animator3D()->GetVectorBone()->size(); index++)
@@ -30,13 +47,6 @@ void CSSN006WeaponEquipScript::start()
 
 void CSSN006WeaponEquipScript::update()
 {
-	Vec3 nowEquipMeshPosition = Object()->GetParent()->Animator3D()->GetVectorWorldMatrixComponent(mFindEquipMeshIndex).vTranslate;
-	nowEquipMeshPosition += mInitialPosition;
-
-	Vec4 nowEquipMeshQuterialRotate = Object()->GetParent()->Animator3D()->GetVectorWorldMatrixComponent(mFindEquipMeshIndex).qRot;
-	Vec3 nowEquipMeshRotate = Vec3(nowEquipMeshQuterialRotate.x, nowEquipMeshQuterialRotate.y, nowEquipMeshQuterialRotate.z);
-	nowEquipMeshRotate += mInitialRotate;
-
-	Object()->Transform()->SetLocalPos(nowEquipMeshPosition);
-	Object()->Transform()->SetLocalRot(nowEquipMeshRotate);
+	UpdatePosition();
+	UpdateRotate();
 }

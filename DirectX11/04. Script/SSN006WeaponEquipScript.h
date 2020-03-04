@@ -12,6 +12,10 @@ public:
 	CSSN006WeaponEquipScript();
 	~CSSN006WeaponEquipScript();
 
+private:
+	void UpdatePosition();
+	void UpdateRotate();
+
 public:
 	virtual void start();
 	virtual void update();
