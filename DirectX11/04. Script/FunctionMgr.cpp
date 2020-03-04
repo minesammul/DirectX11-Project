@@ -5,6 +5,7 @@
 #include <Scene.h>
 #include <SceneMgr.h>
 #include <Script.h>
+#include <Animator3D.h>
 
 CFunctionMgr::CFunctionMgr()
 {
@@ -60,4 +61,26 @@ CGameObject * CFunctionMgr::FindObjectInChildUseLayer(CGameObject* parent, wstri
 	}
 
 	return findObject;
+}
+
+void CFunctionMgr::SetAnimation(CGameObject * applyObject, wstring findAnimationName, bool isRepeat)
+{
+	for (int index = 0; index < applyObject->GetChild().size(); index++)
+	{
+		if (applyObject->GetChild()[index]->Animator3D() == nullptr)
+		{
+			continue;
+		}
+
+		int findAnimationIndex = -1;
+
+		if (applyObject->GetChild()[index]->Animator3D()->FindAnimClipIndex(findAnimationName, findAnimationIndex) == false)
+		{
+			assert(false && L"Not Find Animation");
+		}
+
+		applyObject->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
+		applyObject->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
+		applyObject->GetChild()[index]->Animator3D()->SetRepeat(true);
+	}
 }
