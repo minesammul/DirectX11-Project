@@ -12,6 +12,7 @@ CAnimator3D::CAnimator3D()
 	, m_fCurTime(0.f)
 	, m_iFrameCount(30)
 	, m_curRatioAnimTime(0.f)
+	, m_bIsRepeat(false)
 	, CComponent(COMPONENT_TYPE::ANIMATOR3D)
 {	
 }
@@ -49,9 +50,12 @@ void CAnimator3D::finalupdate()
 	// 현재 재생중인 Clip 의 시간을 진행한다.
 	m_vecClipUpdateTime[m_iCurClip] += DT;
 
-	if (m_vecClipUpdateTime[m_iCurClip] >= m_pVecClip->at(m_iCurClip).dTimeLength)
+	if (m_bIsRepeat == true)
 	{
-		//m_vecClipUpdateTime[m_iCurClip] = 0.f;
+		if (m_vecClipUpdateTime[m_iCurClip] >= m_pVecClip->at(m_iCurClip).dTimeLength)
+		{
+			m_vecClipUpdateTime[m_iCurClip] = 0.f;
+		}
 	}
 
 	m_fCurTime = m_pVecClip->at(m_iCurClip).dStartTime + m_vecClipUpdateTime[m_iCurClip];
