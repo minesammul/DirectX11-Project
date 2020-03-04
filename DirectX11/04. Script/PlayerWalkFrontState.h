@@ -15,6 +15,8 @@ private:
 	bool CheckAttack1State(CSSN002PlayerScript * playerScript);
 	bool CheckHealState(CSSN002PlayerScript * playerScript);
 
+	void UpdatePosition(CSSN002PlayerScript * playerScript);
+
 public:
 	static PlayerWalkFrontState* GetInstance();
 

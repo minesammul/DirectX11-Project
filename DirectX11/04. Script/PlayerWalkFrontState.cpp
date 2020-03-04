@@ -50,6 +50,26 @@ bool PlayerWalkFrontState::CheckHealState(CSSN002PlayerScript * playerScript)
 	return KEYTAB(KEY_TYPE::KEY_E);
 }
 
+void PlayerWalkFrontState::UpdatePosition(CSSN002PlayerScript * playerScript)
+{
+	if (playerScript->GetPlayerMovable() == false)
+	{
+		Vec3 beforePlayerPosition = playerScript->GetBeforePlayerPosition();
+		playerScript->Object()->Transform()->SetLocalPos(beforePlayerPosition);
+	}
+	else
+	{
+		CGameObject* mainCamera = CFunctionMgr::GetInst()->FindObject(L"MainCamera");
+
+		Vec3 walkDirection = mainCamera->Transform()->GetLocalDir(DIR_TYPE::DIR_FRONT);
+		walkDirection.y = 0.f;
+
+		Vec3 playerPosition = playerScript->Object()->Transform()->GetLocalPos();
+		playerPosition += walkDirection * playerScript->GetPlayerMoveSpeed();
+		playerScript->Object()->Transform()->SetLocalPos(playerPosition);
+	}
+}
+
 PlayerWalkFrontState * PlayerWalkFrontState::GetInstance()
 {
 	static PlayerWalkFrontState instance;
@@ -96,22 +116,6 @@ void PlayerWalkFrontState::Update(CSSN002PlayerScript * playerScript)
 	else
 	{
 		playerScript->RestoreSP();
-
-		if (playerScript->GetPlayerMovable() == false)
-		{
-			Vec3 beforePlayerPosition = playerScript->GetBeforePlayerPosition();
-			playerScript->Object()->Transform()->SetLocalPos(beforePlayerPosition);
-			return;
-		}
-
-		vector<CGameObject*> findObject;
-		CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"MainCamera", findObject);
-
-		Vec3 walkDirection = findObject[0]->Transform()->GetLocalDir(DIR_TYPE::DIR_FRONT);
-		walkDirection.y = 0.f;
-
-		Vec3 playerPosition = playerScript->Object()->Transform()->GetLocalPos();
-		playerPosition += walkDirection * playerScript->GetPlayerMoveSpeed();
-		playerScript->Object()->Transform()->SetLocalPos(playerPosition);
+		UpdatePosition(playerScript);
 	}
 }
