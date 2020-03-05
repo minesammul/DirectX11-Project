@@ -3,13 +3,14 @@
 
 class PlayerRollLeftState : public PlayerState
 {
-private:
-	int findAnimationIndex;
-	bool isMove;
-
 public:
 	PlayerRollLeftState();
 	~PlayerRollLeftState();
+
+private:
+	virtual bool CheckIdleState(CSSN002PlayerScript * playerScript);
+
+	void UpdatePosition(CSSN002PlayerScript * playerScript);
 
 public:
 	static PlayerRollLeftState* GetInstance();
