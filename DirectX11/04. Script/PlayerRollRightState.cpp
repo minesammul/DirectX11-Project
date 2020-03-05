@@ -22,26 +22,8 @@ PlayerRollRightState * PlayerRollRightState::GetInstance()
 
 void PlayerRollRightState::Init(CSSN002PlayerScript * playerScript)
 {
-	//Animation Init
-	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
-	{
-		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (playerScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Roll_Right", findAnimationIndex) == false)
-		{
-			assert(false && L"Not Find Animation");
-		}
-
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
-	}
-	//
-
+	CFunctionMgr::GetInst()->SetAnimation(playerScript->Object(), L"Roll_Right", false);
 	playerScript->UseSP(GetUseSPAmount());
-
 }
 
 void PlayerRollRightState::Update(CSSN002PlayerScript * playerScript)

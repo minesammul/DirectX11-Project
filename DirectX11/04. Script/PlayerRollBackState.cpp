@@ -3,7 +3,6 @@
 
 #include "SSN002PlayerScript.h"
 #include "PlayerIdleState.h"
-#include "FunctionMgr.h"
 
 PlayerRollBackState::PlayerRollBackState()
 {

@@ -22,24 +22,7 @@ PlayerRollFrontState * PlayerRollFrontState::GetInstance()
 
 void PlayerRollFrontState::Init(CSSN002PlayerScript * playerScript)
 {	
-	//Animation Init
-	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
-	{
-		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (playerScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Roll_Front", findAnimationIndex) == false)
-		{
-			assert(false && L"Not Find Animation");
-		}
-
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
-	}
-	//
-
+	CFunctionMgr::GetInst()->SetAnimation(playerScript->Object(), L"Roll_Front", false);
 	playerScript->UseSP(GetUseSPAmount());
 }
 

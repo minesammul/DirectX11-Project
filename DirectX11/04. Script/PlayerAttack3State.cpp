@@ -28,23 +28,7 @@ void PlayerAttack3State::Init(CSSN002PlayerScript * playerScript)
 {
 	isNextAttack = false;
 
-	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
-	{
-		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (playerScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Attack06", findAnimationIndex) == false)
-		{
-			assert(false && L"Not Find Animation");
-		}
-
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
-	}
-
-
+	CFunctionMgr::GetInst()->SetAnimation(playerScript->Object(), L"Attack06", false);
 	playerScript->GetAttackBoxScript()->SetActiveCollision(false);
 	playerScript->GetAttackBoxScript()->SetAttackted(false);
 	playerScript->UseSP(GetUseSPAmount());

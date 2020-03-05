@@ -11,7 +11,6 @@
 #include "PlayerDeadState.h"
 #include "PlayerAttack1State.h"
 #include "SSN008AttackBoxScript.h"
-#include "FunctionMgr.h"
 
 PlayerIdleState::PlayerIdleState()
 {

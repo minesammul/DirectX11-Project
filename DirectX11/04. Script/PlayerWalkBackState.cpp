@@ -8,7 +8,6 @@
 #include "PlayerHealSuccessState.h"
 #include "PlayerDeadState.h"
 #include "PlayerHitedState.h"
-#include "FunctionMgr.h"
 
 PlayerWalkBackState::PlayerWalkBackState()
 {
