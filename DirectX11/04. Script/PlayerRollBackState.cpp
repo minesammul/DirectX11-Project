@@ -3,6 +3,7 @@
 
 #include "SSN002PlayerScript.h"
 #include "PlayerIdleState.h"
+#include "FunctionMgr.h"
 
 PlayerRollBackState::PlayerRollBackState()
 {
@@ -22,29 +23,23 @@ PlayerRollBackState * PlayerRollBackState::GetInstance()
 
 void PlayerRollBackState::Init(CSSN002PlayerScript * playerScript)
 {
-	//Animation Init
-	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
-	{
-		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (playerScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Roll_Back", findAnimationIndex) == false)
-		{
-			assert(false && L"Not Find Animation");
-		}
-
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
-		playerScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
-	}
-	//
-
+	CFunctionMgr::GetInst()->SetAnimation(playerScript->Object(), L"Roll_Back", false);
 	playerScript->UseSP(GetUseSPAmount());
 }
 
 void PlayerRollBackState::Update(CSSN002PlayerScript * playerScript)
 {
+	float curRatioAnimTime = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(playerScript->Object());
+	
+	if (curRatioAnimTime <= 0.5f)
+	{
+		isMove = true;
+	}
+	else
+	{
+		isMove = false;
+	}
+
 	if (isMove == true)
 	{
 		if (playerScript->GetPlayerMovable() == false)
@@ -66,32 +61,10 @@ void PlayerRollBackState::Update(CSSN002PlayerScript * playerScript)
 		playerScript->Object()->Transform()->SetLocalPos(playerPosition);
 	}
 
-
-	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
+	if (curRatioAnimTime >= 1.f)
 	{
-		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (playerScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation())
-		{
-			PlayerIdleState::GetInstance()->Init(playerScript);
-			playerScript->SetState(PlayerIdleState::GetInstance());
-			break;
-		}
-		else
-		{
-			float curRatioAnimTime = playerScript->Object()->GetChild()[index]->Animator3D()->GetCurRatioAnimTime();
-			if (curRatioAnimTime <= 0.5f)
-			{
-				isMove = true;
-			}
-			else
-			{
-				isMove = false;
-			}
-		}
+		PlayerIdleState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerIdleState::GetInstance());
 	}
 }
 
