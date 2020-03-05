@@ -3,9 +3,6 @@
 
 class PlayerDeadState : public PlayerState
 {
-private:
-	int findAnimationIndex;
-
 public:
 	PlayerDeadState();
 	~PlayerDeadState();

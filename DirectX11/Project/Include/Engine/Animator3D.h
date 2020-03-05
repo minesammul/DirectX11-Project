@@ -20,6 +20,7 @@ private:
 	float m_curRatioAnimTime;
 
 	vector<tMTKeyFrame> m_pVecWorldMatrixComponent;
+	bool m_bIsRepeat;
 
 public:
 	void SetBones(const vector<tMTBone>* _vecBones) 
@@ -47,6 +48,9 @@ public:
 
 	const vector<tMTBone>* GetVectorBone() { return m_pVecBones; }
 	tMTKeyFrame GetVectorWorldMatrixComponent(int index) { return m_pVecWorldMatrixComponent[index]; }
+
+	void SetRepeat(bool isRepeat) { m_bIsRepeat = isRepeat; }
+
 public:
 	virtual void awake() {};
 	virtual void start() {};

@@ -3,10 +3,6 @@
 
 class PlayerIdleState : public PlayerState
 {
-private:
-	int mFindAnimationIndex;
-
-
 public:
 	PlayerIdleState();
 	~PlayerIdleState();

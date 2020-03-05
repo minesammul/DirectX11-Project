@@ -3,12 +3,14 @@
 
 class PlayerWalkBackState : public PlayerState
 {
-private:
-	int findAnimationIndex;
-
 public:
 	PlayerWalkBackState();
 	~PlayerWalkBackState();
+
+private:
+	bool CheckIdleState(CSSN002PlayerScript * playerScript);
+
+	void UpdatePosition(CSSN002PlayerScript * playerScript);
 
 public:
 	static PlayerWalkBackState* GetInstance();

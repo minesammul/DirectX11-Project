@@ -70,6 +70,9 @@
     <Filter Include="Scripts\Player\State\Incomplete">
       <UniqueIdentifier>{7c7b293f-3337-4e99-9281-f3a4bf406406}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Player\State\Component\Roll">
+      <UniqueIdentifier>{d2e6bb8c-7058-48d9-bb37-a6616529469d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptMgr.h">
@@ -192,18 +195,6 @@
     <ClInclude Include="PlayerWalkRightState.h">
       <Filter>Scripts\Player\State\Component\Walk</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerRollBackState.h">
-      <Filter>Scripts\Player\State\Component\Walk</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerRollFrontState.h">
-      <Filter>Scripts\Player\State\Component\Walk</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerRollLeftState.h">
-      <Filter>Scripts\Player\State\Component\Walk</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerRollRightState.h">
-      <Filter>Scripts\Player\State\Component\Walk</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerWalkBackState.h">
       <Filter>Scripts\Player\State\Component\Walk</Filter>
     </ClInclude>
@@ -257,6 +248,18 @@
     </ClInclude>
     <ClInclude Include="FunctionMgr.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRollBackState.h">
+      <Filter>Scripts\Player\State\Component\Roll</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRollFrontState.h">
+      <Filter>Scripts\Player\State\Component\Roll</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRollLeftState.h">
+      <Filter>Scripts\Player\State\Component\Roll</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRollRightState.h">
+      <Filter>Scripts\Player\State\Component\Roll</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -371,18 +374,6 @@
     <ClCompile Include="PlayerIdleState.cpp">
       <Filter>Scripts\Player\State\Component\Idle</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerRollBackState.cpp">
-      <Filter>Scripts\Player\State\Component\Walk</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerRollFrontState.cpp">
-      <Filter>Scripts\Player\State\Component\Walk</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerRollLeftState.cpp">
-      <Filter>Scripts\Player\State\Component\Walk</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerRollRightState.cpp">
-      <Filter>Scripts\Player\State\Component\Walk</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerWalkBackState.cpp">
       <Filter>Scripts\Player\State\Component\Walk</Filter>
     </ClCompile>
@@ -439,6 +430,18 @@
     </ClCompile>
     <ClCompile Include="FunctionMgr.cpp">
       <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRollBackState.cpp">
+      <Filter>Scripts\Player\State\Component\Roll</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRollFrontState.cpp">
+      <Filter>Scripts\Player\State\Component\Roll</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRollLeftState.cpp">
+      <Filter>Scripts\Player\State\Component\Roll</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRollRightState.cpp">
+      <Filter>Scripts\Player\State\Component\Roll</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,9 @@ public:
 	PlayerAttack4State();
 	~PlayerAttack4State();
 
+private:
+	virtual bool CheckIdleState(CSSN002PlayerScript * playerScript);
+
 public:
 	static PlayerAttack4State* GetInstance();
 
