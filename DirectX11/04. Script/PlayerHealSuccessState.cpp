@@ -28,17 +28,18 @@ void PlayerHealSuccessState::Init(CSSN002PlayerScript * playerScript)
 
 void PlayerHealSuccessState::Update(CSSN002PlayerScript * playerScript)
 {
-	playerScript->RestoreSP();
-
-	if (playerScript->GetDead() == true)
+	if (CheckDieState(playerScript) == true)
 	{
 		PlayerDeadState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerDeadState::GetInstance());
 	}
-
-	if (playerScript->GetHit() == true)
+	else if (CheckHitedState(playerScript) == true)
 	{
 		PlayerHitedState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerHitedState::GetInstance());
+	}
+	else
+	{
+		playerScript->RestoreSP();
 	}
 }
