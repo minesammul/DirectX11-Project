@@ -58,41 +58,8 @@ bool PlayerState::CheckHealState(CSSN002PlayerScript * playerScript)
 	return KEYTAB(KEY_TYPE::KEY_E);
 }
 
-//bool PlayerState::CheckAttack1State(CSSN002PlayerScript * playerScript, int useSP)
-//{
-//	return (KEYTAB(KEY_TYPE::KEY_LBTN) && playerScript->CanUseSP(useSP) == true);
-//}
-//
-//bool PlayerState::CheckAttack2State(CSSN002PlayerScript * playerScript, int useSP, bool& isNextAttack)
-//{
-//	float animationTimeRatio = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(playerScript->Object());
-//
-//	if (isNextAttack == false)
-//	{
-//		if (animationTimeRatio >= 0.5f)
-//		{
-//			if (KEYTAB(KEY_TYPE::KEY_LBTN) && playerScript->CanUseSP(useSP) == true)
-//			{
-//				isNextAttack = true;
-//			}
-//		}
-//
-//		return false;
-//	}
-//	else
-//	{
-//		if (animationTimeRatio < 1.f)
-//		{
-//			return false;
-//		}
-//		else
-//		{
-//			return true;
-//		}
-//	}
-//}
 
-bool PlayerState::CheckAttackState(CSSN002PlayerScript * playerScript, int useSP, float attackStartTimeRatio, float attackEndTimeRatio, bool* isNextAttack)
+bool PlayerState::CheckAttackState(CSSN002PlayerScript * playerScript, int useSP, float nextAttackStartTimeRatio, float nextAttackEndTimeRatio, bool* isNextAttack)
 {
 	if (isNextAttack == nullptr)
 	{
@@ -104,7 +71,7 @@ bool PlayerState::CheckAttackState(CSSN002PlayerScript * playerScript, int useSP
 
 		if (*isNextAttack == false)
 		{
-			if (attackStartTimeRatio <= nowAnimationTimeRatio && nowAnimationTimeRatio <= attackEndTimeRatio)
+			if (nextAttackStartTimeRatio <= nowAnimationTimeRatio && nowAnimationTimeRatio <= nextAttackEndTimeRatio)
 			{
 				if (KEYTAB(KEY_TYPE::KEY_LBTN) && playerScript->CanUseSP(useSP) == true)
 				{
