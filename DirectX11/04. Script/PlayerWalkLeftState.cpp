@@ -19,10 +19,60 @@ PlayerWalkLeftState::~PlayerWalkLeftState()
 {
 }
 
+bool PlayerWalkLeftState::CheckDieState(CSSN002PlayerScript * playerScript)
+{
+	return playerScript->GetDead();
+}
+
+bool PlayerWalkLeftState::CheckHitedState(CSSN002PlayerScript * playerScript)
+{
+	return playerScript->GetHit();
+}
+
+bool PlayerWalkLeftState::CheckIdleState(CSSN002PlayerScript * playerScript)
+{
+	return KEYAWAY(KEY_TYPE::KEY_A);
+}
+
+bool PlayerWalkLeftState::CheckRollLeftState(CSSN002PlayerScript * playerScript)
+{
+	return (KEYTAB(KEY_TYPE::KEY_SPACE) && playerScript->CanUseSP(PlayerRollLeftState::GetInstance()->GetUseSPAmount()) == true);
+}
+
+bool PlayerWalkLeftState::CheckAttack1State(CSSN002PlayerScript * playerScript)
+{
+	return (KEYTAB(KEY_TYPE::KEY_LBTN) && playerScript->CanUseSP(PlayerAttack1State::GetInstance()->GetUseSPAmount()) == true);
+}
+
+bool PlayerWalkLeftState::CheckHealState(CSSN002PlayerScript * playerScript)
+{
+	return KEYTAB(KEY_TYPE::KEY_E);
+}
+
+void PlayerWalkLeftState::UpdatePosition(CSSN002PlayerScript * playerScript)
+{
+	if (playerScript->GetPlayerMovable() == false)
+	{
+		Vec3 beforePlayerPosition = playerScript->GetBeforePlayerPosition();
+		playerScript->Object()->Transform()->SetLocalPos(beforePlayerPosition);
+	}
+	else
+	{
+		CGameObject* mainCamera = CFunctionMgr::GetInst()->FindObject(L"MainCamera");
+
+		Vec3 walkDirection = mainCamera->Transform()->GetLocalDir(DIR_TYPE::DIR_RIGHT);
+		walkDirection *= -1.f;
+		walkDirection.y = 0.f;
+
+		Vec3 playerPosition = playerScript->Object()->Transform()->GetLocalPos();
+		playerPosition += walkDirection * playerScript->GetPlayerMoveSpeed();
+		playerScript->Object()->Transform()->SetLocalPos(playerPosition);
+	}
+}
+
 PlayerWalkLeftState * PlayerWalkLeftState::GetInstance()
 {
 	static PlayerWalkLeftState instance;
-
 	return &instance;
 }
 
@@ -33,67 +83,39 @@ void PlayerWalkLeftState::Init(CSSN002PlayerScript * playerScript)
 
 void PlayerWalkLeftState::Update(CSSN002PlayerScript * playerScript)
 {
-	playerScript->RestoreSP();
-
-	if (playerScript->GetDead() == true)
+	if (CheckDieState(playerScript) == true)
 	{
 		PlayerDeadState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerDeadState::GetInstance());
 	}
-
-	if (playerScript->GetHit() == true)
+	else if (CheckHitedState(playerScript) == true)
 	{
 		PlayerHitedState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerHitedState::GetInstance());
 	}
-
-	if (KEYHOLD(KEY_TYPE::KEY_A))
-	{
-		if (playerScript->GetPlayerMovable() == false)
-		{
-			Vec3 beforePlayerPosition = playerScript->GetBeforePlayerPosition();
-			playerScript->Object()->Transform()->SetLocalPos(beforePlayerPosition);
-			return;
-		}
-
-		vector<CGameObject*> findObject;
-		CSceneMgr::GetInst()->GetCurScene()->FindGameObject(L"MainCamera", findObject);
-
-		Vec3 walkDirection = findObject[0]->Transform()->GetLocalDir(DIR_TYPE::DIR_RIGHT);
-		walkDirection *= -1.f;
-		walkDirection.y = 0.f;
-
-		Vec3 playerPosition = playerScript->Object()->Transform()->GetLocalPos();
-		playerPosition += walkDirection * playerScript->GetPlayerMoveSpeed();
-		playerScript->Object()->Transform()->SetLocalPos(playerPosition);
-	}
-	else if (KEYAWAY(KEY_TYPE::KEY_A))
+	else if (CheckIdleState(playerScript) == true)
 	{
 		PlayerIdleState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerIdleState::GetInstance());
 	}
-
-	if (KEYTAB(KEY_TYPE::KEY_SPACE))
+	else if (CheckRollLeftState(playerScript) == true)
 	{
-		if (playerScript->CanUseSP(PlayerRollLeftState::GetInstance()->GetUseSPAmount()) == true)
-		{
-			PlayerRollLeftState::GetInstance()->Init(playerScript);
-			playerScript->SetState(PlayerRollLeftState::GetInstance());
-		}
+		PlayerRollLeftState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerRollLeftState::GetInstance());
 	}
-
-	if (KEYTAB(KEY_TYPE::KEY_LBTN))
+	else if (CheckAttack1State(playerScript) == true)
 	{
-		if (playerScript->CanUseSP(PlayerAttack1State::GetInstance()->GetUseSPAmount()) == true)
-		{
-			PlayerAttack1State::GetInstance()->Init(playerScript);
-			playerScript->SetState(PlayerAttack1State::GetInstance());
-		}
+		PlayerAttack1State::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerAttack1State::GetInstance());
 	}
-
-	if (KEYTAB(KEY_TYPE::KEY_E))
+	else if (CheckHealState(playerScript) == true)
 	{
 		PlayerHealSuccessState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerHealSuccessState::GetInstance());
+	}
+	else
+	{
+		playerScript->RestoreSP();
+		UpdatePosition(playerScript);
 	}
 }
