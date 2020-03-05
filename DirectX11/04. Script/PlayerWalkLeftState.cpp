@@ -74,12 +74,12 @@ void PlayerWalkLeftState::Update(CSSN002PlayerScript * playerScript)
 		PlayerIdleState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerIdleState::GetInstance());
 	}
-	else if (CheckRollLeftState(playerScript) == true)
+	else if (CheckRollState(playerScript, PlayerRollLeftState::GetInstance()->GetUseSPAmount()) == true)
 	{
 		PlayerRollLeftState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerRollLeftState::GetInstance());
 	}
-	else if (CheckAttack1State(playerScript) == true)
+	else if (CheckAttack1State(playerScript, PlayerAttack1State::GetInstance()->GetUseSPAmount()) == true)
 	{
 		PlayerAttack1State::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerAttack1State::GetInstance());

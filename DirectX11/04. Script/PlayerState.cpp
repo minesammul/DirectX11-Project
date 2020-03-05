@@ -48,24 +48,9 @@ bool PlayerState::CheckWalkRightState(CSSN002PlayerScript * playerScript)
 	return KEYTAB(KEY_TYPE::KEY_D);
 }
 
-bool PlayerState::CheckRollFrontState(CSSN002PlayerScript * playerScript)
+bool PlayerState::CheckRollState(CSSN002PlayerScript * playerScript, int useSP)
 {
-	return (KEYTAB(KEY_TYPE::KEY_SPACE) && playerScript->CanUseSP(mUseSPAmount) == true);
-}
-
-bool PlayerState::CheckRollBackState(CSSN002PlayerScript * playerScript)
-{
-	return (KEYTAB(KEY_TYPE::KEY_SPACE) && playerScript->CanUseSP(mUseSPAmount) == true);
-}
-
-bool PlayerState::CheckRollLeftState(CSSN002PlayerScript * playerScript)
-{
-	return (KEYTAB(KEY_TYPE::KEY_SPACE) && playerScript->CanUseSP(mUseSPAmount) == true);
-}
-
-bool PlayerState::CheckRollRightState(CSSN002PlayerScript * playerScript)
-{
-	return (KEYTAB(KEY_TYPE::KEY_SPACE) && playerScript->CanUseSP(mUseSPAmount) == true);
+	return (KEYTAB(KEY_TYPE::KEY_SPACE) && playerScript->CanUseSP(useSP) == true);
 }
 
 bool PlayerState::CheckHealState(CSSN002PlayerScript * playerScript)
@@ -73,7 +58,36 @@ bool PlayerState::CheckHealState(CSSN002PlayerScript * playerScript)
 	return KEYTAB(KEY_TYPE::KEY_E);
 }
 
-bool PlayerState::CheckAttack1State(CSSN002PlayerScript * playerScript)
+bool PlayerState::CheckAttack1State(CSSN002PlayerScript * playerScript, int useSP)
 {
-	return KEYTAB(KEY_TYPE::KEY_LBTN);
+	return (KEYTAB(KEY_TYPE::KEY_LBTN) && playerScript->CanUseSP(useSP) == true);
+}
+
+bool PlayerState::CheckAttack2State(CSSN002PlayerScript * playerScript, int useSP, bool& isNextAttack)
+{
+	float animationTimeRatio = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(playerScript->Object());
+
+	if (isNextAttack == false)
+	{
+		if (animationTimeRatio >= 0.5f)
+		{
+			if (KEYTAB(KEY_TYPE::KEY_LBTN) && playerScript->CanUseSP(useSP) == true)
+			{
+				isNextAttack = true;
+			}
+		}
+
+		return false;
+	}
+	else
+	{
+		if (animationTimeRatio < 1.f)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 }

@@ -17,6 +17,20 @@ PlayerAttack1State::~PlayerAttack1State()
 {
 }
 
+bool PlayerAttack1State::CheckIdleState(CSSN002PlayerScript * playerScript)
+{
+	float animationTimeRation = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(playerScript->Object());
+
+	if (animationTimeRation < 1.f)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
 PlayerAttack1State * PlayerAttack1State::GetInstance()
 {
 	static PlayerAttack1State instance;
@@ -26,8 +40,7 @@ PlayerAttack1State * PlayerAttack1State::GetInstance()
 
 void PlayerAttack1State::Init(CSSN002PlayerScript * playerScript)
 {
-	isNextAttack = false;
-
+	mIsNextAttack = false;
 	CFunctionMgr::GetInst()->SetAnimation(playerScript->Object(), L"Attack01", false);
 	playerScript->GetAttackBoxScript()->SetActiveCollision(false);
 	playerScript->GetAttackBoxScript()->SetAttackted(false);
@@ -36,7 +49,36 @@ void PlayerAttack1State::Init(CSSN002PlayerScript * playerScript)
 
 void PlayerAttack1State::Update(CSSN002PlayerScript * playerScript)
 {
-	if (playerScript->GetDead() == true)
+	if (CheckDieState(playerScript) == true)
+	{
+		PlayerDeadState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerDeadState::GetInstance());
+	}
+	else if (CheckHitedState(playerScript) == true)
+	{
+		PlayerHitedState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerHitedState::GetInstance());
+	}
+	else if (CheckAttack2State(playerScript, PlayerAttack2State::GetInstance()->GetUseSPAmount(), mIsNextAttack) == true)
+	{
+		PlayerAttack2State::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerAttack2State::GetInstance());
+	}
+	else if (CheckIdleState(playerScript) == true)
+	{
+		PlayerIdleState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerIdleState::GetInstance());
+	}
+	else
+	{
+		float animationTimeRatio = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(playerScript->Object());
+		if (animationTimeRatio > 0.4f)
+		{
+			playerScript->GetAttackBoxScript()->SetActiveCollision(true);
+		}
+	}
+
+	/*if (playerScript->GetDead() == true)
 	{
 		PlayerDeadState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerDeadState::GetInstance());
@@ -46,9 +88,9 @@ void PlayerAttack1State::Update(CSSN002PlayerScript * playerScript)
 	{
 		PlayerHitedState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerHitedState::GetInstance());
-	}
+	}*/
 
-	float animationRatio = 0.f;
+	/*float animationRatio = 0.f;
 
 	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
 	{
@@ -96,6 +138,6 @@ void PlayerAttack1State::Update(CSSN002PlayerScript * playerScript)
 	if (animationRatio > 0.4f)
 	{
 		playerScript->GetAttackBoxScript()->SetActiveCollision(true);
-	}
+	}*/
 
 }

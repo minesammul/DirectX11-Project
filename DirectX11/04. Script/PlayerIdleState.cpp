@@ -72,7 +72,7 @@ void PlayerIdleState::Update(CSSN002PlayerScript* playerScript)
 		PlayerHealSuccessState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerHealSuccessState::GetInstance());
 	}
-	else if (CheckAttack1State(playerScript) == true)
+	else if (CheckAttack1State(playerScript, PlayerAttack1State::GetInstance()->GetUseSPAmount()) == true)
 	{
 		PlayerAttack1State::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerAttack1State::GetInstance());

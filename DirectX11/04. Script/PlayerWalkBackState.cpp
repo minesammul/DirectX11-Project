@@ -74,12 +74,12 @@ void PlayerWalkBackState::Update(CSSN002PlayerScript * playerScript)
 		PlayerIdleState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerIdleState::GetInstance());
 	}
-	else if (CheckRollBackState(playerScript) == true)
+	else if (CheckRollState(playerScript, PlayerRollBackState::GetInstance()->GetUseSPAmount()) == true)
 	{
 		PlayerRollBackState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerRollBackState::GetInstance());
 	}
-	else if (CheckAttack1State(playerScript) == true)
+	else if (CheckAttack1State(playerScript, PlayerAttack1State::GetInstance()->GetUseSPAmount()) == true)
 	{
 		PlayerAttack1State::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerAttack1State::GetInstance());
