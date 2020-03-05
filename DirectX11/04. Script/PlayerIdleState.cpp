@@ -22,46 +22,6 @@ PlayerIdleState::~PlayerIdleState()
 {
 }
 
-bool PlayerIdleState::CheckDieState(CSSN002PlayerScript* playerScript)
-{
-	return playerScript->GetDead();
-}
-
-bool PlayerIdleState::CheckHitedState(CSSN002PlayerScript * playerScript)
-{
-	return playerScript->GetHit();
-}
-
-bool PlayerIdleState::CheckWalkFrontState(CSSN002PlayerScript * playerScript)
-{
-	return KEYTAB(KEY_TYPE::KEY_W);
-}
-
-bool PlayerIdleState::CheckWalkBackState(CSSN002PlayerScript * playerScript)
-{
-	return KEYTAB(KEY_TYPE::KEY_S);
-}
-
-bool PlayerIdleState::CheckWalkLeftState(CSSN002PlayerScript * playerScript)
-{
-	return KEYTAB(KEY_TYPE::KEY_A);
-}
-
-bool PlayerIdleState::CheckWalkRightState(CSSN002PlayerScript * playerScript)
-{
-	return KEYTAB(KEY_TYPE::KEY_D);
-}
-
-bool PlayerIdleState::CheckHealState(CSSN002PlayerScript * playerScript)
-{
-	return KEYTAB(KEY_TYPE::KEY_E);
-}
-
-bool PlayerIdleState::CheckAttack1State(CSSN002PlayerScript * playerScript)
-{
-	return KEYTAB(KEY_TYPE::KEY_LBTN);
-}
-
 PlayerIdleState * PlayerIdleState::GetInstance()
 {
 	static PlayerIdleState instance;
