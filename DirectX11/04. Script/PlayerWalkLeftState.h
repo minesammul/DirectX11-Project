@@ -3,9 +3,6 @@
 
 class PlayerWalkLeftState : public PlayerState
 {
-private:
-	int findAnimationIndex;
-
 public:
 	PlayerWalkLeftState();
 	~PlayerWalkLeftState();
