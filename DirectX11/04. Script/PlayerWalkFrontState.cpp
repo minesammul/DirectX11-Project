@@ -19,34 +19,10 @@ PlayerWalkFrontState::~PlayerWalkFrontState()
 {
 }
 
-bool PlayerWalkFrontState::CheckDieState(CSSN002PlayerScript * playerScript)
-{
-	return playerScript->GetDead();
-}
-
-bool PlayerWalkFrontState::CheckHitedState(CSSN002PlayerScript * playerScript)
-{
-	return playerScript->GetHit();
-}
 
 bool PlayerWalkFrontState::CheckIdleState(CSSN002PlayerScript * playerScript)
 {
 	return KEYAWAY(KEY_TYPE::KEY_W);
-}
-
-bool PlayerWalkFrontState::CheckRollFrontState(CSSN002PlayerScript * playerScript)
-{
-	return (KEYTAB(KEY_TYPE::KEY_SPACE) && playerScript->CanUseSP(PlayerRollFrontState::GetInstance()->GetUseSPAmount()) == true);
-}
-
-bool PlayerWalkFrontState::CheckAttack1State(CSSN002PlayerScript * playerScript)
-{
-	return (KEYTAB(KEY_TYPE::KEY_LBTN) && playerScript->CanUseSP(PlayerAttack1State::GetInstance()->GetUseSPAmount()) == true);
-}
-
-bool PlayerWalkFrontState::CheckHealState(CSSN002PlayerScript * playerScript)
-{
-	return KEYTAB(KEY_TYPE::KEY_E);
 }
 
 void PlayerWalkFrontState::UpdatePosition(CSSN002PlayerScript * playerScript)
