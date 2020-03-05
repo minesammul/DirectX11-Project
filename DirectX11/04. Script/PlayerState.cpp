@@ -23,6 +23,11 @@ bool PlayerState::CheckHitedState(CSSN002PlayerScript * playerScript)
 	return playerScript->GetHit();
 }
 
+bool PlayerState::CheckIdleState(CSSN002PlayerScript * playerScript)
+{
+	return false;
+}
+
 bool PlayerState::CheckWalkFrontState(CSSN002PlayerScript * playerScript)
 {
 	return KEYTAB(KEY_TYPE::KEY_W);
@@ -41,6 +46,26 @@ bool PlayerState::CheckWalkLeftState(CSSN002PlayerScript * playerScript)
 bool PlayerState::CheckWalkRightState(CSSN002PlayerScript * playerScript)
 {
 	return KEYTAB(KEY_TYPE::KEY_D);
+}
+
+bool PlayerState::CheckRollFrontState(CSSN002PlayerScript * playerScript)
+{
+	return (KEYTAB(KEY_TYPE::KEY_SPACE) && playerScript->CanUseSP(mUseSPAmount) == true);
+}
+
+bool PlayerState::CheckRollBackState(CSSN002PlayerScript * playerScript)
+{
+	return (KEYTAB(KEY_TYPE::KEY_SPACE) && playerScript->CanUseSP(mUseSPAmount) == true);
+}
+
+bool PlayerState::CheckRollLeftState(CSSN002PlayerScript * playerScript)
+{
+	return (KEYTAB(KEY_TYPE::KEY_SPACE) && playerScript->CanUseSP(mUseSPAmount) == true);
+}
+
+bool PlayerState::CheckRollRightState(CSSN002PlayerScript * playerScript)
+{
+	return (KEYTAB(KEY_TYPE::KEY_SPACE) && playerScript->CanUseSP(mUseSPAmount) == true);
 }
 
 bool PlayerState::CheckHealState(CSSN002PlayerScript * playerScript)
