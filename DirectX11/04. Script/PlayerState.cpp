@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PlayerState.h"
 #include "SSN002PlayerScript.h"
+#include "SSN008AttackBoxScript.h"
 
 
 PlayerState::PlayerState() : 
@@ -116,5 +117,14 @@ void PlayerState::UpdatePosition(CSSN002PlayerScript * playerScript, Vec3 direct
 			playerPosition += walkDirection * speed;
 			playerScript->Object()->Transform()->SetLocalPos(playerPosition);
 		}
+	}
+}
+
+void PlayerState::SetActiveAttackCollision(CSSN002PlayerScript * playerScript, float startActiveTimeRatio, float endActiveTimeRatio)
+{
+	float curAnimationTimeRatio = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(playerScript->Object());
+	if (startActiveTimeRatio <= curAnimationTimeRatio && curAnimationTimeRatio <= endActiveTimeRatio)
+	{
+		playerScript->GetAttackBoxScript()->SetActiveCollision(true);
 	}
 }

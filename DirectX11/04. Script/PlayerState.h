@@ -31,6 +31,8 @@ protected:
 
 	void UpdatePosition(CSSN002PlayerScript * playerScript, Vec3 direction, float speed, float moveStartTimeRatio, float moveEndTimeRatio);
 
+	void SetActiveAttackCollision(CSSN002PlayerScript * playerScript, float startActiveTimeRatio, float endActiveTimeRatio);
+
 public:
 	virtual void Init(CSSN002PlayerScript* playerScript) = 0;
 	virtual void Update(CSSN002PlayerScript* playerScript) = 0;

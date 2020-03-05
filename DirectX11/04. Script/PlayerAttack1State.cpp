@@ -71,10 +71,6 @@ void PlayerAttack1State::Update(CSSN002PlayerScript * playerScript)
 	}
 	else
 	{
-		float animationTimeRatio = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(playerScript->Object());
-		if (animationTimeRatio > 0.4f)
-		{
-			playerScript->GetAttackBoxScript()->SetActiveCollision(true);
-		}
+		SetActiveAttackCollision(playerScript, 0.4f, 1.0f);
 	}
 }
