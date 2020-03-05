@@ -25,27 +25,6 @@ bool PlayerWalkLeftState::CheckIdleState(CSSN002PlayerScript * playerScript)
 }
 
 
-void PlayerWalkLeftState::UpdatePosition(CSSN002PlayerScript * playerScript)
-{
-	if (playerScript->GetPlayerMovable() == false)
-	{
-		Vec3 beforePlayerPosition = playerScript->GetBeforePlayerPosition();
-		playerScript->Object()->Transform()->SetLocalPos(beforePlayerPosition);
-	}
-	else
-	{
-		CGameObject* mainCamera = CFunctionMgr::GetInst()->FindObject(L"MainCamera");
-
-		Vec3 walkDirection = mainCamera->Transform()->GetLocalDir(DIR_TYPE::DIR_RIGHT);
-		walkDirection *= -1.f;
-		walkDirection.y = 0.f;
-
-		Vec3 playerPosition = playerScript->Object()->Transform()->GetLocalPos();
-		playerPosition += walkDirection * playerScript->GetPlayerMoveSpeed();
-		playerScript->Object()->Transform()->SetLocalPos(playerPosition);
-	}
-}
-
 PlayerWalkLeftState * PlayerWalkLeftState::GetInstance()
 {
 	static PlayerWalkLeftState instance;
@@ -92,6 +71,9 @@ void PlayerWalkLeftState::Update(CSSN002PlayerScript * playerScript)
 	else
 	{
 		playerScript->RestoreSP();
-		UpdatePosition(playerScript);
+
+		CGameObject* mainCamera = CFunctionMgr::GetInst()->FindObject(L"MainCamera");
+		Vec3 moveDirection = mainCamera->Transform()->GetLocalDir(DIR_TYPE::DIR_RIGHT) * (-1.f);
+		UpdatePosition(playerScript, moveDirection, playerScript->GetPlayerMoveSpeed(), 0.f, 1.f);
 	}
 }

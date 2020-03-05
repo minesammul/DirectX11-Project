@@ -27,31 +27,6 @@ bool PlayerRollBackState::CheckIdleState(CSSN002PlayerScript * playerScript)
 	}
 }
 
-void PlayerRollBackState::UpdatePosition(CSSN002PlayerScript * playerScript)
-{
-	if (playerScript->GetPlayerMovable() == false)
-	{
-		Vec3 beforePlayerPosition = playerScript->GetBeforePlayerPosition();
-		playerScript->Object()->Transform()->SetLocalPos(beforePlayerPosition);
-	}
-	else
-	{
-		float curRatioAnimTime = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(playerScript->Object());
-
-		if (curRatioAnimTime <= 0.5f)
-		{
-			CGameObject* mainCamera = CFunctionMgr::GetInst()->FindObject(L"MainCamera");
-
-			Vec3 walkDirection = mainCamera->Transform()->GetLocalDir(DIR_TYPE::DIR_FRONT);
-			walkDirection *= -1.f;
-			walkDirection.y = 0.f;
-
-			Vec3 playerPosition = playerScript->Object()->Transform()->GetLocalPos();
-			playerPosition += walkDirection * playerScript->GetPlayerRollSpeed();
-			playerScript->Object()->Transform()->SetLocalPos(playerPosition);
-		}
-	}
-}
 
 PlayerRollBackState * PlayerRollBackState::GetInstance()
 {
@@ -75,7 +50,9 @@ void PlayerRollBackState::Update(CSSN002PlayerScript * playerScript)
 	}
 	else
 	{
-		UpdatePosition(playerScript);
+		CGameObject* mainCamera = CFunctionMgr::GetInst()->FindObject(L"MainCamera");
+		Vec3 moveDirection = mainCamera->Transform()->GetLocalDir(DIR_TYPE::DIR_FRONT) * (-1.f);
+		UpdatePosition(playerScript, moveDirection, playerScript->GetPlayerRollSpeed(), 0.f, 0.5f);
 	}
 }
 

@@ -25,25 +25,6 @@ bool PlayerWalkFrontState::CheckIdleState(CSSN002PlayerScript * playerScript)
 	return KEYAWAY(KEY_TYPE::KEY_W);
 }
 
-void PlayerWalkFrontState::UpdatePosition(CSSN002PlayerScript * playerScript)
-{
-	if (playerScript->GetPlayerMovable() == false)
-	{
-		Vec3 beforePlayerPosition = playerScript->GetBeforePlayerPosition();
-		playerScript->Object()->Transform()->SetLocalPos(beforePlayerPosition);
-	}
-	else
-	{
-		CGameObject* mainCamera = CFunctionMgr::GetInst()->FindObject(L"MainCamera");
-
-		Vec3 walkDirection = mainCamera->Transform()->GetLocalDir(DIR_TYPE::DIR_FRONT);
-		walkDirection.y = 0.f;
-
-		Vec3 playerPosition = playerScript->Object()->Transform()->GetLocalPos();
-		playerPosition += walkDirection * playerScript->GetPlayerMoveSpeed();
-		playerScript->Object()->Transform()->SetLocalPos(playerPosition);
-	}
-}
 
 PlayerWalkFrontState * PlayerWalkFrontState::GetInstance()
 {
@@ -91,6 +72,9 @@ void PlayerWalkFrontState::Update(CSSN002PlayerScript * playerScript)
 	else
 	{
 		playerScript->RestoreSP();
-		UpdatePosition(playerScript);
+		
+		CGameObject* mainCamera = CFunctionMgr::GetInst()->FindObject(L"MainCamera");
+		Vec3 moveDirection = mainCamera->Transform()->GetLocalDir(DIR_TYPE::DIR_FRONT);
+		UpdatePosition(playerScript, moveDirection, playerScript->GetPlayerMoveSpeed(), 0.f, 1.f);
 	}
 }

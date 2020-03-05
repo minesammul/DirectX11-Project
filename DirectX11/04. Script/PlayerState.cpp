@@ -95,3 +95,26 @@ bool PlayerState::CheckAttackState(CSSN002PlayerScript * playerScript, int useSP
 	}
 
 }
+
+void PlayerState::UpdatePosition(CSSN002PlayerScript * playerScript, Vec3 direction, float speed, float moveStartTimeRatio, float moveEndTimeRatio)
+{
+	if (playerScript->GetPlayerMovable() == false)
+	{
+		Vec3 beforePlayerPosition = playerScript->GetBeforePlayerPosition();
+		playerScript->Object()->Transform()->SetLocalPos(beforePlayerPosition);
+	}
+	else
+	{
+		float curRatioAnimTime = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(playerScript->Object());
+		
+		if (moveStartTimeRatio <= curRatioAnimTime && curRatioAnimTime <= moveEndTimeRatio)
+		{
+			Vec3 walkDirection = direction;
+			walkDirection.y = 0.f;
+
+			Vec3 playerPosition = playerScript->Object()->Transform()->GetLocalPos();
+			playerPosition += walkDirection * speed;
+			playerScript->Object()->Transform()->SetLocalPos(playerPosition);
+		}
+	}
+}
