@@ -27,8 +27,9 @@ protected:
 
 	bool CheckHealState(CSSN002PlayerScript* playerScript);
 
-	bool CheckAttack1State(CSSN002PlayerScript* playerScript, int useSP);
-	bool CheckAttack2State(CSSN002PlayerScript* playerScript, int useSP, bool& isNextAttack);
+	//bool CheckAttack1State(CSSN002PlayerScript* playerScript, int useSP);
+	//bool CheckAttack2State(CSSN002PlayerScript* playerScript, int useSP, bool& isNextAttack);
+	bool CheckAttackState(CSSN002PlayerScript* playerScript, int useSP, float attackStartTimeRatio, float attackEndTimeRatio, bool* isNextAttack);
 
 public:
 	virtual void Init(CSSN002PlayerScript* playerScript) = 0;
