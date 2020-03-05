@@ -17,6 +17,20 @@ PlayerAttack2State::~PlayerAttack2State()
 {
 }
 
+bool PlayerAttack2State::CheckIdleState(CSSN002PlayerScript * playerScript)
+{
+	float animationTimeRation = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(playerScript->Object());
+
+	if (animationTimeRation < 1.f)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
 PlayerAttack2State * PlayerAttack2State::GetInstance()
 {
 	static PlayerAttack2State instance;
@@ -26,8 +40,7 @@ PlayerAttack2State * PlayerAttack2State::GetInstance()
 
 void PlayerAttack2State::Init(CSSN002PlayerScript * playerScript)
 {
-	isNextAttack = false;
-
+	mIsNextAttack = false;
 	CFunctionMgr::GetInst()->SetAnimation(playerScript->Object(), L"Attack03", false);
 	playerScript->GetAttackBoxScript()->SetActiveCollision(false);
 	playerScript->GetAttackBoxScript()->SetAttackted(false);
@@ -36,66 +49,33 @@ void PlayerAttack2State::Init(CSSN002PlayerScript * playerScript)
 
 void PlayerAttack2State::Update(CSSN002PlayerScript * playerScript)
 {
-	if (playerScript->GetDead() == true)
+	if (CheckDieState(playerScript) == true)
 	{
 		PlayerDeadState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerDeadState::GetInstance());
-		return;
 	}
-
-	if (playerScript->GetHit() == true)
+	else if (CheckHitedState(playerScript) == true)
 	{
 		PlayerHitedState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerHitedState::GetInstance());
-		return;
 	}
-
-
-	float animationRatio = 0.f;
-	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
+	else if (CheckAttackState(playerScript, PlayerAttack3State::GetInstance()->GetUseSPAmount(), 0.5f, 1.f, &mIsNextAttack) == true)
 	{
-		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (playerScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation())
-		{
-			if (isNextAttack == true)
-			{
-				PlayerAttack3State::GetInstance()->Init(playerScript);
-				playerScript->SetState(PlayerAttack3State::GetInstance());
-				return;
-			}
-			else
-			{
-				PlayerIdleState::GetInstance()->Init(playerScript);
-				playerScript->SetState(PlayerIdleState::GetInstance());
-				return;
-			}
-
-			break;
-		}
-		else
-		{
-			float curRatioAnimTime = playerScript->Object()->GetChild()[index]->Animator3D()->GetCurRatioAnimTime();
-			animationRatio = curRatioAnimTime;
-			if (curRatioAnimTime >= 0.5f)
-			{
-				if (KEYTAB(KEY_TYPE::KEY_LBTN))
-				{
-					if (playerScript->CanUseSP(PlayerAttack3State::GetInstance()->GetUseSPAmount()) == true)
-					{
-						isNextAttack = true;
-					}
-				}
-			}
-		}
+		PlayerAttack3State::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerAttack3State::GetInstance());
 	}
-
-	if (animationRatio > 0.4f)
+	else if (CheckIdleState(playerScript) == true)
 	{
-		playerScript->GetAttackBoxScript()->SetActiveCollision(true);
+		PlayerIdleState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerIdleState::GetInstance());
+	}
+	else
+	{
+		float animationTimeRatio = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(playerScript->Object());
+		if (animationTimeRatio > 0.4f)
+		{
+			playerScript->GetAttackBoxScript()->SetActiveCollision(true);
+		}
 	}
 }
 

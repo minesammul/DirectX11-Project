@@ -4,12 +4,14 @@
 class PlayerAttack3State : public PlayerState
 {
 private:
-	int findAnimationIndex;
-	bool isNextAttack;
+	bool mIsNextAttack;
 
 public:
 	PlayerAttack3State();
 	~PlayerAttack3State();
+
+private:
+	virtual bool CheckIdleState(CSSN002PlayerScript * playerScript);
 
 public:
 	static PlayerAttack3State* GetInstance();

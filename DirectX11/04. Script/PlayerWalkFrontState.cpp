@@ -78,7 +78,7 @@ void PlayerWalkFrontState::Update(CSSN002PlayerScript * playerScript)
 		PlayerRollFrontState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerRollFrontState::GetInstance());
 	}
-	else if (CheckAttack1State(playerScript, PlayerAttack1State::GetInstance()->GetUseSPAmount()) == true)
+	else if (CheckAttackState(playerScript, PlayerAttack1State::GetInstance()->GetUseSPAmount(), 0.f, 1.f, nullptr) == true)
 	{
 		PlayerAttack1State::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerAttack1State::GetInstance());

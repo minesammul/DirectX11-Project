@@ -59,7 +59,7 @@ void PlayerAttack1State::Update(CSSN002PlayerScript * playerScript)
 		PlayerHitedState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerHitedState::GetInstance());
 	}
-	else if (CheckAttack2State(playerScript, PlayerAttack2State::GetInstance()->GetUseSPAmount(), mIsNextAttack) == true)
+	else if (CheckAttackState(playerScript, PlayerAttack2State::GetInstance()->GetUseSPAmount(), 0.5f, 1.f, &mIsNextAttack) == true)
 	{
 		PlayerAttack2State::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerAttack2State::GetInstance());
@@ -77,67 +77,4 @@ void PlayerAttack1State::Update(CSSN002PlayerScript * playerScript)
 			playerScript->GetAttackBoxScript()->SetActiveCollision(true);
 		}
 	}
-
-	/*if (playerScript->GetDead() == true)
-	{
-		PlayerDeadState::GetInstance()->Init(playerScript);
-		playerScript->SetState(PlayerDeadState::GetInstance());
-	}
-
-	if (playerScript->GetHit() == true)
-	{
-		PlayerHitedState::GetInstance()->Init(playerScript);
-		playerScript->SetState(PlayerHitedState::GetInstance());
-	}*/
-
-	/*float animationRatio = 0.f;
-
-	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
-	{
-		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (playerScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation())
-		{
-			if (isNextAttack == true)
-			{
-				PlayerAttack2State::GetInstance()->Init(playerScript);
-				playerScript->SetState(PlayerAttack2State::GetInstance());
-				return;
-			}
-			else
-			{
-				PlayerIdleState::GetInstance()->Init(playerScript);
-				playerScript->SetState(PlayerIdleState::GetInstance());
-				return;
-			}
-
-			break;
-		}
-		else
-		{
-			float curRatioAnimTime = playerScript->Object()->GetChild()[index]->Animator3D()->GetCurRatioAnimTime();
-			
-			animationRatio = curRatioAnimTime;
-			
-			if (curRatioAnimTime >= 0.5f)
-			{
-				if (KEYTAB(KEY_TYPE::KEY_LBTN))
-				{
-					if (playerScript->CanUseSP(PlayerAttack2State::GetInstance()->GetUseSPAmount()) == true)
-					{
-						isNextAttack = true;
-					}
-				}
-			}
-		}
-	}
-
-	if (animationRatio > 0.4f)
-	{
-		playerScript->GetAttackBoxScript()->SetActiveCollision(true);
-	}*/
-
 }

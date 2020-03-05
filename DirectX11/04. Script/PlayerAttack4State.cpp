@@ -16,6 +16,20 @@ PlayerAttack4State::~PlayerAttack4State()
 {
 }
 
+bool PlayerAttack4State::CheckIdleState(CSSN002PlayerScript * playerScript)
+{
+	float animationTimeRation = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(playerScript->Object());
+
+	if (animationTimeRation < 1.f)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
 PlayerAttack4State * PlayerAttack4State::GetInstance()
 {
 	static PlayerAttack4State instance;
@@ -33,44 +47,28 @@ void PlayerAttack4State::Init(CSSN002PlayerScript * playerScript)
 
 void PlayerAttack4State::Update(CSSN002PlayerScript * playerScript)
 {
-	if (playerScript->GetDead() == true)
+	if (CheckDieState(playerScript) == true)
 	{
 		PlayerDeadState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerDeadState::GetInstance());
-		return;
 	}
-
-	if (playerScript->GetHit() == true)
+	else if (CheckHitedState(playerScript) == true)
 	{
 		PlayerHitedState::GetInstance()->Init(playerScript);
 		playerScript->SetState(PlayerHitedState::GetInstance());
-		return;
 	}
-
-
-	float animationRatio = 0.f;
-	for (int index = 0; index < playerScript->Object()->GetChild().size(); index++)
+	else if (CheckIdleState(playerScript) == true)
 	{
-		if (playerScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (playerScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation())
-		{
-			PlayerIdleState::GetInstance()->Init(playerScript);
-			playerScript->SetState(PlayerIdleState::GetInstance());
-			return;
-		}
-		else
-		{
-			animationRatio = playerScript->Object()->GetChild()[index]->Animator3D()->GetCurRatioAnimTime();
-		}
+		PlayerIdleState::GetInstance()->Init(playerScript);
+		playerScript->SetState(PlayerIdleState::GetInstance());
 	}
-
-	if (animationRatio > 0.4f)
+	else
 	{
-		playerScript->GetAttackBoxScript()->SetActiveCollision(true);
+		float animationTimeRatio = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(playerScript->Object());
+		if (animationTimeRatio > 0.4f)
+		{
+			playerScript->GetAttackBoxScript()->SetActiveCollision(true);
+		}
 	}
 }
 
