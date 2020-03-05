@@ -3,12 +3,12 @@
 
 class PlayerWalkRightState : public PlayerState
 {
-private:
-	int findAnimationIndex;
-
 public:
 	PlayerWalkRightState();
 	~PlayerWalkRightState();
+
+private:
+	virtual bool CheckIdleState(CSSN002PlayerScript * playerScript);
 
 public:
 	static PlayerWalkRightState* GetInstance();
