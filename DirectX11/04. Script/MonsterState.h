@@ -1,7 +1,8 @@
 #pragma once
 #include <Animator3D.h>
-class CSSN007MonsterScript;
+#include "FunctionMgr.h"
 
+class CSSN007MonsterScript;
 class MonsterState
 {
 public:
