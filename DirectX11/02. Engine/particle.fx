@@ -160,6 +160,10 @@ float4 PS_Particle(GS_OUT _in) : SV_Target
 
 // g_float_2 : Min Speed
 // g_float_3 : Max Speed
+
+// g_vec4_0 : UP Vector
+// g_vec4_1 : Right Vector
+// g_vec4_2 : Front Vector
 // ===============
 
 [numthreads(1024, 1, 1)]
@@ -214,12 +218,14 @@ void CS_ParticleUpdate(int3 _iThreadIdx : SV_DispatchThreadID)
                 , gaussian5x5Sample(vUV + int2(0, 100), g_tex_0)
             };
             
-            float3 vDir = float3(0.f, 1.f, 0.f);
-            vDir.x = (vNoise.x - 0.5f) * 2.f * sin(3.141592 / 8.f);
-            vDir.z = (vNoise.z - 0.5f) * 2.f * sin(3.141592 / 8.f);
+            float3 upVector = g_vec4_0.xyz;
+            float3 rightVector = g_vec4_1.xyz;
+            float3 frontVector = g_vec4_2.xyz;
             
+            upVector = upVector + (rightVector * (vNoise.x - 0.5f) * 2.f * sin(3.141592 / 8.f));
+            upVector = upVector + (frontVector * (vNoise.z - 0.5f) * 2.f * sin(3.141592 / 8.f));
             
-            tRWData[_iThreadIdx.x].vWorldDir = normalize(vDir); //normalize((vNoise.xyz - 0.5f) * 2.f);
+            tRWData[_iThreadIdx.x].vWorldDir = normalize(upVector); //normalize((vNoise.xyz - 0.5f) * 2.f);
             tRWData[_iThreadIdx.x].vWorldPos = (vNoise.xyz - 0.5f) * 50;
             tRWData[_iThreadIdx.x].m_fLifeTime = ((g_float_1 - g_float_0) * vNoise.x) + g_float_0;
             tRWData[_iThreadIdx.x].m_fCurTime = 0.f;

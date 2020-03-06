@@ -15,6 +15,7 @@
 #include <Terrain.h>
 #include <MeshData.h>
 #include <Animator3D.h>
+#include <ParticleSystem.h>
 
 CSaveLoadMgr::CSaveLoadMgr(){}
 CSaveLoadMgr::~CSaveLoadMgr(){}
@@ -261,7 +262,7 @@ void CSaveLoadMgr::LoadResource(FILE * _pFile)
 				break;	
 			case RES_TYPE::MESHDATA:
 				pResource = new CMeshData;
-				break;
+break;
 			}
 
 			bRet = pResource->LoadFromScene(_pFile);
@@ -289,7 +290,7 @@ CLayer * CSaveLoadMgr::LoadLayer(FILE * _pFile, int layerIndex)
 	// Layer ÀÌ¸§
 	wstring strLayerName = LoadWString(_pFile);
 	pLayer->SetName(strLayerName);
-	
+
 	// Layer Index
 	pLayer->SetLayerIdx(layerIndex);
 
@@ -355,6 +356,9 @@ CGameObject * CSaveLoadMgr::LoadGameObject(FILE * _pFile)
 			break;
 		case COMPONENT_TYPE::ANIMATOR3D:
 			pCom = new CAnimator3D;
+			break;
+		case COMPONENT_TYPE::PARTICLESYSTEM:
+			pCom = new CParticleSystem;
 			break;
 		}
 

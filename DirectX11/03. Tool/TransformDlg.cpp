@@ -26,7 +26,6 @@
 IMPLEMENT_DYNAMIC(CTransformDlg, CDialogEx)
 CTransformDlg::CTransformDlg(CWnd* pParent /*=nullptr*/)
 	: CComponentDlg(IDD_TRANSFORMDLG, pParent)
-	
 	, m_bActive(FALSE)
 {
 }

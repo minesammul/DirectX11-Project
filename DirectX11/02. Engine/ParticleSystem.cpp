@@ -36,8 +36,8 @@ CParticleSystem::CParticleSystem()
 
 	// Material
 	m_pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"ParticleMtrl");
-	CResPtr<CTexture> pParticle = CResMgr::GetInst()->Load<CTexture>(L"Texture\\Particle\\CartoonSmoke.png", L"Texture\\Particle\\CartoonSmoke.png");
-	m_pMtrl->SetData(SHADER_PARAM::TEX_0, &pParticle);
+	m_pParticleTexture = CResMgr::GetInst()->Load<CTexture>(L"Texture\\Particle\\CartoonSmoke.png", L"Texture\\Particle\\CartoonSmoke.png");
+	m_pMtrl->SetData(SHADER_PARAM::TEX_0, &m_pParticleTexture);
 
 	// ParticleUpdate
 	m_pUpdateMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"ParticleUpdateMtrl");
@@ -72,6 +72,18 @@ void CParticleSystem::finalupdate()
 	m_pUpdateMtrl->SetData(SHADER_PARAM::FLOAT_2, &m_fMinSpeed);
 	m_pUpdateMtrl->SetData(SHADER_PARAM::FLOAT_3, &m_fMaxSpeed);
 
+	Vec3 objectUpVector = Object()->Transform()->GetLocalDir(DIR_TYPE::DIR_UP);
+	Vec4 inputObjectUpVector = Vec4(objectUpVector, 0.f);
+	m_pUpdateMtrl->SetData(SHADER_PARAM::VEC4_0, &inputObjectUpVector);
+
+	Vec3 objectRightVector = Object()->Transform()->GetLocalDir(DIR_TYPE::DIR_RIGHT);
+	Vec4 inputObjectRightVector = Vec4(objectRightVector, 0.f);
+	m_pUpdateMtrl->SetData(SHADER_PARAM::VEC4_1, &inputObjectRightVector);
+
+	Vec3 objectFrontVector = Object()->Transform()->GetLocalDir(DIR_TYPE::DIR_FRONT);
+	Vec4 inputObjectFrontVector = Vec4(objectFrontVector, 0.f);
+	m_pUpdateMtrl->SetData(SHADER_PARAM::VEC4_2, &objectFrontVector);
+
 	m_pUpdateMtrl->ExcuteComputeShader(1, 1, 1);
 
 	m_pParticleBuffer->ClearRWData(6);
@@ -98,8 +110,83 @@ void CParticleSystem::render()
 
 void CParticleSystem::SaveToScene(FILE * _pFile)
 {
+	//UINT				m_iMaxParticle;    // 최대 파티클 개수
+	fwrite(&m_iMaxParticle, sizeof(UINT), 1, _pFile);
+
+	//float				m_fFrequency;		// 파티클 생성 주기
+	fwrite(&m_fFrequency, sizeof(float), 1, _pFile);
+
+	//float				m_fMinLifeTime;   // 파티클 최소 생존 시간
+	fwrite(&m_fMinLifeTime, sizeof(float), 1, _pFile);
+	//float				m_fMaxLifeTime;   // 파티클 최대 생존 시간
+	fwrite(&m_fMaxLifeTime, sizeof(float), 1, _pFile);
+
+	//float				m_fMinSpeed;	  // 파티클 시작 속도
+	fwrite(&m_fMinSpeed, sizeof(float), 1, _pFile);
+	//float				m_fMaxSpeed;	  // 파티클 최종 속도
+	fwrite(&m_fMaxSpeed, sizeof(float), 1, _pFile);
+
+	//float				m_fStartScale;   // 파티클 시작 크기
+	fwrite(&m_fStartScale, sizeof(float), 1, _pFile);
+	//float				m_fEndScale;     // 파티클 최종 크기
+	fwrite(&m_fEndScale, sizeof(float), 1, _pFile);
+
+	//Vec4				m_vStartColor;
+	fwrite(&m_vStartColor, sizeof(Vec4), 1, _pFile);
+	//Vec4				m_vEndColor;
+	fwrite(&m_vEndColor, sizeof(Vec4), 1, _pFile);
+
+	//CResPtr<CTexture>	m_pParticleTexture;
+	SaveWString(m_pParticleTexture->GetName().c_str(), _pFile);
 }
 
 void CParticleSystem::LoadFromScene(FILE * _pFile)
 {
+	//UINT				m_iMaxParticle;    // 최대 파티클 개수
+	fread(&m_iMaxParticle, sizeof(UINT), 1, _pFile);
+
+	//float				m_fFrequency;		// 파티클 생성 주기
+	fread(&m_fFrequency, sizeof(float), 1, _pFile);
+
+	//float				m_fMinLifeTime;   // 파티클 최소 생존 시간
+	fread(&m_fMinLifeTime, sizeof(float), 1, _pFile);
+	//float				m_fMaxLifeTime;   // 파티클 최대 생존 시간
+	fread(&m_fMaxLifeTime, sizeof(float), 1, _pFile);
+
+	//float				m_fMinSpeed;	  // 파티클 시작 속도
+	fread(&m_fMinSpeed, sizeof(float), 1, _pFile);
+	//float				m_fMaxSpeed;	  // 파티클 최종 속도
+	fread(&m_fMaxSpeed, sizeof(float), 1, _pFile);
+
+	//float				m_fStartScale;   // 파티클 시작 크기
+	fread(&m_fStartScale, sizeof(float), 1, _pFile);
+	//float				m_fEndScale;     // 파티클 최종 크기
+	fread(&m_fEndScale, sizeof(float), 1, _pFile);
+
+	//Vec4				m_vStartColor;
+	fread(&m_vStartColor, sizeof(Vec4), 1, _pFile);
+	//Vec4				m_vEndColor;
+	fread(&m_vEndColor, sizeof(Vec4), 1, _pFile);
+
+	//CResPtr<CTexture>	m_pParticleTexture;
+	wstring strKey = LoadWString(_pFile);
+	m_pParticleTexture = CResMgr::GetInst()->FindRes<CTexture>(strKey);
+	if (nullptr == m_pParticleTexture)
+	{
+		CResMgr::GetInst()->Load<CTexture>(strKey, strKey);
+	}
+
+	// 구조화 버퍼 생성
+	m_pParticleBuffer->Create(sizeof(tParticle), m_iMaxParticle, nullptr);
+	m_pSharedBuffer->Create(sizeof(tParticleShared), 1, nullptr);
+
+	// 사각형 Mesh
+	m_pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"PointMesh");
+
+	// Material
+	m_pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"ParticleMtrl");
+	m_pMtrl->SetData(SHADER_PARAM::TEX_0, &m_pParticleTexture);
+
+	// ParticleUpdate
+	m_pUpdateMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"ParticleUpdateMtrl");
 }

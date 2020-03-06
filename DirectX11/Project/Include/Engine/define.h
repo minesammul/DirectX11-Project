@@ -51,6 +51,8 @@ enum class COMPONENT_TYPE
 
 	ANIMATOR3D,		
 
+	PARTICLESYSTEM,
+
 	END,
 
 	SCRIPT,		// 대본, 역할, 

@@ -222,6 +222,12 @@
     <ClInclude Include="InstancingBuffer.h">
       <Filter>EngineCode\02. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>EngineCode\03. GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="StructuredBuffer.h">
+      <Filter>EngineCode\06. Module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="func.cpp">
@@ -374,6 +380,12 @@
     <ClCompile Include="InstancingBuffer.cpp">
       <Filter>EngineCode\02. Manager</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>EngineCode\03. GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="StructuredBuffer.cpp">
+      <Filter>EngineCode\06. Module</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="std.fx">
@@ -407,6 +419,9 @@
       <Filter>ShaderCode</Filter>
     </FxCompile>
     <FxCompile Include="posteffect.fx">
+      <Filter>ShaderCode</Filter>
+    </FxCompile>
+    <FxCompile Include="particle.fx">
       <Filter>ShaderCode</Filter>
     </FxCompile>
   </ItemGroup>

@@ -214,6 +214,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="Light3D.h" />
     <ClInclude Include="MeshData.h" />
     <ClInclude Include="MRT.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Prefab.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="Device.h" />
@@ -243,6 +244,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="State.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="struct.h" />
+    <ClInclude Include="StructuredBuffer.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />
@@ -269,6 +271,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="Light3D.cpp" />
     <ClCompile Include="MeshData.cpp" />
     <ClCompile Include="MRT.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Prefab.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -300,6 +303,7 @@ call EngineCopy.bat</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StructuredBuffer.cpp" />
     <ClCompile Include="Terrain1.cpp" />
     <ClCompile Include="Terrain2.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -348,6 +352,16 @@ call EngineCopy.bat</Command>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="particle.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="posteffect.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>

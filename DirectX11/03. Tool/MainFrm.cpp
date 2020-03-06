@@ -29,6 +29,7 @@
 #include <Core.h>
 #include <Script.h>
 #include <Terrain.h>
+#include <ParticleSystem.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -50,6 +51,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_GAMEOBJECT_CREATEEMPTYOBJECT, &CMainFrame::OnGameobjectCreateEmptyObject)
 	ON_COMMAND(ID_GAMEOBJECT_CREATEFBXOBJECT, &CMainFrame::OnGameobjectCreatefbxobject)
 	ON_COMMAND(ID_REFRESHDLG_REFRESHGAMEOBJECTDLG, &CMainFrame::OnRefreshdlgRefreshgameobjectdlg)
+	ON_COMMAND(ID_GAMEOBJECT_CREATEPARTICLE, &CMainFrame::OnGameobjectCreateparticle)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -437,4 +439,36 @@ void CMainFrame::OnRefreshdlgRefreshgameobjectdlg()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	((CHierachyView*)GetHierachyView())->init_object();
+}
+
+
+void CMainFrame::OnGameobjectCreateparticle()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+
+	CString newObjectName;
+	int newObjectNumber = 0;
+	while (true)
+	{
+		newObjectName.Format(L"Particle_%d", newObjectNumber);
+		if (pCurScene->IsExistGameObjectName(newObjectName.GetBuffer()) == true)
+		{
+			newObjectNumber++;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	CGameObject* pParticle = new CGameObject;
+	pParticle->SetName(newObjectName.GetBuffer());
+	pParticle->AddComponent(new CTransform);
+	pParticle->AddComponent(new CParticleSystem);
+
+	pParticle->Transform()->SetLocalPos(Vec3(0.f, 0.f, 0.f));
+
+	
+	pCurScene->AddObject(L"Default", pParticle);
 }

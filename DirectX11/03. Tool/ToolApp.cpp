@@ -150,6 +150,8 @@ int CToolApp::ExitInstance()
 #include <Animator3D.h>
 #include <Collider2D.h>
 #include <Light3D.h>
+#include <ParticleSystem.h>
+
 #include <Layer.h>
 #include <MeshData.h>
 
@@ -160,6 +162,20 @@ void CToolApp::CreateTestScene()
 	pCurScene->AddLayer(L"Player", 1);
 	pCurScene->AddLayer(L"Monster", 2);
 	pCurScene->AddLayer(L"NavMesh", 3);
+
+	//{
+	//	// ====================
+	//	// Particle Object 생성
+	//	// ====================
+	//	CGameObject* pParticle = new CGameObject;
+	//	pParticle->SetName(L"Particle1");
+	//	pParticle->AddComponent(new CTransform);
+	//	pParticle->AddComponent(new CParticleSystem);
+
+	//	pParticle->Transform()->SetLocalPos(Vec3(0.f, 0.f, 0.f));
+
+	//	pCurScene->AddObject(L"Default", pParticle);
+	//}
 
 	//{
 	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Iron_Golem3.fbx");

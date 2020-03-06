@@ -220,6 +220,7 @@
     <ClInclude Include="MaterialEx.h" />
     <ClInclude Include="MeshDataDlg.h" />
     <ClInclude Include="MeshRenderDlg.h" />
+    <ClInclude Include="ParticleDlg.h" />
     <ClInclude Include="ResInfoDlg.h" />
     <ClInclude Include="ResourceDlg.h" />
     <ClInclude Include="ScriptDlg.h" />
@@ -259,6 +260,7 @@
     <ClCompile Include="MeshDataDlg.cpp" />
     <ClCompile Include="MeshRenderDlg.cpp" />
     <ClCompile Include="MySplitterWnd.cpp" />
+    <ClCompile Include="ParticleDlg.cpp" />
     <ClCompile Include="ResInfoDlg.cpp" />
     <ClCompile Include="ResourceDlg.cpp" />
     <ClCompile Include="ScriptDlg.cpp" />

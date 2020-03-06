@@ -26,6 +26,7 @@
 #define IDD_LIGHT3DDLG                  336
 #define IDD_COLLIDER3DDLG               338
 #define IDD_MESHDATADLG                 340
+#define IDD_PARTICLEDLG                 342
 #define IDC_CHECK1                      1000
 #define IDC_CHECK2                      1001
 #define IDC_BUTTON1                     1003
@@ -41,6 +42,7 @@
 #define IDC_SLIDER1                     1011
 #define IDC_SLIDER2                     1012
 #define IDC_SLIDER3                     1013
+#define IDC_EDIT17                      1014
 #define IDC_COMBO1                      2000
 #define IDC_EDIT1                       2001
 #define IDC_EDIT2                       2002
@@ -51,6 +53,13 @@
 #define IDC_EDIT7                       2007
 #define IDC_EDIT8                       2008
 #define IDC_EDIT9                       2009
+#define IDC_EDIT10                      2010
+#define IDC_EDIT11                      2012
+#define IDC_EDIT12                      2013
+#define IDC_EDIT13                      2014
+#define IDC_EDIT14                      2015
+#define IDC_EDIT15                      2016
+#define IDC_EDIT16                      2017
 #define ID_RESOURCE_NEWMATERIAL         32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -61,14 +70,15 @@
 #define ID_GAMEOBJECT_CREATEEMPTYOBJECT 32778
 #define ID_GAMEOBJECT_CREATEFBXOBJECT   32779
 #define ID_REFRESHDLG_REFRESHGAMEOBJECTDLG 32780
+#define ID_GAMEOBJECT_CREATEPARTICLE    32781
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        342
-#define _APS_NEXT_COMMAND_VALUE         32781
-#define _APS_NEXT_CONTROL_VALUE         1014
+#define _APS_NEXT_RESOURCE_VALUE        344
+#define _APS_NEXT_COMMAND_VALUE         32782
+#define _APS_NEXT_CONTROL_VALUE         1015
 #define _APS_NEXT_SYMED_VALUE           321
 #endif
 #endif

@@ -19,6 +19,7 @@
 #include "Collider2DDlg.h"
 #include "Collider3DDlg.h"
 #include "Light3DDlg.h"
+#include "ParticleDlg.h"
 
 #include <TimeMgr.h>
 #include <Resource.h>
@@ -70,6 +71,10 @@ int CComponentView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_arrComDlg[(UINT)DLG_TYPE::ANIMATOR2D] = new CAnimator2DDlg;
 	m_arrComDlg[(UINT)DLG_TYPE::ANIMATOR2D]->Create(IDD_ANIMATOR2DDLG, this);
 	m_arrComDlg[(UINT)DLG_TYPE::ANIMATOR2D]->ShowWindow(false);
+
+	m_arrComDlg[(UINT)DLG_TYPE::PARTICLESYSTEM] = new CParticleDlg;
+	m_arrComDlg[(UINT)DLG_TYPE::PARTICLESYSTEM]->Create(IDD_PARTICLEDLG, this);
+	m_arrComDlg[(UINT)DLG_TYPE::PARTICLESYSTEM]->ShowWindow(false);
 
 	m_arrComDlg[(UINT)DLG_TYPE::SCRIPT] = new CScriptDlg;
 	m_arrComDlg[(UINT)DLG_TYPE::SCRIPT]->Create(IDD_SCRIPTDLG, this);

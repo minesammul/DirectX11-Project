@@ -60,6 +60,9 @@ protected:
 	// Single Object
 	map<INT_PTR, vector<tInstObj>>		m_mapSingleObj;
 
+	// Single Object
+	vector<CGameObject*>				m_vecParticle;
+
 public:
 	virtual void update();
 	void finalupdate();

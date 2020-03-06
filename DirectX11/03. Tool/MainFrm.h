@@ -67,6 +67,7 @@ public:
 	afx_msg void OnGameobjectCreateEmptyObject();
 	afx_msg void OnGameobjectCreatefbxobject();
 	afx_msg void OnRefreshdlgRefreshgameobjectdlg();
+	afx_msg void OnGameobjectCreateparticle();
 };
 
 
