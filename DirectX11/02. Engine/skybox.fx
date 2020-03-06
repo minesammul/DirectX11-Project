@@ -8,6 +8,7 @@
 // mesh : Sphere
 // Depth func : LESS_QUAL
 // g_tex_0 : Skybox Texture
+// g_vec2_0 : UV
 //=========================
 
 struct VTX_IN
@@ -46,7 +47,11 @@ VTX_OUT VS_Skybox(VTX_IN _in)
 float4 PS_Skybox(VTX_OUT _in) : SV_Target
 {
     float4 vOutColor = (float4) 0.f;    
-    vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);    
+    
+    float2 nowUV = _in.vUV;
+    nowUV.x += g_vec2_0.x;
+    
+    vOutColor = g_tex_0.Sample(g_sam_0, nowUV);
     return vOutColor;
 }
 #endif
