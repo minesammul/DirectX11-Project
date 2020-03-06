@@ -17,6 +17,8 @@
 #include "Animator2D.h"
 #include "Animator3D.h"
 #include "Animation2D.h"
+#include "ParticleSystem.h"
+
 #include "ResMgr.h"
 #include "InstancingBuffer.h"
 
@@ -95,6 +97,9 @@ void CCamera::SortGameObject()
 		pair.second.clear();
 	for (auto& pair : m_mapInstGroup_P)
 		pair.second.clear();
+	
+	m_vecParticle.clear();
+	
 	uInstID uID = {};
 
 	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
@@ -116,6 +121,11 @@ void CCamera::SortGameObject()
 			// MeshRender 가 없으면 continue;
 			if (pObj->MeshRender() == nullptr)
 			{
+				if (pObj->Particle())
+				{
+					m_vecParticle.push_back(pObj);
+				}
+					
 				continue;
 			}
 
@@ -363,6 +373,12 @@ void CCamera::render_forward()
 			pair.second[i].pObj->Transform()->UpdateData();
 			pair.second[i].pObj->MeshRender()->render(pair.second[i].iMtrlIdx);
 		}
+	}
+
+	// Particle 랜더링
+	for (auto& obj : m_vecParticle)
+	{
+		obj->Particle()->render();
 	}
 }
 

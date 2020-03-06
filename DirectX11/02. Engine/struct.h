@@ -15,6 +15,13 @@ struct tEvent
 	INT_PTR		lParam;	
 };
 
+struct tGlobal
+{
+	float g_fAccTime;
+	float g_fDT;
+	int   iarr[3];
+};
+
 // Vertex
 struct VTX
 {
@@ -35,6 +42,28 @@ struct tRay
 	Vec3 vStart;
 	Vec3 vDir;
 };
+
+// ===========
+// Particle
+// ===========
+struct tParticle
+{
+	Vec3 vWorldPos;		// 위치	
+	Vec3 vWorldDir;		// 이동 방향
+
+	float m_fCurTime;	// 현재 시간
+	float m_fLifeTime;	// 최대 생명주기
+
+	int  iAlive;
+	int  arrPading[3];
+};
+
+struct tParticleShared
+{
+	int iAddCount;	// 매 프레임 마다 추가될 파티클 개수
+	int arrPading[3];
+};
+
 
 //===============
 // 상수버퍼 구조체

@@ -172,6 +172,28 @@ void CShader::CreateDomainShader(const wstring & _strFilePath, const string & _s
 
 void CShader::CreateGeometryShader(const wstring & _strFilePath, const string & _strFuncName, UINT _iHigh, UINT _iLow)
 {
+	UINT iFlag = 0;
+
+#ifdef _DEBUG
+	iFlag = D3DCOMPILE_DEBUG;
+#endif
+
+	wstring strPath = CPathMgr::GetResPath();
+	strPath += _strFilePath;
+
+	char strTarget[20] = {};
+	sprintf_s(strTarget, "gs_%d_%d", _iHigh, _iLow);
+
+	if (FAILED(D3DCompileFromFile(strPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, _strFuncName.c_str()
+		, strTarget, iFlag, 0, &m_pGSBlob, &m_pErrBlob)))
+	{
+		char* pErr = (char*)m_pErrBlob->GetBufferPointer();
+		MessageBoxA(nullptr, pErr, "Geometry Shader Error", MB_OK);
+		assert(nullptr);
+	}
+
+	DEVICE->CreateGeometryShader(m_pGSBlob->GetBufferPointer(), m_pGSBlob->GetBufferSize(), nullptr, &m_pGS);
+
 }
 
 void CShader::CreatePixelShader(const wstring & _strFilePath, const string & _strFuncName, UINT _iHigh, UINT _iLow)

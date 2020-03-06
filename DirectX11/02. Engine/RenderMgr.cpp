@@ -261,7 +261,7 @@ void CRenderMgr::CreateBlendState()
 	// =================
 	m_arrBlendState[(UINT)BLEND_TYPE::ALPHABLEND] = new CBlendState;
 
-	tDesc.AlphaToCoverageEnable = true;   // 투명물체 깊의에 의해서 가려지는 현상 제거(x4 멀티샘플이 지원될 경우)
+	tDesc.AlphaToCoverageEnable = false;   // 투명물체 깊의에 의해서 가려지는 현상 제거(x4 멀티샘플이 지원될 경우)
 	tDesc.IndependentBlendEnable = false; // 렌더타켓 별로 독립적인 블렌드 공식 사용
 	
 	tDesc.RenderTarget[0].BlendEnable = true;

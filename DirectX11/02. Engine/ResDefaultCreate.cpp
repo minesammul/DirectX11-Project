@@ -4,14 +4,40 @@
 
 #include "Collider2D.h"
 #include "Collider3D.h"
+#include "Texture.h"
 
 void CResMgr::CreateDefaultMesh()
 {
+	vector<VTX> vecVtx;	VTX v;
+	vector<UINT> vecIdx;
+	CMesh* pMesh = nullptr;
+
+	// ==========
+	// Point Mesh
+	// ==========
+	pMesh = new CMesh;
+
+	v.vPos = Vec3(0.f, 0.f, 0.f);
+	v.vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	v.vUV = Vec2(0.5f, 0.5f);
+	v.vNormal = Vec3(0.f, 0.f, -1.f);
+	v.vTangent = Vec3(1.f, 0.f, 0.f);
+	v.vBinormal = Vec3(0.f, 1.f, 0.f);
+
+	UINT iIdx = 0;
+
+	pMesh->CreateMesh(sizeof(VTX), 1, D3D11_USAGE_DEFAULT, &v,
+		1, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32_UINT, &iIdx);
+
+	pMesh->SetName(L"PointMesh");
+	m_mapRes[(UINT)RES_TYPE::MESH].insert(make_pair(L"PointMesh", pMesh));
+
+	vecVtx.clear();
+	vecIdx.clear();
+
 	// ==========
 	// Rect Mesh
 	// ==========
-	vector<VTX> vecVtx;	VTX v;
-	vector<UINT> vecIdx;
 
 	// 0 --- 1
 	// |  \  |
@@ -63,7 +89,7 @@ void CResMgr::CreateDefaultMesh()
 	vecIdx.push_back(0);
 	vecIdx.push_back(1);*/
 
-	CMesh* pMesh = new CMesh;
+	pMesh = new CMesh;
 	pMesh->CreateMesh(sizeof(VTX), vecVtx.size(), D3D11_USAGE_DEFAULT, &vecVtx[0]
 		, vecIdx.size(), D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32_UINT, &vecIdx[0]);
 
@@ -860,6 +886,35 @@ void CResMgr::CreateDefaultShader()
 	strKey = L"ShadowMapShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	// ===============
+	// Particle Shader
+	// ===============
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\particle.fx", "VS_Particle", 5, 0);
+	pShader->CreateGeometryShader(L"Shader\\particle.fx", "GS_Particle", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\particle.fx", "PS_Particle", 5, 0);
+
+	pShader->SetEventTime(SHADER_EVENT_TIME::PARTICLE);
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
+	pShader->SetDepthStencilState(CRenderMgr::GetInst()->GetDepthStencilState(DEPTH_STENCIL_TYPE::NO_DEPTH_WRITE));
+
+	strKey = L"ParticleShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+
+	// ======================
+	// Particle Update Shader
+	// ======================
+	pShader = new CShader;
+	pShader->CreateComputeShader(L"Shader\\particle.fx", "CS_ParticleUpdate", 5, 0);
+	pShader->SetEventTime(SHADER_EVENT_TIME::PARTICLE);
+
+	strKey = L"ParticleUpdateShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 }
 
 void CResMgr::CreateDefaultMaterial()
@@ -1041,6 +1096,21 @@ void CResMgr::CreateDefaultMaterial()
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
 	CTexture::g_pClearMtrl = (CMaterial*)pMtrl.GetPointer();
+
+	// Particle Mtrl
+	pMtrl = new CMaterial;
+	pMtrl->SaveDisable();
+	pMtrl->SetShader(FindRes<CShader>(L"ParticleShader"));
+	AddRes(L"ParticleMtrl", pMtrl);
+
+	// Particle Update
+	pMtrl = new CMaterial;
+	pMtrl->SaveDisable();
+	pMtrl->SetShader(FindRes<CShader>(L"ParticleUpdateShader"));
+	CResPtr<CTexture> pNoiseTex = Load<CTexture>(L"Texture\\noise.png", L"Texture\\noise.png");
+	pMtrl->SetData(SHADER_PARAM::TEX_0, &pNoiseTex);
+	pMtrl->SetData(SHADER_PARAM::VEC2_0, &Vec2(pNoiseTex->GetWidth(), pNoiseTex->GetHeight()));
+	AddRes(L"ParticleUpdateMtrl", pMtrl);
 
 	//Collider Material
 	CCollider2D::CreateMaterial();

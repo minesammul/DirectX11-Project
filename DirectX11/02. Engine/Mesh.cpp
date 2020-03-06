@@ -391,6 +391,17 @@ void CMesh::render_instancing(UINT _iSubset)
 		, CInstancingBuffer::GetInst()->GetInstanceCount(), 0, 0, 0);
 }
 
+void CMesh::render_particle(UINT _iParticleCount)
+{
+	UINT iOffset = 0;
+	CONTEXT->IASetInputLayout(m_pLayout);
+	CONTEXT->IASetVertexBuffers(0, 1, &m_pVB, &m_iVtxSize, &iOffset);
+
+	CONTEXT->IASetIndexBuffer(m_vecIdxInfo[0].pIB, m_vecIdxInfo[0].eFormat, 0);
+	CONTEXT->DrawIndexedInstanced(m_vecIdxInfo[0].iIdxCount, _iParticleCount, 0, 0, 0);
+}
+
+
 
 void CMesh::SetLayout(CResPtr<CShader> _pShader, bool _bInstancing)
 {

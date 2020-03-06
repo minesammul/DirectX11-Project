@@ -215,7 +215,7 @@ PS_TERRAIN_OUT PS_Terrain(DS_TERRAIN_OUT _in)
         float3 vViewNormal = (float3) 0.f;
         for (int i = 0; i < 4; ++i)
         {
-            vViewNormal += g_texarr_1.Sample(g_sam_0, float3(_in.vUV, (float) i)).xyz * vWeight[i];
+            vViewNormal += g_texarr_1.Sample(g_sam_0, float3(_in.vUV, (float) i), int2(3, 0)).xyz * vWeight[i];
         }
         
         float3x3 matTBN = { _in.vViewTangent, _in.vViewBinormal, _in.vViewNormal };
