@@ -1,8 +1,8 @@
 #pragma once
 #include <Animator3D.h>
 #include "FunctionMgr.h"
-class CSSN002PlayerScript;
 
+class CSSN002PlayerScript;
 class PlayerState
 {
 private:

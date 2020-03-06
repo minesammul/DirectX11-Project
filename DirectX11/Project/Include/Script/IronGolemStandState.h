@@ -6,9 +6,6 @@ class IronGolemStandState : public MonsterState
 private:
 	const float PLAYER_FIND_DISTANCE;
 
-private:
-	int findAnimationIndex;
-
 public:
 	IronGolemStandState();
 	~IronGolemStandState();
