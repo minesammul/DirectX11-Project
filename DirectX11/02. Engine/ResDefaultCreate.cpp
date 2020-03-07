@@ -897,7 +897,7 @@ void CResMgr::CreateDefaultShader()
 
 	pShader->SetEventTime(SHADER_EVENT_TIME::PARTICLE);
 	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
+	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND_NO_DEPTH));
 	pShader->SetDepthStencilState(CRenderMgr::GetInst()->GetDepthStencilState(DEPTH_STENCIL_TYPE::NO_DEPTH_WRITE));
 
 	strKey = L"ParticleShader";
