@@ -261,7 +261,7 @@ void CRenderMgr::CreateBlendState()
 	// =================
 	m_arrBlendState[(UINT)BLEND_TYPE::ALPHABLEND] = new CBlendState;
 
-	tDesc.AlphaToCoverageEnable = false;   // 투명물체 깊의에 의해서 가려지는 현상 제거(x4 멀티샘플이 지원될 경우)
+	tDesc.AlphaToCoverageEnable = true;   // 투명물체 깊의에 의해서 가려지는 현상 제거(x4 멀티샘플이 지원될 경우)
 	tDesc.IndependentBlendEnable = false; // 렌더타켓 별로 독립적인 블렌드 공식 사용
 	
 	tDesc.RenderTarget[0].BlendEnable = true;
@@ -303,6 +303,30 @@ void CRenderMgr::CreateBlendState()
 	tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	m_arrBlendState[(UINT)BLEND_TYPE::ONE_ONE]->Create(&tDesc);
+
+	// =================
+	// Alpha Blend State No Depth
+	// =================
+	m_arrBlendState[(UINT)BLEND_TYPE::ALPHABLEND_NO_DEPTH] = new CBlendState;
+
+	tDesc.AlphaToCoverageEnable = false;   // 투명물체 깊의에 의해서 가려지는 현상 제거(x4 멀티샘플이 지원될 경우)
+	tDesc.IndependentBlendEnable = false; // 렌더타켓 별로 독립적인 블렌드 공식 사용
+
+	tDesc.RenderTarget[0].BlendEnable = true;
+
+	// 색상 혼합 공식
+	tDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+	tDesc.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_SRC_ALPHA;
+	tDesc.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA;
+
+	// Alpha 값 끼리 혼합공식
+	tDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+	tDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+	tDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ZERO;
+
+	tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	m_arrBlendState[(UINT)BLEND_TYPE::ALPHABLEND_NO_DEPTH]->Create(&tDesc);
 }
 
 void CRenderMgr::CreateDepthStencilState()
