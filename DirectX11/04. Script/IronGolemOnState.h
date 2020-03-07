@@ -3,9 +3,6 @@
 
 class IronGolemOnState : public MonsterState
 {
-private:
-	int findAnimationIndex;
-
 public:
 	IronGolemOnState();
 	~IronGolemOnState();

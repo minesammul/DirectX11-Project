@@ -21,46 +21,15 @@ IronGolemOnState * IronGolemOnState::GetInstance()
 
 void IronGolemOnState::Init(CSSN007MonsterScript * monsterScript)
 {
-	//Animation Init
-	for (int index = 0; index < monsterScript->Object()->GetChild().size(); index++)
-	{
-		if (monsterScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (monsterScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"MonsterOn", findAnimationIndex) == false)
-		{
-			assert(false && L"Not Find Animation");
-		}
-
-		monsterScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
-		monsterScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
-	}
-	//
+	CFunctionMgr::GetInst()->SetAnimation(monsterScript->Object(), L"MonsterOn", false);
 }
 
 void IronGolemOnState::Update(CSSN007MonsterScript * monsterScript)
 {
-	// Animation Done is Init
-	bool isAllDoneAnimation = true;
-	for (int index = 0; index < monsterScript->Object()->GetChild().size(); index++)
-	{
-		if (monsterScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (monsterScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation()==false)
-		{
-			isAllDoneAnimation = false;
-		}
-	}
-
-	if (isAllDoneAnimation == true)
+	float curAnimationTimeRatio = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(monsterScript->Object());
+	if (curAnimationTimeRatio >= 1.f)
 	{
 		IronGolemIdleState::GetInstance()->Init(monsterScript);
 		monsterScript->SetState(IronGolemIdleState::GetInstance());
 	}
-	//
 }

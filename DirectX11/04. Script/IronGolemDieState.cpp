@@ -21,24 +21,7 @@ IronGolemDieState * IronGolemDieState::GetInstance()
 
 void IronGolemDieState::Init(CSSN007MonsterScript * monsterScript)
 {
-	//Animation Init
-	for (int index = 0; index < monsterScript->Object()->GetChild().size(); index++)
-	{
-		if (monsterScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (monsterScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Dead", findAnimationIndex) == false)
-		{
-			assert(false && L"Not Find Animation");
-		}
-
-		monsterScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
-		monsterScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
-	}
-	//
-
+	CFunctionMgr::GetInst()->SetAnimation(monsterScript->Object(), L"Dead", false);
 	monsterScript->GetAttackBoxScript()->SetActiveCollision(false);
 	monsterScript->GetAttackBoxScript()->SetAttackted(false);
 }

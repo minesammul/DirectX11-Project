@@ -15,6 +15,23 @@ IronGolemWalkFrontState::~IronGolemWalkFrontState()
 {
 }
 
+bool IronGolemWalkFrontState::CheckIdleState(CSSN007MonsterScript * monsterScript)
+{
+	Vec3 playerPosition = monsterScript->GetPlayerObject()->Transform()->GetLocalPos();
+	Vec3 monsterPosition = monsterScript->Object()->Transform()->GetLocalPos();
+
+	float monsterToPlayerDistance = Vec3::Distance(playerPosition, monsterPosition);
+
+	if (monsterToPlayerDistance < PLAYER_FIND_DISTANCE)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 IronGolemWalkFrontState * IronGolemWalkFrontState::GetInstance()
 {
 	static IronGolemWalkFrontState instance;
@@ -23,76 +40,38 @@ IronGolemWalkFrontState * IronGolemWalkFrontState::GetInstance()
 
 void IronGolemWalkFrontState::Init(CSSN007MonsterScript * monsterScript)
 {
-	if (monsterScript->GetDead() == true)
-	{
-		IronGolemDieState::GetInstance()->Init(monsterScript);
-		monsterScript->SetState(IronGolemDieState::GetInstance());
-		return;
-	}
-
-	//Animation Init
-	for (int index = 0; index < monsterScript->Object()->GetChild().size(); index++)
-	{
-		if (monsterScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (monsterScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Walk_Front", findAnimationIndex) == false)
-		{
-			assert(false && L"Not Find Animation");
-		}
-
-		monsterScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
-		monsterScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
-	}
-	//
+	CFunctionMgr::GetInst()->SetAnimation(monsterScript->Object(), L"Walk_Front", true);
 }
 
 void IronGolemWalkFrontState::Update(CSSN007MonsterScript * monsterScript)
 {
-	// Animation Done is Init
-	for (int index = 0; index < monsterScript->Object()->GetChild().size(); index++)
+	if (CheckDieState(monsterScript) == true)
 	{
-		if (monsterScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (monsterScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation())
-		{
-			monsterScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
-			monsterScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
-		}
+		IronGolemDieState::GetInstance()->Init(monsterScript);
+		monsterScript->SetState(IronGolemDieState::GetInstance());
 	}
-
+	else if (CheckIdleState(monsterScript) == true)
+	{
+		IronGolemIdleState::GetInstance()->Init(monsterScript);
+		monsterScript->SetState(IronGolemIdleState::GetInstance());
+	}
+	else
 	{
 		Vec3 playerPosition = monsterScript->GetPlayerObject()->Transform()->GetLocalPos();
 		Vec3 monsterPosition = monsterScript->Object()->Transform()->GetLocalPos();
 
-		float monsterToPlayerDistance = Vec3::Distance(playerPosition, monsterPosition);
+		Vec3 monsterWalkDirection = playerPosition - monsterPosition;
+		monsterWalkDirection.Normalize();
 
-		if (monsterToPlayerDistance < PLAYER_FIND_DISTANCE)
-		{
-			IronGolemIdleState::GetInstance()->Init(monsterScript);
-			monsterScript->SetState(IronGolemIdleState::GetInstance());
-		}
-		else
-		{
-			Vec3 monsterWalkDirection = playerPosition - monsterPosition;
-			monsterWalkDirection.Normalize();
+		Vec3 monsterLookAtDirection = monsterWalkDirection;
+		monsterScript->Object()->Transform()->SetLookAt(monsterLookAtDirection);
 
-			Vec3 monsterLookAtDirection = monsterWalkDirection;
-			monsterScript->Object()->Transform()->SetLookAt(monsterLookAtDirection);
+		monsterPosition += monsterScript->GetMonsterMoveSpeed() * monsterWalkDirection;
+		monsterScript->Object()->Transform()->SetLocalPos(monsterPosition);
 
-			monsterPosition += monsterScript->GetMonsterMoveSpeed() * monsterWalkDirection;
-			monsterScript->Object()->Transform()->SetLocalPos(monsterPosition);
-
-			float radianValue = GetRadian(270.f);
-			Vec3 monsterRoatate = monsterScript->Object()->Transform()->GetLocalRot();
-			monsterRoatate.x = radianValue;
-			monsterScript->Object()->Transform()->SetLocalRot(monsterRoatate);
-		}
+		float radianValue = GetRadian(270.f);
+		Vec3 monsterRoatate = monsterScript->Object()->Transform()->GetLocalRot();
+		monsterRoatate.x = radianValue;
+		monsterScript->Object()->Transform()->SetLocalRot(monsterRoatate);
 	}
-	//
 }

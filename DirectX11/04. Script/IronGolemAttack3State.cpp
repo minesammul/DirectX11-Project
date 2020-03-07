@@ -15,6 +15,20 @@ IronGolemAttack3State::~IronGolemAttack3State()
 {
 }
 
+bool IronGolemAttack3State::CheckIdleState(CSSN007MonsterScript * monsterScript)
+{
+	float curAnimationTimeRatio = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(monsterScript->Object());
+
+	if (curAnimationTimeRatio >=1.f)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 IronGolemAttack3State * IronGolemAttack3State::GetInstance()
 {
 	static IronGolemAttack3State instance;
@@ -23,64 +37,25 @@ IronGolemAttack3State * IronGolemAttack3State::GetInstance()
 
 void IronGolemAttack3State::Init(CSSN007MonsterScript * monsterScript)
 {
-	//Animation Init
-	for (int index = 0; index < monsterScript->Object()->GetChild().size(); index++)
-	{
-		if (monsterScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (monsterScript->Object()->GetChild()[index]->Animator3D()->FindAnimClipIndex(L"Attack03", findAnimationIndex) == false)
-		{
-			assert(false && L"Not Find Animation");
-		}
-
-		monsterScript->Object()->GetChild()[index]->Animator3D()->SetClipTime(findAnimationIndex, 0.f);
-		monsterScript->Object()->GetChild()[index]->Animator3D()->SetCurAnimClip(findAnimationIndex);
-	}
-	//
-
-
+	CFunctionMgr::GetInst()->SetAnimation(monsterScript->Object(), L"Attack03", false);
 	monsterScript->GetAttackBoxScript()->SetActiveCollision(false);
 	monsterScript->GetAttackBoxScript()->SetAttackted(false);
 }
 
 void IronGolemAttack3State::Update(CSSN007MonsterScript * monsterScript)
 {
-	if (monsterScript->GetDead() == true)
+	if (CheckDieState(monsterScript) == true)
 	{
 		IronGolemDieState::GetInstance()->Init(monsterScript);
 		monsterScript->SetState(IronGolemDieState::GetInstance());
-		return;
 	}
-
-	// Animation Done is Init
-	bool isAllDoneAnimation = true;
-	float animationRatio = 0.f;
-	for (int index = 0; index < monsterScript->Object()->GetChild().size(); index++)
-	{
-		if (monsterScript->Object()->GetChild()[index]->Animator3D() == nullptr)
-		{
-			continue;
-		}
-
-		if (monsterScript->Object()->GetChild()[index]->Animator3D()->IsDoneAnimation() == false)
-		{
-			isAllDoneAnimation = false;
-			animationRatio = monsterScript->Object()->GetChild()[index]->Animator3D()->GetCurRatioAnimTime();
-		}
-	}
-
-	if (animationRatio > 0.5f)
-	{
-		monsterScript->GetAttackBoxScript()->SetActiveCollision(true);
-	}
-
-	if (isAllDoneAnimation == true)
+	else if (CheckIdleState(monsterScript) == true)
 	{
 		IronGolemIdleState::GetInstance()->Init(monsterScript);
 		monsterScript->SetState(IronGolemIdleState::GetInstance());
 	}
-	//
+	else
+	{
+		SetActiveAttackCollision(monsterScript, 0.5f, 0.6f);
+	}
 }

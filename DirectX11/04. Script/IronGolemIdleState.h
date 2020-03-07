@@ -8,12 +8,13 @@ private:
 	const float PLAYER_ATTACK_DISTANCE;
 	const float PLAYER_LOOKAT_ROTATE_DEGREE;
 
-private:
-	int findAnimationIndex;
-
 public:
 	IronGolemIdleState();
 	~IronGolemIdleState();
+
+private:
+	bool CheckWalkState(CSSN007MonsterScript * monsterScript);
+	bool CheckAttackState(CSSN007MonsterScript * monsterScript);
 
 public:
 	static IronGolemIdleState* GetInstance();

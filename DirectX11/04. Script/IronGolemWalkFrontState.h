@@ -6,12 +6,12 @@ class IronGolemWalkFrontState : public MonsterState
 private:
 	const float PLAYER_FIND_DISTANCE;
 
-private:
-	int findAnimationIndex;
-
 public:
 	IronGolemWalkFrontState();
 	~IronGolemWalkFrontState();
+
+private:
+	virtual bool CheckIdleState(CSSN007MonsterScript * monsterScript);
 
 public:
 	static IronGolemWalkFrontState* GetInstance();
