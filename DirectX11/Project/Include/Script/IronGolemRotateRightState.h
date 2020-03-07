@@ -3,12 +3,12 @@
 
 class IronGolemRotateRightState : public MonsterState
 {
-private:
-	int findAnimationIndex;
-
 public:
 	IronGolemRotateRightState();
 	~IronGolemRotateRightState();
+
+private:
+	virtual bool CheckIdleState(CSSN007MonsterScript * monsterScript);
 
 public:
 	static IronGolemRotateRightState* GetInstance();

@@ -3,12 +3,12 @@
 
 class IronGolemAttack1State : public MonsterState
 {
-private:
-	int findAnimationIndex;
-
 public:
 	IronGolemAttack1State();
 	~IronGolemAttack1State();
+
+private:
+	virtual bool CheckIdleState(CSSN007MonsterScript * monsterScript);
 
 public:
 	static IronGolemAttack1State* GetInstance();

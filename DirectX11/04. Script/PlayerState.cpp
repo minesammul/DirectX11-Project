@@ -127,4 +127,8 @@ void PlayerState::SetActiveAttackCollision(CSSN002PlayerScript * playerScript, f
 	{
 		playerScript->GetAttackBoxScript()->SetActiveCollision(true);
 	}
+	else
+	{
+		playerScript->GetAttackBoxScript()->SetActiveCollision(false);
+	}
 }

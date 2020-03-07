@@ -64,7 +64,7 @@ void PlayerAttack4State::Update(CSSN002PlayerScript * playerScript)
 	}
 	else
 	{
-		SetActiveAttackCollision(playerScript, 0.4f, 1.0f);
+		SetActiveAttackCollision(playerScript, 0.4f, 0.6f);
 	}
 }
 
