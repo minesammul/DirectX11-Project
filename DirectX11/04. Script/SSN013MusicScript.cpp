@@ -23,6 +23,12 @@ void CSSN013MusicScript::start()
 			inputData.music = CResMgr::GetInst()->Load<CSound>(L"IronGolemBGM.mp3", L"Sound\\IronGolemBGM.mp3");
 			mMusics[(MUSIC_KIND)index] = inputData;
 		}
+		else if (index == (int)MUSIC_KIND::STAGE_BACKGROUND)
+		{
+			inputData.musicState = MUSIC_STATE::ON;
+			inputData.music = CResMgr::GetInst()->Load<CSound>(L"StageBGM.mp3", L"Sound\\stageBGM.mp3");
+			mMusics[(MUSIC_KIND)index] = inputData;
+		}
 	}
 
 }

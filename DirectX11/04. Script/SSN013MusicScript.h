@@ -4,6 +4,7 @@
 enum class MUSIC_KIND
 {
 	IRON_GOLEM_BACKGROUND = 0,
+	STAGE_BACKGROUND,
 	END
 };
 

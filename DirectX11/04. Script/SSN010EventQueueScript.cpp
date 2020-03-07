@@ -82,6 +82,7 @@ void CSSN010EventQueueScript::update()
 		{
 			CSSN013MusicScript* musicScript = dynamic_cast<CSSN013MusicScript*>(CFunctionMgr::GetInst()->FindScript(L"Music", SCRIPT_TYPE::SSN013MUSICSCRIPT));
 			
+			musicScript->OperateMusic(MUSIC_KIND::STAGE_BACKGROUND, MUSIC_STATE::OFF);
 			musicScript->OperateMusic(MUSIC_KIND::IRON_GOLEM_BACKGROUND, MUSIC_STATE::ON);
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_MONSTER_BGM_OFF)
