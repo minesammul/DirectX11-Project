@@ -6,6 +6,8 @@
 #include "SSN007MonsterScript.h"
 #include "SSN011PlayerUIScript.h"
 #include "SSN013MusicScript.h"
+#include "SSN012SkyBoxScript.h"
+#include "SSN014DirectionLightScript.h"
 #include "FunctionMgr.h"
 
 CSSN010EventQueueScript::CSSN010EventQueueScript() : 
@@ -90,6 +92,32 @@ void CSSN010EventQueueScript::update()
 			CSSN013MusicScript* musicScript = dynamic_cast<CSSN013MusicScript*>(CFunctionMgr::GetInst()->FindScript(L"Music", SCRIPT_TYPE::SSN013MUSICSCRIPT));
 
 			musicScript->OperateMusic(MUSIC_KIND::IRON_GOLEM_BACKGROUND, MUSIC_STATE::OFF);
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::SKY_CHANGE_BATTLE)
+		{
+			CSSN012SkyBoxScript* skyBoxScript = dynamic_cast<CSSN012SkyBoxScript*>(CFunctionMgr::GetInst()->FindScript(L"Skybox", SCRIPT_TYPE::SSN012SKYBOXSCRIPT));
+			
+			CResPtr<CTexture> skyTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Skybox\\DarkStorm4K.png");
+			skyBoxScript->StartBlendSky(skyTexture, 0.1f);
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::SKY_CHANGE_CLEAR)
+		{
+			CSSN012SkyBoxScript* skyBoxScript = dynamic_cast<CSSN012SkyBoxScript*>(CFunctionMgr::GetInst()->FindScript(L"Skybox", SCRIPT_TYPE::SSN012SKYBOXSCRIPT));
+
+			CResPtr<CTexture> skyTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Skybox\\Epic_GloriousPink_EquiRect.png");
+			skyBoxScript->StartBlendSky(skyTexture, 0.15f);
+			skyBoxScript->SetUVSpeed(0.0005f);
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::LIGHT_VOLUEM_DOWN)
+		{
+			CSSN014DirectionLightScript* lightScript = dynamic_cast<CSSN014DirectionLightScript*>(CFunctionMgr::GetInst()->FindScript(L"DirectionLight1", SCRIPT_TYPE::SSN014DIRECTIONLIGHTSCRIPT));
+			lightScript->StartLightVoluemDown(	Vec3(0.f, 0.f, 0.f),
+												Vec3(0.f, 0.f, 0.f),
+												Vec3(0.3f, 0.3f, 0.3f),
+												Vec3(0.f, 0.f, 0.f),
+												Vec3(0.3f, 0.3f, 0.3f), 
+												Vec3(0.3f, 0.3f, 0.3f),
+												0.005f);
 		}
 
 		CEventQueueMgr::GetInst()->GetEvents()->pop();
