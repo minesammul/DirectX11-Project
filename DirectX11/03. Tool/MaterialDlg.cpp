@@ -147,6 +147,7 @@ void CMaterialDlg::OnSelShader()
 
 		CResPtr<CMaterial> pMtrl = (CMaterial*)GetRes();
 		pMtrl->SetShader(pShader);
+		pMtrl->Save();
 
 		if (nullptr == pShader)
 			m_editShaderName.SetWindowTextW(L"");

@@ -708,6 +708,28 @@ void CResMgr::CreateDefaultShader()
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 
+	// ==============
+	// STD3D Cull None Shader
+	// ==============
+	pShader = new CShader;
+	pShader->SetEventTime(SHADER_EVENT_TIME::DEFERRED);
+	pShader->CreateVertexShader(L"Shader\\std3d.fx", "VS_STD3D", 5, 0);
+	pShader->CreateVertexInstShader(L"Shader\\std3d.fx", "VS_STD3D_Inst", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\std3d.fx", "PS_STD3D", 5, 0);
+
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+
+	pShader->AddParam(SHADER_PARAM::TEX_0, L"Diffuse Texture");
+	pShader->AddParam(SHADER_PARAM::TEX_1, L"NormalMap Texture");
+	pShader->AddParam(SHADER_PARAM::TEX_2, L"Specular Texture");
+	//pShader->AddParam(SHADER_PARAM::TEX_3, L"Emissive Texture");
+
+
+
+	strKey = L"Std3DCullNoneShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
 	// ========================
 	// Directional Light Shader
 	// ========================
@@ -969,6 +991,13 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"Std3DMtrl");
 	pMtrl->SetShader(FindRes<CShader>(L"Std3DShader"));
+	pMtrl->SaveDisable();
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
+	//Std3DCullNoneMtrl
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"Std3DCullNoneMtrl");
+	pMtrl->SetShader(FindRes<CShader>(L"Std3DCullNoneShader"));
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
