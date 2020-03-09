@@ -100,6 +100,7 @@ void CParticleSystem::render()
 	m_pMtrl->SetData(SHADER_PARAM::VEC4_1, &m_vEndColor);
 	m_pMtrl->SetData(SHADER_PARAM::FLOAT_0, &m_fStartScale);
 	m_pMtrl->SetData(SHADER_PARAM::FLOAT_1, &m_fEndScale);
+	m_pMtrl->SetData(SHADER_PARAM::TEX_0, &m_pParticleTexture);
 
 	m_pMtrl->UpdateData();
 	m_pMesh->SetLayout(m_pMtrl->GetShader());
