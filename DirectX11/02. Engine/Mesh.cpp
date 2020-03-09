@@ -533,6 +533,13 @@ void CMesh::Load(const wstring& _strFilePath)
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
 
+	//임시코드
+	//if (pFile == nullptr)
+	//{
+	//	return;
+	//}
+	//
+
 	// 키값
 	SetName(LoadWString(pFile));
 
@@ -680,6 +687,9 @@ bool CMesh::LoadFromScene(FILE * _pFile)
 	// 키값, 경로
 	CResPtr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(GetName());
 
+	//임시코드
+	//return false;
+	//
 	if (nullptr != pMesh)
 		return false;
 

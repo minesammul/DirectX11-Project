@@ -100,6 +100,10 @@ bool CTexture::LoadFromScene(FILE * _pFile)
 	if (nullptr != pTex)
 		return false;
 
+	//임시코드
+	//return false;
+	//
+
 	wstring strPath = CPathMgr::GetResPath();
 	strPath += GetPath();
 	Load(strPath);

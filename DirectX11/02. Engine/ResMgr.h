@@ -54,6 +54,9 @@ public:
 	CResPtr<CMeshData> LoadFBX(const wstring & _strPath);
 
 	const map<wstring, CResource*>& GetResources(RES_TYPE _eType) { return m_mapRes[(UINT)_eType]; }
+
+	void DeleteResource(RES_TYPE resourceType, wstring strKey);
+
 };
 
 template<typename T>

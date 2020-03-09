@@ -27,7 +27,7 @@ void CSaveLoadMgr::SaveScene(const wstring& _strPath)
 
 	// 府家胶 历厘
 	SaveResource(pFile);
-
+	
 	// Scene 历厘
 	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
 

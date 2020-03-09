@@ -576,6 +576,7 @@ void CMaterialDlg::OnBnClickedButtonShaderTextureChange()
 		listctrlShaderTextureParameter.GetSelectionMark();
 		SHADER_PARAM eType = (SHADER_PARAM)(listctrlShaderTextureParameter.GetSelectionMark() + (int)SHADER_PARAM::TEX_0);
 		((CMaterial*)CResInfoDlg::GetRes())->SetData(eType, &pTexture);
+		((CMaterial*)CResInfoDlg::GetRes())->Save();
 
 		editShaderTextureValue.SetWindowTextW(strSelect);
 	}

@@ -36,6 +36,12 @@ void CTerrain::ModCheck()
 		if (m_iTileIdx > 3)
 			m_iTileIdx = 0;
 	}
+	else if (KEYTAB(KEY_TYPE::KEY_NUM5))
+	{
+		m_iBrushIdx += 1;
+		if (m_iBrushIdx > 1)
+			m_iBrushIdx = 0;
+	}
 }
 
 void CTerrain::KeyCheck()

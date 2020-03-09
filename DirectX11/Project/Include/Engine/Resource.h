@@ -17,6 +17,8 @@ public:
 	const wstring& GetPath() { return m_strPath; }
 	RES_TYPE GetType() { return m_eType; }
 
+	int GetRefCount() { return m_iRefCount; }
+
 public:
 	virtual void Load(const wstring& _strFilePath) {};
 	virtual void Save() {};

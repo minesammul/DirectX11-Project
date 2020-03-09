@@ -60,11 +60,13 @@ void CS_HeightMap(int3 _iThreadID : SV_DispatchThreadID)
             //g_rwtex_0[_iThreadID.xy] += fDT * fRatio * (1.f - (vColor.x * vColor.y * vColor.z)) * vColor.a;
             if (g_int_2 >= 0)
             {
+
                 g_rwtex_0[_iThreadID.xy] += fDT * fRatio * (vColor.x * vColor.y * vColor.z);
             }
             else
             {
                 g_rwtex_0[_iThreadID.xy] -= fDT * fRatio * (vColor.x * vColor.y * vColor.z);
+
             }
         }
     }

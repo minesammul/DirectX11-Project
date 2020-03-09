@@ -104,10 +104,10 @@ void CMaterial::SetData(SHADER_PARAM _eType, void * _pSrc)
 	//	Save();
 	//}
 
-	/*if (CCore::GetInst()->GetState() == SCENE_STATE::STOP)
-	{
-		Save();
-	}*/
+	//if (CCore::GetInst()->GetState() == SCENE_STATE::STOP)
+	//{
+	//	Save();
+	//}
 }
 
 
@@ -217,6 +217,15 @@ void CMaterial::Load(const wstring & _strFilePath)
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
 
+	//임시코드
+	//if (pFile == nullptr)
+	//{
+	//	return;
+	//}
+
+	//
+
+
 	// Shader Key 읽기
 	wstring strShaderName = LoadWString(pFile);
 	m_pShader = CResMgr::GetInst()->FindRes<CShader>(strShaderName);
@@ -252,11 +261,26 @@ void CMaterial::Save()
 	if (GetPath().empty())
 		return;
 
-
 	wstring strFileName = CPathMgr::GetResPath();
-	strFileName += L"Material\\";
+	{
+		size_t findPos = GetName().find(L"Material\\");
+		if (findPos == wstring::npos)
+		{
+			strFileName += L"Material\\";
+		}
+	}
+
 	strFileName += GetName();
-	strFileName += L".mtrl";
+	
+	{
+		size_t findPos = strFileName.find(L".mtrl");
+		if (findPos == wstring::npos)
+		{
+			strFileName += L".mtrl";
+		}
+	}
+
+
 
 	FILE* pFile = nullptr;
 	errno_t err = _wfopen_s(&pFile, strFileName.c_str(), L"wb");
@@ -298,6 +322,10 @@ bool CMaterial::LoadFromScene(FILE * _pFile)
 
 	// 키값, 경로
 	CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(GetName());
+
+	//임시코드
+	//return false;
+	//
 
 	if (nullptr != pMtrl)
 		return false;

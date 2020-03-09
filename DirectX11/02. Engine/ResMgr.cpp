@@ -124,3 +124,8 @@ CResPtr<CMeshData> CResMgr::LoadFBX(const wstring & _strPath)
 
 	return pMeshData;
 }
+
+void CResMgr::DeleteResource(RES_TYPE resourceType, wstring strKey)
+{
+	m_mapRes[(UINT)resourceType].erase(strKey);
+}

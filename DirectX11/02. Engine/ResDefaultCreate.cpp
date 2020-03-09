@@ -695,9 +695,11 @@ void CResMgr::CreateDefaultShader()
 	pShader->CreateVertexInstShader(L"Shader\\std3d.fx", "VS_STD3D_Inst", 5, 0);
 	pShader->CreatePixelShader(L"Shader\\std3d.fx", "PS_STD3D", 5, 0);
 
+	//pShader->SetRSType(RS_TYPE::CULL_NONE);
+
 	pShader->AddParam(SHADER_PARAM::TEX_0, L"Diffuse Texture");
 	pShader->AddParam(SHADER_PARAM::TEX_1, L"NormalMap Texture");
-	//pShader->AddParam(SHADER_PARAM::TEX_2, L"Specular Texture");
+	pShader->AddParam(SHADER_PARAM::TEX_2, L"Specular Texture");
 	//pShader->AddParam(SHADER_PARAM::TEX_3, L"Emissive Texture");
 
 

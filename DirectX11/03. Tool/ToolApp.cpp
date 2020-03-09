@@ -178,7 +178,7 @@ void CToolApp::CreateTestScene()
 	//}
 
 	//{
-	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Iron_Golem3.fbx");
+		//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Plain_CastleWall_Ruin_03.fbx");
 	//	pMeshData->Save();
 	//	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
 
@@ -196,13 +196,13 @@ void CToolApp::CreateTestScene()
 	//}
 
 	//{
-	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Player_Artorias.fbx");
+	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Stage Entrance.fbx");
 	//	pMeshData->Save();
 	//	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
 
 	//	CGameObject* pMeshObject = pMeshData->Instantiate();
 
-	//	pMeshObject->SetName(L"Weapon");
+	//	pMeshObject->SetName(L"Test");
 	//	pMeshObject->Transform()->SetLocalScale(Vec3(1.f, 1.f, 1.f));
 
 	//	pCurScene->AddObject(L"Default", pMeshObject);
