@@ -11,3 +11,8 @@ CSSN016ParticleScript::CSSN016ParticleScript():
 CSSN016ParticleScript::~CSSN016ParticleScript()
 {
 }
+
+void CSSN016ParticleScript::start()
+{
+
+}
