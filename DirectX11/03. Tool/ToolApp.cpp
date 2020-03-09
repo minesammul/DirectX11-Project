@@ -196,7 +196,7 @@ void CToolApp::CreateTestScene()
 	//}
 
 	//{
-	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Stage Entrance.fbx");
+	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Plain_CastleWall_Ruin_01.fbx");
 	//	pMeshData->Save();
 	//	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
 
@@ -285,6 +285,9 @@ void CToolApp::CreateTestScene()
 	pSkyBox->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"SkyboxMtrl"));
 	CResPtr<CTexture> pSkyBoxTex = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Skybox\\Sky01.png");
 	pSkyBox->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pSkyBoxTex);
+
+	Vec2 blendRatio = Vec2(1.f, 0.f);
+	pSkyBox->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::VEC2_1, &blendRatio);
 
 	pCurScene->AddObject(L"Default", pSkyBox);
 

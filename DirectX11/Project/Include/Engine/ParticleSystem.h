@@ -47,11 +47,7 @@ public:
 	void SetEndColor(Vec4 _vColor) { m_vEndColor = _vColor; }
 	Vec4 GetEndColor() { return m_vEndColor; }
 
-	void SetParticleTexture(CResPtr<CTexture> texture) 
-	{ 
-		m_pParticleTexture = texture; 
-		m_pMtrl->SetData(SHADER_PARAM::TEX_0, &m_pParticleTexture);
-	}
+	void SetParticleTexture(CResPtr<CTexture> texture) 	{ m_pParticleTexture = texture; }
 	wstring GetParticleTextureName() { return m_pParticleTexture->GetName(); }
 
 	void SetStartScale(float scale) { m_fStartScale = scale; }

@@ -12,4 +12,7 @@ SSN010EventQueueScript
 SSN011PlayerUIScript
 SSN012SkyBoxScript
 SSN013MusicScript
+SSN014DirectionLightScript
+SSN015StageEventScript
+SSN016ParticleScript
 TestScript

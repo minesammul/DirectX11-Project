@@ -9,7 +9,18 @@ enum class GAME_EVENT_TYPE
 	PLAYER_SP_UPDATE,
 	PLAYER_HP_UPDATE,
 	MUSIC_MONSTER_BGM_ON,
-	MUSIC_MONSTER_BGM_OFF
+	MUSIC_MONSTER_BGM_OFF,
+	SKY_CHANGE_BATTLE,
+	SKY_CHANGE_CLEAR,
+	INSIDE_LIGHT,
+	OUTSIDE_LIGHT,
+	ON_EFFECT_SOUND
+};
+
+union SendData
+{
+	int intValue;
+	UINT uintValue;
 };
 
 struct GameEventComponent
@@ -17,6 +28,7 @@ struct GameEventComponent
 	GAME_EVENT_TYPE eventType;
 	wstring sendObjectName;
 	wstring receiveObjectName;
+	SendData sendObjectData;
 };
 
 class CEventQueueMgr

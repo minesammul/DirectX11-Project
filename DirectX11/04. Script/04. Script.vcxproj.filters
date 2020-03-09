@@ -261,6 +261,15 @@
     <ClInclude Include="PlayerRollRightState.h">
       <Filter>Scripts\Player\State\Component\Roll</Filter>
     </ClInclude>
+    <ClInclude Include="SSN014DirectionLightScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="SSN015StageEventScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="SSN016ParticleScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptMgr.cpp">
@@ -442,6 +451,15 @@
     </ClCompile>
     <ClCompile Include="PlayerRollRightState.cpp">
       <Filter>Scripts\Player\State\Component\Roll</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN014DirectionLightScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN015StageEventScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN016ParticleScript.cpp">
+      <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

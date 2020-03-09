@@ -5,6 +5,8 @@ enum class MUSIC_KIND
 {
 	IRON_GOLEM_BACKGROUND = 0,
 	STAGE_BACKGROUND,
+	EFFECT_THUNDER,
+	EFFECT_WIND,
 	END
 };
 
@@ -19,10 +21,20 @@ enum class MUSIC_STATE
 	END
 };
 
+enum class MUSIC_PLAY_KIND
+{
+	ONE,
+	LOOP,
+	END
+};
+
 struct MusicComponent
 {
 	MUSIC_STATE musicState;
 	CResPtr<CSound> music;
+	MUSIC_PLAY_KIND musicPlayKind;
+	float startVolume;
+	float maxVolume;
 };
 
 class CSSN013MusicScript : public CScript

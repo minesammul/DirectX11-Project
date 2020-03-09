@@ -42,6 +42,8 @@ public:
 	void Stop();
 	void SetVolume(float volume);
 	float GetVolume();
+	bool IsPlaying();
+
 
 public:
 	virtual void Load(const wstring& _strFilePath);
