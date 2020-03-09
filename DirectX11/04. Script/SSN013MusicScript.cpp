@@ -21,12 +21,18 @@ void CSSN013MusicScript::start()
 		{
 			inputData.musicState = MUSIC_STATE::OFF;
 			inputData.music = CResMgr::GetInst()->Load<CSound>(L"IronGolemBGM.mp3", L"Sound\\IronGolemBGM.mp3");
+			inputData.maxVolume = 0.5f;
+			inputData.startVolume = 0.f;
+			inputData.musicPlayKind = MUSIC_PLAY_KIND::LOOP;
 			mMusics[(MUSIC_KIND)index] = inputData;
 		}
 		else if (index == (int)MUSIC_KIND::STAGE_BACKGROUND)
 		{
 			inputData.musicState = MUSIC_STATE::ON;
 			inputData.music = CResMgr::GetInst()->Load<CSound>(L"StageBGM.mp3", L"Sound\\stageBGM.mp3");
+			inputData.maxVolume = 0.5f;
+			inputData.startVolume = 0.f;
+			inputData.musicPlayKind = MUSIC_PLAY_KIND::LOOP;
 			mMusics[(MUSIC_KIND)index] = inputData;
 		}
 	}
@@ -40,22 +46,32 @@ void CSSN013MusicScript::update()
 	{
 		if (musicIter->second.musicState == MUSIC_STATE::ON)
 		{
-			musicIter->second.music->Play(1);
-			musicIter->second.music->SetVolume(0.f);
+			if (musicIter->second.musicPlayKind == MUSIC_PLAY_KIND::LOOP)
+			{
+				musicIter->second.music->Play(-1);
+			}
+			else if (musicIter->second.musicPlayKind == MUSIC_PLAY_KIND::ONE)
+			{
+				musicIter->second.music->Play(1);
+			}
+			
+			float nowMusicStartVolume = musicIter->second.startVolume;
+			musicIter->second.music->SetVolume(nowMusicStartVolume);
 
 			musicIter->second.musicState = MUSIC_STATE::VOLUME_UP;
 		}
 		else if (musicIter->second.musicState == MUSIC_STATE::VOLUME_UP)
 		{
+			float maxVolume = musicIter->second.maxVolume;
 			float volume = musicIter->second.music->GetVolume();
-			if (volume < 0.5f)
+			if (volume < maxVolume)
 			{
 				volume += CTimeMgr::GetInst()->GetDeltaTime() * 0.1f;
 				musicIter->second.music->SetVolume(volume);
 			}
 			else
 			{
-				volume = 0.5f;
+				volume = maxVolume;
 				musicIter->second.music->SetVolume(volume);
 				musicIter->second.musicState = MUSIC_STATE::PLAY;
 			}
@@ -79,6 +95,17 @@ void CSSN013MusicScript::update()
 		else if (musicIter->second.musicState == MUSIC_STATE::OFF)
 		{
 			musicIter->second.musicState = MUSIC_STATE::VOLUME_DOWN;
+		}
+		else if (musicIter->second.musicState == MUSIC_STATE::PLAY)
+		{
+			if ((musicIter->second.musicPlayKind == MUSIC_PLAY_KIND::ONE))
+			{
+				bool nowMusicIsPlaying = musicIter->second.music->IsPlaying();
+				if (nowMusicIsPlaying == false)
+				{
+					musicIter->second.musicState = MUSIC_STATE::STOP;
+				}
+			}
 		}
 
 		musicIter++;

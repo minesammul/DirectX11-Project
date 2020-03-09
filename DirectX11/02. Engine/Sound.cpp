@@ -79,8 +79,15 @@ float CSound::GetVolume()
 {
 	float volume = 0.f;
 	m_pChanel->getVolume(&volume);
-
+	
 	return volume;
+}
+
+bool CSound::IsPlaying()
+{
+	bool result = false;
+	m_pChanel->isPlaying(&result);
+	return result;
 }
 
 void CSound::Load(const wstring& _strFilePath)
