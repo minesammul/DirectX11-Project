@@ -27,7 +27,14 @@ void CSSN015StageEventScript::OnCollisionEnter(CCollider3D * _pOther)
 		else if (Object()->GetName() == L"EventLightVoluemDown")
 		{
 			GameEventComponent addEvent;
-			addEvent.eventType = GAME_EVENT_TYPE::LIGHT_VOLUEM_DOWN;
+			addEvent.eventType = GAME_EVENT_TYPE::INSIDE_LIGHT;
+			addEvent.sendObjectName = Object()->GetName();
+			CEventQueueMgr::GetInst()->AddEvent(addEvent);
+		}
+		else if (Object()->GetName() == L"EventLightVoluemUp")
+		{
+			GameEventComponent addEvent;
+			addEvent.eventType = GAME_EVENT_TYPE::OUTSIDE_LIGHT;
 			addEvent.sendObjectName = Object()->GetName();
 			CEventQueueMgr::GetInst()->AddEvent(addEvent);
 		}

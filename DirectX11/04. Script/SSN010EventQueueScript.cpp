@@ -108,16 +108,27 @@ void CSSN010EventQueueScript::update()
 			skyBoxScript->StartBlendSky(skyTexture, 0.15f);
 			skyBoxScript->SetUVSpeed(0.0005f);
 		}
-		else if (popEvent.eventType == GAME_EVENT_TYPE::LIGHT_VOLUEM_DOWN)
+		else if (popEvent.eventType == GAME_EVENT_TYPE::INSIDE_LIGHT)
 		{
 			CSSN014DirectionLightScript* lightScript = dynamic_cast<CSSN014DirectionLightScript*>(CFunctionMgr::GetInst()->FindScript(L"DirectionLight1", SCRIPT_TYPE::SSN014DIRECTIONLIGHTSCRIPT));
-			lightScript->StartLightVoluemDown(	Vec3(0.f, 0.f, 0.f),
+			lightScript->StartLightVoluemUp(	Vec3(0.f, 0.f, 0.f),
 												Vec3(0.f, 0.f, 0.f),
 												Vec3(0.3f, 0.3f, 0.3f),
 												Vec3(0.f, 0.f, 0.f),
 												Vec3(0.3f, 0.3f, 0.3f), 
 												Vec3(0.3f, 0.3f, 0.3f),
-												0.005f);
+												0.09f);
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::OUTSIDE_LIGHT)
+		{
+			CSSN014DirectionLightScript* lightScript = dynamic_cast<CSSN014DirectionLightScript*>(CFunctionMgr::GetInst()->FindScript(L"DirectionLight1", SCRIPT_TYPE::SSN014DIRECTIONLIGHTSCRIPT));
+			lightScript->StartLightVoluemDown(	Vec3(0.3f, 0.3f, 0.3f),
+												Vec3(0.4f, 0.4f, 0.4f),
+												Vec3(0.3f, 0.3f, 0.3f),
+												Vec3(0.1f, 0.1f, 0.1f),
+												Vec3(0.3f, 0.3f, 0.3f),
+												Vec3(1.f, 1.f, 1.f),
+												0.09f);
 		}
 
 		CEventQueueMgr::GetInst()->GetEvents()->pop();
