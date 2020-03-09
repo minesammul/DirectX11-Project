@@ -3,6 +3,7 @@
 
 #include "SSN007MonsterScript.h"
 #include "SSN008AttackBoxScript.h"
+#include "SSN013MusicScript.h"
 #include "EventQueueMgr.h"
 
 IronGolemDieState::IronGolemDieState()
@@ -26,10 +27,37 @@ void IronGolemDieState::Init(CSSN007MonsterScript * monsterScript)
 	monsterScript->GetAttackBoxScript()->SetActiveCollision(false);
 	monsterScript->GetAttackBoxScript()->SetAttackted(false);
 
-	GameEventComponent addEvent;
-	addEvent.eventType = GAME_EVENT_TYPE::SKY_CHANGE_CLEAR;
-	addEvent.sendObjectName = monsterScript->Object()->GetName();
-	CEventQueueMgr::GetInst()->AddEvent(addEvent);
+	{
+		GameEventComponent addEvent;
+		addEvent.eventType = GAME_EVENT_TYPE::SKY_CHANGE_CLEAR;
+		addEvent.sendObjectName = monsterScript->Object()->GetName();
+		CEventQueueMgr::GetInst()->AddEvent(addEvent);
+	}
+
+	{
+		GameEventComponent addEvent;
+		addEvent.eventType = GAME_EVENT_TYPE::PARTICLE_RAIN_STOP;
+		addEvent.sendObjectName = monsterScript->Object()->GetName();
+		CEventQueueMgr::GetInst()->AddEvent(addEvent);
+	}
+	
+	{
+		GameEventComponent addEvent;
+		addEvent.eventType = GAME_EVENT_TYPE::CLEAR_LIGHT;
+		addEvent.sendObjectName = monsterScript->Object()->GetName();
+		CEventQueueMgr::GetInst()->AddEvent(addEvent);
+	}
+
+	{
+		GameEventComponent addEvent;
+		addEvent.eventType = GAME_EVENT_TYPE::OFF_EFFECT_SOUND;
+		addEvent.sendObjectName = monsterScript->Object()->GetName();
+
+		MUSIC_KIND sendData = MUSIC_KIND::EFFECT_WIND;
+		addEvent.sendObjectData.uintValue = (UINT)sendData;
+
+		CEventQueueMgr::GetInst()->AddEvent(addEvent);
+	}
 }
 
 void IronGolemDieState::Update(CSSN007MonsterScript * monsterScript)

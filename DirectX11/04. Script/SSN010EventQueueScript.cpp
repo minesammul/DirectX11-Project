@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "SSN010EventQueueScript.h"
 
+#include <GameObject.h>
+#include <ParticleSystem.h>
+
 #include "EventQueueMgr.h"
 #include "SSN002PlayerScript.h"
 #include "SSN007MonsterScript.h"
@@ -130,6 +133,17 @@ void CSSN010EventQueueScript::update()
 												Vec3(1.f, 1.f, 1.f),
 												0.5f);
 		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::CLEAR_LIGHT)
+		{
+			CSSN014DirectionLightScript* lightScript = dynamic_cast<CSSN014DirectionLightScript*>(CFunctionMgr::GetInst()->FindScript(L"DirectionLight1", SCRIPT_TYPE::SSN014DIRECTIONLIGHTSCRIPT));
+			lightScript->StartLightVoluemUp(	Vec3(0.1f, 0.1f, 0.1f),
+												Vec3(0.3f, 0.3f, 0.3f),
+												Vec3(1.f, 1.f, 1.f),
+												Vec3(0.1f, 0.1f, 0.1f),
+												Vec3(0.8f, 0.8f, 0.8f),
+												Vec3(0.9f, 0.9f, 0.9f),
+												0.09f);
+		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::ON_EFFECT_SOUND)
 		{
 			CSSN013MusicScript* musicScript = dynamic_cast<CSSN013MusicScript*>(CFunctionMgr::GetInst()->FindScript(L"Music", SCRIPT_TYPE::SSN013MUSICSCRIPT));
@@ -138,6 +152,38 @@ void CSSN010EventQueueScript::update()
 
 			musicScript->OperateMusic((MUSIC_KIND)sendData, MUSIC_STATE::ON);
 		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::OFF_EFFECT_SOUND)
+		{
+			CSSN013MusicScript* musicScript = dynamic_cast<CSSN013MusicScript*>(CFunctionMgr::GetInst()->FindScript(L"Music", SCRIPT_TYPE::SSN013MUSICSCRIPT));
+
+			UINT sendData = popEvent.sendObjectData.uintValue;
+
+			musicScript->OperateMusic((MUSIC_KIND)sendData, MUSIC_STATE::OFF);
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::PARTICLE_RAIN_START)
+		{
+			vector<CGameObject*> allParticle = CSceneMgr::GetInst()->GetCurScene()->FindLayer(L"Particle")->GetParentObject();
+			for (int index = 0; index < allParticle.size(); index++)
+			{
+				if (allParticle[index]->GetName().find(L"Rain") != wstring::npos)
+				{
+					allParticle[index]->Active(true);
+				}
+			}
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::PARTICLE_RAIN_STOP)
+		{
+			vector<CGameObject*> allParticle = CSceneMgr::GetInst()->GetCurScene()->FindLayer(L"Particle")->GetParentObject();
+			for (int index = 0; index < allParticle.size(); index++)
+			{
+				if (allParticle[index]->GetName().find(L"Rain") != wstring::npos)
+				{
+					allParticle[index]->Particle()->SetMinLifeTime(0.f);
+					allParticle[index]->Particle()->SetMaxLifeTime(0.f);
+				}
+			}
+		}
+
 
 		CEventQueueMgr::GetInst()->GetEvents()->pop();
 	}

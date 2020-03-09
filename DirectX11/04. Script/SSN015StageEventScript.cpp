@@ -27,6 +27,13 @@ void CSSN015StageEventScript::OnCollisionEnter(CCollider3D * _pOther)
 				CEventQueueMgr::GetInst()->AddEvent(addEvent); 
 			}
 
+			{
+				GameEventComponent addEvent;
+				addEvent.eventType = GAME_EVENT_TYPE::PARTICLE_RAIN_START;
+				addEvent.sendObjectName = Object()->GetName();
+				CEventQueueMgr::GetInst()->AddEvent(addEvent);
+			}
+
 
 			{
 				GameEventComponent addEvent;
