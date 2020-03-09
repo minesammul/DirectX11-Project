@@ -115,20 +115,28 @@ void CSSN010EventQueueScript::update()
 												Vec3(0.f, 0.f, 0.f),
 												Vec3(0.3f, 0.3f, 0.3f),
 												Vec3(0.f, 0.f, 0.f),
-												Vec3(0.3f, 0.3f, 0.3f), 
+												Vec3(0.2f, 0.2f, 0.2f), 
 												Vec3(0.3f, 0.3f, 0.3f),
 												0.09f);
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::OUTSIDE_LIGHT)
 		{
 			CSSN014DirectionLightScript* lightScript = dynamic_cast<CSSN014DirectionLightScript*>(CFunctionMgr::GetInst()->FindScript(L"DirectionLight1", SCRIPT_TYPE::SSN014DIRECTIONLIGHTSCRIPT));
-			lightScript->StartLightVoluemDown(	Vec3(0.3f, 0.3f, 0.3f),
-												Vec3(0.4f, 0.4f, 0.4f),
+			lightScript->StartLightVoluemDown(	Vec3(1.f, 1.f, 1.f),
+												Vec3(1.f, 1.f, 1.f),
 												Vec3(0.3f, 0.3f, 0.3f),
 												Vec3(0.1f, 0.1f, 0.1f),
 												Vec3(0.3f, 0.3f, 0.3f),
 												Vec3(1.f, 1.f, 1.f),
-												0.09f);
+												0.5f);
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::ON_EFFECT_SOUND)
+		{
+			CSSN013MusicScript* musicScript = dynamic_cast<CSSN013MusicScript*>(CFunctionMgr::GetInst()->FindScript(L"Music", SCRIPT_TYPE::SSN013MUSICSCRIPT));
+
+			UINT sendData = popEvent.sendObjectData.uintValue;
+
+			musicScript->OperateMusic((MUSIC_KIND)sendData, MUSIC_STATE::ON);
 		}
 
 		CEventQueueMgr::GetInst()->GetEvents()->pop();

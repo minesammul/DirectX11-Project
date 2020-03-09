@@ -15,6 +15,9 @@
 #include "SSN011PlayerUIScript.h"
 #include "SSN012SkyBoxScript.h"
 #include "SSN013MusicScript.h"
+#include "SSN014DirectionLightScript.h"
+#include "SSN015StageEventScript.h"
+#include "SSN016ParticleScript.h"
 #include "TestScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
@@ -33,6 +36,9 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"SSN011PlayerUIScript");
 	_vec.push_back(L"SSN012SkyBoxScript");
 	_vec.push_back(L"SSN013MusicScript");
+	_vec.push_back(L"SSN014DirectionLightScript");
+	_vec.push_back(L"SSN015StageEventScript");
+	_vec.push_back(L"SSN016ParticleScript");
 	_vec.push_back(L"TestScript");
 }
 
@@ -66,6 +72,12 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSSN012SkyBoxScript;
 	if (L"SSN013MusicScript" == _strScriptName)
 		return new CSSN013MusicScript;
+	if (L"SSN014DirectionLightScript" == _strScriptName)
+		return new CSSN014DirectionLightScript;
+	if (L"SSN015StageEventScript" == _strScriptName)
+		return new CSSN015StageEventScript;
+	if (L"SSN016ParticleScript" == _strScriptName)
+		return new CSSN016ParticleScript;
 	if (L"TestScript" == _strScriptName)
 		return new CTestScript;
 	return nullptr;
@@ -129,6 +141,18 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::SSN013MUSICSCRIPT:
 		return L"SSN013MusicScript";
+		break;
+
+	case SCRIPT_TYPE::SSN014DIRECTIONLIGHTSCRIPT:
+		return L"SSN014DirectionLightScript";
+		break;
+
+	case SCRIPT_TYPE::SSN015STAGEEVENTSCRIPT:
+		return L"SSN015StageEventScript";
+		break;
+
+	case SCRIPT_TYPE::SSN016PARTICLESCRIPT:
+		return L"SSN016ParticleScript";
 		break;
 
 	case SCRIPT_TYPE::TESTSCRIPT:
