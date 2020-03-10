@@ -12,7 +12,7 @@ CParticleSystem::CParticleSystem()
 	: CComponent(COMPONENT_TYPE::PARTICLESYSTEM)
 	, m_pParticleBuffer(nullptr)
 	, m_pSharedBuffer(nullptr)
-	, m_iMaxParticle(1000)
+	, m_iMaxParticle(10000)
 	, m_fFrequency(0.002f)
 	, m_fAccTime(0.f)
 	, m_fMinLifeTime(0.5f)
@@ -84,7 +84,7 @@ void CParticleSystem::finalupdate()
 	Vec4 inputObjectFrontVector = Vec4(objectFrontVector, 0.f);
 	m_pUpdateMtrl->SetData(SHADER_PARAM::VEC4_2, &objectFrontVector);
 
-	m_pUpdateMtrl->ExcuteComputeShader(1, 1, 1);
+	m_pUpdateMtrl->ExcuteComputeShader(10, 1, 1);
 
 	m_pParticleBuffer->ClearRWData(6);
 	m_pSharedBuffer->ClearRWData(7);
