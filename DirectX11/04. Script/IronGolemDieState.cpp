@@ -54,6 +54,13 @@ void IronGolemDieState::Init(CSSN007MonsterScript * monsterScript)
 		addEvent.sendObjectName = monsterScript->Object()->GetName();
 		CEventQueueMgr::GetInst()->AddEvent(addEvent);
 	}
+
+	{
+		GameEventComponent addEvent;
+		addEvent.eventType = GAME_EVENT_TYPE::PARTICLE_DOOR_STOP;
+		addEvent.sendObjectName = monsterScript->Object()->GetName();
+		CEventQueueMgr::GetInst()->AddEvent(addEvent);
+	}
 }
 
 void IronGolemDieState::Update(CSSN007MonsterScript * monsterScript)

@@ -120,7 +120,7 @@ void CSSN010EventQueueScript::update()
 												Vec3(0.f, 0.f, 0.f),
 												Vec3(0.2f, 0.2f, 0.2f), 
 												Vec3(0.3f, 0.3f, 0.3f),
-												0.09f);
+												0.04f);
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::OUTSIDE_LIGHT)
 		{
@@ -176,6 +176,29 @@ void CSSN010EventQueueScript::update()
 			for (int index = 0; index < allParticle.size(); index++)
 			{
 				if (allParticle[index]->GetName().find(L"Rain") != wstring::npos)
+				{
+					allParticle[index]->Particle()->SetMinLifeTime(0.f);
+					allParticle[index]->Particle()->SetMaxLifeTime(0.f);
+				}
+			}
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::PARTICLE_DOOR_START)
+		{
+			vector<CGameObject*> allParticle = CSceneMgr::GetInst()->GetCurScene()->FindLayer(L"Particle")->GetParentObject();
+			for (int index = 0; index < allParticle.size(); index++)
+			{
+				if (allParticle[index]->GetName().find(L"Door") != wstring::npos)
+				{
+					allParticle[index]->Active(true);
+				}
+			}
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::PARTICLE_DOOR_STOP)
+		{
+			vector<CGameObject*> allParticle = CSceneMgr::GetInst()->GetCurScene()->FindLayer(L"Particle")->GetParentObject();
+			for (int index = 0; index < allParticle.size(); index++)
+			{
+				if (allParticle[index]->GetName().find(L"Door") != wstring::npos)
 				{
 					allParticle[index]->Particle()->SetMinLifeTime(0.f);
 					allParticle[index]->Particle()->SetMaxLifeTime(0.f);
