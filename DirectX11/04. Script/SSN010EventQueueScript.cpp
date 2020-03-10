@@ -11,6 +11,7 @@
 #include "SSN013MusicScript.h"
 #include "SSN012SkyBoxScript.h"
 #include "SSN014DirectionLightScript.h"
+#include "SSN018EffectScript.h"
 #include "FunctionMgr.h"
 
 CSSN010EventQueueScript::CSSN010EventQueueScript() : 
@@ -217,6 +218,18 @@ void CSSN010EventQueueScript::update()
 			Vec3 changeLightPosition = nowLightPosition + Vec3(xValue, yValue, zValue);
 			
 			lightScript->SetPosition(changeLightPosition);
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::EFFECT_THUNDER_ON)
+		{
+			CSSN018EffectScript* effectScript = dynamic_cast<CSSN018EffectScript*>(CFunctionMgr::GetInst()->FindScript(popEvent.receiveObjectName, SCRIPT_TYPE::SSN018EFFECTSCRIPT));
+
+			effectScript->OperaterEffect(EFFECT_KIND::THUNDER_EFFECT, EFFECT_OPERATER_KIND::UP, 0.5f);
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::EFFECT_THUNDER_OFF)
+		{
+			CSSN018EffectScript* effectScript = dynamic_cast<CSSN018EffectScript*>(CFunctionMgr::GetInst()->FindScript(popEvent.receiveObjectName, SCRIPT_TYPE::SSN018EFFECTSCRIPT));
+
+			effectScript->OperaterEffect(EFFECT_KIND::THUNDER_EFFECT, EFFECT_OPERATER_KIND::DOWN, 1.f);
 		}
 
 		CEventQueueMgr::GetInst()->GetEvents()->pop();
