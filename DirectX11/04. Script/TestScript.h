@@ -7,8 +7,7 @@ private:
 	float		m_fSpeed;
 	float		m_fMul;
 
-	Vec3 mPlayerBeforePosition;
-	CGameObject* mPlayer;
+	CGameObject* mainCamera;
 public:
 	CTestScript();
 	~CTestScript();
