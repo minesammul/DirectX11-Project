@@ -144,21 +144,20 @@ void CSSN010EventQueueScript::update()
 												Vec3(0.9f, 0.9f, 0.9f),
 												0.09f);
 		}
-		else if (popEvent.eventType == GAME_EVENT_TYPE::ON_EFFECT_SOUND)
+		else if (popEvent.eventType == GAME_EVENT_TYPE::ON_EFFECT_SOUND_THUNDER)
 		{
 			CSSN013MusicScript* musicScript = dynamic_cast<CSSN013MusicScript*>(CFunctionMgr::GetInst()->FindScript(L"Music", SCRIPT_TYPE::SSN013MUSICSCRIPT));
-
-			UINT sendData = popEvent.sendObjectData.uintValue;
-
-			musicScript->OperateMusic((MUSIC_KIND)sendData, MUSIC_STATE::ON);
+			musicScript->OperateMusic(MUSIC_KIND::EFFECT_THUNDER, MUSIC_STATE::ON);
 		}
-		else if (popEvent.eventType == GAME_EVENT_TYPE::OFF_EFFECT_SOUND)
+		else if (popEvent.eventType == GAME_EVENT_TYPE::ON_EFFECT_SOUND_WIND)
 		{
 			CSSN013MusicScript* musicScript = dynamic_cast<CSSN013MusicScript*>(CFunctionMgr::GetInst()->FindScript(L"Music", SCRIPT_TYPE::SSN013MUSICSCRIPT));
-
-			UINT sendData = popEvent.sendObjectData.uintValue;
-
-			musicScript->OperateMusic((MUSIC_KIND)sendData, MUSIC_STATE::OFF);
+			musicScript->OperateMusic(MUSIC_KIND::EFFECT_WIND, MUSIC_STATE::ON);
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::OFF_EFFECT_SOUND_WIND)
+		{
+			CSSN013MusicScript* musicScript = dynamic_cast<CSSN013MusicScript*>(CFunctionMgr::GetInst()->FindScript(L"Music", SCRIPT_TYPE::SSN013MUSICSCRIPT));
+			musicScript->OperateMusic(MUSIC_KIND::EFFECT_WIND, MUSIC_STATE::OFF);
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::PARTICLE_RAIN_START)
 		{

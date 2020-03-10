@@ -255,6 +255,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="SSN014DirectionLightScript.h" />
     <ClInclude Include="SSN015StageEventScript.h" />
     <ClInclude Include="SSN016ParticleScript.h" />
+    <ClInclude Include="SSN017InOutsideScript.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TestScript.h" />
@@ -321,6 +322,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="SSN014DirectionLightScript.cpp" />
     <ClCompile Include="SSN015StageEventScript.cpp" />
     <ClCompile Include="SSN016ParticleScript.cpp" />
+    <ClCompile Include="SSN017InOutsideScript.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

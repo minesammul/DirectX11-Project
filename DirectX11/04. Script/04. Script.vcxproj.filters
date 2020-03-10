@@ -270,6 +270,9 @@
     <ClInclude Include="SSN016ParticleScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="SSN017InOutsideScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptMgr.cpp">
@@ -459,6 +462,9 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="SSN016ParticleScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN017InOutsideScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>

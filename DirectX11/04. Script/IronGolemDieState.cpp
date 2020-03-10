@@ -50,12 +50,8 @@ void IronGolemDieState::Init(CSSN007MonsterScript * monsterScript)
 
 	{
 		GameEventComponent addEvent;
-		addEvent.eventType = GAME_EVENT_TYPE::OFF_EFFECT_SOUND;
+		addEvent.eventType = GAME_EVENT_TYPE::OFF_EFFECT_SOUND_WIND;
 		addEvent.sendObjectName = monsterScript->Object()->GetName();
-
-		MUSIC_KIND sendData = MUSIC_KIND::EFFECT_WIND;
-		addEvent.sendObjectData.uintValue = (UINT)sendData;
-
 		CEventQueueMgr::GetInst()->AddEvent(addEvent);
 	}
 }

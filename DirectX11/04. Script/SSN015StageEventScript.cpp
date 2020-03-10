@@ -37,12 +37,8 @@ void CSSN015StageEventScript::OnCollisionEnter(CCollider3D * _pOther)
 
 			{
 				GameEventComponent addEvent;
-				addEvent.eventType = GAME_EVENT_TYPE::ON_EFFECT_SOUND;
+				addEvent.eventType = GAME_EVENT_TYPE::ON_EFFECT_SOUND_WIND;
 				addEvent.sendObjectName = Object()->GetName();
-				
-				MUSIC_KIND sendData = MUSIC_KIND::EFFECT_WIND;
-				addEvent.sendObjectData.uintValue = (UINT)sendData;
-
 				CEventQueueMgr::GetInst()->AddEvent(addEvent);
 			}
 		}
@@ -64,12 +60,8 @@ void CSSN015StageEventScript::OnCollisionEnter(CCollider3D * _pOther)
 
 			{
 				GameEventComponent addEvent;
-				addEvent.eventType = GAME_EVENT_TYPE::ON_EFFECT_SOUND;
+				addEvent.eventType = GAME_EVENT_TYPE::ON_EFFECT_SOUND_THUNDER;
 				addEvent.sendObjectName = Object()->GetName();
-
-				MUSIC_KIND sendData = MUSIC_KIND::EFFECT_THUNDER;
-				addEvent.sendObjectData.uintValue = (UINT)sendData;
-
 				CEventQueueMgr::GetInst()->AddEvent(addEvent);
 			}
 		}

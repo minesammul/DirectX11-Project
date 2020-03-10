@@ -637,6 +637,9 @@ void CResMgr::CreateDefaultShader()
 
 	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
 
+	pShader->AddParam(SHADER_PARAM::FLOAT_0, L"Alpha Value");
+	pShader->AddParam(SHADER_PARAM::TEX_0, L"Diffuse Texture");
+
 	strKey = L"UIShader";
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));

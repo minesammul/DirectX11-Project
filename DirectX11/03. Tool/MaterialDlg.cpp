@@ -147,7 +147,7 @@ void CMaterialDlg::OnSelShader()
 
 		CResPtr<CMaterial> pMtrl = (CMaterial*)GetRes();
 		pMtrl->SetShader(pShader);
-		pMtrl->Save();
+		//pMtrl->Save();
 
 		if (nullptr == pShader)
 			m_editShaderName.SetWindowTextW(L"");
@@ -577,7 +577,7 @@ void CMaterialDlg::OnBnClickedButtonShaderTextureChange()
 		listctrlShaderTextureParameter.GetSelectionMark();
 		SHADER_PARAM eType = (SHADER_PARAM)(listctrlShaderTextureParameter.GetSelectionMark() + (int)SHADER_PARAM::TEX_0);
 		((CMaterial*)CResInfoDlg::GetRes())->SetData(eType, &pTexture);
-		((CMaterial*)CResInfoDlg::GetRes())->Save();
+		/*((CMaterial*)CResInfoDlg::GetRes())->Save();*/
 
 		editShaderTextureValue.SetWindowTextW(strSelect);
 	}

@@ -18,6 +18,7 @@
 #include "SSN014DirectionLightScript.h"
 #include "SSN015StageEventScript.h"
 #include "SSN016ParticleScript.h"
+#include "SSN017InOutsideScript.h"
 #include "TestScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
@@ -39,6 +40,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"SSN014DirectionLightScript");
 	_vec.push_back(L"SSN015StageEventScript");
 	_vec.push_back(L"SSN016ParticleScript");
+	_vec.push_back(L"SSN017InOutsideScript");
 	_vec.push_back(L"TestScript");
 }
 
@@ -78,6 +80,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSSN015StageEventScript;
 	if (L"SSN016ParticleScript" == _strScriptName)
 		return new CSSN016ParticleScript;
+	if (L"SSN017InOutsideScript" == _strScriptName)
+		return new CSSN017InOutsideScript;
 	if (L"TestScript" == _strScriptName)
 		return new CTestScript;
 	return nullptr;
@@ -153,6 +157,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::SSN016PARTICLESCRIPT:
 		return L"SSN016ParticleScript";
+		break;
+
+	case SCRIPT_TYPE::SSN017INOUTSIDESCRIPT:
+		return L"SSN017InOutsideScript";
 		break;
 
 	case SCRIPT_TYPE::TESTSCRIPT:

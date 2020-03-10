@@ -15,4 +15,5 @@ SSN013MusicScript
 SSN014DirectionLightScript
 SSN015StageEventScript
 SSN016ParticleScript
+SSN017InOutsideScript
 TestScript

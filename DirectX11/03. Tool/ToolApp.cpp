@@ -196,7 +196,7 @@ void CToolApp::CreateTestScene()
 	//}
 
 	//{
-	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Plain_CastleWall_Ruin_01.fbx");
+	//	CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->LoadFBX(L"FBX\\Plain_CastleArch_01.fbx");
 	//	pMeshData->Save();
 	//	//CResPtr<CMeshData> pMeshData = CResMgr::GetInst()->Load<CMeshData>(L"MeshData\\Iron_Golem3.mdat", L"MeshData\\Iron_Golem3.mdat");
 
@@ -302,13 +302,7 @@ void CToolApp::CreateTestScene()
 	//	pObject->MeshRender()->SetShadow(false);
 
 	//	// Material 값 셋팅
-	//	CResPtr<CMaterial> pMtrl = new CMaterial;
-	//	pMtrl->SaveDisable();
-	//	pMtrl->SetShader(CResMgr::GetInst()->FindRes<CShader>(L"DistortionShader"));
-	//	CResPtr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"PosteffectTargetTex");
-	//	pMtrl->SetData(SHADER_PARAM::TEX_0, &pTex);
-
-	//	CResMgr::GetInst()->AddRes<CMaterial>(L"DistortionMtrl", pMtrl);
+	//	CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"DistortionMtrl");
 
 	//	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	//	pObject->MeshRender()->SetMaterial(pMtrl, 0);

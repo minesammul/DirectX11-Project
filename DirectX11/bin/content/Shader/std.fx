@@ -80,7 +80,8 @@ PS_OUT PS_Tex(VTX_TEX_OUTPUT _input)
 
 // ========================================
 // UI Shader
-// g_tex_0 : Samling Texture
+// g_tex_0 : Sampling Texture
+// g_float_0 : alpha Value
 // BlendState = default
 // =======================================
 VTX_TEX_OUTPUT VS_UI(VTX_TEX_INPUT _input)
