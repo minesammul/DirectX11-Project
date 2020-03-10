@@ -65,17 +65,36 @@ void CTestScript::ControlCamera()
 
 void CTestScript::start()
 {
-	mainCamera = CFunctionMgr::GetInst()->FindObject(L"MainCamera");
-	Object()->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	Object()->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DistortionMtrl"));
+	CResPtr<CTexture> texture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Particle\\ThunderParticle.png");
+	Object()->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_4, &texture);
+
+	effectValue = 0.f;
+	isUp = true;
+	Object()->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &effectValue);
 }
 
 void CTestScript::update()
 {
 	//ControlCamera();
 
-	Vec3 moveDirection = mainCamera->Transform()->GetLocalDir(DIR_TYPE::DIR_FRONT);
-	Vec3 nowPosition = mainCamera->Transform()->GetLocalPos();
-	Vec3 changePosition = nowPosition + moveDirection * 200.f;
-	Object()->Transform()->SetLocalPos(changePosition);
+	if (isUp == true)
+	{
+		effectValue += CTimeMgr::GetInst()->GetDeltaTime();
+		if (effectValue >= 1.0f)
+		{
+			effectValue = 1.0f;
+			isUp = false;
+		}
+	}
+	else
+	{
+		effectValue -= CTimeMgr::GetInst()->GetDeltaTime();
+		if (effectValue <= 0.0f)
+		{
+			effectValue = 0.0f;
+			isUp = true;
+		}
+	}
+
+	Object()->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &effectValue);
 }

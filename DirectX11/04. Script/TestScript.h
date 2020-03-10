@@ -8,6 +8,8 @@ private:
 	float		m_fMul;
 
 	CGameObject* mainCamera;
+	float effectValue;
+	bool isUp;
 public:
 	CTestScript();
 	~CTestScript();

@@ -34,6 +34,21 @@ CScript * CFunctionMgr::FindScript(wstring objectName, SCRIPT_TYPE scriptType)
 	return findScript;
 }
 
+CScript * CFunctionMgr::FindScript(CGameObject * object, SCRIPT_TYPE scriptType)
+{
+	CScript* findScript = nullptr;
+	for (int index = 0; index < object->GetScripts().size(); index++)
+	{
+		if (object->GetScripts()[index]->GetScriptType() == (UINT)scriptType)
+		{
+			findScript = object->GetScripts()[index];
+			break;
+		}
+	}
+
+	return findScript;
+}
+
 CGameObject * CFunctionMgr::FindObject(wstring objectName)
 {
 	vector<CGameObject*> findObject;

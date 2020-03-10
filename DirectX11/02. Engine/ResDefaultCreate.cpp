@@ -704,7 +704,7 @@ void CResMgr::CreateDefaultShader()
 	pShader->AddParam(SHADER_PARAM::TEX_1, L"NormalMap Texture");
 	pShader->AddParam(SHADER_PARAM::TEX_2, L"Specular Texture");
 	//pShader->AddParam(SHADER_PARAM::TEX_3, L"Emissive Texture");
-
+	//pShader->AddParam(SHADER_PARAM::TEX_3, L"Effect Texture");
 
 
 	strKey = L"Std3DShader";

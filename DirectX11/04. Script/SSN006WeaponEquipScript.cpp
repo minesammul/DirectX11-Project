@@ -35,7 +35,7 @@ void CSSN006WeaponEquipScript::start()
 	for (int index = 0; index < Object()->GetParent()->Animator3D()->GetVectorBone()->size(); index++)
 	{
 		wstring nowBoneName = (*Object()->GetParent()->Animator3D()->GetVectorBone())[index].strBoneName;
-		if (nowBoneName.compare(L"R_Hand") == 0)
+		if (nowBoneName.compare(L"L_Weapon") == 0)
 		{
 			mFindEquipMeshIndex = index;
 		}
@@ -48,5 +48,5 @@ void CSSN006WeaponEquipScript::start()
 void CSSN006WeaponEquipScript::update()
 {
 	UpdatePosition();
-	UpdateRotate();
+	//UpdateRotate();
 }
