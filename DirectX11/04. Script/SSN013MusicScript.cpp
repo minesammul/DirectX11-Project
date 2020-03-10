@@ -39,8 +39,8 @@ void CSSN013MusicScript::start()
 		{
 			inputData.musicState = MUSIC_STATE::OFF;
 			inputData.music = CResMgr::GetInst()->Load<CSound>(L"ThunderSound.mp3", L"Sound\\ThunderSound.mp3");
-			inputData.maxVolume = 0.8f;
-			inputData.startVolume = 0.8f;
+			inputData.maxVolume = 1.0f;
+			inputData.startVolume = 1.0f;
 			inputData.musicPlayKind = MUSIC_PLAY_KIND::ONE;
 			mMusics[(MUSIC_KIND)index] = inputData;
 		}
