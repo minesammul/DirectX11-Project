@@ -4,9 +4,6 @@
 class CSSN014DirectionLightScript : public CScript
 {
 private:
-	Vec3 mPlayerBeforePosition;
-	CGameObject* mPlayer;
-
 	bool mIsLightVoluemDown;
 	bool mIsLightVoluemUp;
 
@@ -22,7 +19,6 @@ public:
 private:
 	void DownLightVoluem();
 	void UpLightVoluem();
-	void UpdatePosition();
 
 public:
 	virtual void start();
@@ -30,5 +26,8 @@ public:
 
 	void StartLightVoluemDown(Vec3 startAmbient, Vec3 startDiffuse, Vec3 startSpecular, Vec3 goalAmbient, Vec3 goalDiffuse, Vec3 goalSpecular, float changeSpeed);
 	void StartLightVoluemUp(Vec3 startAmbient, Vec3 startDiffuse, Vec3 startSpecular, Vec3 goalAmbient, Vec3 goalDiffuse, Vec3 goalSpecular, float changeSpeed);
+	
+	Vec3 GetPosition();
+	void SetPosition(Vec3 position);
 };
 

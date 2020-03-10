@@ -182,7 +182,19 @@ void CSSN010EventQueueScript::update()
 				}
 			}
 		}
-
+		else if (popEvent.eventType == GAME_EVENT_TYPE::LIGHT_MOVE)
+		{
+			CSSN014DirectionLightScript* lightScript = dynamic_cast<CSSN014DirectionLightScript*>(CFunctionMgr::GetInst()->FindScript(L"DirectionLight1", SCRIPT_TYPE::SSN014DIRECTIONLIGHTSCRIPT));
+			
+			float xValue = popEvent.sendObjectData[0].floatValue;
+			float yValue = popEvent.sendObjectData[1].floatValue;
+			float zValue = popEvent.sendObjectData[2].floatValue;
+			
+			Vec3 nowLightPosition = lightScript->GetPosition();
+			Vec3 changeLightPosition = nowLightPosition + Vec3(xValue, yValue, zValue);
+			
+			lightScript->SetPosition(changeLightPosition);
+		}
 
 		CEventQueueMgr::GetInst()->GetEvents()->pop();
 	}

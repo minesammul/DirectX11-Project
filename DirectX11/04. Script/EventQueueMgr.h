@@ -19,13 +19,15 @@ enum class GAME_EVENT_TYPE
 	ON_EFFECT_SOUND_WIND,
 	OFF_EFFECT_SOUND_WIND,
 	PARTICLE_RAIN_START,
-	PARTICLE_RAIN_STOP
+	PARTICLE_RAIN_STOP,
+	LIGHT_MOVE
 };
 
 union SendData
 {
 	int intValue;
 	UINT uintValue;
+	float floatValue;
 };
 
 struct GameEventComponent
@@ -33,7 +35,7 @@ struct GameEventComponent
 	GAME_EVENT_TYPE eventType;
 	wstring sendObjectName;
 	wstring receiveObjectName;
-	SendData sendObjectData;
+	vector<SendData> sendObjectData;
 };
 
 class CEventQueueMgr

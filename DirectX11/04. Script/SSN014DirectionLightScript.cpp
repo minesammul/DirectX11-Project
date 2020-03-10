@@ -124,39 +124,12 @@ void CSSN014DirectionLightScript::UpLightVoluem()
 	}
 }
 
-void CSSN014DirectionLightScript::UpdatePosition()
-{
-	Vec3 playerNowPosition = mPlayer->Transform()->GetLocalPos();
-	if (fabsf(playerNowPosition.x - mPlayerBeforePosition.x) > 1.f)
-	{
-		float moveValue = playerNowPosition.x - mPlayerBeforePosition.x;
-		Vec3 lightPosition = Object()->Transform()->GetLocalPos();
-		lightPosition.x += moveValue;
-		Object()->Transform()->SetLocalPos(lightPosition);
-
-		mPlayerBeforePosition.x = playerNowPosition.x;
-	}
-
-	if (fabsf(playerNowPosition.z - mPlayerBeforePosition.z) > 1.f)
-	{
-		float moveValue = playerNowPosition.z - mPlayerBeforePosition.z;
-		Vec3 lightPosition = Object()->Transform()->GetLocalPos();
-		lightPosition.z += moveValue;
-		Object()->Transform()->SetLocalPos(lightPosition);
-
-		mPlayerBeforePosition.z = playerNowPosition.z;
-	}
-}
-
 void CSSN014DirectionLightScript::start()
 {
-	mPlayer = CFunctionMgr::GetInst()->FindObject(L"Player");
-	mPlayerBeforePosition = mPlayer->Transform()->GetLocalPos();
 }
 
 void CSSN014DirectionLightScript::update()
 {
-	UpdatePosition();
 	DownLightVoluem();
 	UpLightVoluem();
 }
@@ -187,4 +160,14 @@ void CSSN014DirectionLightScript::StartLightVoluemUp(Vec3 startAmbient, Vec3 sta
 	mGoalDiffsue = goalDiffuse;
 	mGoalSpecular = goalSpecular;
 	mChangeSpeed = changeSpeed;
+}
+
+Vec3 CSSN014DirectionLightScript::GetPosition()
+{
+	return Object()->Transform()->GetLocalPos();
+}
+
+void CSSN014DirectionLightScript::SetPosition(Vec3 position)
+{
+	Object()->Transform()->SetLocalPos(position);
 }

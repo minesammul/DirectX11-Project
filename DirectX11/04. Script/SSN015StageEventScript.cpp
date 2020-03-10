@@ -44,10 +44,32 @@ void CSSN015StageEventScript::OnCollisionEnter(CCollider3D * _pOther)
 		}
 		else if (Object()->GetName() == L"EventLightVoluemDown")
 		{
-			GameEventComponent addEvent;
-			addEvent.eventType = GAME_EVENT_TYPE::INSIDE_LIGHT;
-			addEvent.sendObjectName = Object()->GetName();
-			CEventQueueMgr::GetInst()->AddEvent(addEvent);
+			{
+				GameEventComponent addEvent;
+				addEvent.eventType = GAME_EVENT_TYPE::INSIDE_LIGHT;
+				addEvent.sendObjectName = Object()->GetName();
+				CEventQueueMgr::GetInst()->AddEvent(addEvent);
+			}
+
+			{
+				GameEventComponent addEvent;
+				addEvent.eventType = GAME_EVENT_TYPE::LIGHT_MOVE;
+				addEvent.sendObjectName = Object()->GetName();
+
+				SendData inputX;
+				inputX.floatValue = 6000.f;
+				addEvent.sendObjectData.push_back(inputX);
+
+				SendData inputY;
+				inputY.floatValue = 0.f;
+				addEvent.sendObjectData.push_back(inputY);
+
+				SendData inputZ;
+				inputZ.floatValue = 0.f;
+				addEvent.sendObjectData.push_back(inputZ);
+
+				CEventQueueMgr::GetInst()->AddEvent(addEvent);
+			}
 		}
 		else if (Object()->GetName() == L"EventLightVoluemUp")
 		{
@@ -62,6 +84,26 @@ void CSSN015StageEventScript::OnCollisionEnter(CCollider3D * _pOther)
 				GameEventComponent addEvent;
 				addEvent.eventType = GAME_EVENT_TYPE::ON_EFFECT_SOUND_THUNDER;
 				addEvent.sendObjectName = Object()->GetName();
+				CEventQueueMgr::GetInst()->AddEvent(addEvent);
+			}
+
+			{
+				GameEventComponent addEvent;
+				addEvent.eventType = GAME_EVENT_TYPE::LIGHT_MOVE;
+				addEvent.sendObjectName = Object()->GetName();
+
+				SendData inputX;
+				inputX.floatValue = 6000.f;
+				addEvent.sendObjectData.push_back(inputX);
+
+				SendData inputY;
+				inputY.floatValue = 0.f;
+				addEvent.sendObjectData.push_back(inputY);
+
+				SendData inputZ;
+				inputZ.floatValue = 0.f;
+				addEvent.sendObjectData.push_back(inputZ);
+
 				CEventQueueMgr::GetInst()->AddEvent(addEvent);
 			}
 		}
