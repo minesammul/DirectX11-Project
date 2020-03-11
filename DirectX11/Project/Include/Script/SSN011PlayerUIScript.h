@@ -21,6 +21,10 @@ private:
 	CGameObject* mMonsterDieEffectText;
 	CGameObject* mPlayerDieText;
 
+	CGameObject* mUseItemBackground;
+	CGameObject* mUseItemSlot;
+	CGameObject* mUseItem;
+
 	float mPlayerHPBarInitScaleX;
 	float mPlayerSPBarInitScaleX;
 	float mMonsterHPBarInitScaleX;
@@ -42,7 +46,7 @@ public:
 	~CSSN011PlayerUIScript();
 
 private:
-	void SetUIComponent(CGameObject* uiObject, wstring textureName, float alphaValue, Vec3 scale, Vec3 position);
+	void SetUIComponent(CGameObject* uiObject, wstring textureName, float alphaValue, float rgbMulValue, Vec3 scale, Vec3 position);
 	void FadeInOutMonsterDieText();
 	void FadeInOutPlayerDieText();
 	void FindUIObject();
@@ -61,5 +65,6 @@ public:
 	void CalculationPlayerHPUI(int nowHP);
 	void CalculationPlayerSPUI(int nowSP);
 	void CalculationMonsterHPUI(int nowHP);
+	void CalculationPlayerHealUI(int maxHealCount, int nowHealCount);
 };
 

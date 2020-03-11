@@ -4,6 +4,9 @@
 
 class PlayerHealSuccessState : public PlayerState
 {
+private:
+	int mHealValue;
+
 public:
 	PlayerHealSuccessState();
 	~PlayerHealSuccessState();

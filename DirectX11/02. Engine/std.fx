@@ -82,6 +82,7 @@ PS_OUT PS_Tex(VTX_TEX_OUTPUT _input)
 // UI Shader
 // g_tex_0 : Sampling Texture
 // g_float_0 : alpha Value
+// g_float_1 : rgb Mul Value
 // BlendState = default
 // =======================================
 VTX_TEX_OUTPUT VS_UI(VTX_TEX_INPUT _input)
@@ -101,6 +102,8 @@ PS_OUT PS_UI(VTX_TEX_OUTPUT _input)
     //{
     //    output.vOutCol.a = 0.f;
     //}
+    
+    output.vOutCol.rgb *= g_float_1;
     
     output.vOutCol.a *= g_float_0;
     
