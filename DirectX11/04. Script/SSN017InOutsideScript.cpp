@@ -18,9 +18,14 @@ void CSSN017InOutsideScript::start()
 	{
 		Object()->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"UIMtrl"));
 
-		float alpha = 0.7f;
+		float alpha = 0.6f;
 		CResPtr<CTexture> texture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\Inside.png");
 		Object()->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alpha);
 		Object()->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &texture);
 	}
+}
+
+void CSSN017InOutsideScript::OffInOutMesh()
+{
+	Object()->Active(false);
 }

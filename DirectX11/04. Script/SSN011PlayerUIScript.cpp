@@ -39,7 +39,7 @@ void CSSN011PlayerUIScript::FadeInOutMonsterDieText()
 
 		if (isFadeIn == true)
 		{
-			alphaValue += CTimeMgr::GetInst()->GetDeltaTime() * 0.5f;
+			alphaValue += CTimeMgr::GetInst()->GetDeltaTime() * 0.6f;
 
 			if (alphaValue >= 1.f)
 			{
@@ -62,7 +62,7 @@ void CSSN011PlayerUIScript::FadeInOutMonsterDieText()
 		}
 		else
 		{
-			alphaValue -= CTimeMgr::GetInst()->GetDeltaTime() * 0.5f;
+			alphaValue -= CTimeMgr::GetInst()->GetDeltaTime() * 0.6f;
 
 			if (alphaValue <= 0.f)
 			{
@@ -173,6 +173,45 @@ void CSSN011PlayerUIScript::FindUIObject()
 		{
 			mUseItem = Object()->GetChild()[index];
 		}
+		else if (findObjectName.compare(L"BossClearLightUI") == 0)
+		{
+			mBossClearLight = Object()->GetChild()[index];
+		}
+	}
+}
+
+void CSSN011PlayerUIScript::FadeInOutBossClear()
+{
+	if (mIsFadeInOutBossClear == true)
+	{
+		static float alphaValue = 0.f;
+		static bool isFadeIn = true;
+
+		if (isFadeIn == true)
+		{
+			alphaValue += CTimeMgr::GetInst()->GetDeltaTime() * 0.2f;
+
+			if (alphaValue >= 1.f)
+			{
+				alphaValue = 1.f;
+				isFadeIn = false;
+			}
+
+			mBossClearLight->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
+		}
+		else
+		{
+			alphaValue -= CTimeMgr::GetInst()->GetDeltaTime() * 0.5f;
+
+			if (alphaValue <= 0.f)
+			{
+				mIsFadeInOutBossClear = false;
+				isFadeIn = true;
+				alphaValue = 0.f;
+			}
+
+			mBossClearLight->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
+		}
 	}
 }
 
@@ -201,6 +240,9 @@ void CSSN011PlayerUIScript::start()
 	SetUIComponent(mUseItemSlot, L"Texture\\UI\\MENU_Dish.png", 1.f, 7.f, Vec3(90.f, 36.f, 1.f), Vec3(-500.f, -320.f, 9.f));
 	SetUIComponent(mUseItem, L"Texture\\UI\\MENU_Knowledge_00009.png", 1.f, 1.f, Vec3(120.f, 120.f, 1.f), Vec3(-500.f, -280.f, 8.f));
 
+	SetUIComponent(mBossClearLight, L"Texture\\UI\\outside.png", 0.f, 1.f, Vec3(2000.f, 2000.f, 1.f), Vec3(0.f, 0.f, 50.f));
+
+
 	mPlayerHPBarInitScaleX = mPlayerHPBar->Transform()->GetLocalScale().x;
 	mPlayerSPBarInitScaleX = mPlayerSPBar->Transform()->GetLocalScale().x;
 	mMonsterHPBarInitScaleX = mMonsterHPBar->Transform()->GetLocalScale().x;
@@ -217,6 +259,8 @@ void CSSN011PlayerUIScript::start()
 
 	mMonsterHPRatio = 1.f;
 
+	mIsFadeInOutBossClear = false;
+
 	OffMonsterUI();
 }
 
@@ -224,6 +268,7 @@ void CSSN011PlayerUIScript::update()
 {
 	FadeInOutMonsterDieText();
 	FadeInOutPlayerDieText();
+	FadeInOutBossClear();
 }
 
 void CSSN011PlayerUIScript::OnMonsterUI()
@@ -250,6 +295,11 @@ void CSSN011PlayerUIScript::OffMonsterUI()
 	addEvent.eventType = GAME_EVENT_TYPE::MUSIC_MONSTER_BGM_OFF;
 	addEvent.sendObjectName = Object()->GetName();
 	CEventQueueMgr::GetInst()->AddEvent(addEvent);
+}
+
+void CSSN011PlayerUIScript::StartBossClearLight()
+{
+	mIsFadeInOutBossClear = true;
 }
 
 void CSSN011PlayerUIScript::SetMonsterHPRation(int maxHP)

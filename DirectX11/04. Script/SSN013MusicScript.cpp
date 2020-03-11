@@ -53,6 +53,15 @@ void CSSN013MusicScript::start()
 			inputData.musicPlayKind = MUSIC_PLAY_KIND::LOOP;
 			mMusics[(MUSIC_KIND)index] = inputData;
 		}
+		else if (index == (int)MUSIC_KIND::EFFECT_BOSSOUT)
+		{
+			inputData.musicState = MUSIC_STATE::OFF;
+			inputData.music = CResMgr::GetInst()->Load<CSound>(L"bossout.mp3", L"Sound\\bossout.mp3");
+			inputData.maxVolume = 0.5f;
+			inputData.startVolume = 0.5f;
+			inputData.musicPlayKind = MUSIC_PLAY_KIND::ONE;
+			mMusics[(MUSIC_KIND)index] = inputData;
+		}
 	}
 
 }

@@ -57,12 +57,41 @@ void IronGolemDieState::Init(CSSN007MonsterScript * monsterScript)
 
 	{
 		GameEventComponent addEvent;
+		addEvent.eventType = GAME_EVENT_TYPE::ON_EFFECT_SOUND_BOSSOUT;
+		addEvent.sendObjectName = monsterScript->Object()->GetName();
+		CEventQueueMgr::GetInst()->AddEvent(addEvent);
+	}
+
+	{
+		GameEventComponent addEvent;
 		addEvent.eventType = GAME_EVENT_TYPE::PARTICLE_DOOR_STOP;
 		addEvent.sendObjectName = monsterScript->Object()->GetName();
 		CEventQueueMgr::GetInst()->AddEvent(addEvent);
 	}
+
+	{
+		GameEventComponent addEvent;
+		addEvent.eventType = GAME_EVENT_TYPE::PARTICLE_MONSTER_DEAD_START;
+		addEvent.sendObjectName = monsterScript->Object()->GetName();
+		addEvent.receiveObjectName = L"ParticleDead1";
+		CEventQueueMgr::GetInst()->AddEvent(addEvent);
+	}
+
+	{
+		GameEventComponent addEvent;
+		addEvent.eventType = GAME_EVENT_TYPE::START_MONSER_DEAD_LIGHT_UI;
+		addEvent.sendObjectName = monsterScript->Object()->GetName();
+		CEventQueueMgr::GetInst()->AddEvent(addEvent);
+	}
+
 }
 
 void IronGolemDieState::Update(CSSN007MonsterScript * monsterScript)
 {
+	float nowAnimationRatio = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(monsterScript->Object());
+
+	if (nowAnimationRatio >= 1.000f)
+	{
+		monsterScript->Object()->Active(false);
+	}
 }

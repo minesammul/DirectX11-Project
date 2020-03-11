@@ -53,6 +53,14 @@ void CSSN015StageEventScript::OnCollisionEnter(CCollider3D * _pOther)
 
 			{
 				GameEventComponent addEvent;
+				addEvent.eventType = GAME_EVENT_TYPE::OFF_INOUTSIDE_MESH;
+				addEvent.sendObjectName = Object()->GetName();
+				addEvent.receiveObjectName = L"ToInside1";
+				CEventQueueMgr::GetInst()->AddEvent(addEvent);
+			}
+
+			{
+				GameEventComponent addEvent;
 				addEvent.eventType = GAME_EVENT_TYPE::LIGHT_MOVE;
 				addEvent.sendObjectName = Object()->GetName();
 
