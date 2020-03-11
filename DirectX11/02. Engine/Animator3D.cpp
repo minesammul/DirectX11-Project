@@ -48,7 +48,7 @@ void CAnimator3D::finalupdate()
 {
 	m_fCurTime = 0.f;
 	// 현재 재생중인 Clip 의 시간을 진행한다.
-	m_vecClipUpdateTime[m_iCurClip] += DT;
+	m_vecClipUpdateTime[m_iCurClip] += DT*1.2f;
 
 	if (m_bIsRepeat == true)
 	{
@@ -60,7 +60,14 @@ void CAnimator3D::finalupdate()
 
 	m_fCurTime = m_pVecClip->at(m_iCurClip).dStartTime + m_vecClipUpdateTime[m_iCurClip];
 
-	m_curRatioAnimTime = m_vecClipUpdateTime[m_iCurClip] / m_pVecClip->at(m_iCurClip).dTimeLength;
+	float curClipTimeLength = m_pVecClip->at(m_iCurClip).dTimeLength;
+	if (curClipTimeLength < 0.f)
+	{
+		float frameOneTime = m_pVecClip->at(0).dTimeLength / m_pVecClip->at(0).iFrameLength;
+		curClipTimeLength = m_pVecClip->at(m_iCurClip).iFrameLength*frameOneTime;
+	}
+
+	m_curRatioAnimTime = m_vecClipUpdateTime[m_iCurClip] / curClipTimeLength;
 
 	// 본 개수만큼 반복하며 현재 시간에 맞게 모든 본 행렬을 모두 보간해준다.
 	for (size_t i = 0; i < m_pVecBones->size(); ++i)
