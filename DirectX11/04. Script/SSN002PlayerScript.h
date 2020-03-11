@@ -23,6 +23,9 @@ private:
 	int mPlayerSP;
 	int mPlayerMaxSP;
 
+	int mPlayerHealCount;
+	int mPlayerMaxHealCount;
+
 	bool mIsDead;
 
 	CSSN008AttackBoxScript* mAttackBoxScript;
@@ -71,6 +74,10 @@ public:
 	int GetPlayerMaxHP() { return mPlayerMaxHP; }
 	int GetPlayerSP() { return mPlayerSP; }
 	int GetPlayerMaxSP() { return mPlayerMaxSP; }
+	int GetPlayerHealCount() { return mPlayerHealCount; }
+	int GetPlayerMaxHealCount() { return mPlayerMaxHealCount; }
+
+	bool UseHeal(int healValue);
 
 	void RestoreSP();
 	void UseSP(int useSPValue);

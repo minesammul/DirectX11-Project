@@ -65,6 +65,8 @@ void CSSN002PlayerScript::start()
 	mPlayerHP = mPlayerMaxHP;
 	mPlayerMaxSP = 10;
 	mPlayerSP = mPlayerMaxSP;
+	mPlayerMaxHealCount = 5;
+	mPlayerHealCount = mPlayerMaxHealCount;
 	mIsHit = false;
 	mIsDead = false;
 
@@ -88,6 +90,24 @@ void CSSN002PlayerScript::update()
 void CSSN002PlayerScript::SetState(PlayerState * state)
 {
 	mPlayerState = state;
+}
+
+bool CSSN002PlayerScript::UseHeal(int healValue)
+{
+	if (mPlayerHealCount > 0)
+	{
+		mPlayerHealCount -= 1;
+		
+		mPlayerHP += healValue;
+		if (mPlayerHP > mPlayerMaxHP)
+		{
+			mPlayerHP = mPlayerMaxHP;
+		}
+
+
+		return true;
+	}
+	return false;
 }
 
 void CSSN002PlayerScript::RestoreSP()

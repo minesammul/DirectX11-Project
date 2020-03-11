@@ -14,7 +14,7 @@ CSSN011PlayerUIScript::~CSSN011PlayerUIScript()
 {
 }
 
-void CSSN011PlayerUIScript::SetUIComponent(CGameObject* uiObject, wstring textureName, float alphaValue, Vec3 scale, Vec3 position)
+void CSSN011PlayerUIScript::SetUIComponent(CGameObject* uiObject, wstring textureName, float alphaValue, float rgbMulValue, Vec3 scale, Vec3 position)
 {
 	uiObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 
@@ -24,6 +24,7 @@ void CSSN011PlayerUIScript::SetUIComponent(CGameObject* uiObject, wstring textur
 	CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(textureName);
 	uiObject->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
 	uiObject->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
+	uiObject->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_1, &rgbMulValue);
 
 	uiObject->Transform()->SetLocalScale(scale);
 	uiObject->Transform()->SetLocalPos(position);
@@ -160,7 +161,18 @@ void CSSN011PlayerUIScript::FindUIObject()
 		{
 			mTextBackground = Object()->GetChild()[index];
 		}
-
+		else if (findObjectName.compare(L"UseItemBackground") == 0)
+		{
+			mUseItemBackground = Object()->GetChild()[index];
+		}
+		else if (findObjectName.compare(L"UseItemSlot") == 0)
+		{
+			mUseItemSlot = Object()->GetChild()[index];
+		}
+		else if (findObjectName.compare(L"UseItem") == 0)
+		{
+			mUseItem = Object()->GetChild()[index];
+		}
 	}
 }
 
@@ -168,23 +180,26 @@ void CSSN011PlayerUIScript::start()
 {
 	FindUIObject();
 
-	SetUIComponent(mPlayerHPBar, L"Texture\\UI\\HpBar.png", 1.f, Vec3(500.f, 10.f, 1.f), Vec3(-350.f, 300.f, 10.f));
-	SetUIComponent(mPlayerSPBar, L"Texture\\UI\\StaminaBar.png", 1.f, Vec3(500.f, 10.f, 1.f), Vec3(-350.f, 280.f, 10.f));
-	SetUIComponent(mMonsterHPBar, L"Texture\\UI\\HpBar.png", 1.f, Vec3(700.f, 10.f, 1.f), Vec3(0.f, -250.f, 10.f));
+	SetUIComponent(mPlayerHPBar, L"Texture\\UI\\HpBar.png", 1.f, 1.f, Vec3(500.f, 10.f, 1.f), Vec3(-350.f, 300.f, 10.f));
+	SetUIComponent(mPlayerSPBar, L"Texture\\UI\\StaminaBar.png", 1.f, 1.f, Vec3(500.f, 10.f, 1.f), Vec3(-350.f, 280.f, 10.f));
+	SetUIComponent(mMonsterHPBar, L"Texture\\UI\\HpBar.png", 1.f, 1.f, Vec3(700.f, 10.f, 1.f), Vec3(0.f, -250.f, 10.f));
 
-	SetUIComponent(mPlayerHPProgressBar, L"Texture\\UI\\ProgressBar.png", 1.f, Vec3(500.f, 25.f, 1.f), Vec3(-350.f, 300.f, 30.f));
-	SetUIComponent(mPlayerSPProgressBar, L"Texture\\UI\\ProgressBar.png", 1.f, Vec3(500.f, 25.f, 1.f), Vec3(-350.f, 280.f, 30.f));
-	SetUIComponent(mMonsterHPProgressBar, L"Texture\\UI\\ProgressBar.png", 0.f, Vec3(700.f, 25.f, 1.f), Vec3(0.f, -250.f, 30.f));
+	SetUIComponent(mPlayerHPProgressBar, L"Texture\\UI\\ProgressBar.png", 1.f, 1.f, Vec3(500.f, 25.f, 1.f), Vec3(-350.f, 300.f, 30.f));
+	SetUIComponent(mPlayerSPProgressBar, L"Texture\\UI\\ProgressBar.png", 1.f, 1.f, Vec3(500.f, 25.f, 1.f), Vec3(-350.f, 280.f, 30.f));
+	SetUIComponent(mMonsterHPProgressBar, L"Texture\\UI\\ProgressBar.png", 0.f, 1.f, Vec3(700.f, 25.f, 1.f), Vec3(0.f, -250.f, 30.f));
 
-	SetUIComponent(mPlayerHPDecreaseBar, L"Texture\\UI\\DecreaseBar.png", 1.f, Vec3(500.f, 10.f, 1.f), Vec3(-350.f, 300.f, 20.f));
-	SetUIComponent(mPlayerSPDecreaseBar, L"Texture\\UI\\DecreaseBar.png", 1.f, Vec3(500.f, 10.f, 1.f), Vec3(-350.f, 280.f, 20.f));
-	SetUIComponent(mMonsterHPDecreaseBar, L"Texture\\UI\\DecreaseBar.png", 0.f, Vec3(700.f, 10.f, 1.f), Vec3(0.f, -250.f, 20.f));
+	SetUIComponent(mPlayerHPDecreaseBar, L"Texture\\UI\\DecreaseBar.png", 1.f, 1.f, Vec3(500.f, 10.f, 1.f), Vec3(-350.f, 300.f, 20.f));
+	SetUIComponent(mPlayerSPDecreaseBar, L"Texture\\UI\\DecreaseBar.png", 1.f, 1.f, Vec3(500.f, 10.f, 1.f), Vec3(-350.f, 280.f, 20.f));
+	SetUIComponent(mMonsterHPDecreaseBar, L"Texture\\UI\\DecreaseBar.png", 0.f, 1.f, Vec3(700.f, 10.f, 1.f), Vec3(0.f, -250.f, 20.f));
 
-	SetUIComponent(mMonsterDieText, L"Texture\\UI\\MonsterDieUI.png", 0.f, Vec3(2048.f, 192.f, 1.f), Vec3(0.f, 0.f, 5.f));
-	SetUIComponent(mMonsterDieEffectText, L"Texture\\UI\\MonsterDieUIPostEffect.png", 0.f, Vec3(2048.f, 192.f, 1.f), Vec3(0.f, 0.f, 4.f));
-	SetUIComponent(mPlayerDieText, L"Texture\\UI\\PlayerDieUI.png", 0.f, Vec3(2048.f, 192.f, 1.f), Vec3(0.f, 0.f, 5.f));
-	SetUIComponent(mTextBackground, L"Texture\\UI\\MENU_KUROOBI.png", 0.f, Vec3(3072.f, 192.f, 1.f), Vec3(0.f, 0.f, 6.f));
+	SetUIComponent(mMonsterDieText, L"Texture\\UI\\MonsterDieUI.png", 0.f, 1.f, Vec3(2048.f, 192.f, 1.f), Vec3(0.f, 0.f, 5.f));
+	SetUIComponent(mMonsterDieEffectText, L"Texture\\UI\\MonsterDieUIPostEffect.png", 0.f, 1.f, Vec3(2048.f, 192.f, 1.f), Vec3(0.f, 0.f, 4.f));
+	SetUIComponent(mPlayerDieText, L"Texture\\UI\\PlayerDieUI.png", 0.f, 1.f, Vec3(2048.f, 192.f, 1.f), Vec3(0.f, 0.f, 5.f));
+	SetUIComponent(mTextBackground, L"Texture\\UI\\MENU_KUROOBI.png", 0.f, 1.f, Vec3(3072.f, 192.f, 1.f), Vec3(0.f, 0.f, 6.f));
 
+	SetUIComponent(mUseItemBackground, L"Texture\\UI\\ItemBox.png", 1.f, 1.f, Vec3(100.f, 160.f, 1.f), Vec3(-500.f, -280.f, 10.f));
+	SetUIComponent(mUseItemSlot, L"Texture\\UI\\MENU_Dish.png", 1.f, 7.f, Vec3(90.f, 36.f, 1.f), Vec3(-500.f, -320.f, 9.f));
+	SetUIComponent(mUseItem, L"Texture\\UI\\MENU_Knowledge_00009.png", 1.f, 1.f, Vec3(120.f, 120.f, 1.f), Vec3(-500.f, -280.f, 8.f));
 
 	mPlayerHPBarInitScaleX = mPlayerHPBar->Transform()->GetLocalScale().x;
 	mPlayerSPBarInitScaleX = mPlayerSPBar->Transform()->GetLocalScale().x;
@@ -331,5 +346,34 @@ void CSSN011PlayerUIScript::CalculationMonsterHPUI(int nowHP)
 		OffMonsterUI();
 
 		mIsOnMonsterDieTextUI = true;
+	}
+}
+
+void CSSN011PlayerUIScript::CalculationPlayerHealUI(int maxHealCount, int nowHealCount)
+{
+	if (nowHealCount > 0)
+	{
+		float ratio = (float)nowHealCount / (float)maxHealCount;
+
+		if (ratio >= 1.f)
+		{
+			CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\MENU_Knowledge_00009.png");
+			mUseItem->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
+		}
+		else if(0.5f <= ratio && ratio < 1.f)
+		{
+			CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\MENU_Knowledge_00008.png");
+			mUseItem->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
+		}
+		else
+		{
+			CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\MENU_Knowledge_00007.png");
+			mUseItem->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
+		}
+	}
+	else
+	{
+		CResPtr<CTexture> findTexture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\UI\\MENU_Knowledge_00006.png");
+		mUseItem->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_0, &findTexture);
 	}
 }

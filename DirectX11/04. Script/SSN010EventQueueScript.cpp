@@ -12,6 +12,7 @@
 #include "SSN012SkyBoxScript.h"
 #include "SSN014DirectionLightScript.h"
 #include "SSN018EffectScript.h"
+#include "SSN016ParticleScript.h"
 #include "FunctionMgr.h"
 
 CSSN010EventQueueScript::CSSN010EventQueueScript() : 
@@ -83,6 +84,15 @@ void CSSN010EventQueueScript::update()
 			int playerHP = playerScript->GetPlayerHP();
 			playerUIScript->SetPlayerHPRation(playerMaxHP);
 			playerUIScript->CalculationPlayerHPUI(playerHP);
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::PLAYER_ITEM_HEAL_UPDATE)
+		{
+			CSSN002PlayerScript* playerScript = dynamic_cast<CSSN002PlayerScript*>(CFunctionMgr::GetInst()->FindScript(popEvent.sendObjectName, SCRIPT_TYPE::SSN002PLAYERSCRIPT));
+			CSSN011PlayerUIScript* playerUIScript = dynamic_cast<CSSN011PlayerUIScript*>(CFunctionMgr::GetInst()->FindScript(L"PlayerUI", SCRIPT_TYPE::SSN011PLAYERUISCRIPT));
+
+			int playerMaxHealCount = playerScript->GetPlayerMaxHealCount();
+			int playerHealCount = playerScript->GetPlayerHealCount();
+			playerUIScript->CalculationPlayerHealUI(playerMaxHealCount, playerHealCount);
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::MUSIC_MONSTER_BGM_ON)
 		{
@@ -205,6 +215,11 @@ void CSSN010EventQueueScript::update()
 					allParticle[index]->Particle()->SetMaxLifeTime(0.f);
 				}
 			}
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::PARTICLE_HEAL_START)
+		{
+			CSSN016ParticleScript* particleScript = dynamic_cast<CSSN016ParticleScript*>(CFunctionMgr::GetInst()->FindScript(popEvent.receiveObjectName, SCRIPT_TYPE::SSN016PARTICLESCRIPT));
+			particleScript->OperatorParticle(PARTICLE_PLAY_KIND::ONE, 6.f, 6.f, 1.f);
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::LIGHT_MOVE)
 		{
