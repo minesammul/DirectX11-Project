@@ -43,6 +43,11 @@ void CSSN016ParticleScript::update()
 
 }
 
+void CSSN016ParticleScript::SetPosition(Vec3 position)
+{
+	Object()->Transform()->SetLocalPos(position);
+}
+
 void CSSN016ParticleScript::OperatorParticle(PARTICLE_PLAY_KIND playKind, float minTime, float maxTime, float onePlayTime)
 {
 	mPlayState = PARTICLE_PLAY_STATE::PLAY;

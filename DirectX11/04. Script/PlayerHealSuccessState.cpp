@@ -62,6 +62,27 @@ void PlayerHealSuccessState::Update(CSSN002PlayerScript * playerScript)
 				GameEventComponent addEvent;
 				addEvent.eventType = GAME_EVENT_TYPE::PARTICLE_HEAL_START;
 				addEvent.sendObjectName = playerScript->Object()->GetName();
+
+				Vec3 playerPosition = playerScript->Object()->Transform()->GetLocalPos();
+
+				{
+					SendData inputData;
+					inputData.floatValue = playerPosition.x;
+					addEvent.sendObjectData.push_back(inputData);
+				}
+
+				{
+					SendData inputData;
+					inputData.floatValue = playerPosition.y;
+					addEvent.sendObjectData.push_back(inputData);
+				}
+
+				{
+					SendData inputData;
+					inputData.floatValue = playerPosition.z;
+					addEvent.sendObjectData.push_back(inputData);
+				}
+
 				addEvent.receiveObjectName = L"ParticleHeal1";
 				CEventQueueMgr::GetInst()->AddEvent(addEvent);
 			}

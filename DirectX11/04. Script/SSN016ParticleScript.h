@@ -31,6 +31,7 @@ public:
 	virtual void start();
 	virtual void update();
 
+	void SetPosition(Vec3 position);
 	void OperatorParticle(PARTICLE_PLAY_KIND playKind, float minTime, float maxTime, float onePlayTime);
 };
 

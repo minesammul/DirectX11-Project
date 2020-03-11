@@ -225,7 +225,19 @@ void CSSN010EventQueueScript::update()
 		else if (popEvent.eventType == GAME_EVENT_TYPE::PARTICLE_HEAL_START)
 		{
 			CSSN016ParticleScript* particleScript = dynamic_cast<CSSN016ParticleScript*>(CFunctionMgr::GetInst()->FindScript(popEvent.receiveObjectName, SCRIPT_TYPE::SSN016PARTICLESCRIPT));
-			particleScript->OperatorParticle(PARTICLE_PLAY_KIND::ONE, 6.f, 6.f, 1.f);
+			
+			Vec3 particlePosition;
+
+			float xPos = popEvent.sendObjectData[0].floatValue;
+			float yPos = popEvent.sendObjectData[1].floatValue;
+			float zPos = popEvent.sendObjectData[2].floatValue;
+			
+			particlePosition.x = xPos;
+			particlePosition.y = yPos;
+			particlePosition.z = zPos;
+
+			particleScript->SetPosition(particlePosition);
+			particleScript->OperatorParticle(PARTICLE_PLAY_KIND::ONE, 3.f, 3.f, 1.f);
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::PARTICLE_MONSTER_DEAD_START)
 		{
