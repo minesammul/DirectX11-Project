@@ -8,6 +8,7 @@
 #include <GameObject.h>
 #include <Animator2D.h>
 #include <Collider3D.h>
+#include <Light3D.h>
 #include <Camera.h>
 
 // AddComponentDlg 대화 상자

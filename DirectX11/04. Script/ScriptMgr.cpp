@@ -20,6 +20,7 @@
 #include "SSN016ParticleScript.h"
 #include "SSN017InOutsideScript.h"
 #include "SSN018EffectScript.h"
+#include "SSN019PostEffectScript.h"
 #include "TestScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
@@ -43,6 +44,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"SSN016ParticleScript");
 	_vec.push_back(L"SSN017InOutsideScript");
 	_vec.push_back(L"SSN018EffectScript");
+	_vec.push_back(L"SSN019PostEffectScript");
 	_vec.push_back(L"TestScript");
 }
 
@@ -86,6 +88,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSSN017InOutsideScript;
 	if (L"SSN018EffectScript" == _strScriptName)
 		return new CSSN018EffectScript;
+	if (L"SSN019PostEffectScript" == _strScriptName)
+		return new CSSN019PostEffectScript;
 	if (L"TestScript" == _strScriptName)
 		return new CTestScript;
 	return nullptr;
@@ -169,6 +173,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::SSN018EFFECTSCRIPT:
 		return L"SSN018EffectScript";
+		break;
+
+	case SCRIPT_TYPE::SSN019POSTEFFECTSCRIPT:
+		return L"SSN019PostEffectScript";
 		break;
 
 	case SCRIPT_TYPE::TESTSCRIPT:

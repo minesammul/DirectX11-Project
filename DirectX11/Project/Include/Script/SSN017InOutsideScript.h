@@ -9,5 +9,7 @@ public:
 
 public:
 	virtual void start();
+
+	void OffInOutMesh();
 };
 

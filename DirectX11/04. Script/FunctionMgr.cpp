@@ -102,6 +102,7 @@ void CFunctionMgr::SetAnimation(CGameObject * applyObject, wstring findAnimation
 
 float CFunctionMgr::GetNowAnimationTimeRatio(CGameObject * object)
 {
+	//bool isfirstChange = false;
 	float curRatioAnimTime = 1.f;
 
 	for (int index = 0; index < object->GetChild().size(); index++)
@@ -111,14 +112,31 @@ float CFunctionMgr::GetNowAnimationTimeRatio(CGameObject * object)
 			continue;
 		}
 
-		if (object->GetChild()[index]->Animator3D()->IsDoneAnimation() == false)
+		float ratioAnimationTime = object->GetChild()[index]->Animator3D()->GetCurRatioAnimTime();
+
+		if (ratioAnimationTime < curRatioAnimTime)
+		{
+			curRatioAnimTime = ratioAnimationTime;
+		}
+		/*if (object->GetChild()[index]->Animator3D()->IsDoneAnimation() == false)
 		{
 			float ratioAnimationTime = object->GetChild()[index]->Animator3D()->GetCurRatioAnimTime();
-			if (ratioAnimationTime < curRatioAnimTime)
+			
+			if (isfirstChange = true)
+			{
+				if (ratioAnimationTime < curRatioAnimTime)
+				{
+					curRatioAnimTime = ratioAnimationTime;
+				}
+			}
+			else
 			{
 				curRatioAnimTime = ratioAnimationTime;
+				isfirstChange = true;
 			}
-		}
+			
+
+		}*/
 	}
 
 	return curRatioAnimTime;

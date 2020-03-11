@@ -24,6 +24,8 @@ private:
 	CGameObject* mUseItemBackground;
 	CGameObject* mUseItemSlot;
 	CGameObject* mUseItem;
+	
+	CGameObject* mBossClearLight;
 
 	float mPlayerHPBarInitScaleX;
 	float mPlayerSPBarInitScaleX;
@@ -41,6 +43,8 @@ private:
 	bool mIsOnPlayerDieTextUI;
 	bool mIsOnMonsterDieTextUI;
 
+	bool mIsFadeInOutBossClear;
+
 public:
 	CSSN011PlayerUIScript();
 	~CSSN011PlayerUIScript();
@@ -50,6 +54,7 @@ private:
 	void FadeInOutMonsterDieText();
 	void FadeInOutPlayerDieText();
 	void FindUIObject();
+	void FadeInOutBossClear();
 
 public:
 	virtual void start();
@@ -57,6 +62,8 @@ public:
 
 	void OnMonsterUI();
 	void OffMonsterUI();
+	
+	void StartBossClearLight();
 
 	void SetMonsterHPRation(int maxHP);
 	void SetPlayerHPRation(int maxHP);

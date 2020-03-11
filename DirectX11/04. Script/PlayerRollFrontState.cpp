@@ -17,7 +17,7 @@ bool PlayerRollFrontState::CheckIdleState(CSSN002PlayerScript * playerScript)
 {
 	float curRatioAnimTime = CFunctionMgr::GetInst()->GetNowAnimationTimeRatio(playerScript->Object());
 
-	if (curRatioAnimTime < 1.f)
+	if (curRatioAnimTime < 1.0000f)
 	{
 		return false;
 	}
