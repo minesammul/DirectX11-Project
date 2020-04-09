@@ -685,7 +685,6 @@ bool CCollisionMgr::CollisionSphereRect(CCollider3D * _pLeftSphere, CCollider3D 
 
 	Vec3 rect0to1VectorIsV1 = rectWorldPos[1] - rectWorldPos[0];
 	Vec3 rect1to3VectorIsV2 = rectWorldPos[3] - rectWorldPos[1];
-	//Vec3 rect3to0VectorIsV3 = rectWorldPos[0] - rectWorldPos[3];
 	Vec3 rect3to2VectorIsV3 = rectWorldPos[2] - rectWorldPos[3];
 	Vec3 rect2to0VectorIsV4 = rectWorldPos[0] - rectWorldPos[2];
 

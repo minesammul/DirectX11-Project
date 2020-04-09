@@ -120,10 +120,12 @@ PS_OUT PS_PointLight(VTX_OUT _in)
     
     // Sphere 내부에 들어오는지 확인한다.
     // 해당 픽셀의 화면 전체기준 UV 위치를 알아내야 한다.
+    // VS_OUT은 Position이 SV_Position으로 되었기 때문에 PS에서는 화면좌표계 좌표로 변환된다.
     float2 vScreenUV = (float2) 0.f;
     vScreenUV.x = _in.vPosition.x / fTargetWidth;
     vScreenUV.y = _in.vPosition.y / fTargetHeight;
         
+    //g_tex_1에는 Point Light의 볼륨메쉬가 없는 장면에 대해 Position값이 기록되어 있다.
     float3 vViewPos = g_tex_1.Sample(g_sam_0, vScreenUV).xyz;
     
     if (vViewPos.z == 0.f)
@@ -179,6 +181,7 @@ float4 PS_Merge(VTX_OUT _in) : SV_Target
 
     float3 vDiffuseColor = g_tex_0.Sample(g_sam_0, _in.vUV).xyz;
     float3 vLight = g_tex_1.Sample(g_sam_0, _in.vUV).xyz;
+    //float3 vLight = 0.f;
     float3 vSpecular = g_tex_2.Sample(g_sam_0, _in.vUV).xyz;
     
     float vBrushAlpha = g_tex_3.Sample(g_sam_0, _in.vUV).a;

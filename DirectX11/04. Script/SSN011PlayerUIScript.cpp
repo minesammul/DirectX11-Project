@@ -62,7 +62,7 @@ void CSSN011PlayerUIScript::FadeInOutMonsterDieText()
 		}
 		else
 		{
-			alphaValue -= CTimeMgr::GetInst()->GetDeltaTime() * 0.6f;
+			alphaValue -= CTimeMgr::GetInst()->GetDeltaTime() * 0.27f;
 
 			if (alphaValue <= 0.f)
 			{
@@ -101,6 +101,41 @@ void CSSN011PlayerUIScript::FadeInOutPlayerDieText()
 
 		mTextBackground->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &textBackgroundAlpha);
 		mPlayerDieText->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
+	}
+}
+
+void CSSN011PlayerUIScript::FadeInOutBossClear()
+{
+	if (mIsFadeInOutBossClear == true)
+	{
+		static float alphaValue = 0.f;
+		static bool isFadeIn = true;
+
+		if (isFadeIn == true)
+		{
+			alphaValue += CTimeMgr::GetInst()->GetDeltaTime() * 0.23f;
+
+			if (alphaValue >= 1.f)
+			{
+				alphaValue = 1.f;
+				isFadeIn = false;
+			}
+
+			mBossClearLight->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
+		}
+		else
+		{
+			alphaValue -= CTimeMgr::GetInst()->GetDeltaTime() * 0.5f;
+
+			if (alphaValue <= 0.f)
+			{
+				mIsFadeInOutBossClear = false;
+				isFadeIn = true;
+				alphaValue = 0.f;
+			}
+
+			mBossClearLight->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
+		}
 	}
 }
 
@@ -180,40 +215,6 @@ void CSSN011PlayerUIScript::FindUIObject()
 	}
 }
 
-void CSSN011PlayerUIScript::FadeInOutBossClear()
-{
-	if (mIsFadeInOutBossClear == true)
-	{
-		static float alphaValue = 0.f;
-		static bool isFadeIn = true;
-
-		if (isFadeIn == true)
-		{
-			alphaValue += CTimeMgr::GetInst()->GetDeltaTime() * 0.2f;
-
-			if (alphaValue >= 1.f)
-			{
-				alphaValue = 1.f;
-				isFadeIn = false;
-			}
-
-			mBossClearLight->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
-		}
-		else
-		{
-			alphaValue -= CTimeMgr::GetInst()->GetDeltaTime() * 0.5f;
-
-			if (alphaValue <= 0.f)
-			{
-				mIsFadeInOutBossClear = false;
-				isFadeIn = true;
-				alphaValue = 0.f;
-			}
-
-			mBossClearLight->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::FLOAT_0, &alphaValue);
-		}
-	}
-}
 
 void CSSN011PlayerUIScript::start()
 {

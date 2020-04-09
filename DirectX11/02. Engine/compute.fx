@@ -57,7 +57,6 @@ void CS_HeightMap(int3 _iThreadID : SV_DispatchThreadID)
         float4 vColor = g_tex_0.SampleLevel(g_sam_0, vBrushUV, 0).a;
         if (vColor.a != 0.f)
         {
-            //g_rwtex_0[_iThreadID.xy] += fDT * fRatio * (1.f - (vColor.x * vColor.y * vColor.z)) * vColor.a;
             if (g_int_2 >= 0)
             {
 
