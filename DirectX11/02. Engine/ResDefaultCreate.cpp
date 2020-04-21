@@ -778,6 +778,21 @@ void CResMgr::CreateDefaultShader()
 	pShader->SetName(strKey);
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 
+	// =============
+	// Decal Shader
+	// =============
+	pShader = new CShader;
+	pShader->CreateVertexShader(L"Shader\\light.fx", "VS_Decal", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\light.fx", "PS_Decal", 5, 0);
+	pShader->SetDepthStencilState(CRenderMgr::GetInst()->GetDepthStencilState(DEPTH_STENCIL_TYPE::NO_DEPTH_TEST_WRITE));
+	pShader->SetBlendState(CRenderMgr::GetInst()->GetBlendState(BLEND_TYPE::ALPHABLEND));
+
+	pShader->AddParam(SHADER_PARAM::TEX_0, L"Diffuse Texture");
+
+	strKey = L"DecalShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
 	// ==============
 	// Terrain Shader
 	// ==============
@@ -1048,6 +1063,20 @@ void CResMgr::CreateDefaultMaterial()
 
 	pTex = FindRes<CTexture>(L"SpecularTargetTex");
 	pMtrl->SetData(SHADER_PARAM::TEX_2, &pTex);
+
+	pTex = FindRes<CTexture>(L"PositionTargetTex");
+	pMtrl->SetData(SHADER_PARAM::TEX_3, &pTex);
+
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
+	//DecalMtrl
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"DecalMtrl");
+	pMtrl->SaveDisable();
+	pMtrl->SetShader(FindRes<CShader>(L"DecalShader"));
+
+	pTex = FindRes<CTexture>(L"LightTargetTex");
+	pMtrl->SetData(SHADER_PARAM::TEX_1, &pTex);
 
 	pTex = FindRes<CTexture>(L"PositionTargetTex");
 	pMtrl->SetData(SHADER_PARAM::TEX_3, &pTex);

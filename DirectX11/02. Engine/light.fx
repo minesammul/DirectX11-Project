@@ -192,6 +192,65 @@ float4 PS_Merge(VTX_OUT _in) : SV_Target
     return vColor;
 }
 
+// ==============================================================
+// Decal Shader -> SwapChain
+// BlendState : Default
+// DepthStencilState : NO Test Write
+// g_tex_0 : Diffuse Texture
+// g_tex_1 : Light Target
+// g_tex_2 : Specular Texture
+// g_tex_3 : Position target
+// =======================================
+VTX_OUT VS_Decal(VTX_IN _in)
+{
+    VTX_OUT output = (VTX_OUT) 0.f;
+
+    output.vPosition = mul(float4(_in.vPosition, 1.f), g_matWVP);
+    output.vUV = _in.vUV;
+   
+    return output;
+}
+
+float4 PS_Decal(VTX_OUT _in) : SV_Target
+{
+    float4 vColor = (float4) 0.f;
+
+    float2 vScreenUV = (float2) 0.f;
+    vScreenUV.x = _in.vPosition.x / fTargetWidth; 
+    vScreenUV.y = _in.vPosition.y / fTargetHeight;
+    
+    float3 vViewPos = g_tex_3.Sample(g_sam_0, vScreenUV).xyz; 
+    if (vViewPos.z == 0.f)
+    {
+        clip(-1); 
+    }
+    
+    float4 vWorldPos = mul(float4(vViewPos, 1.f), g_matViewInv); 
+    float4 vLocalPos = mul(vWorldPos, g_matWorldInv);
+    
+    
+    if ((-0.5f <= vLocalPos.x && vLocalPos.x <= 0.5f) &&
+        (-0.5f <= vLocalPos.y && vLocalPos.y <= 0.5f) &&
+        (-0.5f <= vLocalPos.z && vLocalPos.z <= 0.5f))
+    {
+        float3 vLight = g_tex_1.Sample(g_sam_0, vScreenUV).xyz; 
+        
+        float2 decalTextureUV = vLocalPos.xz + 0.5f;  
+        float4 vDiffuseColor = g_tex_0.Sample(g_sam_0, decalTextureUV); 
+        float4 vSpecular = g_tex_2.Sample(g_sam_0, decalTextureUV); 
+        
+        vColor.xyz = (vDiffuseColor.xyz * vLight) + (vSpecular.xyz * vLight) + (float3(0.2f, 0.2f, 0.2f)); 
+        vColor.a = vDiffuseColor.a;
+    }
+    else
+    {
+        clip(-1); 
+    }
+
+    
+    return vColor;
+}
+
 // =================
 // Shadow Map Shader
 // =================
