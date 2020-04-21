@@ -74,7 +74,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	CCore::GetInst()->SetState(SCENE_STATE::LOAD);
-	CSaveLoadMgr::LoadScene(L"D:\\GitHub Project\\DirectX11\\DirectX11\\bin\\content\\Scene\\test49.scene");
+	CSaveLoadMgr::LoadScene(L"D:\\GitHub Project\\DirectX11\\DirectX11\\bin\\content\\Scene\\test51.scene");
 
 	CCore::GetInst()->SetState(SCENE_STATE::STOP);
 

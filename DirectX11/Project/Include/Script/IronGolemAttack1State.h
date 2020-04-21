@@ -3,6 +3,9 @@
 
 class IronGolemAttack1State : public MonsterState
 {
+private:
+	bool mIsAttackCollisionStart;
+
 public:
 	IronGolemAttack1State();
 	~IronGolemAttack1State();

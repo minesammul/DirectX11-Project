@@ -67,7 +67,6 @@ void CSSN018EffectScript::OperaterEffect(EFFECT_KIND effectKind, EFFECT_OPERATER
 		CResPtr<CTexture> texture = CResMgr::GetInst()->FindRes<CTexture>(L"Texture\\Particle\\ThunderParticle.png");
 		Object()->MeshRender()->GetCloneMaterial()->SetData(SHADER_PARAM::TEX_4, &texture);
 	}
-
 	
 	if (effectOperaterKind == EFFECT_OPERATER_KIND::UP)
 	{

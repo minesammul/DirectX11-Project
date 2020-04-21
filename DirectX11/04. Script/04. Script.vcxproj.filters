@@ -279,6 +279,9 @@
     <ClInclude Include="SSN019PostEffectScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="SSN020DecalEffectScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptMgr.cpp">
@@ -477,6 +480,9 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="SSN019PostEffectScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SSN020DecalEffectScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>

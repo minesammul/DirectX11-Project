@@ -18,4 +18,5 @@ SSN016ParticleScript
 SSN017InOutsideScript
 SSN018EffectScript
 SSN019PostEffectScript
+SSN020DecalEffectScript
 TestScript
