@@ -5,6 +5,7 @@
 #include "IronGolemIdleState.h"
 #include "SSN008AttackBoxScript.h"
 #include "IronGolemDieState.h"
+#include "EventQueueMgr.h"
 
 IronGolemAttack1State::IronGolemAttack1State()
 {
@@ -39,6 +40,14 @@ void IronGolemAttack1State::Init(CSSN007MonsterScript * monsterScript)
 	CFunctionMgr::GetInst()->SetAnimation(monsterScript->Object(), L"Attack01", false);
 	monsterScript->GetAttackBoxScript()->SetActiveCollision(false);
 	monsterScript->GetAttackBoxScript()->SetAttackted(false);
+
+	{
+		GameEventComponent addEvent;
+		addEvent.eventType = GAME_EVENT_TYPE::EFFECT_THUNDER_ON;
+		addEvent.sendObjectName = monsterScript->Object()->GetName();
+		addEvent.receiveObjectName = L"IronGolemWeaponMesh";
+		CEventQueueMgr::GetInst()->AddEvent(addEvent);
+	}
 }
 
 void IronGolemAttack1State::Update(CSSN007MonsterScript * monsterScript)
@@ -47,11 +56,27 @@ void IronGolemAttack1State::Update(CSSN007MonsterScript * monsterScript)
 	{
 		IronGolemDieState::GetInstance()->Init(monsterScript);
 		monsterScript->SetState(IronGolemDieState::GetInstance());
+
+		{
+			GameEventComponent addEvent;
+			addEvent.eventType = GAME_EVENT_TYPE::EFFECT_THUNDER_OFF;
+			addEvent.sendObjectName = monsterScript->Object()->GetName();
+			addEvent.receiveObjectName = L"IronGolemWeaponMesh";
+			CEventQueueMgr::GetInst()->AddEvent(addEvent);
+		}
 	}
 	else if (CheckIdleState(monsterScript) == true)
 	{
 		IronGolemIdleState::GetInstance()->Init(monsterScript);
 		monsterScript->SetState(IronGolemIdleState::GetInstance());
+
+		{
+			GameEventComponent addEvent;
+			addEvent.eventType = GAME_EVENT_TYPE::EFFECT_THUNDER_OFF;
+			addEvent.sendObjectName = monsterScript->Object()->GetName();
+			addEvent.receiveObjectName = L"IronGolemWeaponMesh";
+			CEventQueueMgr::GetInst()->AddEvent(addEvent);
+		}
 	}
 	else
 	{
