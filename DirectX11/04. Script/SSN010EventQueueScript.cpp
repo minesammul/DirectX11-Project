@@ -14,6 +14,7 @@
 #include "SSN018EffectScript.h"
 #include "SSN016ParticleScript.h"
 #include "SSN017InOutsideScript.h"
+#include "SSN020DecalEffectScript.h"
 #include "FunctionMgr.h"
 
 CSSN010EventQueueScript::CSSN010EventQueueScript() : 
@@ -268,6 +269,14 @@ void CSSN010EventQueueScript::update()
 			CSSN018EffectScript* effectScript = dynamic_cast<CSSN018EffectScript*>(CFunctionMgr::GetInst()->FindScript(popEvent.receiveObjectName, SCRIPT_TYPE::SSN018EFFECTSCRIPT));
 
 			effectScript->OperaterEffect(EFFECT_KIND::THUNDER_EFFECT, EFFECT_OPERATER_KIND::DOWN, 1.f);
+		}
+		else if (popEvent.eventType == GAME_EVENT_TYPE::DECAL_THUNDER_ON)
+		{
+			CSSN020DecalEffectScript* decalScript = dynamic_cast<CSSN020DecalEffectScript*>(CFunctionMgr::GetInst()->FindScript(popEvent.receiveObjectName, SCRIPT_TYPE::SSN020DECALEFFECTSCRIPT));
+
+			Vec3 decalPosition = Vec3(popEvent.sendObjectData[0].floatValue, popEvent.sendObjectData[1].floatValue, popEvent.sendObjectData[2].floatValue);
+
+			decalScript->OnDecalEffect(decalPosition);
 		}
 		else if (popEvent.eventType == GAME_EVENT_TYPE::OFF_INOUTSIDE_MESH)
 		{
