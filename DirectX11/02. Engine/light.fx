@@ -200,6 +200,7 @@ float4 PS_Merge(VTX_OUT _in) : SV_Target
 // g_tex_1 : Light Target
 // g_tex_2 : Specular Texture
 // g_tex_3 : Position target
+// g_float_0 : Alpha Value
 // =======================================
 VTX_OUT VS_Decal(VTX_IN _in)
 {
@@ -239,7 +240,10 @@ float4 PS_Decal(VTX_OUT _in) : SV_Target
         float4 vDiffuseColor = g_tex_0.Sample(g_sam_0, decalTextureUV); 
         float4 vSpecular = g_tex_2.Sample(g_sam_0, decalTextureUV); 
         
-        vColor.xyz = (vDiffuseColor.xyz * vLight) + (vSpecular.xyz * vLight) + (float3(0.2f, 0.2f, 0.2f)); 
+        vDiffuseColor.a *= g_float_0;
+        
+        //vColor.xyz = (vDiffuseColor.xyz * vLight) + (vSpecular.xyz * vLight) + (float3(0.2f, 0.2f, 0.2f));
+        vColor.xyz = (vDiffuseColor.xyz) + (vSpecular.xyz) + (float3(0.2f, 0.2f, 0.2f));
         vColor.a = vDiffuseColor.a;
     }
     else
