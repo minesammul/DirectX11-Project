@@ -29,6 +29,7 @@
 #include <Core.h>
 #include <Script.h>
 #include <Terrain.h>
+#include <Light3D.h>
 #include <ParticleSystem.h>
 
 #ifdef _DEBUG
@@ -52,6 +53,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_GAMEOBJECT_CREATEFBXOBJECT, &CMainFrame::OnGameobjectCreatefbxobject)
 	ON_COMMAND(ID_REFRESHDLG_REFRESHGAMEOBJECTDLG, &CMainFrame::OnRefreshdlgRefreshgameobjectdlg)
 	ON_COMMAND(ID_GAMEOBJECT_CREATEPARTICLE, &CMainFrame::OnGameobjectCreateparticle)
+	ON_COMMAND(ID_GAMEOBJECT_CREATEPOINTLIGHT, &CMainFrame::OnGameobjectCreatepointlight)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -471,4 +473,27 @@ void CMainFrame::OnGameobjectCreateparticle()
 
 	
 	pCurScene->AddObject(L"Default", pParticle);
+}
+
+
+void CMainFrame::OnGameobjectCreatepointlight()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+
+	CGameObject* pLightObj = new CGameObject;
+	pLightObj->SetName(L"PointLight1");
+	pLightObj->AddComponent(new CTransform);
+	pLightObj->AddComponent(new CLight3D);
+
+	pLightObj->Transform()->SetLocalPos(Vec3(0.f, 0.f, 500.f));
+	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::POINT);
+	pLightObj->Light3D()->SetLightDir(Vec3(1.f, -1.f, 1.f));
+	pLightObj->Light3D()->SetLightDiffuse(Vec3(0.8f, 0.8f, 0.8f));
+	pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));
+	pLightObj->Light3D()->SetLightAmbient(Vec3(0.1f, 0.1f, 0.1f));
+	pLightObj->Light3D()->SetLightRange(100.f);
+
+	pCurScene->AddObject(L"Default", pLightObj);
+
 }
