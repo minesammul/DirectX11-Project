@@ -47,6 +47,8 @@ public:
 	void render_posteffect();
 
 	void CopySwapToPosteffect();
+	void CopyTempToBefore();
+	void CopySwapToTemp();
 
 public:
 	CBlendState* GetBlendState(BLEND_TYPE _eType) { return m_arrBlendState[(UINT)_eType]; }

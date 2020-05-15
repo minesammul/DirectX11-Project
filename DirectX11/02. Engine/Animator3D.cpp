@@ -76,7 +76,7 @@ void CAnimator3D::finalupdate()
 
 	m_curRatioAnimTime = m_vecClipUpdateTime[m_iCurClip] / curClipTimeLength;
 
-	// 본 개수만큼 반복하며 현재 시간에 맞게 모든 본 행렬을 모두 보간해준다.
+	//// 본 개수만큼 반복하며 현재 시간에 맞게 모든 본 행렬을 모두 보간해준다.
 	for (size_t i = 0; i < m_pVecBones->size(); ++i)
 	{
 		if (m_pVecBones->at(i).vecKeyFrame.empty())

@@ -24,6 +24,8 @@ struct VS_OUTPUT
 // PostEffect = true
 // g_Tex_0 : Posteffect Target
 // g_tex_1 : velocity target
+// g_Tex_2 : Position Target
+// g_tex_3 : Before target
 //========================
 
 VS_OUTPUT VS_Distortion(VS_INPUT _input)
@@ -66,13 +68,19 @@ float4 PS_Distortion(VS_OUTPUT _input) : SV_Target
     int sampleCount = 1;
     
     float4 blurColor;
+    float4 beforeBlurColor;
     float4 position;
     float4 outputColor = g_tex_0.Sample(g_sam_0, _input.vOutUV);
     
     for (int index = 1; index < 300; index++)
     {
         blurColor = g_tex_0.Sample(g_sam_0, _input.vOutUV + velocity.xy * (float) index);
+        beforeBlurColor = g_tex_3.Sample(g_sam_0, _input.vOutUV + velocity.xy * (float) index);
         position = g_tex_2.Sample(g_sam_0, _input.vOutUV + velocity.xy * (float) index);
+        
+        blurColor += beforeBlurColor;
+        
+        blurColor /= 2.f;
         
         if (velocityLength > 0.0001f)
         {

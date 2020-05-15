@@ -136,13 +136,13 @@ void CGameView::CreateToolObject()
 	m_pGridObject->MeshRender()->SetMaterial(m_pGridMtrl);
 
 	// Tool UI Object
-	CGameObject* arrUI[5] = {};
+	CGameObject* arrUI[6] = {};
 
 	float fScale = 120.f;
 	CResPtr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"TextureMtrl");
 	CResPtr<CTexture> pTargetTex = nullptr;
 
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 6; ++i)
 	{
 		arrUI[i] = new CGameObjectEx;
 		arrUI[i]->AddComponent(new CTransform);
@@ -175,6 +175,8 @@ void CGameView::CreateToolObject()
 	pTargetTex = CResMgr::GetInst()->FindRes<CTexture>(L"VelocityTargetTex");
 	arrUI[4]->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTargetTex);
 
+	pTargetTex = CResMgr::GetInst()->FindRes<CTexture>(L"BeforeTargetTex");
+	arrUI[5]->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTargetTex);
 }
 
 

@@ -234,6 +234,9 @@ enum class RT_TYPE
 
 	POSTEFFECT,
 
+	BEFORE,
+	TEMP,
+
 	END,
 };
 

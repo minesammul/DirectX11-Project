@@ -154,6 +154,8 @@ void CRenderMgr::render_lights()
 
 	// filter
 	m_pMergeFilter->render();
+
+	CopySwapToTemp();
 }
 
 void CRenderMgr::render_shadowmap()
@@ -181,11 +183,25 @@ void CRenderMgr::render_posteffect()
 			m_vecCam[i]->render_posteffect();
 		}
 	}
+
+	//m_arrRT[(UINT)RT_TYPE::BEFORE]->clear();
 }
 
 void CRenderMgr::CopySwapToPosteffect()
 {
 	CONTEXT->CopyResource(m_arrRT[(UINT)RT_TYPE::POSTEFFECT]->GetRTTex()->GetTex2D()
+		, m_arrRT[(UINT)RT_TYPE::SWAPCHAIN]->GetRTTex()->GetTex2D());
+}
+
+void CRenderMgr::CopyTempToBefore()
+{
+	CONTEXT->CopyResource(m_arrRT[(UINT)RT_TYPE::BEFORE]->GetRTTex()->GetTex2D()
+		, m_arrRT[(UINT)RT_TYPE::TEMP]->GetRTTex()->GetTex2D());
+}
+
+void CRenderMgr::CopySwapToTemp()
+{
+	CONTEXT->CopyResource(m_arrRT[(UINT)RT_TYPE::TEMP]->GetRTTex()->GetTex2D()
 		, m_arrRT[(UINT)RT_TYPE::SWAPCHAIN]->GetRTTex()->GetTex2D());
 }
 
@@ -212,6 +228,10 @@ void CRenderMgr::Clear()
 
 	// 리소스 클리어
 	CTexture::ClearAllRegister();
+
+	m_arrRT[(UINT)RT_TYPE::BEFORE]->clear();
+	CopyTempToBefore();
+	m_arrRT[(UINT)RT_TYPE::TEMP]->clear();
 }
 
 #include "Core.h"
@@ -527,6 +547,20 @@ void CRenderMgr::CreateRenderTarget()
 
 	m_arrRT[(UINT)RT_TYPE::POSTEFFECT] = new CRenderTarget23;
 	m_arrRT[(UINT)RT_TYPE::POSTEFFECT]->Create(L"PosteffectTarget", pTargetTex, Vec4(0.f, 0.f, 0.f, 0.f));
+
+	// Before RenderTarget
+	pTargetTex = CResMgr::GetInst()->CreateTexture(L"BeforeTargetTex", (UINT)m_tRes.fWidth, (UINT)m_tRes.fHeight
+		, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R8G8B8A8_UNORM);
+
+	m_arrRT[(UINT)RT_TYPE::BEFORE] = new CRenderTarget23;
+	m_arrRT[(UINT)RT_TYPE::BEFORE]->Create(L"BeforeTarget", pTargetTex, Vec4(0.f, 0.f, 0.f, 0.f));
+
+	// Temp RenderTarget
+	pTargetTex = CResMgr::GetInst()->CreateTexture(L"TempTargetTex", (UINT)m_tRes.fWidth, (UINT)m_tRes.fHeight
+		, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R8G8B8A8_UNORM);
+
+	m_arrRT[(UINT)RT_TYPE::TEMP] = new CRenderTarget23;
+	m_arrRT[(UINT)RT_TYPE::TEMP]->Create(L"TempTarget", pTargetTex, Vec4(0.f, 0.f, 0.f, 0.f));
 
 
 	// =============

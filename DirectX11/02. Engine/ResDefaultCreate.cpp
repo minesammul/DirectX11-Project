@@ -1172,6 +1172,8 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SetData(SHADER_PARAM::TEX_1, &pTex);
 	pTex = FindRes<CTexture>(L"PositionTargetTex");
 	pMtrl->SetData(SHADER_PARAM::TEX_2, &pTex);
+	pTex = FindRes<CTexture>(L"BeforeTargetTex");
+	pMtrl->SetData(SHADER_PARAM::TEX_3, &pTex);
 
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
