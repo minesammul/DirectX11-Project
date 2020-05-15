@@ -579,6 +579,68 @@ void CCamera::render_shadowmap()
 	}
 }
 
+void CCamera::render_velocity()
+{
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+
+	g_transform.matView = m_matView;
+	g_transform.matViewInv = XMMatrixInverse(nullptr, m_matView);
+	g_transform.matProj = m_matProj;
+
+	for (auto& pair : m_mapSingleObj)
+	{
+		pair.second.clear();
+	}
+
+	tInstancingData tInstData = {};
+
+	for (auto& pair : m_mapInstGroup_D)
+	{
+		// 그룹 오브젝트가 없거나, 쉐이더가 없는 경우
+		if (pair.second.empty())
+			continue;
+		else if (pair.second.size() <= 3) // instancint 개수 조건
+		{
+			for (UINT i = 0; i < pair.second.size(); ++i)
+			{
+				map<INT_PTR, vector<tInstObj>>::iterator iter
+					= m_mapSingleObj.find((INT_PTR)pair.second[i].pObj);
+
+				if (iter != m_mapSingleObj.end())
+					iter->second.push_back(pair.second[i]);
+				else
+				{
+					m_mapSingleObj.insert(make_pair((INT_PTR)pair.second[i].pObj, vector<tInstObj>{pair.second[i]}));
+				}
+			}
+			continue;
+		}
+	}
+
+	// 개별 랜더링
+	for (auto& pair : m_mapSingleObj)
+	{
+		if (pair.second.empty())
+			continue;
+
+		//CResPtr<CMaterial> beforeMaterial = pair.second[0].pObj->MeshRender()->GetCloneMaterial();
+		CResPtr<CMaterial> beforeMaterial = pair.second[0].pObj->MeshRender()->GetSharedMaterial();
+		pair.second[0].pObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"VelocityMtrl"));
+
+		if (pair.second[0].pObj->Animator3D())
+			pair.second[0].pObj->Animator3D()->UpdateData();
+
+		// 하나의 오브젝트 더라도 여러개의 서브셋(메테리얼) 로 구성되어있을 수 있다.
+		for (UINT i = 0; i < pair.second.size(); ++i)
+		{
+			pair.second[i].pObj->Transform()->UpdateData();
+			pair.second[i].pObj->MeshRender()->render(pair.second[i].iMtrlIdx);
+
+			pair.second[i].pObj->MeshRender()->SetMaterial(beforeMaterial);
+		}
+	}
+}
+
 
 void CCamera::SortShadowGameObject()
 {

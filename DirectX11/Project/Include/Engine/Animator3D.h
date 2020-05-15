@@ -12,10 +12,12 @@ private:
 
 	vector<float>				m_vecClipUpdateTime;
 	vector<Matrix>				m_vecFinalBoneMat; // 텍스쳐에 전달할 최종 행렬정보
+	vector<Matrix>				m_vecFinalBeforeBoneMat;
 	int							m_iFrameCount; // 30
 	float						m_fCurTime;
 	int							m_iCurClip; // 클립 인덱스
 	CResPtr<CTexture>			m_pBoneTex;
+	CResPtr<CTexture>			m_pBeforeBoneTex;
 
 	float m_curRatioAnimTime;
 
@@ -28,12 +30,22 @@ public:
 		m_pVecBones = _vecBones;
 		m_vecFinalBoneMat.resize(m_pVecBones->size()); 
 
+		m_vecFinalBeforeBoneMat.resize(m_pVecBones->size());
+
 		m_pVecWorldMatrixComponent.resize(m_pVecBones->size());
 	}
 	void SetAnimClip(const vector<tMTAnimClip>* _vecAnimClip);
 	bool FindAnimClipIndex(wstring animName, int& findAnimIndex);
-	void SetBoneTex(CResPtr<CTexture> _pBoneTex) { m_pBoneTex = _pBoneTex; }
+	void SetBoneTex(CResPtr<CTexture> _pBoneTex) 
+	{
+		m_pBoneTex = _pBoneTex; 
+	}
+	void SetBeforeBoneTex(CResPtr<CTexture> _pBoneTex)
+	{
+		m_pBeforeBoneTex = _pBoneTex;
+	}
 	CResPtr<CTexture> GetBornTex() { return m_pBoneTex; }
+	CResPtr<CTexture> GetBeforeBornTex() { return m_pBeforeBoneTex; }
 	void UpdateData();
 	
 	void SetClipTime(int _iClipIdx, float _fTime) { m_vecClipUpdateTime[_iClipIdx] = _fTime; }

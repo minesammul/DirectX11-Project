@@ -60,6 +60,13 @@ void CAnimator3D::finalupdate()
 
 	m_fCurTime = m_pVecClip->at(m_iCurClip).dStartTime + m_vecClipUpdateTime[m_iCurClip];
 
+	float beforeCurTime = m_fCurTime - DT * 1.2f * 3.f;
+	if (beforeCurTime < 0.f)
+	{
+		beforeCurTime = 0.f;
+	}
+
+
 	float curClipTimeLength = m_pVecClip->at(m_iCurClip).dTimeLength;
 	if (curClipTimeLength < 0.f)
 	{
@@ -132,6 +139,72 @@ void CAnimator3D::finalupdate()
 		// 오프셋 행렬을 곱하여 최종 본행렬을 만들어낸다.				
 		m_vecFinalBoneMat[i] = m_pVecBones->at(i).matOffset * XMMatrixAffineTransformation(vS, vQZero, vQ, vT);
 	}	
+
+
+	//m_vecFinalBeforeBoneMat
+	for (size_t i = 0; i < m_pVecBones->size(); ++i)
+	{
+		if (m_pVecBones->at(i).vecKeyFrame.empty())
+		{
+			// 키프레임 별 행렬이 없는 본일 경우
+			m_vecFinalBeforeBoneMat[i] = m_pVecBones->at(i).matBone;
+			m_pVecWorldMatrixComponent[i].qRot = Vec4(0.f, 0.f, 0.f, 1.f);
+			m_pVecWorldMatrixComponent[i].vScale = Vec3(1.f, 1.f, 1.f);
+			m_pVecWorldMatrixComponent[i].vTranslate = Vec3(0.f, 0.f, 0.f);
+			continue;
+		}
+
+		// 시간을 통하여 인덱스를 구한다.
+		int	iFrameIndex = (int)(beforeCurTime * m_iFrameCount);
+		int	iFrameNextIndex = 0.f;
+
+		if (iFrameIndex >= m_pVecClip->at(m_iCurClip).iEndFrame - 1)
+		{
+			iFrameIndex = m_pVecClip->at(m_iCurClip).iEndFrame - 1;
+			iFrameNextIndex = m_pVecClip->at(m_iCurClip).iEndFrame - 1;
+		}
+		else
+		{
+			iFrameNextIndex = iFrameIndex + 1;
+		}
+
+		const tMTKeyFrame& tKeyFrame = m_pVecBones->at(i).vecKeyFrame[iFrameIndex];
+		const tMTKeyFrame& tNextKeyFrame = m_pVecBones->at(i).vecKeyFrame[iFrameNextIndex];
+
+		float	fFrameTime = tKeyFrame.fTime;
+		float	fNextFrameTime = tNextKeyFrame.fTime;
+
+		// 프레임간의 시간에 따른 비율을 구해준다.
+		float	fPercent = (beforeCurTime - fFrameTime) / (1.f / m_iFrameCount);
+
+		XMVECTOR vS1 = tKeyFrame.vScale;
+		XMVECTOR vS2 = tNextKeyFrame.vScale;
+
+		XMVECTOR vT1 = tKeyFrame.vTranslate;
+		XMVECTOR vT2 = tNextKeyFrame.vTranslate;
+
+		XMVECTOR vQ1 = XMLoadFloat4(&tKeyFrame.qRot);
+		XMVECTOR vQ2 = XMLoadFloat4(&tNextKeyFrame.qRot);
+
+		XMVECTOR vS = XMVectorLerp(vS1, vS2, fPercent);
+		XMVECTOR vT = XMVectorLerp(vT1, vT2, fPercent);
+		XMVECTOR vQ = XMQuaternionSlerp(vQ1, vQ2, fPercent);
+
+		XMVECTOR vQZero = XMVectorSet(0.f, 0.f, 0.f, 1.f);
+
+		//
+		m_pVecWorldMatrixComponent[i].vScale = vS;
+		m_pVecWorldMatrixComponent[i].vTranslate = vT;
+		m_pVecWorldMatrixComponent[i].qRot = Vec4(vQ.vector4_f32[0],
+			vQ.vector4_f32[1],
+			vQ.vector4_f32[2],
+			vQ.vector4_f32[3]);
+		//
+
+		// 오프셋 행렬을 곱하여 최종 본행렬을 만들어낸다.				
+		m_vecFinalBeforeBoneMat[i] = m_pVecBones->at(i).matOffset * XMMatrixAffineTransformation(vS, vQZero, vQ, vT);
+	}
+	//
 }
 
 void CAnimator3D::SaveToScene(FILE * _pFile)
@@ -150,6 +223,7 @@ void CAnimator3D::LoadFromScene(FILE * _pFile)
 	SetBones(pMesh->GetBones());
 	SetAnimClip(pMesh->GetAnimClip());
 	SetBoneTex(pMesh->GetBoneTex());
+	SetBeforeBoneTex(pMesh->GetBeforeBoneTex());
 }
 
 void CAnimator3D::SetAnimClip(const vector<tMTAnimClip>* _vecAnimClip)
@@ -177,6 +251,11 @@ void CAnimator3D::UpdateData()
 	// Bone Texture Update
 	m_pBoneTex->SetData(&m_vecFinalBoneMat[0], sizeof(Matrix) * m_vecFinalBoneMat.size());
 
+	if (m_vecFinalBeforeBoneMat.empty() == false)
+	{
+		m_pBeforeBoneTex->SetData(&m_vecFinalBeforeBoneMat[0], sizeof(Matrix) * m_vecFinalBeforeBoneMat.size());
+	}
+
 	UINT iMtrlCount = MeshRender()->GetMaterialCount();
 	CResPtr<CMaterial> pMtrl = nullptr;
 	for (UINT i = 0; i < iMtrlCount; ++i)
@@ -185,6 +264,11 @@ void CAnimator3D::UpdateData()
 		if (nullptr == pMtrl)
 			continue;
 
+		if (m_vecFinalBeforeBoneMat.empty() == false)
+		{
+			pMtrl->SetData(SHADER_PARAM::TEX_6, &m_pBeforeBoneTex);
+		}
+		
 		pMtrl->SetData(SHADER_PARAM::TEX_7, &m_pBoneTex);
 	}
 }

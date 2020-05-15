@@ -100,6 +100,12 @@ void CRenderMgr::render()
 			m_vecCam[i]->render_deferred();
 		}
 
+		m_arrMRT[(UINT)MRT_TYPE::VELOCITY]->OMSet();
+		for (size_t i = 0; i < m_vecCam.size(); ++i)
+		{
+			m_vecCam[i]->render_velocity();
+		}
+
 		render_shadowmap();
 		render_lights();
 
@@ -498,6 +504,13 @@ void CRenderMgr::CreateRenderTarget()
 	m_arrRT[(UINT)RT_TYPE::SPECULAR] = new CRenderTarget23;
 	m_arrRT[(UINT)RT_TYPE::SPECULAR]->Create(L"SpecularTarget", pTargetTex, Vec4(0.f, 0.f, 0.f, 0.f));
 
+	// Velocity RenderTarget
+	pTargetTex = CResMgr::GetInst()->CreateTexture(L"VelocityTargetTex", m_tRes.fWidth, m_tRes.fHeight
+		, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	m_arrRT[(UINT)RT_TYPE::VELOCITY] = new CRenderTarget23;
+	m_arrRT[(UINT)RT_TYPE::VELOCITY]->Create(L"VelocityTarget", pTargetTex, Vec4(0.f, 0.f, 0.f, 0.f));
+
 	// Shadow RenderTarget	
 	pTargetTex = CResMgr::GetInst()->CreateTexture(L"ShadowmapTargetTex"
 		, 4096, 4096
@@ -557,4 +570,13 @@ void CRenderMgr::CreateRenderTarget()
 
 	m_arrMRT[(UINT)MRT_TYPE::LIGHT] = new CMRT;
 	m_arrMRT[(UINT)MRT_TYPE::LIGHT]->Create(rt, nullptr);
+
+	// ============
+	// Velocity MRT
+	// ============
+	memset(rt, 0, sizeof(void*) * 8);
+	rt[0] = m_arrRT[(UINT)RT_TYPE::VELOCITY];
+
+	m_arrMRT[(UINT)MRT_TYPE::VELOCITY] = new CMRT;
+	m_arrMRT[(UINT)MRT_TYPE::VELOCITY]->Create(rt, nullptr);
 }

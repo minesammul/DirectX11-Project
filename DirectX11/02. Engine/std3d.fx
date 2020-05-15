@@ -132,6 +132,9 @@ struct VTX_STD3D_OUT
     float3 vViewTangent : TANGENT;
     float3 vViewBinormal : BINORMAL;
     float2 vUV : TEXCOORD;
+    float4 vBeforePos : POSITION1;
+    float4 vNowPos : POSITION2;
+    float4 vVelocity : POSITION3;
 };
 
 struct PS_STD3D_OUT
@@ -151,11 +154,11 @@ VTX_STD3D_OUT VS_STD3D(VTX_STD3D_IN _in)
     {
         Skinning(_in.vPosition, _in.vTangent
         , _in.vBinormal, _in.vNormal
-        , _in.vWeights, _in.vIndices, 0);
+        , _in.vWeights, _in.vIndices, 0, 7);
     }
     
     output.vPosition = mul(float4(_in.vPosition, 1.f), g_matWVP);
-
+    
     output.vViewPos = mul(float4(_in.vPosition, 1.f), g_matWV).xyz;
     output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), g_matWV)).xyz;
     output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV)).xyz;
@@ -175,11 +178,11 @@ VTX_STD3D_OUT VS_STD3D_Inst(VTX_STD3D_IN _in)
     {
         Skinning(_in.vPosition, _in.vTangent
         , _in.vBinormal, _in.vNormal
-        , _in.vWeights, _in.vIndices, _in.iRowIdx); // <-- 변경점
+        , _in.vWeights, _in.vIndices, _in.iRowIdx, 7); // <-- 변경점
     }
     
     output.vPosition = mul(float4(_in.vPosition, 1.f), _in.matWVP);
-
+    
     output.vViewPos = mul(float4(_in.vPosition, 1.f), _in.matWV).xyz;
     output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), _in.matWV)).xyz;
     output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), _in.matWV)).xyz;
@@ -232,6 +235,89 @@ PS_STD3D_OUT PS_STD3D(VTX_STD3D_OUT _in)
    
     output.vPosition.xyz = _in.vViewPos;
 
+    return output;
+}
+
+//  Velocity Shader
+//  
+//
+struct PS_Velocity_OUT
+{
+    float4 vVelocity : SV_Target0;
+};
+
+VTX_STD3D_OUT VS_Velocity(VTX_STD3D_IN _in)
+{
+    VTX_STD3D_OUT output = (VTX_STD3D_OUT) 0.f;
+
+     // 8 번째 텍스쳐는 Bone Matrix Tex(VTF - vertex texture fetch) 예약자리
+    
+    VTX_STD3D_IN nowInput = _in;
+    if (g_tcheck_7)
+    {
+        Skinning(nowInput.vPosition, nowInput.vTangent
+        , nowInput.vBinormal, nowInput.vNormal
+        , nowInput.vWeights, nowInput.vIndices, 0, 7);
+    }
+    
+    VTX_STD3D_IN beforeInput = _in;
+    if (g_tcheck_6)
+    {
+        Skinning(beforeInput.vPosition, beforeInput.vTangent
+        , beforeInput.vBinormal, beforeInput.vNormal
+        , beforeInput.vWeights, beforeInput.vIndices, 0, 6);
+    }
+    
+    float4 nowPosition = mul(float4(nowInput.vPosition, 1.f), g_matWVP);
+    float4 beforePosition = mul(float4(beforeInput.vPosition, 1.f), g_matWVP);
+    
+    float4 nowViewPosition = mul(float4(nowInput.vPosition, 1.f), g_matWV);
+    float4 beforeViewPosition = mul(float4(beforeInput.vPosition, 1.f), g_matWV);
+    
+    float3 direction = nowPosition.xyz - beforePosition.xyz;
+    
+    float dotValue = dot(normalize(direction), normalize(nowInput.vNormal));
+    
+    if(dotValue<0.0f)
+    {
+        output.vPosition = beforePosition;
+    }
+    else
+    {
+        output.vPosition = nowPosition;
+    }
+    
+    output.vBeforePos = beforePosition;
+    output.vNowPos = nowPosition;
+    
+    float2 velocity = nowPosition.xy / nowPosition.w - beforePosition.xy / beforePosition.w;
+    
+    velocity /= 2.0f;
+    velocity.y *= -1.0f;
+    
+    output.vVelocity.xy = velocity;
+    output.vVelocity.z = output.vPosition.z;
+    output.vVelocity.w = output.vPosition.w;
+        
+    return output;
+}
+
+
+PS_Velocity_OUT PS_Velocity(VTX_STD3D_OUT _in)
+{
+    PS_Velocity_OUT output = (PS_Velocity_OUT) 0.f;
+    
+    //float2 velocity = _in.vNowPos.xy / _in.vNowPos.w - _in.vBeforePos.xy / _in.vBeforePos.w;
+    
+    //velocity.xy /= 2.0f;
+    //velocity.y *= -1.0f;
+    
+    //output.vVelocity.xy = velocity;
+    ////output.vVelocity.z = _in.vPosition.z;
+    ////output.vVelocity.w = _in.vPosition.w;
+    //output.vVelocity.z = 0.f;
+    //output.vVelocity.w = 1.f;
+    output.vVelocity = _in.vVelocity;
     return output;
 }
 

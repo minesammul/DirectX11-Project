@@ -70,6 +70,7 @@ public:
 	void render_forward();
 	void render_posteffect();
 	void render_shadowmap();
+	void render_velocity();
 
 	void SortGameObject();
 	void SortShadowGameObject();

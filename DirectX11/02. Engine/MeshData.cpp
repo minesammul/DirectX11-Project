@@ -61,6 +61,19 @@ CMeshData * CMeshData::LoadFromFBX(const wstring& _strPath)
 					, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 			pMesh->SetBoneTex(pBoneTex);
+
+			wstring strBeforeBoneTex = _strPath;
+			strBeforeBoneTex += to_wstring(meshIndex);
+			strBeforeBoneTex += L"BeforeBoneTex";
+
+			CResPtr<CTexture> pBeforeBoneTex =
+				CResMgr::GetInst()->CreateTexture(strBeforeBoneTex
+					, pMesh->GetBones()->size() * 4, 1
+					, D3D11_BIND_SHADER_RESOURCE
+					, D3D11_USAGE_DYNAMIC
+					, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+			pMesh->SetBeforeBoneTex(pBeforeBoneTex);
 		}
 
 		// ResMgr 에 메쉬 등록
@@ -231,6 +244,7 @@ CGameObject * CMeshData::Instantiate()
 			pAnimator->SetBones(m_vecMesh[meshIndex]->GetBones());
 			pAnimator->SetAnimClip(m_vecMesh[meshIndex]->GetAnimClip());
 			pAnimator->SetBoneTex(m_vecMesh[meshIndex]->GetBoneTex());
+			pAnimator->SetBeforeBoneTex(m_vecMesh[meshIndex]->GetBeforeBoneTex());
 		}
 
 

@@ -674,6 +674,16 @@ void CMesh::Load(const wstring& _strFilePath)
 				, D3D11_BIND_SHADER_RESOURCE
 				, D3D11_USAGE_DYNAMIC
 				, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+		wstring strBeforeBoneTex = GetName();
+		strBeforeBoneTex += L"BeforeBoneTex";
+
+		m_pBeforeBoneTex =
+			CResMgr::GetInst()->CreateTexture(strBeforeBoneTex
+				, GetBones()->size() * 4, 1
+				, D3D11_BIND_SHADER_RESOURCE
+				, D3D11_USAGE_DYNAMIC
+				, DXGI_FORMAT_R32G32B32A32_FLOAT);
 	}
 
 	fclose(pFile);

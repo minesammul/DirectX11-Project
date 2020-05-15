@@ -177,21 +177,36 @@ float3 GetIntercestsPos(float3 _vertices[3], float3 _vStart, float3 _vDir)
     return float3(_vDir.x * fT + _vStart.x, _vDir.y * fT + _vStart.y, _vDir.z * fT + _vStart.z);
 }
 
-matrix GetBoneMat(int _iBoneIdx, int _iRowIdx)
+matrix GetBoneMat(int _iBoneIdx, int _iRowIdx, int textureIndex)
 {
-    matrix matBone =
+    if (textureIndex==7)
     {
-        g_tex_7.Load(int3(_iBoneIdx * 4, _iRowIdx, 0)),
+        matrix matBone =
+        {
+            g_tex_7.Load(int3(_iBoneIdx * 4, _iRowIdx, 0)),
         g_tex_7.Load(int3(_iBoneIdx * 4 + 1, _iRowIdx, 0)),
         g_tex_7.Load(int3(_iBoneIdx * 4 + 2, _iRowIdx, 0)),
         g_tex_7.Load(int3(_iBoneIdx * 4 + 3, _iRowIdx, 0))
-    };
-    return matBone;
+        };
+        return matBone;
+    }
+    else if (textureIndex == 6)
+    {
+        matrix matBone =
+        {
+            g_tex_6.Load(int3(_iBoneIdx * 4, _iRowIdx, 0)),
+        g_tex_6.Load(int3(_iBoneIdx * 4 + 1, _iRowIdx, 0)),
+        g_tex_6.Load(int3(_iBoneIdx * 4 + 2, _iRowIdx, 0)),
+        g_tex_6.Load(int3(_iBoneIdx * 4 + 3, _iRowIdx, 0))
+        };
+        return matBone;
+    }
+    
 }
 
 void Skinning(inout float3 _vPos, inout float3 _vTangent, inout float3 _vBinormal, inout float3 _vNormal
                         , inout float4 _vWeight, inout float4 _vIndices
-                        , int _iRowIdx)
+                        , int _iRowIdx, int textureIndex)
 {
     tSkinningInfo info = (tSkinningInfo) 0.f;
 
@@ -200,7 +215,7 @@ void Skinning(inout float3 _vPos, inout float3 _vTangent, inout float3 _vBinorma
         if (0.f == _vWeight[i])
             continue;
 
-        matrix matBone = GetBoneMat((int) _vIndices[i], _iRowIdx);
+        matrix matBone = GetBoneMat((int) _vIndices[i], _iRowIdx, textureIndex);
 
         info.vPos += (mul(float4(_vPos, 1.f), matBone) * _vWeight[i]).xyz;
         info.vTangent += (mul(float4(_vTangent, 0.f), matBone) * _vWeight[i]).xyz;
@@ -214,7 +229,7 @@ void Skinning(inout float3 _vPos, inout float3 _vTangent, inout float3 _vBinorma
     _vNormal = normalize(info.vNormal);
 }
 
-void Skinning(inout float3 _vPos, inout float4 _vWeight, inout float4 _vIndices, int _iRowIdx)
+void Skinning(inout float3 _vPos, inout float4 _vWeight, inout float4 _vIndices, int _iRowIdx, int textureIndex)
 {
     tSkinningInfo info = (tSkinningInfo) 0.f;
 
@@ -223,7 +238,7 @@ void Skinning(inout float3 _vPos, inout float4 _vWeight, inout float4 _vIndices,
         if (0.f == _vWeight[i])
             continue;
 
-        matrix matBone = GetBoneMat((int) _vIndices[i], _iRowIdx);
+        matrix matBone = GetBoneMat((int) _vIndices[i], _iRowIdx, textureIndex);
 
         info.vPos += (mul(float4(_vPos, 1.f), matBone) * _vWeight[i]).xyz;
     }

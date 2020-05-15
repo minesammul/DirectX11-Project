@@ -172,7 +172,7 @@ void CGameView::CreateToolObject()
 	pTargetTex = CResMgr::GetInst()->FindRes<CTexture>(L"LightTargetTex");
 	arrUI[3]->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTargetTex);
 
-	pTargetTex = CResMgr::GetInst()->FindRes<CTexture>(L"SpecularTargetTex");
+	pTargetTex = CResMgr::GetInst()->FindRes<CTexture>(L"VelocityTargetTex");
 	arrUI[4]->MeshRender()->GetSharedMaterial()->SetData(SHADER_PARAM::TEX_0, &pTargetTex);
 
 }
@@ -238,6 +238,9 @@ void CGameView::render_tool()
 	// Tool Camera Render	
 	m_pToolCam->Camera()->SortGameObject(); // 물체 분류작업(인스턴싱 조건)
 	m_pToolCam->Camera()->render_deferred(); // deferred MRT 에 출력
+
+	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::VELOCITY)->OMSet();
+	m_pToolCam->Camera()->render_velocity();
 
 	CRenderMgr::GetInst()->render_shadowmap(); // 그림자 정보
 

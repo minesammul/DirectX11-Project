@@ -712,6 +712,19 @@ void CResMgr::CreateDefaultShader()
 	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
 
 	// ==============
+	// Velocity Shader
+	// ==============
+	pShader = new CShader;
+	pShader->SetEventTime(SHADER_EVENT_TIME::DEFERRED);
+	pShader->CreateVertexShader(L"Shader\\std3d.fx", "VS_Velocity", 5, 0);
+	pShader->CreatePixelShader(L"Shader\\std3d.fx", "PS_Velocity", 5, 0);
+	pShader->SetDepthStencilState(CRenderMgr::GetInst()->GetDepthStencilState(DEPTH_STENCIL_TYPE::NO_DEPTH_TEST));
+
+	strKey = L"VelocityShader";
+	pShader->SetName(strKey);
+	m_mapRes[(UINT)RES_TYPE::SHADER].insert(make_pair(strKey, pShader));
+
+	// ==============
 	// STD3D Cull None Shader
 	// ==============
 	pShader = new CShader;
@@ -1012,6 +1025,13 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl->SaveDisable();
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 
+	//VelocityMtrl
+	pMtrl = new CMaterial;
+	pMtrl->SetName(L"VelocityMtrl");
+	pMtrl->SetShader(FindRes<CShader>(L"VelocityShader"));
+	pMtrl->SaveDisable();
+	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
+
 	//Std3DCullNoneMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetName(L"Std3DCullNoneMtrl");
@@ -1148,6 +1168,10 @@ void CResMgr::CreateDefaultMaterial()
 
 	pTex = FindRes<CTexture>(L"PosteffectTargetTex");
 	pMtrl->SetData(SHADER_PARAM::TEX_0, &pTex);
+	pTex = FindRes<CTexture>(L"VelocityTargetTex");
+	pMtrl->SetData(SHADER_PARAM::TEX_1, &pTex);
+	pTex = FindRes<CTexture>(L"PositionTargetTex");
+	pMtrl->SetData(SHADER_PARAM::TEX_2, &pTex);
 
 	AddRes<CMaterial>(pMtrl->GetName(), pMtrl);
 

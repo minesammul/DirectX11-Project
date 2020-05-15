@@ -42,6 +42,7 @@ private:
 	vector<tMTAnimClip>					m_vecAnimClip;
 	vector<tMTBone>						m_vecBones;
 	CResPtr<CTexture>					m_pBoneTex;
+	CResPtr<CTexture>					m_pBeforeBoneTex;
 
 public:
 	void render(UINT _iSubset = 0);
@@ -66,6 +67,7 @@ public:
 public:
 	const vector<tMTBone>* GetBones() { return &m_vecBones; }
 	void SetBoneTex(CResPtr<CTexture> _pTex) { m_pBoneTex = _pTex; }
+	void SetBeforeBoneTex(CResPtr<CTexture> _pTex) { m_pBeforeBoneTex = _pTex; }
 	const vector<tMTAnimClip>* GetAnimClip() { return &m_vecAnimClip; }
 	tMTAnimClip GetAnimClip(int index) { return m_vecAnimClip[index]; }
 	void SetAnimClip(vector<tMTAnimClip> animClip)
@@ -75,6 +77,7 @@ public:
 	}
 
 	CResPtr<CTexture> GetBoneTex() { return m_pBoneTex; }
+	CResPtr<CTexture> GetBeforeBoneTex() { return m_pBeforeBoneTex; }
 	bool IsAnimMesh() { return !m_vecAnimClip.empty(); }
 
 	void SetLayout(CResPtr<CShader> _pShader, bool _bInstancing = false);
